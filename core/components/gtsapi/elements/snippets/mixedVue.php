@@ -6,12 +6,14 @@ $debug = false;
 $dev_path = 'http://'.$modx->getOption('http_host')
     . ':'
     . '3000/';
-if($pf = @fsockopen($modx->getOption('http_host'),3000, $err, $err_string, 1))
-{
-    // $debug = true;
-    fclose($pf);
-    $checkdebug = file_get_contents('http://'.$modx->getOption('http_host').':3000/public/checkdebug.txt');
-    if($checkdebug == $name_lower) $debug = true;
+if($debug_mode = $modx->getOption('gtsapi_debug_mode',null,false)){
+    if($pf = @fsockopen($modx->getOption('http_host'),3000, $err, $err_string, 1))
+    {
+        // $debug = true;
+        fclose($pf);
+        $checkdebug = file_get_contents('http://'.$modx->getOption('http_host').':3000/public/checkdebug.txt');
+        if($checkdebug == $name_lower) $debug = true;
+    }
 }
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/lara-light-green/theme.css');
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/primeflex.min.css');

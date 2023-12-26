@@ -26,9 +26,9 @@ return [
       'value' => 1,
       'area' => 'gtsapi_main',
     ],
-    'load_quasar' => [
+    'debug_mode' => [
       'xtype' => 'combo-boolean',
-      'value' => 1,
+      'value' => 0,
       'area' => 'gtsapi_main',
     ],
     'admin' => [
