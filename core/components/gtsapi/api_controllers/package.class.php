@@ -16,7 +16,7 @@ class packageAPIController{
         $assetsUrl = MODX_ASSETS_URL . 'components/gtsapi/';
 
         $this->config = array_merge([
-            
+            'resolvers' => $corePath . 'resolvers/',
         ], $config);
 
         if ($this->pdo = $this->modx->getService('pdoFetch')) {
@@ -109,7 +109,7 @@ class packageAPIController{
             $this->config['core'] . 'model/'
         );
 
-        $this->table();
+        // $this->table();
 
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Model updated');
     }
@@ -422,6 +422,10 @@ class packageAPIController{
         //         $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', $resolver));
         //     }
         // }
+        //add table
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'tables.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'tables.php'));
+        }
         $this->builder->putVehicle($vehicle);
 
         // $this->builder->setPackageAttributes([

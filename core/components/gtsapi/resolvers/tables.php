@@ -4,11 +4,11 @@
 /** @var modX $modx */
 if ($transport->xpdo) {
     $modx =& $transport->xpdo;
+    // $modx->log(1,"xPDOTransport {$options['namespace']}");
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
             $modx->addPackage($options['namespace'], MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/');
-            $modx->addExtensionPackage($options['namespace'],  MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/');
             $manager = $modx->getManager();
             $objects = [];
             $schemaFile = MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/schema/'.$options['namespace'].'.mysql.schema.xml';
@@ -103,42 +103,6 @@ if ($transport->xpdo) {
             break;
     }
 }
-switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-    case xPDOTransport::ACTION_INSTALL:
-    case xPDOTransport::ACTION_UPGRADE:
-        $rules = [
-            [
-                'point' => 'security/login',
-                'controller_class'=>'securityAPIController',
-                'controller_path'=>'[[+core_path]]components/gtsapi/api_controllers/security.class.php',
-                'active'=>1,
-            ],
-            [
-                'point' => 'security/logout',
-                'controller_class'=>'securityAPIController',
-                'controller_path'=>'[[+core_path]]components/gtsapi/api_controllers/security.class.php',
-                'active'=>1,
-            ],
-            [
-                'point' => 'package',
-                'controller_class'=>'packageAPIController',
-                'controller_path'=>'[[+core_path]]components/gtsapi/api_controllers/package.class.php',
-                'authenticated'=>1,
-                'groups'=>'Administrator',
-                'active'=>1,
-            ],
-        ];
-        foreach($rules as $t){
-            if(!$gtsAPIRule = $modx->getObject("gtsAPIRule",['point'=>$t['point']])){
-                if($gtsAPIRule = $modx->newObject("gtsAPIRule",$t)){
-                    $gtsAPIRule->save();
-                }
-            }
-        }
-        break;
-    case xPDOTransport::ACTION_UNINSTALL:
-        break;
-}
-    
+ 
 
 return true;

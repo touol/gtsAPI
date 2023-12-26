@@ -4,3 +4,4 @@ Changelog for gtsAPI.
 ==============
 - New build script.
 - debug_mode.
+- addExtensionPackage.
