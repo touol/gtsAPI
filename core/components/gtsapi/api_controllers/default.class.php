@@ -25,30 +25,30 @@ class defaultAPIController{
         switch($method){
             case 'GET':
                 if($id and empty($request['ids'])) $request['ids'] = [$id];
-                $request['action'] = 'read';
+                $request['api_action'] = 'read';
                 return $this->route_post($rule, $uri, $method, $request);
             break;
             case 'PUT':
                 // if($id) $request['id'] = $id;
-                $request['action'] = 'create';
+                $request['api_action'] = 'create';
                 return $this->route_post($rule, $uri, $method, $request);
             break;
             case 'PATCH':
                 if($id) $request['id'] = $id;
-                $request['action'] = 'update';
+                $request['api_action'] = 'update';
                 return $this->route_post($rule, $uri, $method, $request);
             break;
             case 'DELETE':
                 if($id and empty($request['ids'])) $request['ids'] = [$id];
-                $request['action'] = 'delete';
+                $request['api_action'] = 'delete';
                 return $this->route_post($rule, $uri, $method, $request);
             break;
         }
         return $this->route_post($rule, $uri, $method, $request);
     }
     public function route_post($rule, $uri, $method, $request){
-        if(empty($request['action'])) $request['action'] = 'create';
-        if(!isset($rule['aсtions'][$request['action']])){
+        if(empty($request['api_action'])) $request['api_action'] = 'create';
+        if(!isset($rule['aсtions'][$request['api_action']])){
             $this->error("Not api action!");
         }
         $resp = $this->checkPermissions($rule);
@@ -57,7 +57,7 @@ class defaultAPIController{
             header('HTTP/1.1 401 Unauthorized2');
             return $resp;
         }
-        $resp = $this->checkPermissions($rule['aсtions'][$request['action']]);
+        $resp = $this->checkPermissions($rule['aсtions'][$request['api_action']]);
 
         if($resp['success'] == 'error'){
             header('HTTP/1.1 401 Unauthorized1');
@@ -66,26 +66,39 @@ class defaultAPIController{
         if(!empty($rule['packages'])) $this->addPackages($rule['packages']);
         if(!$request['skip_sanitize']) $request = $this->modx->sanitize($request, $this->modx->sanitizePatterns);
         
-        if(empty($rule['aсtions'][$request['action']])){
+        if(empty($rule['aсtions'][$request['api_action']])){
             header('HTTP/1.1 404 Not found');
             return $this->error('Not found action!');
         }
 
-        switch($request['action']){
+        switch($request['api_action']){
             case 'create':
-                return $this->create($rule,$request,$rule['aсtions'][$request['action']]);
+                $request = $this->request_array_to_json($request);
+                return $this->create($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'read':
-                return $this->read($rule,$request,$rule['aсtions'][$request['action']]);
+                return $this->read($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'update':
-                return $this->update($rule,$request,$rule['aсtions'][$request['action']]);
+                $request = $this->request_array_to_json($request);
+                return $this->update($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'delete':
-                return $this->delete($rule,$request,$rule['aсtions'][$request['action']]);
+                return $this->delete($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
         }
         return $this->error("test2!");
+    }
+    public function request_array_to_json($request){
+        $req = [];
+        foreach($request as $k=>$v){
+            if(is_array($v)){
+                $req[$k] = json_encode($v);
+            }else{
+                $req[$k] = $v;
+            }
+        }
+        return $req;
     }
     public function addPackages($packages){
         $packages = array_map('trim', explode(',', $packages));
@@ -163,6 +176,9 @@ class defaultAPIController{
                 'limit' => 0
             ];
         }
+        
+        $default['decodeJSON'] = 1;
+        
         if(!empty($request['ids'])){
             $default['where']["{$rule['class']}.id:IN"] = $request['ids'];
         }
