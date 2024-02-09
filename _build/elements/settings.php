@@ -35,6 +35,15 @@ return [
       'xtype' => 'textfield',
       'value' => '{
         "loadModels": "gtsapi",
+        "selects":{
+          "gtsAPIPackage":{
+            "type":"autocomplect",
+            "pdoTools":{
+              "class":"gtsAPIPackage"
+            },
+            "content":"{$name}"
+          }
+        },
         "tabs": {
           "gtsAPIRule": {
             "label": "Правила АПИ",
@@ -203,6 +212,98 @@ return [
                     "type": "checkbox"
                   },
                   "default": 1,
+                  "filter": 1
+                }
+              }
+            }
+          },
+          "gtsAPITable": {
+            "label": "Таблицы АПИ",
+            "table": {
+              "class": "gtsAPITable",
+              "actions": {
+                "create": [],
+                "update": [],
+                "copy":[],
+                "remove":[]
+              },
+              "pdoTools": {
+                "class": "gtsAPITable"
+              },
+              "checkbox": 1,
+              "autosave": 1,
+              "row": {
+                "id": {},
+                "package_id": {
+                  "label":"Пакет",
+                  "edit":{
+                    "type":"select",
+                    "select":"gtsAPIPackage"
+                  },
+                  "filter": 1
+                },
+                "class": {
+                  "label": "Класс таблицы",
+                  "filter": 1
+                },
+                "authenticated": {
+                  "label": "Доступ только для авторизированных",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 1,
+                  "filter": 1
+                },
+                "groups": {
+                  "label": "Ограничение только для групп пользователей (имена груп через запятую)",
+                  "edit": {
+                    "type": "textarea"
+                  }
+                },
+                "permitions": {
+                  "label": "Разрешения (имена разрешений MODX через запятую)",
+                  "edit": {
+                    "type": "textarea"
+                  }
+                },
+                "properties": {
+                  "label": "Свойства",
+                  "edit": {
+                    "type": "textarea",
+                    "editor": "ace",
+                    "editor_mode": "json",
+                    "skip_sanitize": 1
+                  }
+                },
+                "active": {
+                  "label": "Активно",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 1,
+                  "filter": 1
+                }
+              }
+            }
+          },
+          "gtsAPIPackage": {
+            "label": "Пакеты MODX",
+            "table": {
+              "class": "gtsAPIPackage",
+              "actions": {
+                "create": [],
+                "update": [],
+                "remove":[]
+              },
+              "pdoTools": {
+                "class": "gtsAPIPackage"
+              },
+              "checkbox": 1,
+              "autosave": 1,
+              "row": {
+                "id": {},
+                "name": {
+                  "label": "Имя",
                   "filter": 1
                 }
               }

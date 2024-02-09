@@ -149,9 +149,25 @@ class gtsAPI
             header('HTTP/1.1 401 Unauthorized0');
             return $resp;
         }
-
-        $gtsAPIRules = $this->modx->getCollection("gtsAPIRule",['point:LIKE'=>$uri[2].'%','active'=>1]);
         $point = $uri[2];
+        if($gtsAPITable = $this->modx->getObject('gtsAPITable',['class:LIKE'=>$point,'active'=>1])){
+            if($gtsAPITable->tree){
+                $controller_class = 'treeAPIController';
+                $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/tree.class.php';
+            }else{
+                $controller_class = 'tableAPIController';
+                $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/table.class.php';
+            }
+            $loaded = include_once($rule['controller_path']);
+            if ($loaded) {
+                $controller = new $controller_class($this->modx,$this->config);
+                return $controller->route($gtsAPITable, $uri, $method, $request);
+            }else{
+                return $this->error("Not load class $controller_class {$rule['controller_path']}!");
+            }
+        }
+        $gtsAPIRules = $this->modx->getCollection("gtsAPIRule",['point:LIKE'=>$uri[2].'%','active'=>1]);
+        
         foreach($gtsAPIRules as $gtsAPIRule0){
             $gtsAPIRule = $gtsAPIRule0;
             break;
