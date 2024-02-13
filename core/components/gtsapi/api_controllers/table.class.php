@@ -68,11 +68,13 @@ class tableAPIController{
         }else{
             $rule['properties'] = [];
         }
+        // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         if(isset($rule['properties']['actions'])){
-            if(!isset($rule['properties']['aсtions'][$request['api_action']])){
-                $this->error("Not api action!");
+
+            if(!isset($rule['properties']['actions'][$request['api_action']])){
+                return $this->error("Not api action!");
             }
-            $resp = $this->checkPermissions($rule['properties']['aсtions']);
+            $resp = $this->checkPermissions($rule['properties']['actions'][$request['api_action']]);
 
             if(!$resp['success']){
                 header('HTTP/1.1 401 Unauthorized1');
@@ -299,14 +301,17 @@ class tableAPIController{
     //     echo '<pre>'.print_r($modx->map['modResource'],1).'</pre>';
     // }
     public function checkPermissions($rule_action){
-        if($rule_action['authenticated']){
+        $this->modx->log(1,"checkPermissions ".print_r($rule_action,1));
+        if(isset($rule_action['authenticated'])){
             if(!$this->modx->user->id > 0) return $this->error("Not api authenticated!",['user_id'=>$this->modx->user->id]);
         }
-        if($rule_action['groups']){
+
+        if(isset($rule_action['groups']) and !empty($rule_action['groups'])){
+            $this->modx->log(1,"checkPermissions groups".print_r($rule_action['groups'],1));
             $groups = array_map('trim', explode(',', $rule_action['groups']));
             if(!$this->modx->user->isMember($groups)) return $this->error("Not api permission groups!");
         }
-        if($rule_action['permitions']){
+        if(isset($rule_action['permitions'])and !empty($rule_action['permitions'])){
             $permitions = array_map('trim', explode(',', $rule_action['permitions']));
             foreach($permitions as $pm){
                 if(!$this->modx->hasPermission($pm)) return $this->error("Not api modx permission!");
