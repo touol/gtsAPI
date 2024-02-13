@@ -301,13 +301,13 @@ class tableAPIController{
     //     echo '<pre>'.print_r($modx->map['modResource'],1).'</pre>';
     // }
     public function checkPermissions($rule_action){
-        $this->modx->log(1,"checkPermissions ".print_r($rule_action,1));
+        // $this->modx->log(1,"checkPermissions ".print_r($rule_action,1));
         if(isset($rule_action['authenticated'])){
             if(!$this->modx->user->id > 0) return $this->error("Not api authenticated!",['user_id'=>$this->modx->user->id]);
         }
 
         if(isset($rule_action['groups']) and !empty($rule_action['groups'])){
-            $this->modx->log(1,"checkPermissions groups".print_r($rule_action['groups'],1));
+            // $this->modx->log(1,"checkPermissions groups".print_r($rule_action['groups'],1));
             $groups = array_map('trim', explode(',', $rule_action['groups']));
             if(!$this->modx->user->isMember($groups)) return $this->error("Not api permission groups!");
         }
