@@ -25,6 +25,7 @@ if(!$debug){
     $imports = [];
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
         $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.global.prod.js';
+        //$imports['imports']['../ru.json'] = $assets_gtsapi_url.'js/web/primevue/ru.json';
         $primevue_path = $modx->getOption('assets_path').'components/gtsapi/js/web/primevue/';
         if(file_exists($primevue_path.'importmaps.json')){
             $importmaps = json_decode(file_get_contents($primevue_path.'importmaps.json'),1);

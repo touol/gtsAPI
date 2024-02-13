@@ -28,7 +28,7 @@ return [
     ],
     'debug_mode' => [
       'xtype' => 'combo-boolean',
-      'value' => 0,
+      'value' => 1,
       'area' => 'gtsapi_main',
     ],
     'admin' => [

@@ -69,7 +69,9 @@ class tableAPIController{
             $rule['properties'] = [];
         }
         if(isset($rule['properties']['actions'])){
-            
+            if(!isset($rule['properties']['aсtions'][$request['api_action']])){
+                $this->error("Not api action!");
+            }
             $resp = $this->checkPermissions($rule['properties']['aсtions']);
 
             if(!$resp['success']){
@@ -125,6 +127,7 @@ class tableAPIController{
     }
     
     public function delete($rule,$request,$action){
+        
         if(!empty($request['ids'])){
             if(is_string($request['ids'])) $request['ids'] = explode(',',$request['ids']);
             $objs = $this->modx->getIterator($rule['class'],['id:IN'=>$request['ids']]);
@@ -151,6 +154,8 @@ class tableAPIController{
         $object_old = $obj->toArray();
         $object = $obj->fromArray($request);
         $object_new = $obj->toArray();
+
+        // $this->modx->log(1,"create triggers".print_r($this->triggers,1));
 
         $resp = $this->run_triggers($rule['class'], 'before', 'create', $request, $object_old,$object_new,$obj);
         if(!$resp['success']) return $resp;
@@ -201,8 +206,16 @@ class tableAPIController{
             'limit' => 0
         ];
         
+        if(!empty($request['query'])){
+            if(empty($rule['properties']['queryes'][$request['query']]))
+                return $this->error('not query');
+            $default = $rule['properties']['queryes'][$request['query']];
+        }
+        if(!empty($request['filters'])){
+            if(empty($default['where'])) $default['where'] = [];
+            $default['where'] = array_merge($default['where'],$this->aplyFilters($rule,$request['filters']));
+        }
         $default['decodeJSON'] = 1;
-        
         if(!empty($request['ids'])){
             $default['where']["{$rule['class']}.id:IN"] = $request['ids'];
         }
@@ -218,7 +231,7 @@ class tableAPIController{
         }
         if($request['sortField']){
             $default['sortby'] = [
-                "`{$rule['class']}`.`{$request['sortField']}`" => $request['sortOrder'] == 1 ?'ASC':'DESC',
+                "{$request['sortField']}" => $request['sortOrder'] == 1 ?'ASC':'DESC',
             ];
         }
         $this->pdo->setConfig($default);
@@ -232,6 +245,59 @@ class tableAPIController{
         // }
         return $this->success('',['rows'=>$rows0,'total'=>$total,'log'=>$this->pdo->getTime()]);
     }
+    public function aplyFilters($rule, $filters){
+        $where = [];
+        
+        foreach($filters as $name=>$filter){
+            $field = "{$rule['class']}.$name";
+            if(isset($filter['class']))  $field = "{$filter['class']}.$name";
+            switch($filter['matchMode']){
+                case "startsWith":
+                    $where[$field.':LIKE'] = "{$filter['value']}%";
+                break;
+                case "contains":
+                    $where[$field.':LIKE'] = "%{$filter['value']}%";
+                break;
+                case "notContains":
+                    $where[$field.':NOT LIKE'] = "%{$filter['value']}%";
+                break;
+                case "endsWith":
+                    $where[$field.':LIKE'] = "%{$filter['value']}";
+                break;
+                case "equals":
+                    $where[$field] = $filter['value'];
+                break;
+                case "in":
+                    $where[$field.':IN'] = $filter['value'];
+                break;
+                case "lt":
+                    $where[$field.':<'] = $filter['value'];
+                break;
+                case "lte":
+                    $where[$field.':<='] = $filter['value'];
+                break;
+                case "gt":
+                    $where[$field.':>'] = $filter['value'];
+                break;
+                case "gte":
+                    $where[$field.':>='] = $filter['value'];
+                break;
+                case "dateIs":
+                    $where[$field] = date('Y-m-d',strtotime($filter['value']));
+                break;
+                case "dateBefore":
+                    $where[$field.':<='] = date('Y-m-d',strtotime($filter['value']));
+                break;
+                case "dateAfter":
+                    $where[$field.':>='] = date('Y-m-d',strtotime($filter['value']));
+                break;
+            }
+        }
+        return $where;
+    }
+    // public function getFields($class){
+    //     echo '<pre>'.print_r($modx->map['modResource'],1).'</pre>';
+    // }
     public function checkPermissions($rule_action){
         if($rule_action['authenticated']){
             if(!$this->modx->user->id > 0) return $this->error("Not api authenticated!",['user_id'=>$this->modx->user->id]);
@@ -312,20 +378,23 @@ class tableAPIController{
         
         $triggers = $this->triggers;
         if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
-            $service = $this->models[$class];
+            // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
+            
+            $service = $this->models[$triggers[$class]['model']];
             if(method_exists($service,$triggers[$class]['function'])){ 
+                // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
                 return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
             }
         }
         if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
-            $service = $this->models[$class];
+            $service = $this->models[$triggers[$class]['model']];
             if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
                 //$this->getTables->addTime("run_triggers gtsfunction");
                 return  $service->{$triggers[$class]['gtsfunction']}(null,$class, $type, $method, $fields, $object_old, $object_new);
             }
         }
         if(isset($triggers[$class]['gtsfunction2']) and isset($triggers[$class]['model'])){
-            $service = $this->models[$class];
+            $service = $this->models[$triggers[$class]['model']];
             if(method_exists($service,$triggers[$class]['gtsfunction2'])){ 
                 $params = [
                     'class'=>$class,

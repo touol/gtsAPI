@@ -6,3 +6,4 @@ Changelog for gtsAPI.
 - debug_mode.
 - addExtensionPackage.
 - decodeJSON.
+- Продолжаю делать таблицы.

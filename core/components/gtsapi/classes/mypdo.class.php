@@ -847,7 +847,7 @@ class myPdo
                     "$name.$search_field:IN"=>$ids,
                 ],
                 'sortby'=>[
-                    "$name.sort_field"=>'ASC',
+                    "$name.$sort_field"=>'ASC',
                 ],
             ];
             $withs = $this->_with($default);

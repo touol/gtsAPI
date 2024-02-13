@@ -86,7 +86,7 @@
 
         <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
 
-        <index alias="package_id" name="package_id" primary="false" unique="true" type="BTREE">
+        <index alias="package_id" name="package_id" primary="false" unique="false" type="BTREE">
             <column key="package_id" length="" collation="A" null="false"/>
         </index>
         <index alias="class" name="class" primary="false" unique="true" type="BTREE">

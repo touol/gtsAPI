@@ -90,7 +90,7 @@ $xpdo_meta_map['gtsAPITable']= array (
     array (
       'alias' => 'package_id',
       'primary' => false,
-      'unique' => true,
+      'unique' => false,
       'type' => 'BTREE',
       'columns' => 
       array (
