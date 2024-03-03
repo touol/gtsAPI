@@ -226,6 +226,7 @@ class gtsAPI
             $controller_class = 'defaultAPIController';
             $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/default.class.php';
         }else{
+            if($rule['controller_path'][0] != '[') $rule['controller_path'] = MODX_CORE_PATH . $rule['controller_path'];
             $rule['controller_path'] = str_replace('[[+core_path]]',MODX_CORE_PATH,$rule['controller_path']);
             $controller_class = $rule['controller_class'];
         }

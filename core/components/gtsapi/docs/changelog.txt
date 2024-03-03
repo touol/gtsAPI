@@ -7,3 +7,4 @@ Changelog for gtsAPI.
 - addExtensionPackage.
 - decodeJSON.
 - Продолжаю делать таблицы.
+- Ошибка с санацией запросов модексом.
