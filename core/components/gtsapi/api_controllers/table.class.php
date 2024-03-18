@@ -247,52 +247,81 @@ class tableAPIController{
         // }
         return $this->success('',['rows'=>$rows0,'total'=>$total,'log'=>$this->pdo->getTime()]);
     }
+    public function aplyFilter($rule, $name, $filter){
+        $where = [];
+        $field = "{$rule['class']}.$name";
+        if(isset($filter['class']))  $field = "{$filter['class']}.$name";
+        switch($filter['matchMode']){
+            case "startsWith":
+                $where[$field.':LIKE'] = "{$filter['value']}%";
+            break;
+            case "contains":
+                $where[$field.':LIKE'] = "%{$filter['value']}%";
+            break;
+            case "notContains":
+                $where[$field.':NOT LIKE'] = "%{$filter['value']}%";
+            break;
+            case "endsWith":
+                $where[$field.':LIKE'] = "%{$filter['value']}";
+            break;
+            case "equals":
+                $where[$field] = $filter['value'];
+            break;
+            case "in":
+                $where[$field.':IN'] = $filter['value'];
+            break;
+            case "lt":
+                $where[$field.':<'] = $filter['value'];
+            break;
+            case "lte":
+                $where[$field.':<='] = $filter['value'];
+            break;
+            case "gt":
+                $where[$field.':>'] = $filter['value'];
+            break;
+            case "gte":
+                $where[$field.':>='] = $filter['value'];
+            break;
+            case "dateIs":
+                $where[$field] = date('Y-m-d',strtotime($filter['value']));
+            break;
+            case "dateBefore":
+                $where[$field.':<='] = date('Y-m-d',strtotime($filter['value']));
+            break;
+            case "dateAfter":
+                $where[$field.':>='] = date('Y-m-d',strtotime($filter['value']));
+            break;
+        }
+        return $where;
+    }
     public function aplyFilters($rule, $filters){
         $where = [];
-        
+        //constraints
         foreach($filters as $name=>$filter){
-            $field = "{$rule['class']}.$name";
-            if(isset($filter['class']))  $field = "{$filter['class']}.$name";
-            switch($filter['matchMode']){
-                case "startsWith":
-                    $where[$field.':LIKE'] = "{$filter['value']}%";
-                break;
-                case "contains":
-                    $where[$field.':LIKE'] = "%{$filter['value']}%";
-                break;
-                case "notContains":
-                    $where[$field.':NOT LIKE'] = "%{$filter['value']}%";
-                break;
-                case "endsWith":
-                    $where[$field.':LIKE'] = "%{$filter['value']}";
-                break;
-                case "equals":
-                    $where[$field] = $filter['value'];
-                break;
-                case "in":
-                    $where[$field.':IN'] = $filter['value'];
-                break;
-                case "lt":
-                    $where[$field.':<'] = $filter['value'];
-                break;
-                case "lte":
-                    $where[$field.':<='] = $filter['value'];
-                break;
-                case "gt":
-                    $where[$field.':>'] = $filter['value'];
-                break;
-                case "gte":
-                    $where[$field.':>='] = $filter['value'];
-                break;
-                case "dateIs":
-                    $where[$field] = date('Y-m-d',strtotime($filter['value']));
-                break;
-                case "dateBefore":
-                    $where[$field.':<='] = date('Y-m-d',strtotime($filter['value']));
-                break;
-                case "dateAfter":
-                    $where[$field.':>='] = date('Y-m-d',strtotime($filter['value']));
-                break;
+            if(isset($filter['constraints'])){
+                if($filter['operator'] == 'and'){
+                    foreach($filter['constraints'] as $filter2){
+                        $where2 = $this->aplyFilter($rule, $name, $filter2);
+                        $where = array_merge($where,$where2);
+                    }
+                }else if($filter['operator'] == 'or'){
+                    $where2 = [];$where4 = [];
+                    foreach($filter['constraints'] as $filter2){
+                        $where3 = $this->aplyFilter($rule, $name, $filter2);
+                        $where2 = array_merge($where2,$where3);
+                    }
+                    foreach($where2 as $field=>$value){
+                        if(empty($where4)){
+                            $where4[$field] = $value;
+                        }else{
+                            $where4['OR:'.$field] = $value;
+                        }
+                    }
+                    $where[] = $where4;
+                }
+            }else{
+                $where2 = $this->aplyFilter($rule, $name, $filter);
+                $where = array_merge($where,$where2);
             }
         }
         return $where;
