@@ -389,6 +389,7 @@ class tableAPIController{
     }
     public function run_triggers($class, $type, $method, $fields, $object_old, $object_new =[], $object = null)
     {
+        if(empty($class)) return $this->success('Выполнено успешно');
         // $getTablesRunTriggers = $this->modx->invokeEvent('gtsAPIRunTriggers', [
         //     'class'=>$class,
         //     'type'=>$type,

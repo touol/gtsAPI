@@ -4,6 +4,8 @@ class defaultAPIController{
     public $config = [];
     public $modx;
     public $pdo;
+    public $models;
+    public $triggers = [];
 
     function __construct(modX &$modx, array $config = [])
     {
@@ -100,19 +102,21 @@ class defaultAPIController{
         }
         return $req;
     }
-    public function addPackages($packages){
-        $packages = array_map('trim', explode(',', $packages));
-        foreach($packages as $package){
-            $this->modx->addPackage($package, MODX_CORE_PATH . "components/$package/model/");
-        }
-    }
+    
     
     public function delete($rule,$request,$action){
         if(!empty($request['ids'])){
             if(is_string($request['ids'])) $request['ids'] = explode(',',$request['ids']);
             $objs = $this->modx->getIterator($rule['class'],['id:IN'=>$request['ids']]);
             foreach($objs as $obj){
-                $obj->remove();
+                $object_old = $obj->toArray();
+                $resp = $this->run_triggers($rule['class'], 'before', 'remove', [], $object_old);
+                if(!$resp['success']) return $resp;
+
+                if($obj->remove()){
+                    $resp = $this->run_triggers($rule['class'], 'after', 'remove', [], $object_old);
+                    if(!$resp['success']) return $resp;
+                }
             }
             return $this->success('delete',['ids'=>$request['ids']]);
         }
@@ -131,8 +135,22 @@ class defaultAPIController{
             }
         }else{
             $obj = $this->modx->newObject($rule['class'],$request);
+
+            $object_old = $obj->toArray();
+            $object = $obj->fromArray($request);
+            $object_new = $obj->toArray();
+
+            // $this->modx->log(1,"create triggers".print_r($this->triggers,1));
+
+            $resp = $this->run_triggers($rule['class'], 'before', 'create', $request, $object_old,$object_new,$obj);
+            if(!$resp['success']) return $resp;
+
             if($obj->save()){
                 $object = $obj->toArray();
+
+                $resp = $this->run_triggers($rule['class'], 'after', 'create', $request, $object_old,$object,$obj);
+                if(!$resp['success']) return $resp;
+                // $object = $obj->toArray();
                 header('HTTP/1.1 201 Created');
                 return $this->success('created',$object);
             }
@@ -150,9 +168,18 @@ class defaultAPIController{
             }
         }else{
             if($obj = $this->modx->getObject($rule['class'],(int)$request['id'])){
+                $object_old = $obj->toArray();
                 $object = $obj->fromArray($request);
+                $object_new = $obj->toArray();
+
+                $resp = $this->run_triggers($rule['class'], 'before', 'update', $request, $object_old,$object_new,$obj);
+                if(!$resp['success']) return $resp;
                 if($obj->save()){
                     $object = $obj->toArray();
+
+                    $resp = $this->run_triggers($rule['class'], 'after', 'update', $request, $object_old,$object,$obj);
+                    if(!$resp['success']) return $resp;
+
                     return $this->success('update',$object);
                 }
             }
@@ -176,7 +203,10 @@ class defaultAPIController{
                 'limit' => 0
             ];
         }
-        
+        if(!empty($request['filters'])){
+            if(empty($default['where'])) $default['where'] = [];
+            $default['where'] = array_merge($default['where'],$this->aplyFilters($rule,$request['filters']));
+        }
         $default['decodeJSON'] = 1;
         
         if(!empty($request['ids'])){
@@ -208,6 +238,85 @@ class defaultAPIController{
         // }
         return $this->success('',['rows'=>$rows0,'total'=>$total,'log'=>$this->pdo->getTime()]);
     }
+    public function aplyFilter($rule, $name, $filter){
+        $where = [];
+        $field = "{$rule['class']}.$name";
+        if(isset($filter['class']))  $field = "{$filter['class']}.$name";
+        switch($filter['matchMode']){
+            case "startsWith":
+                $where[$field.':LIKE'] = "{$filter['value']}%";
+            break;
+            case "contains":
+                $where[$field.':LIKE'] = "%{$filter['value']}%";
+            break;
+            case "notContains":
+                $where[$field.':NOT LIKE'] = "%{$filter['value']}%";
+            break;
+            case "endsWith":
+                $where[$field.':LIKE'] = "%{$filter['value']}";
+            break;
+            case "equals":
+                $where[$field] = $filter['value'];
+            break;
+            case "in":
+                $where[$field.':IN'] = $filter['value'];
+            break;
+            case "lt":
+                $where[$field.':<'] = $filter['value'];
+            break;
+            case "lte":
+                $where[$field.':<='] = $filter['value'];
+            break;
+            case "gt":
+                $where[$field.':>'] = $filter['value'];
+            break;
+            case "gte":
+                $where[$field.':>='] = $filter['value'];
+            break;
+            case "dateIs":
+                $where[$field] = date('Y-m-d',strtotime($filter['value']));
+            break;
+            case "dateBefore":
+                $where[$field.':<='] = date('Y-m-d',strtotime($filter['value']));
+            break;
+            case "dateAfter":
+                $where[$field.':>='] = date('Y-m-d',strtotime($filter['value']));
+            break;
+        }
+        return $where;
+    }
+    public function aplyFilters($rule, $filters){
+        $where = [];
+        //constraints
+        foreach($filters as $name=>$filter){
+            if(isset($filter['constraints'])){
+                if($filter['operator'] == 'and'){
+                    foreach($filter['constraints'] as $filter2){
+                        $where2 = $this->aplyFilter($rule, $name, $filter2);
+                        $where = array_merge($where,$where2);
+                    }
+                }else if($filter['operator'] == 'or'){
+                    $where2 = [];$where4 = [];
+                    foreach($filter['constraints'] as $filter2){
+                        $where3 = $this->aplyFilter($rule, $name, $filter2);
+                        $where2 = array_merge($where2,$where3);
+                    }
+                    foreach($where2 as $field=>$value){
+                        if(empty($where4)){
+                            $where4[$field] = $value;
+                        }else{
+                            $where4['OR:'.$field] = $value;
+                        }
+                    }
+                    $where[] = $where4;
+                }
+            }else{
+                $where2 = $this->aplyFilter($rule, $name, $filter);
+                $where = array_merge($where,$where2);
+            }
+        }
+        return $where;
+    }
     public function checkPermissions($rule_action){
         if($rule_action['authenticated']){
             if(!$this->modx->user->id > 0) return $this->error("Not api authenticated!",['user_id'=>$this->modx->user->id]);
@@ -227,9 +336,103 @@ class defaultAPIController{
     public function success($message = "",$data = []){
         //return array('success'=>1,'message'=>$message,'data'=>$data);
         header("HTTP/1.1 200 OK");
-        return $data;
+        return array('success'=>1,'message'=>$message,'data'=>$data);;
     }
     public function error($message = "",$data = []){
         return array('success'=>'error','message'=>$message,'data'=>$data);
+    }
+    public function addPackages($packages){
+        $packages = array_map('trim', explode(',', $packages));
+        foreach($packages as $package){
+            $this->modx->addPackage($package, MODX_CORE_PATH . "components/$package/model/");
+            $this->getService($package);
+        }
+    }
+    // public function addPackages($package_id){
+    //     if($gtsAPIPackage = $this->modx->getObject('gtsAPIPackage',$package_id)){
+    //         $this->getService($gtsAPIPackage->name);
+    //     }
+    // }
+    public function getService($package){
+        
+        $class = strtolower($package);
+        $path = MODX_CORE_PATH."/components/$class/model/";
+        if(file_exists($path."$class.class.php")){
+            if(!$this->models[$package] = $this->modx->getService($package,$class,$path,[])) {
+                return $this->error("Компонент $package не найден!");
+            }
+        }else if(file_exists($path."$class/"."$class.class.php")){
+            if(!$this->models[$package] = $this->modx->getService($package,$class,$path."$class/",[])) {
+                return $this->error("Компонент $package не найден!");
+            }
+        }
+        $service = $this->models[$package];
+
+        if(method_exists($service,'regTriggers')){ 
+            $triggers =  $service->regTriggers();
+            foreach($triggers as &$trigger){
+                $trigger['model'] = $package;
+            }
+            $this->triggers = array_merge($this->triggers,$triggers);
+        }
+        return $this->success();
+    }
+    public function run_triggers($class, $type, $method, $fields, $object_old, $object_new =[], $object = null)
+    {
+        if(empty($class)) return $this->success('Выполнено успешно');
+        // $getTablesRunTriggers = $this->modx->invokeEvent('gtsAPIRunTriggers', [
+        //     'class'=>$class,
+        //     'type'=>$type,
+        //     'method'=>$method,
+        //     'fields'=>$fields,
+        //     'object_old'=>$object_old,
+        //     'object_new'=>$object_new,
+        //     'object'=>&$object,
+        // ]);
+        // if (is_array($getTablesRunTriggers)) {
+        //     $canSave = false;
+        //     foreach ($getTablesRunTriggers as $msg) {
+        //         if (!empty($msg)) {
+        //             $canSave .= $msg."\n";
+        //         }
+        //     }
+        // } else {
+        //     $canSave = $getTablesRunTriggers;
+        // }
+        // if(!empty($canSave)) return $this->error($canSave);
+        
+        $triggers = $this->triggers;
+        if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
+            // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
+            
+            $service = $this->models[$triggers[$class]['model']];
+            if(method_exists($service,$triggers[$class]['function'])){ 
+                // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
+                return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
+            }
+        }
+        if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
+            $service = $this->models[$triggers[$class]['model']];
+            if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
+                //$this->getTables->addTime("run_triggers gtsfunction");
+                return  $service->{$triggers[$class]['gtsfunction']}(null,$class, $type, $method, $fields, $object_old, $object_new);
+            }
+        }
+        if(isset($triggers[$class]['gtsfunction2']) and isset($triggers[$class]['model'])){
+            $service = $this->models[$triggers[$class]['model']];
+            if(method_exists($service,$triggers[$class]['gtsfunction2'])){ 
+                $params = [
+                    'class'=>$class,
+                    'type'=>$type,
+                    'method'=>$method,
+                    'fields'=>$fields,
+                    'object_old'=>$object_old,
+                    'object_new'=>$object_new,
+                    'object'=>&$object,
+                ];
+                return  $service->{$triggers[$class]['gtsfunction2']}($params);
+            }
+        }
+        return $this->success('Выполнено успешно');
     }
 }
