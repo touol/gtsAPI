@@ -225,7 +225,14 @@ return [
                 "create": [],
                 "update": [],
                 "copy":[],
-                "remove":[]
+                "remove":[],
+                "gen_fields": {
+                  "action": "gtsapi/gen_fields",
+                  "title": "",
+                  "cls": "btn btn-primary",
+                  "row": {"title":"Сгенирировать поля"},
+                  "icon": "glyphicon glyphicon-menu-hamburger"
+                }
               },
               "pdoTools": {
                 "class": "gtsAPITable"

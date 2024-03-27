@@ -45,6 +45,11 @@ class tableAPIController{
                 $request['api_action'] = 'delete';
                 return $this->route_post($gtsAPITable, $uri, $method, $request);
             break;
+            case 'OPTIONS':
+                //if($id and empty($request['ids'])) $request['ids'] = [$id];
+                $request['api_action'] = 'options';
+                return $this->route_post($gtsAPITable, $uri, $method, $request);
+            break;
         }
         return $this->route_post($gtsAPITable, $uri, $method, $request);
     }
@@ -69,7 +74,7 @@ class tableAPIController{
             $rule['properties'] = [];
         }
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
-        if(isset($rule['properties']['actions'])){
+        if($request['api_action'] != 'options' and isset($rule['properties']['actions'])){
 
             if(!isset($rule['properties']['actions'][$request['api_action']])){
                 return $this->error("Not api action!");
@@ -113,6 +118,9 @@ class tableAPIController{
             case 'delete':
                 return $this->delete($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
+            case 'options':
+                return $this->options($rule,$request,$rule['aсtions'][$request['api_action']]);
+            break;
         }
         return $this->error("test2!");
     }
@@ -120,14 +128,76 @@ class tableAPIController{
         $req = [];
         foreach($request as $k=>$v){
             if(is_array($v)){
-                $req[$k] = json_encode($v);
+                $req[$k] = json_encode($v,JSON_PRETTY_PRINT);
             }else{
                 $req[$k] = $v;
             }
         }
         return $req;
     }
-    
+    public function options($rule,$request,$action){
+        
+        if(empty($rule['properties']['fields'])){
+            $fields = $this->gen_fields($rule);
+        }else{
+            $fields = $rule['properties']['fields'];
+        }
+        $actions = [];
+        if(isset($rule['properties']['actions'])){
+            foreach($rule['properties']['actions'] as $action =>$v){
+                $resp = $this->checkPermissions($rule['properties']['actions'][$action]);
+
+                if($resp['success']){
+                    $actions[$action] = $v;
+                }
+            }
+        }
+        return $this->success('options',['fields'=>$fields,'actions'=>$actions]);
+    }
+    public function gen_fields($rule){
+        
+        $fields = ['id'=>['type'=>'hidden']];
+        if (!$className= $this->modx->loadClass($rule['class'])){
+            return $fields;
+        }
+        if (isset ($this->modx->map[$rule['class']])) {
+            foreach($this->modx->map[$rule['class']]['fieldMeta'] as $field=>$meta){
+                switch($meta['dbtype']){
+                    case 'varchar':
+                        $fields[$field] = ['type'=>'text'];
+                    break;
+                    case 'text': case 'longtext':
+                        $fields[$field] = ['type'=>'textarea'];
+                    break;
+                    case 'int':
+                        $fields[$field] = ['type'=>'number'];
+                    break;
+                    case 'double': case 'decimal':
+                        $fields[$field] = ['type'=>'decimal','step'=>'0.01'];
+                    break;
+                    case 'tinyint':
+                        if($meta['phptype'] == 'boolean'){
+                            $fields[$field] = ['type'=>'boolean'];
+                        }else{
+                            $fields[$field] = ['type'=>'number'];
+                        }
+                    break;
+                    case 'date':
+                        $fields[$field] = ['type'=>'date'];
+                    break;
+                    case 'datetime':
+                        $fields[$field] = ['type'=>'datetime'];
+                    break;
+                }
+            }
+            if($gtsAPITable = $this->modx->getObject('gtsAPITable',$rule['id'])){
+                $rule['properties']['fields'] = $fields;
+                $gtsAPITable->properties = json_encode($rule['properties'],JSON_PRETTY_PRINT);
+                $gtsAPITable->save();
+            }
+        }
+        return $fields;
+    }
     public function delete($rule,$request,$action){
         
         if(!empty($request['ids'])){

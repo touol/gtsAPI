@@ -255,6 +255,9 @@ class gtsAPI
             case 'generate_rules':
                 return $this->generate_rules($data);
             break;
+            case 'gen_fields':
+                return $this->gen_fields($data);
+            break;
             default:
                 return $this->error("Not found action!");
         }
@@ -265,6 +268,70 @@ class gtsAPI
     }
     public function error($message = "",$data = []){
         return array('success'=>0,'message'=>$message,'data'=>$data);
+    }
+    public function gen_fields($data){
+        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        if(!$gtsAPITable = $this->modx->getObject("gtsAPITable",(int)$data['id'])) 
+            return $this->error("Таблица api не найдена!");
+        if(!$gtsAPIPackage = $this->modx->getObject('gtsAPIPackage',$gtsAPITable->package_id)){
+            return $this->error("gtsAPIPackage api не найден!"); 
+        }
+        $this->modx->addPackage($gtsAPIPackage->name, MODX_CORE_PATH . "components/{$gtsAPIPackage->name}/model/");
+        
+        $rule = $gtsAPITable->toArray();
+        if($rule['properties']){
+            $properties = json_decode($rule['properties'],1);
+        }
+        if($properties and is_array($properties)){
+            $rule['properties'] = $properties;
+        }else{
+            $rule['properties'] = [];
+        }
+        if(!empty($rule['properties']['fields'])){
+            $fields = $rule['properties']['fields'];
+        }else{
+            $fields = ['id'=>['type'=>'hidden']];
+        }
+        if (!$className= $this->modx->loadClass($rule['class'])){
+            return $this->error("Не загружен класс!");
+        }
+        if (isset ($this->modx->map[$rule['class']])) {
+            foreach($this->modx->map[$rule['class']]['fieldMeta'] as $field=>$meta){
+                switch($meta['dbtype']){
+                    case 'varchar':
+                        $fields[$field] = ['type'=>'text'];
+                    break;
+                    case 'text': case 'longtext':
+                        $fields[$field] = ['type'=>'textarea'];
+                    break;
+                    case 'int':
+                        $fields[$field] = ['type'=>'number'];
+                    break;
+                    case 'double': case 'decimal':
+                        $fields[$field] = ['type'=>'decimal','step'=>'0.01'];
+                    break;
+                    case 'tinyint':
+                        if($meta['phptype'] == 'boolean'){
+                            $fields[$field] = ['type'=>'boolean'];
+                        }else{
+                            $fields[$field] = ['type'=>'number'];
+                        }
+                    break;
+                    case 'date':
+                        $fields[$field] = ['type'=>'date'];
+                    break;
+                    case 'datetime':
+                        $fields[$field] = ['type'=>'datetime'];
+                    break;
+                }
+            }
+            if($gtsAPITable){
+                $rule['properties']['fields'] = $fields;
+                $gtsAPITable->properties = json_encode($rule['properties'],JSON_PRETTY_PRINT);
+                $gtsAPITable->save();
+            }
+        }
+        return $this->success('options',['fields'=>$fields,'map'=>$this->modx->map[$rule['class']],'rule'=>$rule]);
     }
     public function save_rule($data = []){
         if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
