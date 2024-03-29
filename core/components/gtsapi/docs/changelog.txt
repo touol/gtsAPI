@@ -11,3 +11,4 @@ Changelog for gtsAPI.
 - Расширенный фильтр.
 - Приведение дефаулт контролера к табле.
 - Выгрузка полей и options.
+- FractionDigits.

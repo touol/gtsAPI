@@ -173,7 +173,7 @@ class tableAPIController{
                         $fields[$field] = ['type'=>'number'];
                     break;
                     case 'double': case 'decimal':
-                        $fields[$field] = ['type'=>'decimal','step'=>'0.01'];
+                        $fields[$field] = ['type'=>'decimal','FractionDigits'=>2];
                     break;
                     case 'tinyint':
                         if($meta['phptype'] == 'boolean'){
