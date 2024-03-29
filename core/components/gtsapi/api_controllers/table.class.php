@@ -306,6 +306,12 @@ class tableAPIController{
                 "{$request['sortField']}" => $request['sortOrder'] == 1 ?'ASC':'DESC',
             ];
         }
+        if($request['multiSortMeta']){
+            $default['sortby'] = [];
+            foreach($request['multiSortMeta'] as $sort){
+                $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
+            }
+        }
         $this->pdo->setConfig($default);
         $rows0 = $this->pdo->run();
         if($request['setTotal']){

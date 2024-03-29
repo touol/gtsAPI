@@ -12,3 +12,4 @@ Changelog for gtsAPI.
 - Приведение дефаулт контролера к табле.
 - Выгрузка полей и options.
 - FractionDigits.
+- multiSortMeta.
