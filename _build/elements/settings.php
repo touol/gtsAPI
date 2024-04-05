@@ -282,6 +282,14 @@ return [
                     "skip_sanitize": 1
                   }
                 },
+                "version": {
+                  "label": "Версия",
+                  "edit": {
+                    "type": "text"
+                  },
+                  "default": 0,
+                  "filter": 1
+                },
                 "active": {
                   "label": "Активно",
                   "edit": {

@@ -877,11 +877,10 @@ class myPdo
         $fqn = $this->modx->getOption('pdoFetch.class', null, 'pdotools.pdofetch', true);
         $path = $this->modx->getOption('pdofetch_class_path', null, MODX_CORE_PATH . 'components/pdotools/model/',
             true);
-        if ($pdoClass = $this->modx->loadClass($fqn, $path, false, true)) {
-            $instance = new $pdoClass($this->modx, $config);
-        } else {
+        if (!$pdoClass = $this->modx->loadClass($fqn, $path, false, true)) {
             return false;
         }
+        $instance = new $pdoClass($this->modx, $config);
         if (empty($config['class'])){
             $this->addTime('Could not subpdo! empty class');
             return false;
@@ -924,11 +923,10 @@ class myPdo
         $fqn = $this->modx->getOption('pdoFetch.class', null, 'pdotools.pdofetch', true);
         $path = $this->modx->getOption('pdofetch_class_path', null, MODX_CORE_PATH . 'components/pdotools/model/',
             true);
-        if ($pdoClass = $this->modx->loadClass($fqn, $path, false, true)) {
-            $instance = new $pdoClass($this->modx, $config);
-        } else {
+        if (!$pdoClass = $this->modx->loadClass($fqn, $path, false, true)) {
             return false;
         }
+        $instance = new $pdoClass($this->modx, $config);
         if (empty($config['class'])){
             $this->addTime('Could not subpdo! empty class');
             return false;

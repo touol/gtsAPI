@@ -14,3 +14,4 @@ Changelog for gtsAPI.
 - FractionDigits.
 - multiSortMeta.
 - Обновления фильтры.
+- Версия gtsAPITable.

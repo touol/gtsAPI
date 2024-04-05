@@ -436,10 +436,15 @@ class packageAPIController{
             }
         }
         if(isset($request['gtsapipackages'])){
-            $gtsapipackages = json_decode($request['gtsapipackages'],1);
-            if(is_array($gtsapipackages) and count($gtsapipackages) > 0){
-                $this->gtsapipackages($gtsapipackages);
+            // $gtsapipackages = json_decode($request['gtsapipackages'],1);
+            // if(is_array($gtsapipackages) and count($gtsapipackages) > 0){
+            //     $this->gtsapipackages($gtsapipackages);
+            // }
+            $path = $this->config['core'];
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
             }
+            file_put_contents($path . '/gtsapipackages.json',$request['gtsapipackages']);
         }
         $this->model();
         // $this->assets();
@@ -481,17 +486,23 @@ class packageAPIController{
         //         $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', $resolver));
         //     }
         // }
+
         //add table
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'tables.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'tables.php'));
         }
         $this->builder->putVehicle($vehicle);
+        //add gtsapipackages
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'gtsapipackages.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'gtsapipackages.php'));
+        }
+        $this->builder->putVehicle($vehicle);
 
-        // $this->builder->setPackageAttributes([
-        //     'changelog' => file_get_contents($this->config['core'] . 'docs/changelog.txt'),
-        //     'license' => file_get_contents($this->config['core'] . 'docs/license.txt'),
-        //     'readme' => file_get_contents($this->config['core'] . 'docs/readme.txt'),
-        // ]);
+        $this->builder->setPackageAttributes([
+            'changelog' => file_get_contents($this->config['core'] . 'docs/changelog.txt'),
+            'license' => file_get_contents($this->config['core'] . 'docs/license.txt'),
+            'readme' => file_get_contents($this->config['core'] . 'docs/readme.txt'),
+        ]);
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Added package attributes and setup options.');
 
         // // Шифрация пакета

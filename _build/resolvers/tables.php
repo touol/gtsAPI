@@ -8,7 +8,7 @@ if ($transport->xpdo) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
             $modx->addPackage($options['namespace'], MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/');
-            $modx->addExtensionPackage($options['namespace'],  MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/');
+            //$modx->addExtensionPackage($options['namespace'],  MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/');
             $manager = $modx->getManager();
             $objects = [];
             $schemaFile = MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/schema/'.$options['namespace'].'.mysql.schema.xml';
