@@ -24,6 +24,7 @@ if ($transport->xpdo) {
                         if($gtsAPIPackage->save()){
                             if (!empty($data['gtsAPITables'])) {
                                 foreach ($data['gtsAPITables'] as $k => $table) {
+                                    if(isset($table['properties'])) $table['properties'] = json_encode($table['properties'],JSON_PRETTY_PRINT);
                                     if($gtsAPITable = $modx->getObject('gtsAPITable',['class'=>$table['class']])){
                                         if(empty($table['version'])) $table['version'] = 0;
                                         if($table['version'] > $gtsAPITable->version){
