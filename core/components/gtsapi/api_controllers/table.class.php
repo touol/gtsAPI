@@ -324,7 +324,10 @@ class tableAPIController{
         return $this->success('',['rows'=>$rows0,'total'=>$total,'log'=>$this->pdo->getTime()]);
     }
     public function aplyFilter($rule, $name, $filter){
+        
         $where = [];
+        if($filter['value'] == null) return $where;
+        
         $field = "{$rule['class']}.$name";
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
         switch($filter['matchMode']){

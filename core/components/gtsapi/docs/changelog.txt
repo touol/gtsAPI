@@ -13,3 +13,4 @@ Changelog for gtsAPI.
 - Выгрузка полей и options.
 - FractionDigits.
 - multiSortMeta.
+- Обновления фильтры.
