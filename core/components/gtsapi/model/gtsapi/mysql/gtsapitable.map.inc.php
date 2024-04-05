@@ -18,6 +18,7 @@ $xpdo_meta_map['gtsAPITable']= array (
     'permitions' => '',
     'properties' => '',
     'active' => 0,
+    'version' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -80,6 +81,15 @@ $xpdo_meta_map['gtsAPITable']= array (
       'dbtype' => 'tinyint',
       'precision' => '1',
       'phptype' => 'boolean',
+      'null' => true,
+      'default' => 0,
+    ),
+    'version' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '10',
+      'attributes' => 'unsigned',
+      'phptype' => 'integer',
       'null' => true,
       'default' => 0,
     ),

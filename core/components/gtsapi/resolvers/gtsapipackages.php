@@ -14,8 +14,8 @@ if ($transport->xpdo) {
             if(is_array($gtsapipackages)){
                 foreach ($gtsapipackages as $name => $data) {
                     /** @var modPlugin $plugin */
-                    if(!$gtsAPIPackage = $this->modx->getObject('gtsAPIPackage',['name'=>$name])){
-                        $gtsAPIPackage = $this->modx->newObject('gtsAPIPackage');
+                    if(!$gtsAPIPackage = $modx->getObject('gtsAPIPackage',['name'=>$name])){
+                        $gtsAPIPackage = $filemodx->newObject('gtsAPIPackage');
                     }
                     if($gtsAPIPackage){
                         $gtsAPIPackage->fromArray(array_merge([
@@ -24,7 +24,7 @@ if ($transport->xpdo) {
                         if($gtsAPIPackage->save()){
                             if (!empty($data['gtsAPITables'])) {
                                 foreach ($data['gtsAPITables'] as $k => $table) {
-                                    if($gtsAPITable = $this->modx->getObject('gtsAPITable',['class'=>$table['class']])){
+                                    if($gtsAPITable = $modx->getObject('gtsAPITable',['class'=>$table['class']])){
                                         if(empty($table['version'])) $table['version'] = 0;
                                         if($table['version'] > $gtsAPITable->version){
                                             $gtsAPITable->fromArray(array_merge([
@@ -32,7 +32,7 @@ if ($transport->xpdo) {
                                             $gtsAPITable->save();
                                         }
                                     }else{
-                                        if($gtsAPITable = $this->modx->newObject('gtsAPITable')){
+                                        if($gtsAPITable = $modx->newObject('gtsAPITable')){
                                             $gtsAPITable->fromArray(array_merge([
                                             ], $table), '', true, true);
                                             $gtsAPITable->save();
