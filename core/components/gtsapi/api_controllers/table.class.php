@@ -74,7 +74,7 @@ class tableAPIController{
             $rule['properties'] = [];
         }
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
-        if($request['api_action'] != 'options' and isset($rule['properties']['actions'])){
+        if(!in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
 
             if(!isset($rule['properties']['actions'][$request['api_action']])){
                 return $this->error("Not api action!");
@@ -85,6 +85,9 @@ class tableAPIController{
                 header('HTTP/1.1 401 Unauthorized1');
                 return $resp;
             }
+        }
+        if(in_array($request['api_action'],['autocomplete'])){
+            if(empty($rule['properties']['autocomplete'])) return $this->error("Not api autocomplete!");
         }
         $this->addPackages($rule['package_id']);
         
@@ -120,9 +123,91 @@ class tableAPIController{
             break;
             case 'options':
                 return $this->options($rule,$request,$rule['aсtions'][$request['api_action']]);
+            case 'autocomplete':
+                return $this->get_autocomplete($rule,$request);
             break;
         }
         return $this->error("test2!");
+    }
+    public function get_autocomplete($rule,$request){
+        
+        $default = [
+            'class' => $rule['class'],
+            'select' => [
+                $rule['class'] => '*',
+            ],
+            'sortby' => [
+                "{$rule['class']}.id" => 'ASC',
+            ],
+            'return' => 'data',
+            'limit' => 0
+        ];
+        
+        $autocomplete = $rule['properties']['autocomplete'];
+        if(isset($autocomplete['query']) and is_array($autocomplete['query'])) 
+            $default = array_merge($default,$autocomplete['query']);
+
+        if(isset($autocomplete['select'])){
+            $selects_fields = [];
+            foreach($autocomplete['select'] as $field){
+                $selects_fields[] = $rule['class'].'.'.$field;
+            }
+            $default['select'][$rule['class']] = implode(',',$selects_fields);
+        }
+        
+
+        if(!empty($request['query'])){
+            if(empty($default['where'])) $default['where'] = [];
+            $where = [];
+            foreach($autocomplete['where'] as $field=>$value){
+                $value = str_replace('query',$request['query'],$value);
+                $where[$field] = $value;
+            }
+            $default['where'] = array_merge($default['where'],$where);
+        }
+        $default['decodeJSON'] = 1;
+        if(!empty($request['id'])){
+            $default['where']["{$rule['class']}.id"] = $request['id'];
+        }
+        if(isset($autocomplete['limit'])){
+            $default['limit'] = $autocomplete['limit'];
+        }
+        if(isset($request['offset'])){
+            $default['offset'] = $request['offset'];
+        }else{
+            $request['offset'] = 0;
+        }
+        
+        
+        $default['setTotal'] = true;
+        
+        if($request['sortField']){
+            $default['sortby'] = [
+                "{$request['sortField']}" => $request['sortOrder'] == 1 ?'ASC':'DESC',
+            ];
+        }
+        if($request['multiSortMeta']){
+            $default['sortby'] = [];
+            foreach($request['multiSortMeta'] as $sort){
+                $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
+            }
+        }
+        $this->pdo->setConfig($default);
+        $rows0 = $this->pdo->run();
+        
+        $total = (int)$this->modx->getPlaceholder('total');
+        
+        // $rows = [];
+        // foreach($rows0 as $row){
+        //     $rows[$row['id']] = $row;
+        // }
+
+        
+        return $this->success('',[
+            'rows'=>$rows0,
+            'total'=>$total,
+            'log'=>$this->pdo->getTime()
+        ]);
     }
     public function request_array_to_json($request){
         $req = [];
@@ -157,7 +242,7 @@ class tableAPIController{
     public function gen_fields($rule){
         
         $fields = ['id'=>['type'=>'hidden']];
-        if (!$className= $this->modx->loadClass($rule['class'])){
+        if (!$className = $this->modx->loadClass($rule['class'])){
             return $fields;
         }
         if (isset ($this->modx->map[$rule['class']])) {
@@ -296,6 +381,8 @@ class tableAPIController{
         }
         if(isset($request['offset'])){
             $default['offset'] = $request['offset'];
+        }else{
+            $request['offset'] = 0;
         }
         
         if($request['setTotal']){
@@ -321,7 +408,75 @@ class tableAPIController{
         // foreach($rows0 as $row){
         //     $rows[$row['id']] = $row;
         // }
-        return $this->success('',['rows'=>$rows0,'total'=>$total,'log'=>$this->pdo->getTime()]);
+
+        $autocompletes = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
+        
+        return $this->success('',[
+            'rows'=>$rows0,
+            'total'=>$total,
+            'autocomplete'=>$autocompletes,
+            'log'=>$this->pdo->getTime()
+        ]);
+    }
+    public function autocompletes($fields, $rows0, $offset){
+        //return $fields;
+        if(empty($fields)) return [];
+        $autocompletes = [];
+        foreach($fields as $field=>$desc){
+            if(isset($desc['type'])){
+                if($desc['type'] == 'autocomplete' and isset($desc['table'])){
+                    
+                    if($gtsAPITable = $this->modx->getObject('gtsAPITable',['class'=>$desc['table'],'active'=>1])){
+                        $properties = json_decode($gtsAPITable->properties,1);
+                        if(is_array($properties) and isset($properties['autocomplete'])){
+                            $this->addPackages($gtsAPITable->package_id);
+                            $autocomplete = $properties['autocomplete'];
+                            if(isset($autocomplete['limit']) and $autocomplete['limit'] == 0 and $offset != 0) continue;
+                            $autocomplete['field'] = $field;
+                            $autocomplete['table'] = $desc['table'];
+                            $autocompletes[$field] = $this->autocomplete($autocomplete,$rows0);
+                        }
+                    }
+                }
+            }
+        }
+        return $autocompletes;
+    }
+    public function autocomplete($autocomplete, $rows0){
+        if(!isset($autocomplete['limit'])) $autocomplete['limit'] = 15;
+        $default = [
+            'class' => $autocomplete['table'],
+            'select' => [
+                $autocomplete['table'] => '*',
+            ],
+            'sortby' => [
+                "{$autocomplete['table']}.id" => 'ASC',
+            ],
+            'return' => 'data',
+            'limit' => $autocomplete['limit']
+        ];
+        if(isset($autocomplete['select'])){
+            $selects_fields = [];
+            foreach($autocomplete['select'] as $field){
+                $selects_fields[] = $autocomplete['table'].'.'.$field;
+            }
+            $default['select'][$autocomplete['table']] = implode(',',$selects_fields);
+        }
+        if(isset($autocomplete['query']) and is_array($autocomplete['query'])) 
+            $default = array_merge($default,$autocomplete['query']);
+        if($autocomplete['limit'] > 0){
+            $ids = [];
+            foreach($rows0 as $row){
+                $ids[] = $row[$autocomplete['field']];
+            }
+            if(!empty($ids)) $default[$autocomplete['table'].':IN'] = $ids;
+        }
+        $default['setTotal'] = true;
+        $this->pdo->setConfig($default);
+        $autocomplete['rows'] = $this->pdo->run();
+        $autocomplete['log'] = $this->pdo->getTime();
+        $autocomplete['total'] = (int)$this->modx->getPlaceholder('total');
+        return $autocomplete;
     }
     public function aplyFilter($rule, $name, $filter){
         
@@ -410,7 +565,7 @@ class tableAPIController{
     // }
     public function checkPermissions($rule_action){
         // $this->modx->log(1,"checkPermissions ".print_r($rule_action,1));
-        if(isset($rule_action['authenticated'])){
+        if(isset($rule_action['authenticated']) and $rule_action['authenticated'] == 1){
             if(!$this->modx->user->id > 0) return $this->error("Not api authenticated!",['user_id'=>$this->modx->user->id]);
         }
 
