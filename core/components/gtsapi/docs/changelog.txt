@@ -16,3 +16,5 @@ Changelog for gtsAPI.
 - Обновления фильтры.
 - Версия gtsAPITable.
 - api autocomplete.
+- autocomplete tpl.
+- обновил версию vue.

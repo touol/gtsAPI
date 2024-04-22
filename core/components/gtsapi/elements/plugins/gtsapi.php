@@ -13,6 +13,7 @@ switch ($modx->event->name) {
                 $modx->getOption('gtsapi_core_path', $scriptProperties, $modx->getOption('core_path') . 'components/gtsapi/') . 'model/');
             if ($gtsAPI instanceof gtsAPI) {
                 $resp = $gtsAPI->route($uri,$_SERVER['REQUEST_METHOD'],$_REQUEST);
+                header("Access-Control-Allow-Origin: *");
                 exit(json_encode($resp));
             }
         }

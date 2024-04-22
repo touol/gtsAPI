@@ -4,6 +4,7 @@ class tableAPIController{
     public $config = [];
     public $modx;
     public $pdo;
+    public $pdoTools;
     public $models;
     public $triggers = [];
 
@@ -20,6 +21,7 @@ class tableAPIController{
         if ($this->pdo = $this->modx->getService('myPdo','myPdo',$corePath.'classes/',[])) {
             $this->pdo->setConfig($this->config);
         }
+        $this->pdoTools = $this->modx->getService('pdoFetch');
     }
     public function route($gtsAPITable, $uri, $method, $request){
         $req = json_decode(file_get_contents('php://input'), true);
@@ -194,6 +196,11 @@ class tableAPIController{
         }
         $this->pdo->setConfig($default);
         $rows0 = $this->pdo->run();
+        if(!empty($autocomplete['tpl'])){
+            foreach($rows0 as $k=>$row){
+                $rows0[$k]['content'] = $this->pdoTools->getChunk("@INLINE ".$autocomplete['tpl'],$row);
+            }
+        }
         
         $total = (int)$this->modx->getPlaceholder('total');
         
@@ -474,6 +481,11 @@ class tableAPIController{
         $default['setTotal'] = true;
         $this->pdo->setConfig($default);
         $autocomplete['rows'] = $this->pdo->run();
+        if(!empty($autocomplete['tpl'])){
+            foreach($autocomplete['rows'] as $k=>$row){
+                $autocomplete['rows'][$k]['content'] = $this->pdoTools->getChunk("@INLINE ".$autocomplete['tpl'],$row);
+            }
+        }
         $autocomplete['log'] = $this->pdo->getTime();
         $autocomplete['total'] = (int)$this->modx->getPlaceholder('total');
         return $autocomplete;
