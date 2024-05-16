@@ -422,7 +422,7 @@ class tableAPIController{
             'rows'=>$rows0,
             'total'=>$total,
             'autocomplete'=>$autocompletes,
-            'log'=>$this->pdo->getTime()
+            // 'log'=>$this->pdo->getTime()
         ]);
     }
     public function autocompletes($fields, $rows0, $offset){
@@ -474,9 +474,12 @@ class tableAPIController{
         if($autocomplete['limit'] > 0){
             $ids = [];
             foreach($rows0 as $row){
-                $ids[] = $row[$autocomplete['field']];
+                if((int)$row[$autocomplete['field']] > 0) $ids[$row[$autocomplete['field']]] = $row[$autocomplete['field']];
             }
-            if(!empty($ids)) $default[$autocomplete['table'].':IN'] = $ids;
+            if(!empty($ids)){
+                $default['where'][$autocomplete['table'].'.id:IN'] = $ids;
+                $default['limit'] = 0;
+            }
         }
         $default['setTotal'] = true;
         $this->pdo->setConfig($default);
