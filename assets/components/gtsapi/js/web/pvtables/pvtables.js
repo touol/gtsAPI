@@ -231,7 +231,7 @@ const qe = 3, Qe = () => {
         }
       else
         try {
-          await p.create(), T.value = !0, D.value = !1, s.value = {};
+          await p.create(s.value), T.value = !0, D.value = !1, s.value = {};
         } catch (a) {
           d("error", { detail: a.message });
         }

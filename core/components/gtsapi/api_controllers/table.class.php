@@ -333,7 +333,7 @@ class tableAPIController{
             header('HTTP/1.1 201 Created');
             return $this->success('created',$object);
         }
-        return $this->error('create_error');
+        return $this->error('create_error',$request);
     }
     public function update($rule,$request,$action){
         
