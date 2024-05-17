@@ -15,4 +15,11 @@ return [
             
         ],
     ],
+    'PVTable' => [
+        'file' => 'PVTable',
+        'description' => '',
+        'properties' => [
+            
+        ],
+    ],
 ];
