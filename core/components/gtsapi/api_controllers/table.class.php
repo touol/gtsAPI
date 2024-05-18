@@ -247,48 +247,138 @@ class tableAPIController{
         }
         return $this->success('options',['fields'=>$fields,'actions'=>$actions]);
     }
-    public function gen_fields($rule){
-        
-        $fields = ['id'=>['type'=>'hidden']];
-        if (!$className = $this->modx->loadClass($rule['class'])){
-            return $fields;
-        }
-        if (isset ($this->modx->map[$rule['class']])) {
-            foreach($this->modx->map[$rule['class']]['fieldMeta'] as $field=>$meta){
-                switch($meta['dbtype']){
-                    case 'varchar':
-                        $fields[$field] = ['type'=>'text'];
-                    break;
-                    case 'text': case 'longtext':
-                        $fields[$field] = ['type'=>'textarea'];
-                    break;
-                    case 'int':
-                        $fields[$field] = ['type'=>'number'];
-                    break;
-                    case 'double': case 'decimal':
-                        $fields[$field] = ['type'=>'decimal','FractionDigits'=>2];
-                    break;
-                    case 'tinyint':
-                        if($meta['phptype'] == 'boolean'){
-                            $fields[$field] = ['type'=>'boolean'];
-                        }else{
-                            $fields[$field] = ['type'=>'number'];
-                        }
-                    break;
-                    case 'date':
-                        $fields[$field] = ['type'=>'date'];
-                    break;
-                    case 'datetime':
-                        $fields[$field] = ['type'=>'datetime'];
-                    break;
+    public function gen_fields_class($class,$select = '*'){
+        $fields0 = [];
+        $fields = [];
+        $selects = [];
+        if($select == '*'){
+            if ($className = $this->modx->loadClass($class)){
+                if (isset ($this->modx->map[$class])) {
+                    foreach($this->modx->map[$class]['fieldMeta'] as $field=>$meta){
+                        $selects[$field] = 1;
+                    }
                 }
             }
-            if($gtsAPITable = $this->modx->getObject('gtsAPITable',$rule['id'])){
-                $rule['properties']['fields'] = $fields;
-                $gtsAPITable->properties = json_encode($rule['properties'],JSON_PRETTY_PRINT);
-                $gtsAPITable->save();
+        }else{
+            $select = preg_replace_callback('/\(.*?\bAS\b/i', function($matches) {
+                return str_replace(",", "|", $matches[0]);
+            }, $select);
+            
+            $selects0 = explode(',', $select);
+            foreach ($selects0 as $k=>$select) {
+                $select = str_replace('|', ',', $select);
+                if(strpos($select, '(') !== false){
+                    $tmp = array_map('trim',preg_split('/AS/i',$select));
+                    if(isset($tmp[1])){
+                        $selects[$tmp[1]] = 2;
+                    } 
+                }else{
+                    $tmp = array_map('trim',preg_split('/AS/i',$select));
+                    if(isset($tmp[1])){
+                        $selects[$tmp[1]] = 2;
+                    }else{
+                        $select = str_replace(['.','`',$class], '', $select);
+                        $selects[$select] = 1;
+                    }
+                }
             }
         }
+        if ($className = $this->modx->loadClass($class)){
+            if (isset ($this->modx->map[$class])) {
+                foreach($this->modx->map[$class]['fieldMeta'] as $field=>$meta){
+                    if(!isset($selects[$field]) or $selects[$field] == 2) continue;
+                    switch($meta['dbtype']){
+                        case 'varchar':
+                            $fields[$field] = ['type'=>'text'];
+                        break;
+                        case 'text': case 'longtext':
+                            $fields[$field] = ['type'=>'textarea'];
+                        break;
+                        case 'int':
+                            $fields[$field] = ['type'=>'number'];
+                        break;
+                        case 'double': case 'decimal':
+                            $fields[$field] = ['type'=>'decimal','FractionDigits'=>2];
+                        break;
+                        case 'tinyint':
+                            if($meta['phptype'] == 'boolean'){
+                                $fields[$field] = ['type'=>'boolean'];
+                            }else{
+                                $fields[$field] = ['type'=>'number'];
+                            }
+                        break;
+                        case 'date':
+                            $fields[$field] = ['type'=>'date'];
+                        break;
+                        case 'datetime':
+                            $fields[$field] = ['type'=>'datetime'];
+                        break;
+                    }
+                }
+            }
+        }
+        foreach($selects as $field=>$select){
+            if($gtsAPITable = $this->modx->getObject('gtsAPITable',['autocomplete_field'=>$field])){
+                $fields0[$field] = [
+                    'type'=>'autocomplete',
+                    'table'=>$gtsAPITable->class?$gtsAPITable->class:$gtsAPITable->table
+                ];
+                if(isset($fields[$field])){
+                    $fields0[$field]['class'] = $class;
+                }else{
+                    $fields0[$field] = ['type'=>'text','readonly'=>1];
+                }
+            }else if($gtsAPISelect = $this->modx->getObject('gtsAPISelect',['field'=>$field])){
+                $rows0 = json_decode($gtsAPISelect->rows,1);
+                $rows = [];
+                if(!is_array($rows0)){
+                    $rows0 = array_map('trim',explode(',',$gtsAPISelect->rows));
+                }
+                foreach($rows0 as $row){
+                    if(count($row) == 2){
+                        $rows[] = $row;
+                    }else{
+                        $rows[] = [$row,$row];
+                    }
+                }
+                
+                $fields0[$field] = [
+                    'type'=>'select',
+                    'rows'=>$rows
+                ];
+                if(isset($fields[$field])){
+                    $fields0[$field]['class'] = $class;
+                }else{
+                    $fields0[$field] = ['type'=>'text','readonly'=>1];
+                } 
+            }else if(isset($fields[$field])){
+                $fields[$field]['class'] = $class;
+                $fields0[$field] = $fields[$field];
+            }else{
+                $fields0[$field] = ['type'=>'text','readonly'=>1];
+            }
+
+        }
+        return $fields0;
+    }
+    public function gen_fields($rule){
+        
+        $fields = ['id'=>['type'=>'view']];
+        if(empty($rule['properties']['query']) or empty($rule['properties']['query']['select'])){
+            $fields = array_merge($fields,$this->gen_fields_class($rule['class']));
+        }else{
+            if(is_array($rule['properties']['query']['select'])){
+                foreach($rule['properties']['query']['select'] as $class=>$select){
+                    $fields = array_merge($fields,$this->gen_fields_class($class, $select));
+                }
+            }
+        }
+        if($gtsAPITable = $this->modx->getObject('gtsAPITable',$rule['id'])){
+            $rule['properties']['fields'] = $fields;
+            $gtsAPITable->properties = json_encode($rule['properties'],JSON_PRETTY_PRINT);
+            $gtsAPITable->save();
+        }
+
         return $fields;
     }
     public function delete($rule,$request,$action){

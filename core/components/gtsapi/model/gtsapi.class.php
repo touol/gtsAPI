@@ -249,6 +249,18 @@ class gtsAPI
             case 'save_rule':
                 return $this->save_rule($data);
             break;
+            case 'export_table':
+                return $this->export_table($data);
+            break;
+            case 'save_table':
+                return $this->save_table($data);
+            break;
+            case 'export_select':
+                return $this->export_select($data);
+            break;
+            case 'save_select':
+                return $this->save_select($data);
+            break;
             case 'gen_rules':
                 return $this->gen_rules($data);
             break;
@@ -288,50 +300,23 @@ class gtsAPI
             $rule['properties'] = [];
         }
         if(!empty($rule['properties']['fields'])){
-            $fields = $rule['properties']['fields'];
+            return $this->error("Поля уже заданы");
+        }
+        if($gtsAPITable->tree){
+            $controller_class = 'treeAPIController';
+            $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/tree.class.php';
         }else{
-            $fields = ['id'=>['type'=>'hidden']];
+            $controller_class = 'tableAPIController';
+            $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/table.class.php';
         }
-        if (!$className= $this->modx->loadClass($rule['class'])){
-            return $this->error("Не загружен класс!");
+        $loaded = include_once($rule['controller_path']);
+        if ($loaded) {
+            $controller = new $controller_class($this->modx,$this->config);
+            $fields = $controller->gen_fields($rule);
+        }else{
+            return $this->error("Not load class $controller_class {$rule['controller_path']}!");
         }
-        if (isset ($this->modx->map[$rule['class']])) {
-            foreach($this->modx->map[$rule['class']]['fieldMeta'] as $field=>$meta){
-                switch($meta['dbtype']){
-                    case 'varchar':
-                        $fields[$field] = ['type'=>'text'];
-                    break;
-                    case 'text': case 'longtext':
-                        $fields[$field] = ['type'=>'textarea'];
-                    break;
-                    case 'int':
-                        $fields[$field] = ['type'=>'number'];
-                    break;
-                    case 'double': case 'decimal':
-                        $fields[$field] = ['type'=>'decimal','FractionDigits'=>2];
-                    break;
-                    case 'tinyint':
-                        if($meta['phptype'] == 'boolean'){
-                            $fields[$field] = ['type'=>'boolean'];
-                        }else{
-                            $fields[$field] = ['type'=>'number'];
-                        }
-                    break;
-                    case 'date':
-                        $fields[$field] = ['type'=>'date'];
-                    break;
-                    case 'datetime':
-                        $fields[$field] = ['type'=>'datetime'];
-                    break;
-                }
-            }
-            if($gtsAPITable){
-                $rule['properties']['fields'] = $fields;
-                $gtsAPITable->properties = json_encode($rule['properties'],JSON_PRETTY_PRINT);
-                $gtsAPITable->save();
-            }
-        }
-        return $this->success('options',['fields'=>$fields,'map'=>$this->modx->map[$rule['class']],'rule'=>$rule]);
+        return $this->success('options',['fields'=>$fields]);
     }
     public function save_rule($data = []){
         if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
@@ -375,11 +360,63 @@ class gtsAPI
         $rule = $gtsAPIRule->toArray();
         $rule['gtsAPIActions'] = $gtsAPIActions;
         $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal',[
+            'action'=>'gtsapi/save_rule',
             'id'=>$rule['id'],
             'hash'=>$data['hash'],
             'rule_json'=>json_encode($rule,JSON_PRETTY_PRINT)
         ]);
         return $this->success('',['modal'=>$modal]);
+    }
+
+    public function export_table($data = []){
+        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        if(!$gtsAPITable = $this->modx->getObject("gtsAPITable",(int)$data['id'])) 
+            return $this->error("gtsAPITable не найдено!");
+        $rule = $gtsAPITable->toArray();
+        $rule['properties'] = json_decode($rule['properties'],1);
+        $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal',[
+            'action'=>'gtsapi/save_table',
+            'id'=>$rule['id'],
+            'hash'=>$data['hash'],
+            'rule_json'=>json_encode($rule,JSON_PRETTY_PRINT)
+        ]);
+        return $this->success('',['modal'=>$modal]);
+    }
+    public function save_table($data = []){
+        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        if(!$gtsAPITable = $this->modx->getObject("gtsAPITable",(int)$data['id'])) 
+            return $this->error("gtsAPITable не найдено!");
+        $rule = json_decode($data['rule_json'],1);
+        if(!is_array($rule)) return $this->error("Не верный json!");
+        if(!empty($rule['properties'])) $rule['properties'] = json_encode($rule['properties'],JSON_PRETTY_PRINT);
+        $gtsAPITable->fromArray($rule);
+        $gtsAPITable->save();
+        return $this->success("Успешно!");
+    }
+    public function export_select($data = []){
+        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        if(!$gtsAPISelect = $this->modx->getObject("gtsAPISelect",(int)$data['id'])) 
+            return $this->error("gtsAPISelect не найдено!");
+        $rule = $gtsAPISelect->toArray();
+        $rule['rows'] = json_decode($rule['rows'],1);
+        $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal',[
+            'action'=>'gtsapi/save_select',
+            'id'=>$rule['id'],
+            'hash'=>$data['hash'],
+            'rule_json'=>json_encode($rule,JSON_PRETTY_PRINT)
+        ]);
+        return $this->success('',['modal'=>$modal]);
+    }
+    public function save_select($data = []){
+        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        if(!$gtsAPISelect = $this->modx->getObject("gtsAPISelect",(int)$data['id'])) 
+            return $this->error("gtsAPISelect не найдено!");
+        $rule = json_decode($data['rule_json'],1);
+        if(!is_array($rule)) return $this->error("Не верный json!");
+        if(!is_array($rule['rows'])) $rule['rows'] = json_encode($rule['rows'],JSON_PRETTY_PRINT);
+        $gtsAPITable->fromArray($rule);
+        $gtsAPITable->save();
+        return $this->success("Успешно!");
     }
     public function gen_rules($data = []){
         $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal.GenRules',[

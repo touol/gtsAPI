@@ -15,6 +15,7 @@ $xpdo_meta_map['gtsAPIRule']= array (
     'packages' => '',
     'class' => '',
     'pdoTools' => '',
+    'properties' => '',
     'controller_class' => '',
     'controller_path' => '',
     'active' => 0,
@@ -56,6 +57,13 @@ $xpdo_meta_map['gtsAPIRule']= array (
       'default' => '',
     ),
     'pdoTools' => 
+    array (
+      'dbtype' => 'text',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'properties' => 
     array (
       'dbtype' => 'text',
       'phptype' => 'string',

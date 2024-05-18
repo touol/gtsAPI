@@ -22,7 +22,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">{'gettables_close' | lexicon}</button>
-            <button type="submit" name="gts_action" value="gtsapi/save_rule" class="btn btn-primary">{'gettables_save' | lexicon}</button>
+            <button type="submit" name="gts_action" value="{$action}" class="btn btn-primary">{'gettables_save' | lexicon}</button>
           </div>
       </form>
     </div>

@@ -11,12 +11,14 @@ $xpdo_meta_map['gtsAPITable']= array (
   'fields' => 
   array (
     'package_id' => 0,
+    'table' => '',
     'class' => '',
     'tree' => 0,
     'authenticated' => 0,
     'groups' => '',
     'permitions' => '',
     'properties' => '',
+    'autocomplete_field' => '',
     'active' => 0,
     'version' => 0,
   ),
@@ -30,6 +32,14 @@ $xpdo_meta_map['gtsAPITable']= array (
       'phptype' => 'integer',
       'null' => true,
       'default' => 0,
+    ),
+    'table' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '161',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
     ),
     'class' => 
     array (
@@ -76,6 +86,14 @@ $xpdo_meta_map['gtsAPITable']= array (
       'null' => false,
       'default' => '',
     ),
+    'autocomplete_field' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '161',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
     'active' => 
     array (
       'dbtype' => 'tinyint',
@@ -112,15 +130,47 @@ $xpdo_meta_map['gtsAPITable']= array (
         ),
       ),
     ),
-    'class' => 
+    'table' => 
     array (
-      'alias' => 'class',
+      'alias' => 'table',
       'primary' => false,
       'unique' => true,
       'type' => 'BTREE',
       'columns' => 
       array (
+        'table' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+    'class' => 
+    array (
+      'alias' => 'class',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
         'class' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+    'autocomplete_field' => 
+    array (
+      'alias' => 'autocomplete_field',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'autocomplete_field' => 
         array (
           'length' => '',
           'collation' => 'A',

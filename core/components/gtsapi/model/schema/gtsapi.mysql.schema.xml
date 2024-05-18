@@ -8,6 +8,8 @@
         <field key="packages" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="class" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="pdoTools" dbtype="text" phptype="string" null="false" default=""/>
+        <field key="properties" dbtype="text" phptype="string" null="false" default=""/>
+        
         <field key="controller_class" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="controller_path" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
