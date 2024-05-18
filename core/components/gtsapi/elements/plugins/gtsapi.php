@@ -14,6 +14,8 @@ switch ($modx->event->name) {
             if ($gtsAPI instanceof gtsAPI) {
                 $resp = $gtsAPI->route($uri,$_SERVER['REQUEST_METHOD'],$_REQUEST);
                 header("Access-Control-Allow-Origin: *");
+                header("Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, DELETE, PATCH");
+                header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
                 exit(json_encode($resp));
             }
         }

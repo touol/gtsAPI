@@ -1,10 +1,10 @@
-import p from "axios";
-import { useNotifications as c } from "pvtables/notify";
+import a from "axios";
+import { useNotifications as p } from "pvtables/notify";
 const l = (o) => {
-  const t = p.create({
+  const t = a.create({
     baseURL: `/api/${o}`,
     timeout: 1e4
-  }), { notify: n } = c();
+  }), { notify: n } = p();
   return t.interceptors.request.use(
     (e) => e,
     (e) => {
@@ -22,7 +22,7 @@ const l = (o) => {
   ), {
     create: async (e = null, s = {}) => await t.put("/", e, { params: s }),
     read: async (e = {}) => await t.get("/", { params: e }),
-    update: async (e = null, s = {}) => await t.patch("/", e, { params: s }),
+    update: async (e = null, s = {}) => await t.patch("/", e, s),
     delete: async (e = {}) => await t.delete("/", { params: e }),
     options: async (e = null, s = {}) => {
       const r = {
@@ -31,12 +31,12 @@ const l = (o) => {
       };
       return await t.post("/", e, { params: r });
     },
-    autocomplete: async (e = null, s = {}) => {
-      const r = {
+    autocomplete: async (e = {}) => {
+      const s = {
         api_action: "autocomplete",
-        ...s
+        ...e
       };
-      return await t.post("/", e, { params: r });
+      return await t.post("/", null, { params: s });
     }
   };
 };

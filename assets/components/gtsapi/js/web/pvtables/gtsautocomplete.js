@@ -1,12 +1,13 @@
-import { mergeModels as f, useModel as x, ref as n, watchEffect as C, openBlock as h, createBlock as B, unref as u, withKeys as v, withModifiers as E, withCtx as M, createVNode as g } from "vue";
-import S from "primevue/autocomplete";
-import A from "primevue/inputgroup";
-import w from "axios";
-import K from "primevue/inputtext";
-import { useNotifications as U } from "pvtables/notify";
-const D = {
+import { mergeModels as v, useModel as b, ref as r, watchEffect as x, openBlock as B, createBlock as M, unref as s, withKeys as g, withModifiers as S, withCtx as A, createVNode as y } from "vue";
+import K from "primevue/autocomplete";
+import U from "primevue/inputgroup";
+import "axios";
+import h from "primevue/inputtext";
+import { useNotifications as k } from "pvtables/notify";
+import E from "pvtables/api";
+const T = {
   __name: "gtsAutoComplete",
-  props: /* @__PURE__ */ f({
+  props: /* @__PURE__ */ v({
     table: {
       type: String,
       required: !0
@@ -22,89 +23,66 @@ const D = {
     },
     idModifiers: {}
   }),
-  emits: /* @__PURE__ */ f(["update:id", "set-value"], ["update:id"]),
-  setup(i, { emit: y }) {
-    const a = x(i, "id"), r = i, d = y, { notify: l } = U(), s = n({});
-    C(() => {
-      const [t] = r.options.filter((e) => a.value === e.id);
-      t ? s.value = t : s.value = {};
+  emits: /* @__PURE__ */ v(["update:id", "set-value"], ["update:id"]),
+  setup(u, { emit: w }) {
+    const a = b(u, "id"), i = u, d = E(i.table), p = w, { notify: n } = k(), l = r({});
+    x(() => {
+      const [t] = i.options.filter((e) => a.value === e.id);
+      t ? l.value = t : l.value = {};
     });
-    const p = n(""), c = n([]), I = async ({ query: t }) => {
+    const m = r(""), c = r([]), I = async ({ query: t }) => {
       try {
-        const e = await w.post(
-          "/api/" + r.table,
-          {},
-          {
-            params: {
-              api_action: "autocomplete",
-              query: t
-            }
-          }
-        );
-        if (!e.data.success)
-          throw new Error(e.data.message);
-        c.value = e.data.data.rows;
+        const e = await d.autocomplete({ query: t });
+        c.value = e.data.rows;
       } catch (e) {
-        l("error", e.message);
+        n("error", { detail: e.message });
       }
     };
     async function V(t) {
-      const e = await w.post(
-        "/api/" + r.table,
-        {},
-        {
-          params: {
-            api_action: "autocomplete",
-            id: t
-          }
-        }
-      );
-      if (!e.data.success)
-        throw new Error(e.data.message);
-      return e.data.data.rows[0] || null;
+      return (await d.autocomplete({ id: t })).data.rows[0] || null;
     }
-    const m = async (t) => {
+    const f = async (t) => {
       const e = t.target.value;
       if (e === "" || e === "0") {
-        a.value = e, s.value = {};
+        a.value = e, l.value = {};
         return;
       }
       try {
         const o = await V(t.target.value);
         if (!o) {
-          l("error", { detail: "Отсутствует такой ID" }), a.value = p.value;
+          n("error", { detail: "Отсутствует такой ID" }), a.value = m.value;
           return;
         }
-        s.value = o, a.value = e;
+        l.value = o, a.value = e;
       } catch (o) {
-        l("error", { detail: o.message });
+        n("error", { detail: o.message });
       }
-      d("set-value");
-    }, b = (t) => {
-      a.value = t.value.id, d("set-value");
+      p("set-value");
+    }, C = (t) => {
+      a.value = t.value.id, p("set-value");
     };
-    return (t, e) => (h(), B(u(A), {
-      onKeydown: e[3] || (e[3] = v(E(() => {
+    return (t, e) => (B(), M(s(U), {
+      onKeydown: e[3] || (e[3] = g(S(() => {
       }, ["stop"]), ["tab"]))
     }, {
-      default: M(() => [
-        g(u(K), {
+      default: A(() => [
+        y(s(h), {
           modelValue: a.value,
           "onUpdate:modelValue": e[0] || (e[0] = (o) => a.value = o),
-          onBlur: m,
-          onKeydown: v(m, ["enter"]),
-          onFocus: e[1] || (e[1] = (o) => p.value = a.value),
+          onBlur: f,
+          onKeydown: g(f, ["enter"]),
+          onFocus: e[1] || (e[1] = (o) => m.value = a.value),
           class: "gts-ac__id-field"
         }, null, 8, ["modelValue"]),
-        g(u(S), {
-          modelValue: s.value,
-          "onUpdate:modelValue": e[2] || (e[2] = (o) => s.value = o),
+        y(s(K), {
+          modelValue: l.value,
+          "onUpdate:modelValue": e[2] || (e[2] = (o) => l.value = o),
           dropdown: "",
           "option-label": "content",
           suggestions: c.value,
           class: "gts-ac__search-field",
           onComplete: I,
-          onItemSelect: b
+          onItemSelect: C
         }, null, 8, ["modelValue", "suggestions"])
       ]),
       _: 1
@@ -112,5 +90,5 @@ const D = {
   }
 };
 export {
-  D as default
+  T as default
 };
