@@ -45,6 +45,176 @@ return [
           }
         },
         "tabs": {
+          "gtsAPITable": {
+            "label": "Таблицы АПИ",
+            "table": {
+              "class": "gtsAPITable",
+              "actions": {
+                "create": [],
+                "update": [],
+                "copy":[],
+                "remove":[],
+                "export_table": {
+                  "action": "gtsapi/export_table",
+                  "title": "Экспорт-импорт таблицы",
+                  "cls": "btn btn-primary",
+                  "row": [],
+                  "icon": "glyphicon glyphicon-download"
+                },
+                "gen_fields": {
+                  "action": "gtsapi/gen_fields",
+                  "title": "",
+                  "cls": "btn btn-primary",
+                  "row": {"title":"Сгенирировать поля"},
+                  "icon": "glyphicon glyphicon-menu-hamburger"
+                }
+              },
+              "pdoTools": {
+                "class": "gtsAPITable"
+              },
+              "checkbox": 1,
+              "autosave": 1,
+              "row": {
+                "id": {},
+                "package_id": {
+                  "label":"Пакет",
+                  "edit":{
+                    "type":"select",
+                    "select":"gtsAPIPackage"
+                  },
+                  "filter": 1
+                },
+                "table": {
+                  "label": "Имя таблицы",
+                  "filter": 1
+                },
+                "class": {
+                  "label": "Класс таблицы",
+                  "filter": 1
+                },
+                "autocomplete_field": {
+                  "label": "Имя поля автокомплект",
+                  "filter": 1
+                },
+                "authenticated": {
+                  "label": "Доступ только для авторизированных",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 1,
+                  "filter": 1
+                },
+                "groups": {
+                  "label": "Ограничение только для групп пользователей (имена груп через запятую)",
+                  "edit": {
+                    "type": "textarea"
+                  }
+                },
+                "permitions": {
+                  "label": "Разрешения (имена разрешений MODX через запятую)",
+                  "edit": {
+                    "type": "textarea"
+                  }
+                },
+                "properties": {
+                  "label": "Свойства",
+                  "edit": {
+                    "type": "textarea",
+                    "editor": "ace",
+                    "editor_mode": "json",
+                    "skip_sanitize": 1
+                  }
+                },
+                "version": {
+                  "label": "Версия",
+                  "edit": {
+                    "type": "text"
+                  },
+                  "default": 0,
+                  "filter": 1
+                },
+                "active": {
+                  "label": "Активно",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 1,
+                  "filter": 1
+                }
+              }
+            }
+          },
+          "gtsAPIPackage": {
+            "label": "Пакеты MODX",
+            "table": {
+              "class": "gtsAPIPackage",
+              "actions": {
+                "create": [],
+                "update": [],
+                "remove":[]
+              },
+              "pdoTools": {
+                "class": "gtsAPIPackage"
+              },
+              "checkbox": 1,
+              "autosave": 1,
+              "row": {
+                "id": {},
+                "name": {
+                  "label": "Имя",
+                  "filter": 1
+                }
+              }
+            }
+          },
+          "gtsAPISelect": {
+            "label": "Селекты",
+            "table": {
+              "class": "gtsAPISelect",
+              "actions": {
+                "create": [],
+                "update": [],
+                "copy":[],
+                "export_select": {
+                  "action": "gtsapi/export_select",
+                  "title": "Экспорт-импорт селекта",
+                  "cls": "btn btn-primary",
+                  "row": [],
+                  "icon": "glyphicon glyphicon-download"
+                },
+                "remove":[]
+              },
+              "pdoTools": {
+                "class": "gtsAPISelect"
+              },
+              "checkbox": 1,
+              "autosave": 1,
+              "row": {
+                "id": {},
+                "field": {
+                  "label": "Имя поля",
+                  "filter": 1
+                },
+                "rows": {
+                  "label": "Опции в JSON",
+                  "edit": {
+                    "type": "textarea",
+                    "editor": "ace",
+                    "editor_mode": "json",
+                    "skip_sanitize": 1
+                  }
+                },
+                "active": {
+                  "label": "Активно",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 1,
+                  "filter": 1
+                }
+              }
+            }
+          },
           "gtsAPIRule": {
             "label": "Правила АПИ",
             "table": {
@@ -212,113 +382,6 @@ return [
                     "type": "checkbox"
                   },
                   "default": 1,
-                  "filter": 1
-                }
-              }
-            }
-          },
-          "gtsAPITable": {
-            "label": "Таблицы АПИ",
-            "table": {
-              "class": "gtsAPITable",
-              "actions": {
-                "create": [],
-                "update": [],
-                "copy":[],
-                "remove":[],
-                "gen_fields": {
-                  "action": "gtsapi/gen_fields",
-                  "title": "",
-                  "cls": "btn btn-primary",
-                  "row": {"title":"Сгенирировать поля"},
-                  "icon": "glyphicon glyphicon-menu-hamburger"
-                }
-              },
-              "pdoTools": {
-                "class": "gtsAPITable"
-              },
-              "checkbox": 1,
-              "autosave": 1,
-              "row": {
-                "id": {},
-                "package_id": {
-                  "label":"Пакет",
-                  "edit":{
-                    "type":"select",
-                    "select":"gtsAPIPackage"
-                  },
-                  "filter": 1
-                },
-                "class": {
-                  "label": "Класс таблицы",
-                  "filter": 1
-                },
-                "authenticated": {
-                  "label": "Доступ только для авторизированных",
-                  "edit": {
-                    "type": "checkbox"
-                  },
-                  "default": 1,
-                  "filter": 1
-                },
-                "groups": {
-                  "label": "Ограничение только для групп пользователей (имена груп через запятую)",
-                  "edit": {
-                    "type": "textarea"
-                  }
-                },
-                "permitions": {
-                  "label": "Разрешения (имена разрешений MODX через запятую)",
-                  "edit": {
-                    "type": "textarea"
-                  }
-                },
-                "properties": {
-                  "label": "Свойства",
-                  "edit": {
-                    "type": "textarea",
-                    "editor": "ace",
-                    "editor_mode": "json",
-                    "skip_sanitize": 1
-                  }
-                },
-                "version": {
-                  "label": "Версия",
-                  "edit": {
-                    "type": "text"
-                  },
-                  "default": 0,
-                  "filter": 1
-                },
-                "active": {
-                  "label": "Активно",
-                  "edit": {
-                    "type": "checkbox"
-                  },
-                  "default": 1,
-                  "filter": 1
-                }
-              }
-            }
-          },
-          "gtsAPIPackage": {
-            "label": "Пакеты MODX",
-            "table": {
-              "class": "gtsAPIPackage",
-              "actions": {
-                "create": [],
-                "update": [],
-                "remove":[]
-              },
-              "pdoTools": {
-                "class": "gtsAPIPackage"
-              },
-              "checkbox": 1,
-              "autosave": 1,
-              "row": {
-                "id": {},
-                "name": {
-                  "label": "Имя",
                   "filter": 1
                 }
               }

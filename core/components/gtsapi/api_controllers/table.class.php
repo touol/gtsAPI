@@ -58,6 +58,7 @@ class tableAPIController{
     public function route_post($gtsAPITable, $uri, $method, $request){
         if(empty($request['api_action'])) $request['api_action'] = 'create';
         $rule = $gtsAPITable->toArray();
+        if(empty($rule['class'])) $rule['class'] = $rule['table'];
 
         $resp = $this->checkPermissions($rule);
 
@@ -373,7 +374,10 @@ class tableAPIController{
         if(!empty($request['query'])){
             if(empty($rule['properties']['queryes'][$request['query']]))
                 return $this->error('not query');
-            $default = $rule['properties']['queryes'][$request['query']];
+            $default = array_merge($default, $rule['properties']['queryes'][$request['query']]);
+        }
+        if(!empty($rule['properties']['query'])){
+            $default = array_merge($default, $rule['properties']['query']);
         }
         if(!empty($request['filters'])){
             if(empty($default['where'])) $default['where'] = [];

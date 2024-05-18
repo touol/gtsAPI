@@ -150,7 +150,7 @@ class gtsAPI
             return $resp;
         }
         $point = $uri[2];
-        if($gtsAPITable = $this->modx->getObject('gtsAPITable',['class:LIKE'=>$point,'active'=>1])){
+        if($gtsAPITable = $this->modx->getObject('gtsAPITable',['table:LIKE'=>$point,'active'=>1])){
             if($gtsAPITable->tree){
                 $controller_class = 'treeAPIController';
                 $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/tree.class.php';
