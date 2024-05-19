@@ -245,7 +245,69 @@ class tableAPIController{
                 }
             }
         }
-        return $this->success('options',['fields'=>$fields,'actions'=>$actions]);
+        foreach($fields as $field =>$v){
+            if(isset($v['readonly']) and is_array($v['readonly'])){
+                if(isset($v['readonly']['authenticated']) and $v['readonly']['authenticated'] == 1){
+                    if($this->modx->user->id > 0) $fields[$k]['readonly'] = 0; 
+                }
+        
+                if(isset($v['readonly']['groups']) and !empty($v['readonly']['groups'])){
+                    // $this->modx->log(1,"checkPermissions groups".print_r($rule_action['groups'],1));
+                    $groups = array_map('trim', explode(',', $v['readonly']['groups']));
+                    if($this->modx->user->isMember($groups)) $fields[$k]['readonly'] = 0;
+                }
+                if(isset($v['readonly']['permitions'])and !empty($v['readonly']['permitions'])){
+                    $permitions = array_map('trim', explode(',', $v['readonly']['permitions']));
+                    foreach($permitions as $pm){
+                        if($this->modx->hasPermission($pm)) $fields[$k]['readonly'] = 0;
+                    }
+                }
+                if(is_array($fields[$k]['readonly'])) $fields[$k]['readonly'] = 1;
+            }
+            if(isset($v['diabled']) and is_array($v['diabled'])){
+                if(isset($v['diabled']['authenticated']) and $v['diabled']['authenticated'] == 1){
+                    if($this->modx->user->id > 0) unset($fields[$k]['diabled']); 
+                }
+        
+                if(isset($v['diabled']['groups']) and !empty($v['diabled']['groups'])){
+                    // $this->modx->log(1,"checkPermissions groups".print_r($rule_action['groups'],1));
+                    $groups = array_map('trim', explode(',', $v['diabled']['groups']));
+                    if($this->modx->user->isMember($groups)) unset($fields[$k]['diabled']);
+                }
+                if(isset($v['diabled']['permitions'])and !empty($v['diabled']['permitions'])){
+                    $permitions = array_map('trim', explode(',', $v['diabled']['permitions']));
+                    foreach($permitions as $pm){
+                        if($this->modx->hasPermission($pm)) unset($fields[$k]['diabled']);
+                    }
+                }
+            }
+            if(isset($fields[$k]['diabled'])) unset($fields[$k]);
+        }
+        $selects = $this->getSelects($fields);
+        return $this->success('options',['fields'=>$fields,'actions'=>$actions,'selects'=>$selects]);
+    }
+    public function getSelects($fields){
+        $selects = [];
+        foreach($fields as $field =>$v){
+            if($v['type'] == 'select'){
+                if($gtsAPISelect = $this->modx->getObject('gtsAPISelect',['field'=>$field])){
+                    $rows0 = json_decode($gtsAPISelect->rows,1);
+                    $rows = [];
+                    if(!is_array($rows0)){
+                        $rows0 = array_map('trim',explode(',',$gtsAPISelect->rows));
+                    }
+                    foreach($rows0 as $row){
+                        if(count($row) == 2){
+                            $rows[] = $row;
+                        }else{
+                            $rows[] = [$row,$row];
+                        }
+                    }
+                    $selects[$field]['rows'] = $rows;
+                }
+            }
+        }
+        return $selects;
     }
     public function gen_fields_class($class,$select = '*'){
         $fields0 = [];
@@ -329,22 +391,22 @@ class tableAPIController{
                     $fields0[$field] = ['type'=>'text','readonly'=>1];
                 }
             }else if($gtsAPISelect = $this->modx->getObject('gtsAPISelect',['field'=>$field])){
-                $rows0 = json_decode($gtsAPISelect->rows,1);
-                $rows = [];
-                if(!is_array($rows0)){
-                    $rows0 = array_map('trim',explode(',',$gtsAPISelect->rows));
-                }
-                foreach($rows0 as $row){
-                    if(count($row) == 2){
-                        $rows[] = $row;
-                    }else{
-                        $rows[] = [$row,$row];
-                    }
-                }
+                // $rows0 = json_decode($gtsAPISelect->rows,1);
+                // $rows = [];
+                // if(!is_array($rows0)){
+                //     $rows0 = array_map('trim',explode(',',$gtsAPISelect->rows));
+                // }
+                // foreach($rows0 as $row){
+                //     if(count($row) == 2){
+                //         $rows[] = $row;
+                //     }else{
+                //         $rows[] = [$row,$row];
+                //     }
+                // }
                 
                 $fields0[$field] = [
                     'type'=>'select',
-                    'rows'=>$rows
+                    //'rows'=>$rows
                 ];
                 if(isset($fields[$field])){
                     $fields0[$field]['class'] = $class;
