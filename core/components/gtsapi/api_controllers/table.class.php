@@ -432,7 +432,7 @@ class tableAPIController{
     }
     public function gen_fields($rule){
         
-        $fields = ['id'=>['type'=>'view']];
+        $fields = ['id'=>['type'=>'view','class'=>$rule['class']]];
         if(empty($rule['properties']['query']) or empty($rule['properties']['query']['select'])){
             $fields = array_merge($fields,$this->gen_fields_class($rule['class']));
         }else{
@@ -476,7 +476,12 @@ class tableAPIController{
         $obj = $this->modx->newObject($rule['class']);
         
         $object_old = $obj->toArray();
-        $object = $obj->fromArray($request);
+        if(isset($request['id'])){
+            $object = $obj->fromArray($request,'',true);
+        }else{
+            $object = $obj->fromArray($request);
+        }
+        
         $object_new = $obj->toArray();
 
         // $this->modx->log(1,"create triggers".print_r($this->triggers,1));
