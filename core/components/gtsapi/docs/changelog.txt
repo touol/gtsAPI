@@ -1,6 +1,8 @@
 Changelog for gtsAPI.
-1.0.8-beta
+1.0.9-beta
 ==============
+- select.
+- readonly.
 
 1.0.7-beta
 ==============
@@ -10,8 +12,7 @@ Changelog for gtsAPI.
 - LeftJoin.
 - Генерация полей.
 - Импорт экспорт.
-- select.
-- readonly.
+
 
 1.0.0-beta
 ==============
