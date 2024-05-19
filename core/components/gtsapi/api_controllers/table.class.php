@@ -303,7 +303,14 @@ class tableAPIController{
                             $rows[] = [$row,$row];
                         }
                     }
-                    $selects[$field]['rows'] = $rows;
+                    $rowsEnd = [];
+                    foreach($rows as $row){
+                        $rowsEnd[] = [
+                            'id'=>$row[0],
+                            'content'=>$row[1],
+                        ];
+                    }
+                    $selects[$field]['rows'] = $rowsEnd;
                 }
             }
         }
