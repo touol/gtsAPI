@@ -25,6 +25,7 @@ if(!$debug){
     $imports = [];
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
         $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.global.prod.js';
+        $imports['imports']['axios'] = $assets_gtsapi_url.'js/web/axios.min.js';
         //$imports['imports']['../ru.json'] = $assets_gtsapi_url.'js/web/primevue/ru.json';
         $primevue_path = $modx->getOption('assets_path').'components/gtsapi/js/web/primevue/';
         if(file_exists($primevue_path.'importmaps.json')){
@@ -32,6 +33,15 @@ if(!$debug){
             if(is_array($importmaps)){
                 foreach($importmaps as $k=>$v){
                     $imports['imports'][$k] = $assets_gtsapi_url.'js/web/primevue/'.$v;
+                }
+            }
+        }
+        $pvtables_path = $modx->getOption('assets_path').'components/gtsapi/js/web/pvtables/';
+        if(file_exists($primevue_path.'importmaps.json')){
+            $importmaps = json_decode(file_get_contents($pvtables_path.'importmaps.json'),1);
+            if(is_array($importmaps)){
+                foreach($importmaps as $k=>$v){
+                    $imports['imports'][$k] = $assets_gtsapi_url.'js/web/pvtables/'.$v;
                 }
             }
         }

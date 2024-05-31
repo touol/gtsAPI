@@ -1,16 +1,19 @@
-import { mergeModels as v, useModel as b, ref as r, watchEffect as x, openBlock as B, createBlock as M, unref as s, withKeys as g, withModifiers as S, withCtx as A, createVNode as y } from "vue";
+import { mergeModels as v, useModel as C, ref as r, watchEffect as B, openBlock as x, createBlock as M, unref as u, withKeys as g, withModifiers as S, withCtx as A, createVNode as y } from "vue";
 import K from "primevue/autocomplete";
 import U from "primevue/inputgroup";
-import "axios";
 import h from "primevue/inputtext";
 import { useNotifications as k } from "pvtables/notify";
 import E from "pvtables/api";
-const T = {
+const G = {
   __name: "gtsAutoComplete",
   props: /* @__PURE__ */ v({
     table: {
       type: String,
       required: !0
+    },
+    disabled: {
+      type: Boolean,
+      default: !1
     },
     options: {
       type: Object,
@@ -24,13 +27,13 @@ const T = {
     idModifiers: {}
   }),
   emits: /* @__PURE__ */ v(["update:id", "set-value"], ["update:id"]),
-  setup(u, { emit: w }) {
-    const a = b(u, "id"), i = u, d = E(i.table), p = w, { notify: n } = k(), l = r({});
-    x(() => {
+  setup(s, { emit: b }) {
+    const a = C(s, "id"), i = s, d = E(i.table), p = b, { notify: n } = k(), l = r({});
+    B(() => {
       const [t] = i.options.filter((e) => a.value === e.id);
       t ? l.value = t : l.value = {};
     });
-    const m = r(""), c = r([]), I = async ({ query: t }) => {
+    const m = r(""), c = r([]), w = async ({ query: t }) => {
       try {
         const e = await d.autocomplete({ query: t });
         c.value = e.data.rows;
@@ -38,7 +41,7 @@ const T = {
         n("error", { detail: e.message });
       }
     };
-    async function V(t) {
+    async function I(t) {
       return (await d.autocomplete({ id: t })).data.rows[0] || null;
     }
     const f = async (t) => {
@@ -48,7 +51,7 @@ const T = {
         return;
       }
       try {
-        const o = await V(t.target.value);
+        const o = await I(t.target.value);
         if (!o) {
           n("error", { detail: "Отсутствует такой ID" }), a.value = m.value;
           return;
@@ -58,37 +61,39 @@ const T = {
         n("error", { detail: o.message });
       }
       p("set-value");
-    }, C = (t) => {
+    }, V = (t) => {
       a.value = t.value.id, p("set-value");
     };
-    return (t, e) => (B(), M(s(U), {
+    return (t, e) => (x(), M(u(U), {
       onKeydown: e[3] || (e[3] = g(S(() => {
       }, ["stop"]), ["tab"]))
     }, {
       default: A(() => [
-        y(s(h), {
+        y(u(h), {
           modelValue: a.value,
           "onUpdate:modelValue": e[0] || (e[0] = (o) => a.value = o),
           onBlur: f,
           onKeydown: g(f, ["enter"]),
           onFocus: e[1] || (e[1] = (o) => m.value = a.value),
-          class: "gts-ac__id-field"
-        }, null, 8, ["modelValue"]),
-        y(s(K), {
+          class: "gts-ac__id-field",
+          disabled: s.disabled
+        }, null, 8, ["modelValue", "disabled"]),
+        y(u(K), {
           modelValue: l.value,
           "onUpdate:modelValue": e[2] || (e[2] = (o) => l.value = o),
           dropdown: "",
           "option-label": "content",
           suggestions: c.value,
           class: "gts-ac__search-field",
-          onComplete: I,
-          onItemSelect: C
-        }, null, 8, ["modelValue", "suggestions"])
+          onComplete: w,
+          onItemSelect: V,
+          disabled: s.disabled
+        }, null, 8, ["modelValue", "suggestions", "disabled"])
       ]),
       _: 1
     }));
   }
 };
 export {
-  T as default
+  G as default
 };
