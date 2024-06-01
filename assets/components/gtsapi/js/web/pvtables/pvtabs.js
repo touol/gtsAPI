@@ -1,9 +1,9 @@
-import { openBlock as a, createElementBlock as l, Fragment as o, createVNode as n, unref as r, withCtx as s, renderList as f, createBlock as i } from "vue";
-import { PVTables as u } from "pvtables/pvtables";
-import m from "primevue/toast";
-import b from "primevue/tabview";
-import d from "primevue/tabpanel";
-const p = {
+import { ref as p, openBlock as l, createElementBlock as c, Fragment as u, createVNode as m, unref as n, withCtx as d, renderList as y, createBlock as k } from "vue";
+import { PVTables as b } from "pvtables/pvtables";
+import h from "primevue/toast";
+import T from "primevue/tabview";
+import V from "primevue/tabpanel";
+const x = {
   __name: "PVTabs",
   props: {
     tabs: {
@@ -19,21 +19,36 @@ const p = {
       default: {}
     }
   },
-  setup(e) {
-    return (c, T) => (a(), l(o, null, [
-      n(r(b), null, {
-        default: s(() => [
-          (a(!0), l(o, null, f(e.tabs, (t) => (a(), i(r(d), {
-            key: t.title,
-            header: t.title
+  setup(t, { expose: f }) {
+    const s = t, o = p({});
+    for (let e in s.tabs)
+      s.tabs[e].key = e;
+    return f({ refresh: (e) => {
+      if (e) {
+        o.value[e].refresh(e);
+        for (let a in s.tabs)
+          o.value[a].refresh(e);
+      } else
+        for (let a in s.tabs)
+          o.value[a].refresh();
+    } }), (e, a) => (l(), c(u, null, [
+      m(n(T), null, {
+        default: d(() => [
+          (l(!0), c(u, null, y(t.tabs, (r) => (l(), k(n(V), {
+            key: r.key,
+            header: r.title
           }, {
-            default: s(() => [
-              (a(), i(r(u), {
-                table: t.table,
-                actions: e.actions,
-                filters: e.filters,
+            default: d(() => [
+              (l(), k(n(b), {
+                table: r.table,
+                actions: t.actions,
+                filters: t.filters[r.key],
                 reload: !1,
-                key: t.table
+                key: r.key,
+                ref_for: !0,
+                ref: (i) => {
+                  i && (o.value[r.key] = i);
+                }
               }, null, 8, ["table", "actions", "filters"]))
             ]),
             _: 2
@@ -41,15 +56,15 @@ const p = {
         ]),
         _: 1
       }),
-      n(r(m))
+      m(n(h))
     ], 64));
   }
-}, x = {
-  install: (e, c) => {
-    e.component("PVTabs", p);
+}, w = {
+  install: (t, f) => {
+    t.component("PVTabs", x);
   }
 };
 export {
-  p as PVTabs,
-  x as default
+  x as PVTabs,
+  w as default
 };
