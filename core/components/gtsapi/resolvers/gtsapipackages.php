@@ -24,18 +24,20 @@ if ($transport->xpdo) {
                         if($gtsAPIPackage->save()){
                             if (!empty($data['gtsAPITables'])) {
                                 foreach ($data['gtsAPITables'] as $k => $table) {
-                                    if(isset($table['properties'])) $table['properties'] = json_encode($table['properties'],JSON_PRETTY_PRINT);
-                                    if($gtsAPITable = $modx->getObject('gtsAPITable',['class'=>$table['class']])){
+                                    if(isset($table['properties']) and is_array($table['properties'])) $table['properties'] = json_encode($table['properties'],JSON_PRETTY_PRINT);
+                                    if($gtsAPITable = $modx->getObject('gtsAPITable',['table'=>$table['table']])){
                                         if(empty($table['version'])) $table['version'] = 0;
                                         if($table['version'] > $gtsAPITable->version){
                                             $gtsAPITable->fromArray(array_merge([
                                             ], $table), '', true, true);
+                                            $gtsAPITable->package_id = $gtsAPIPackage->id;
                                             $gtsAPITable->save();
                                         }
                                     }else{
                                         if($gtsAPITable = $modx->newObject('gtsAPITable')){
                                             $gtsAPITable->fromArray(array_merge([
                                             ], $table), '', true, true);
+                                            $gtsAPITable->package_id = $gtsAPIPackage->id;
                                             $gtsAPITable->save();
                                         }
                                     }

@@ -5,6 +5,7 @@ Changelog for gtsAPI.
 - readonly.
 - PVTabs.
 - уборка.
+- Исправление getService.
 
 1.0.7-beta
 ==============

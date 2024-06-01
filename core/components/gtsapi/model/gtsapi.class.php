@@ -302,6 +302,9 @@ class gtsAPI
         if(!empty($rule['properties']['fields'])){
             return $this->error("Поля уже заданы");
         }
+        if(empty($rule['class'])){
+            $rule['class'] = $rule['table'];
+        }
         if($gtsAPITable->tree){
             $controller_class = 'treeAPIController';
             $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/tree.class.php';

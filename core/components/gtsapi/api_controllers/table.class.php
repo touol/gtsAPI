@@ -792,6 +792,9 @@ class tableAPIController{
             if(!$this->models[$package] = $this->modx->getService($package,$class,$path."$class/",[])) {
                 return $this->error("Компонент $package не найден!");
             }
+        }else{
+            $this->modx->addPackage($class, MODX_CORE_PATH . "components/{$class}/model/");
+            return $this->success("Компонент $package не имеет сервиса!");
         }
         $service = $this->models[$package];
 
