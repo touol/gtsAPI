@@ -22,4 +22,11 @@ return [
             
         ],
     ],
+    'PVTabs' => [
+        'file' => 'PVTabs',
+        'description' => '',
+        'properties' => [
+            
+        ],
+    ],
 ];

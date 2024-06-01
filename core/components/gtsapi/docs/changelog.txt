@@ -3,6 +3,7 @@ Changelog for gtsAPI.
 ==============
 - select.
 - readonly.
+- PVTabs.
 
 1.0.7-beta
 ==============

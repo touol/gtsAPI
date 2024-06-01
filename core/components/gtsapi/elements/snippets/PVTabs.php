@@ -1,7 +1,7 @@
 <?php
 /** @var modX $modx */
 /** @var array $scriptProperties */
-$name_lower = strtolower('PVTable');
+$name_lower = strtolower('PVTab');
 $debug = false;
 $dev_path = 'http://'.$modx->getOption('http_host')
     . ':'
@@ -56,7 +56,7 @@ if(!$debug){
     }
     $modx->regClientHTMLBlock(
         '<script>
-        let PVTableConfigTable ="'.$table.'"
+        let PVTabsConfigs ='.json_encode($tabs).'
         </script>'
     );
     $pvtables_url = $modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/';
@@ -64,14 +64,14 @@ if(!$debug){
     //     .$name_lower.'/';
     // $modx->regClientCSS($assets_url.'web/css/main.css');
     $modx->regClientHTMLBlock(
-        '<script type="module" src="'.$pvtables_url.'pvtable.js"></script>'
+        '<script type="module" src="'.$pvtables_url.'pvtab.js"></script>'
     );
 }else{
     $modx->regClientHTMLBlock(
         '<script type="module" src="'.$dev_path.'@vite/client"></script>'
     );
     $modx->regClientHTMLBlock(
-        '<script type="module" src="'.$dev_path.'src/pvtable_main.js"></script>'
+        '<script type="module" src="'.$dev_path.'src/pvtab_main.js"></script>'
     );
 }
 return '<div id="'.$name_lower.'"></div>';
