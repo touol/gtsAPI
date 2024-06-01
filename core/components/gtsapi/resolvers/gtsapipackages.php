@@ -15,7 +15,7 @@ if ($transport->xpdo) {
                 foreach ($gtsapipackages as $name => $data) {
                     /** @var modPlugin $plugin */
                     if(!$gtsAPIPackage = $modx->getObject('gtsAPIPackage',['name'=>$name])){
-                        $gtsAPIPackage = $filemodx->newObject('gtsAPIPackage');
+                        $gtsAPIPackage = $modx->newObject('gtsAPIPackage');
                     }
                     if($gtsAPIPackage){
                         $gtsAPIPackage->fromArray(array_merge([
