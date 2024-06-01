@@ -1,4 +1,4 @@
-import { onMounted as ge, reactive as ye, defineComponent as Ke, ref as u, resolveComponent as $e, openBlock as n, createElementBlock as g, createVNode as f, unref as o, withCtx as b, Fragment as F, renderList as W, createBlock as m, normalizeClass as K, createCommentVNode as $, createTextVNode as se, toDisplayString as B, createSlots as Be, withKeys as Ge, withModifiers as je, createElementVNode as j } from "vue";
+import { onMounted as ge, reactive as ye, defineComponent as $e, ref as u, resolveComponent as Ke, openBlock as n, createElementBlock as g, createVNode as f, unref as o, withCtx as b, Fragment as F, renderList as W, createBlock as m, normalizeClass as $, createCommentVNode as K, createTextVNode as se, toDisplayString as B, createSlots as Be, withKeys as Ge, withModifiers as je, createElementVNode as j } from "vue";
 import He from "primevue/datatable";
 import T from "primevue/column";
 import C from "primevue/button";
@@ -84,7 +84,7 @@ const Ze = 3, Je = () => {
     }
   },
   setup(v, { expose: k }) {
-    Ke({
+    $e({
       name: "PVTables"
     });
     const w = v, y = Ye(w.table), { notify: c } = qe(), U = u(), ue = () => {
@@ -319,14 +319,14 @@ const Ze = 3, Je = () => {
         return "readonly";
     };
     return (t, i) => {
-      const d = $e("PVTables", !0);
+      const d = Ke("PVTables", !0);
       return n(), g("div", el, [
         f(o(Qe), { class: "p-mb-4" }, {
           start: b(() => [
             (n(!0), g(F, null, W(o(A).filter((e) => e.head), (e) => (n(), m(o(C), {
               icon: e.icon,
               label: e.label,
-              class: K(e.class),
+              class: $(e.class),
               onClick: e.head_click
             }, null, 8, ["icon", "label", "class", "onClick"]))), 256))
           ]),
@@ -334,12 +334,12 @@ const Ze = 3, Je = () => {
             f(o(C), {
               icon: "pi pi-refresh",
               class: "p-button-rounded p-button-success",
-              onClick: le
+              onClick: i[0] || (i[0] = (e) => le())
             }),
             f(o(C), {
               type: "button",
               icon: "pi pi-filter-slash",
-              onClick: i[0] || (i[0] = (e) => xe())
+              onClick: i[1] || (i[1] = (e) => xe())
             })
           ]),
           _: 1
@@ -356,24 +356,24 @@ const Ze = 3, Je = () => {
           dataKey: "id",
           totalRecords: X.value,
           loading: H.value,
-          onPage: i[2] || (i[2] = (e) => Pe(e)),
-          onSort: i[3] || (i[3] = (e) => Ce(e)),
+          onPage: i[3] || (i[3] = (e) => Pe(e)),
+          onSort: i[4] || (i[4] = (e) => Ce(e)),
           sortMode: "multiple",
           editMode: "cell",
           onCellEditComplete: M,
           selection: P.value,
-          "onUpdate:selection": i[4] || (i[4] = (e) => P.value = e),
+          "onUpdate:selection": i[5] || (i[5] = (e) => P.value = e),
           selectAll: D.value,
           onSelectAllChange: Me,
           onRowSelect: Ee,
           onRowUnselect: ze,
           filters: U.value,
-          "onUpdate:filters": i[5] || (i[5] = (e) => U.value = e),
+          "onUpdate:filters": i[6] || (i[6] = (e) => U.value = e),
           filterDisplay: "menu",
           globalFilterFields: ce.value,
-          onFilter: i[6] || (i[6] = (e) => Ue(e)),
+          onFilter: i[7] || (i[7] = (e) => Ue(e)),
           expandedRows: N.value,
-          "onUpdate:expandedRows": i[7] || (i[7] = (e) => N.value = e),
+          "onUpdate:expandedRows": i[8] || (i[8] = (e) => N.value = e),
           showGridlines: "",
           scrollable: "",
           scrollHeight: "45rem",
@@ -390,7 +390,7 @@ const Ze = 3, Je = () => {
                   l && (R.value[e.data.id] = l);
                 }
               }, null, 8, ["table", "actions", "filters"])
-            ])) : $("", !0),
+            ])) : K("", !0),
             _.value[e.data.id].action == "subtabs" ? (n(), g("div", al, [
               f(o(We), {
                 tabs: _.value[e.data.id].tabs,
@@ -400,7 +400,7 @@ const Ze = 3, Je = () => {
                   l && (R.value[e.data.id] = l);
                 }
               }, null, 8, ["tabs", "actions", "filters"])
-            ])) : $("", !0)
+            ])) : K("", !0)
           ]),
           default: b(() => [
             f(o(T), {
@@ -425,7 +425,7 @@ const Ze = 3, Je = () => {
                 key: 1,
                 field: e.field,
                 header: e.label,
-                class: K(ie(e)),
+                class: $(ie(e)),
                 style: { "min-width": "350px" },
                 sortable: ""
               }, {
@@ -456,7 +456,7 @@ const Ze = 3, Je = () => {
                 key: 2,
                 field: e.field,
                 header: e.label,
-                class: K(ie(e)),
+                class: $(ie(e)),
                 style: { "min-width": "350px" },
                 sortable: ""
               }, {
@@ -486,7 +486,7 @@ const Ze = 3, Je = () => {
                 key: 3,
                 field: e.field,
                 header: e.label,
-                class: K(ie(e)),
+                class: $(ie(e)),
                 style: { "min-width": "350px" },
                 sortable: ""
               }, Be({
@@ -497,7 +497,7 @@ const Ze = 3, Je = () => {
                     key: 1,
                     modelValue: l[a],
                     "onUpdate:modelValue": (s) => l[a] = s,
-                    onKeydown: i[1] || (i[1] = Ge(je(() => {
+                    onKeydown: i[2] || (i[2] = Ge(je(() => {
                     }, ["stop"]), ["tab"])),
                     onChange: (s) => M({ data: l, field: a, newValue: l[a] }),
                     disabled: e.readonly
@@ -557,18 +557,18 @@ const Ze = 3, Je = () => {
               body: b((e) => [
                 (n(!0), g(F, null, W(o(A).filter((l) => l.row), (l) => (n(), m(o(C), {
                   icon: l.icon,
-                  class: K(l.class),
+                  class: $(l.class),
                   onClick: (a) => l.click(e.data, Q.value)
                 }, null, 8, ["icon", "class", "onClick"]))), 256))
               ]),
               _: 1
-            })) : $("", !0)
+            })) : K("", !0)
           ]),
           _: 1
         }, 8, ["value", "first", "totalRecords", "loading", "selection", "selectAll", "filters", "globalFilterFields", "expandedRows"]),
         f(o(ne), {
           visible: S.value,
-          "onUpdate:visible": i[8] || (i[8] = (e) => S.value = e),
+          "onUpdate:visible": i[9] || (i[9] = (e) => S.value = e),
           style: { width: "450px" },
           header: "Редактировать",
           modal: !0,
@@ -658,7 +658,7 @@ const Ze = 3, Je = () => {
         }, 8, ["visible"]),
         f(o(ne), {
           visible: E.value,
-          "onUpdate:visible": i[10] || (i[10] = (e) => E.value = e),
+          "onUpdate:visible": i[11] || (i[11] = (e) => E.value = e),
           style: { width: "450px" },
           header: "Confirm",
           modal: !0
@@ -668,7 +668,7 @@ const Ze = 3, Je = () => {
               label: "Нет",
               icon: "pi pi-times",
               class: "p-button-text",
-              onClick: i[9] || (i[9] = (e) => E.value = !1)
+              onClick: i[10] || (i[10] = (e) => E.value = !1)
             }),
             f(o(C), {
               label: "Да",
@@ -680,14 +680,14 @@ const Ze = 3, Je = () => {
           default: b(() => [
             j("div", sl, [
               nl,
-              r.value ? (n(), g("span", rl, "Вы хотите удалить эту запись?")) : $("", !0)
+              r.value ? (n(), g("span", rl, "Вы хотите удалить эту запись?")) : K("", !0)
             ])
           ]),
           _: 1
         }, 8, ["visible"]),
         f(o(ne), {
           visible: z.value,
-          "onUpdate:visible": i[12] || (i[12] = (e) => z.value = e),
+          "onUpdate:visible": i[13] || (i[13] = (e) => z.value = e),
           style: { width: "450px" },
           header: "Confirm",
           modal: !0
@@ -697,7 +697,7 @@ const Ze = 3, Je = () => {
               label: "Нет",
               icon: "pi pi-times",
               class: "p-button-text",
-              onClick: i[11] || (i[11] = (e) => z.value = !1)
+              onClick: i[12] || (i[12] = (e) => z.value = !1)
             }),
             f(o(C), {
               label: "Да",
@@ -709,7 +709,7 @@ const Ze = 3, Je = () => {
           default: b(() => [
             j("div", dl, [
               ul,
-              r.value ? (n(), g("span", pl, "Вы хотите удалить отмеченные записи?")) : $("", !0)
+              r.value ? (n(), g("span", pl, "Вы хотите удалить отмеченные записи?")) : K("", !0)
             ])
           ]),
           _: 1
