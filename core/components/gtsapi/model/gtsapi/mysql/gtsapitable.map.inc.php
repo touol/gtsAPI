@@ -11,7 +11,7 @@ $xpdo_meta_map['gtsAPITable']= array (
   'fields' => 
   array (
     'package_id' => 0,
-    'table' => '',
+    'table' => NULL,
     'class' => '',
     'tree' => 0,
     'authenticated' => 0,
@@ -39,7 +39,6 @@ $xpdo_meta_map['gtsAPITable']= array (
       'precision' => '161',
       'phptype' => 'string',
       'null' => false,
-      'default' => '',
     ),
     'class' => 
     array (
