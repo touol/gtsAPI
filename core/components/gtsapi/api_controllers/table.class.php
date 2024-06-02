@@ -350,7 +350,7 @@ class tableAPIController{
                     }else{
                         // $this->modx->log(1,"gen_fields_class $class $select");
                         $select = str_replace(['`',$class.'.','.'], '', $select);
-                        $selects[$select] = 1;
+                        if($select != 'id') $selects[$select] = 1;
                         // $this->modx->log(1,"gen_fields_class2 $class $select");
                     }
                 }
