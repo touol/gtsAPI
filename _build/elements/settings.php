@@ -50,8 +50,34 @@ return [
             "table": {
               "class": "gtsAPITable",
               "actions": {
-                "create": [],
-                "update": [],
+                "create": {
+                  "modal": {
+                    "tabs":{
+                      "main":{
+                        "label":"main",
+                        "fields":"id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
+                      },
+                      "properties":{
+                        "label":"properties",
+                        "fields":"properties"
+                      }
+                    }
+                  }
+                },
+                "update": {
+                  "modal": {
+                    "tabs":{
+                      "main":{
+                        "label":"main",
+                        "fields":"id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
+                      },
+                      "properties":{
+                        "label":"properties",
+                        "fields":"properties"
+                      }
+                    }
+                  }
+                },
                 "copy":[],
                 "remove":[],
                 "export_table": {

@@ -6,6 +6,7 @@ Changelog for gtsAPI.
 - PVTabs.
 - уборка.
 - Исправление getService.
+- Исправление autocomplete.
 
 1.0.7-beta
 ==============

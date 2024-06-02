@@ -320,6 +320,7 @@ class tableAPIController{
         $fields0 = [];
         $fields = [];
         $selects = [];
+        // $this->modx->log(1,"gen_fields_class0 $class $select");
         if($select == '*'){
             if ($className = $this->modx->loadClass($class)){
                 if (isset ($this->modx->map[$class])) {
@@ -336,18 +337,21 @@ class tableAPIController{
             $selects0 = explode(',', $select);
             foreach ($selects0 as $k=>$select) {
                 $select = str_replace('|', ',', $select);
+                // $this->modx->log(1,"gen_fields_class01 $class $select");
                 if(strpos($select, '(') !== false){
-                    $tmp = array_map('trim',preg_split('/AS/i',$select));
+                    $tmp = array_map('trim',preg_split('/\bAS\b/i',$select));
                     if(isset($tmp[1])){
                         $selects[$tmp[1]] = 2;
                     } 
                 }else{
-                    $tmp = array_map('trim',preg_split('/AS/i',$select));
+                    $tmp = array_map('trim',preg_split('/\bAS\b/i',$select));
                     if(isset($tmp[1])){
                         $selects[$tmp[1]] = 2;
                     }else{
-                        $select = str_replace(['.','`',$class], '', $select);
+                        // $this->modx->log(1,"gen_fields_class $class $select");
+                        $select = str_replace(['`',$class.'.','.'], '', $select);
                         $selects[$select] = 1;
+                        // $this->modx->log(1,"gen_fields_class2 $class $select");
                     }
                 }
             }
@@ -390,7 +394,7 @@ class tableAPIController{
             if($gtsAPITable = $this->modx->getObject('gtsAPITable',['autocomplete_field'=>$field])){
                 $fields0[$field] = [
                     'type'=>'autocomplete',
-                    'table'=>$gtsAPITable->class?$gtsAPITable->class:$gtsAPITable->table
+                    'table'=>$gtsAPITable->table
                 ];
                 if(isset($fields[$field])){
                     $fields0[$field]['class'] = $class;
@@ -601,7 +605,7 @@ class tableAPIController{
             if(isset($desc['type'])){
                 if($desc['type'] == 'autocomplete' and isset($desc['table'])){
                     
-                    if($gtsAPITable = $this->modx->getObject('gtsAPITable',['class'=>$desc['table'],'active'=>1])){
+                    if($gtsAPITable = $this->modx->getObject('gtsAPITable',['table'=>$desc['table'],'active'=>1])){
                         $properties = json_decode($gtsAPITable->properties,1);
                         if(is_array($properties) and isset($properties['autocomplete'])){
                             $this->addPackages($gtsAPITable->package_id);
@@ -609,6 +613,7 @@ class tableAPIController{
                             if(isset($autocomplete['limit']) and $autocomplete['limit'] == 0 and $offset != 0) continue;
                             $autocomplete['field'] = $field;
                             $autocomplete['table'] = $desc['table'];
+                            $autocomplete['class'] = $gtsAPITable->class?$gtsAPITable->class:$desc['table'];
                             $autocompletes[$field] = $this->autocomplete($autocomplete,$rows0);
                         }
                     }
@@ -620,12 +625,12 @@ class tableAPIController{
     public function autocomplete($autocomplete, $rows0){
         if(!isset($autocomplete['limit'])) $autocomplete['limit'] = 15;
         $default = [
-            'class' => $autocomplete['table'],
+            'class' => $autocomplete['class'],
             'select' => [
-                $autocomplete['table'] => '*',
+                $autocomplete['class'] => '*',
             ],
             'sortby' => [
-                "{$autocomplete['table']}.id" => 'ASC',
+                "{$autocomplete['class']}.id" => 'ASC',
             ],
             'return' => 'data',
             'limit' => $autocomplete['limit']
@@ -633,9 +638,9 @@ class tableAPIController{
         if(isset($autocomplete['select'])){
             $selects_fields = [];
             foreach($autocomplete['select'] as $field){
-                $selects_fields[] = $autocomplete['table'].'.'.$field;
+                $selects_fields[] = $autocomplete['class'].'.'.$field;
             }
-            $default['select'][$autocomplete['table']] = implode(',',$selects_fields);
+            $default['select'][$autocomplete['class']] = implode(',',$selects_fields);
         }
         if(isset($autocomplete['query']) and is_array($autocomplete['query'])) 
             $default = array_merge($default,$autocomplete['query']);
@@ -645,7 +650,7 @@ class tableAPIController{
                 if((int)$row[$autocomplete['field']] > 0) $ids[$row[$autocomplete['field']]] = $row[$autocomplete['field']];
             }
             if(!empty($ids)){
-                $default['where'][$autocomplete['table'].'.id:IN'] = $ids;
+                $default['where'][$autocomplete['class'].'.id:IN'] = $ids;
                 $default['limit'] = 0;
             }
         }
