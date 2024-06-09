@@ -587,13 +587,21 @@ class tableAPIController{
         // foreach($rows0 as $row){
         //     $rows[$row['id']] = $row;
         // }
-
+        $row_setting = [];
+        if(isset($rule['properties']['row_setting'])){
+            if(isset($rule['properties']['row_setting']['class'])){
+                foreach($rows0 as $row){
+                    $row_setting[$row['id']] = $this->pdoTools->getChunk("@INLINE ".$rule['properties']['row_setting']['class'],$row);
+                }
+            }
+        }
         $autocompletes = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
         
         return $this->success('',[
             'rows'=>$rows0,
             'total'=>$total,
             'autocomplete'=>$autocompletes,
+            'row_setting'=>$row_setting,
             // 'log'=>$this->pdo->getTime()
         ]);
     }

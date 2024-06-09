@@ -7,6 +7,7 @@ Changelog for gtsAPI.
 - уборка.
 - Исправление getService.
 - Исправление autocomplete.
+- row_setting.
 
 1.0.7-beta
 ==============

@@ -1,6 +1,6 @@
-import { computed as r, openBlock as s, createElementBlock as m, createVNode as i, unref as p } from "vue";
+import { computed as n, openBlock as s, createElementBlock as m, createVNode as i, unref as p } from "vue";
 import c from "primevue/calendar";
-const v = {
+const b = {
   __name: "GTSDate",
   props: {
     modelValue: {
@@ -13,27 +13,27 @@ const v = {
     }
   },
   emits: ["update:modelValue"],
-  setup(t, { emit: a }) {
-    const d = t, u = a, l = r({
+  setup(l, { emit: d }) {
+    const o = l, r = d, a = n({
       get() {
-        return d.modelValue.split("-").reverse().join(".");
+        return o.modelValue ? o.modelValue.split("-").reverse().join(".") : "";
       },
-      set(o) {
-        const e = o.toLocaleDateString("ru-RU").split(".").reverse().join("-");
-        u("update:modelValue", e);
+      set(t) {
+        let e = "";
+        t && (e = t.toLocaleDateString("ru-RU").split(".").reverse().join("-")), r("update:modelValue", e);
       }
     });
-    return (o, e) => (s(), m("div", null, [
+    return (t, e) => (s(), m("div", null, [
       i(p(c), {
-        modelValue: l.value,
-        "onUpdate:modelValue": e[0] || (e[0] = (n) => l.value = n),
+        modelValue: a.value,
+        "onUpdate:modelValue": e[0] || (e[0] = (u) => a.value = u),
         showIcon: "",
         showOnFocus: !1,
-        disabled: t.disabled
+        disabled: l.disabled
       }, null, 8, ["modelValue", "disabled"])
     ]));
   }
 };
 export {
-  v as default
+  b as default
 };
