@@ -264,27 +264,61 @@ class tableAPIController{
                 }
                 if(is_array($fields[$k]['readonly'])) $fields[$k]['readonly'] = 1;
             }
-            if(isset($v['diabled']) and is_array($v['diabled'])){
-                if(isset($v['diabled']['authenticated']) and $v['diabled']['authenticated'] == 1){
-                    if($this->modx->user->id > 0) unset($fields[$k]['diabled']); 
+            if(isset($v['disabled']) and is_array($v['disabled'])){
+                if(isset($v['disabled']['authenticated']) and $v['disabled']['authenticated'] == 1){
+                    if($this->modx->user->id > 0) unset($fields[$k]['disabled']); 
                 }
         
-                if(isset($v['diabled']['groups']) and !empty($v['diabled']['groups'])){
+                if(isset($v['disabled']['groups']) and !empty($v['disabled']['groups'])){
                     // $this->modx->log(1,"checkPermissions groups".print_r($rule_action['groups'],1));
-                    $groups = array_map('trim', explode(',', $v['diabled']['groups']));
-                    if($this->modx->user->isMember($groups)) unset($fields[$k]['diabled']);
+                    $groups = array_map('trim', explode(',', $v['disabled']['groups']));
+                    if($this->modx->user->isMember($groups)) unset($fields[$k]['disabled']);
                 }
-                if(isset($v['diabled']['permitions'])and !empty($v['diabled']['permitions'])){
-                    $permitions = array_map('trim', explode(',', $v['diabled']['permitions']));
+                if(isset($v['disabled']['permitions'])and !empty($v['disabled']['permitions'])){
+                    $permitions = array_map('trim', explode(',', $v['disabled']['permitions']));
                     foreach($permitions as $pm){
-                        if($this->modx->hasPermission($pm)) unset($fields[$k]['diabled']);
+                        if($this->modx->hasPermission($pm)) unset($fields[$k]['disabled']);
                     }
                 }
             }
-            if(isset($fields[$k]['diabled'])) unset($fields[$k]);
+            if(isset($fields[$k]['disabled'])) unset($fields[$k]);
         }
         $selects = $this->getSelects($fields);
-        return $this->success('options',['fields'=>$fields,'actions'=>$actions,'selects'=>$selects]);
+
+        $filters = [];
+        if(!empty($rule['properties']['filters'])){
+            foreach($rule['properties']['filters'] as $field=>$filter){
+                if($filter['type'] == 'autocomplete'){
+                    if($gtsAPITable = $this->modx->getObject('gtsAPITable',['table'=>$filter['table'],'active'=>1])){
+                        $properties = json_decode($gtsAPITable->properties,1);
+                        if(is_array($properties) and isset($properties['autocomplete'])){
+                            $this->addPackages($gtsAPITable->package_id);
+                            $autocomplete = $properties['autocomplete'];
+                            if(isset($autocomplete['limit']) and $autocomplete['limit'] == 0 and $offset != 0) continue;
+                            $autocomplete['field'] = $field;
+                            $autocomplete['table'] = $filter['table'];
+                            $autocomplete['class'] = $gtsAPITable->class?$gtsAPITable->class:$filter['table'];
+                            $tmp = $this->autocomplete($autocomplete,[]);
+                            $filter['rows'] = $tmp['rows'];
+                    
+                            if(isset($filter['default_row']) and is_array($filter['default_row'])){
+                                if($obj = $this->modx->getObject($autocomplete['class'],$filter['default_row'])){
+                                    $filter['default'] = $obj->id;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                $filters[$field] = $filter;
+            }
+        }
+        return $this->success('options',[
+            'fields'=>$fields,
+            'actions'=>$actions,
+            'selects'=>$selects,
+            'filters'=>$filters,
+        ]);
     }
     public function getSelects($fields){
         $selects = [];
@@ -526,7 +560,9 @@ class tableAPIController{
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
     public function read($rule,$request,$action){
-        
+        $resp = $this->run_triggers($rule['class'], 'before', 'read', $request);
+        if(!$resp['success']) return $resp;
+
         $default = [
             'class' => $rule['class'],
             'select' => [
@@ -591,19 +627,28 @@ class tableAPIController{
         if(isset($rule['properties']['row_setting'])){
             if(isset($rule['properties']['row_setting']['class'])){
                 foreach($rows0 as $row){
-                    $row_setting[$row['id']] = $this->pdoTools->getChunk("@INLINE ".$rule['properties']['row_setting']['class'],$row);
+                    $row_setting[$row['id']]['class'] = $this->pdoTools->getChunk("@INLINE ".$rule['properties']['row_setting']['class'],$row);
                 }
             }
         }
-        $autocompletes = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
         
-        return $this->success('',[
+        
+        $out = [
             'rows'=>$rows0,
             'total'=>$total,
-            'autocomplete'=>$autocompletes,
+            // 'autocomplete'=>$autocompletes,
             'row_setting'=>$row_setting,
             // 'log'=>$this->pdo->getTime()
-        ]);
+        ];
+        if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
+
+        $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
+
+        $resp = $this->run_triggers($rule['class'], 'after', 'read', $request, $out);
+        if(!$resp['success']) return $resp;
+        if(!empty($resp['data']['out'])) $out = $resp['data']['out'];
+
+        return $this->success('',$out);
     }
     public function autocompletes($fields, $rows0, $offset){
         //return $fields;
@@ -681,6 +726,7 @@ class tableAPIController{
         
         $field = "{$rule['class']}.$name";
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
+        if(strpos($name,'.') !== false) $field = $name;
         switch($filter['matchMode']){
             case "startsWith":
                 $where[$field.':LIKE'] = "{$filter['value']}%";
@@ -820,7 +866,7 @@ class tableAPIController{
         }
         return $this->success();
     }
-    public function run_triggers($class, $type, $method, $fields, $object_old, $object_new =[], $object = null)
+    public function run_triggers($class, $type, $method, $fields, $object_old = [], $object_new =[], $object = null)
     {
         if(empty($class)) return $this->success('Выполнено успешно');
         // $getTablesRunTriggers = $this->modx->invokeEvent('gtsAPIRunTriggers', [

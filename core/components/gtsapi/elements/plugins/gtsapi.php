@@ -12,10 +12,12 @@ switch ($modx->event->name) {
             $gtsAPI = $modx->getService('gtsapi', 'gtsAPI', 
                 $modx->getOption('gtsapi_core_path', $scriptProperties, $modx->getOption('core_path') . 'components/gtsapi/') . 'model/');
             if ($gtsAPI instanceof gtsAPI) {
+                $start_time = microtime(true);
                 $resp = $gtsAPI->route($uri,$_SERVER['REQUEST_METHOD'],$_REQUEST);
                 header("Access-Control-Allow-Origin: *");
                 header("Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, DELETE, PATCH");
                 header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+                $resp['time'] = number_format(round(microtime(true) - $start_time, 7), 7);
                 exit(json_encode($resp));
             }
         }

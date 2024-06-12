@@ -8,6 +8,8 @@ Changelog for gtsAPI.
 - Исправление getService.
 - Исправление autocomplete.
 - row_setting.
+- Стили pvtables.
+- filters в топе.
 
 1.0.7-beta
 ==============
