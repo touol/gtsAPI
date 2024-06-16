@@ -10,6 +10,7 @@ Changelog for gtsAPI.
 - row_setting.
 - Стили pvtables.
 - filters в топе.
+- autocomplet parent.
 
 1.0.7-beta
 ==============

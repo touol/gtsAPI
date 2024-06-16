@@ -159,12 +159,21 @@ class tableAPIController{
         }
         
 
-        if(!empty($request['query'])){
+        if(!empty($request['query']) or !empty($request['parent'])){
             if(empty($default['where'])) $default['where'] = [];
             $where = [];
             foreach($autocomplete['where'] as $field=>$value){
-                $value = str_replace('query',$request['query'],$value);
-                $where[$field] = $value;
+                if(!empty($request['query']) and strpos($value,'query') !== false){
+                    $value = str_replace('query',$request['query'],$value);
+                    $where[$field] = $value;
+                }
+                if(!empty($request['parent'])){
+                    foreach($request['parent'] as $pfield=>$pval){
+                        if($value == $pfield){
+                            $where[$field] = $pval;
+                        }
+                    }
+                }
             }
             $default['where'] = array_merge($default['where'],$where);
         }
@@ -842,6 +851,8 @@ class tableAPIController{
     public function getService($package){
         
         $class = strtolower($package);
+        if($class == 'modx') return $this->success();
+        
         $path = MODX_CORE_PATH."/components/$class/model/";
         if(file_exists($path."$class.class.php")){
             if(!$this->models[$package] = $this->modx->getService($package,$class,$path,[])) {
