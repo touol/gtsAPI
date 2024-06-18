@@ -5,7 +5,7 @@ class tableAPIController{
     public $modx;
     public $pdo;
     public $pdoTools;
-    public $models;
+    public $models = [];
     public $triggers = [];
 
     function __construct(modX &$modx, array $config = [])
@@ -56,6 +56,7 @@ class tableAPIController{
         return $this->route_post($gtsAPITable, $uri, $method, $request);
     }
     public function route_post($gtsAPITable, $uri, $method, $request){
+        // $this->modx->log(1,"route_post ".print_r($request,1));
         if(empty($request['api_action'])) $request['api_action'] = 'create';
         $rule = $gtsAPITable->toArray();
         if(empty($rule['class'])) $rule['class'] = $rule['table'];
@@ -105,7 +106,10 @@ class tableAPIController{
         if(isset($rule['properties']['loadModels'])){
             $loadModels = explode(',',$rule['properties']['loadModels']);
             foreach($loadModels as $package){
-                $this->getService($package);
+                $resp = $this->getService($package);
+                if(!$resp['success']){
+                    return $resp;
+                }
             }
         }
 
@@ -139,7 +143,10 @@ class tableAPIController{
             break;
             default:
                 $action = explode('/',$request['api_action']);
+                // $this->modx->log(1,"route_post {$request['api_action']}");
+                // return $this->error("test11!".print_r(array_keys($this->models),1));
                 if(count($action) == 2 and isset($this->models[strtolower($action[0])])){
+                    
                     $service = $this->models[strtolower($action[0])];
 
                     if(method_exists($service,'handleRequest')){ 
@@ -866,17 +873,17 @@ class tableAPIController{
         }
     }
     public function getService($package){
-        
+        // $this->modx->log(1,"getService $package ");
         $class = strtolower($package);
         if($class == 'modx') return $this->success();
 
         $path = MODX_CORE_PATH."/components/$class/model/";
         if(file_exists($path."$class.class.php")){
-            if(!$this->models[$package] = $this->modx->getService($package,$class,$path,[])) {
+            if(!$this->models[$class] = $this->modx->getService($class,$class,$path,[])) {
                 return $this->error("Компонент $package не найден!");
             }
         }else if(file_exists($path."$class/"."$class.class.php")){
-            if(!$this->models[$package] = $this->modx->getService($package,$class,$path."$class/",[])) {
+            if(!$this->models[$class] = $this->modx->getService($class,$class,$path."$class/",[])) {
                 return $this->error("Компонент $package не найден!");
             }
         }else{
@@ -888,10 +895,11 @@ class tableAPIController{
         if(method_exists($service,'regTriggers')){ 
             $triggers =  $service->regTriggers();
             foreach($triggers as &$trigger){
-                $trigger['model'] = $package;
+                $trigger['model'] = $class;
             }
             $this->triggers = array_merge($this->triggers,$triggers);
         }
+        // $this->modx->log(1,"getService $package "."test2!".print_r(array_keys($this->models),1));
         return $this->success();
     }
     public function run_triggers($class, $type, $method, $fields, $object_old = [], $object_new =[], $object = null)
