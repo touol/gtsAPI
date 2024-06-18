@@ -11,6 +11,8 @@ Changelog for gtsAPI.
 - Стили pvtables.
 - filters в топе.
 - autocomplet parent.
+- hide_actions.
+- service action.
 
 1.0.7-beta
 ==============

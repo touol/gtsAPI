@@ -78,15 +78,23 @@ class tableAPIController{
         }
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         if(!in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
-
-            if(!isset($rule['properties']['actions'][$request['api_action']])){
+            if(!isset($rule['properties']['actions'][$request['api_action']]) and !isset($rule['properties']['hide_actions'][$request['api_action']])){
                 return $this->error("Not api action!");
             }
-            $resp = $this->checkPermissions($rule['properties']['actions'][$request['api_action']]);
 
-            if(!$resp['success']){
-                header('HTTP/1.1 401 Unauthorized1');
-                return $resp;
+            if(isset($rule['properties']['actions'][$request['api_action']])){
+                $resp = $this->checkPermissions($rule['properties']['actions'][$request['api_action']]);
+                if(!$resp['success']){
+                    header('HTTP/1.1 401 Unauthorized1');
+                    return $resp;
+                }
+            }
+            if(isset($rule['properties']['hide_actions'][$request['api_action']])){
+                $resp = $this->checkPermissions($rule['properties']['hide_actions'][$request['api_action']]);
+                if(!$resp['success']){
+                    header('HTTP/1.1 401 Unauthorized1');
+                    return $resp;
+                }
             }
         }
         if(in_array($request['api_action'],['autocomplete'])){
@@ -129,6 +137,15 @@ class tableAPIController{
             case 'autocomplete':
                 return $this->get_autocomplete($rule,$request);
             break;
+            default:
+                $action = explode('/',$request['api_action']);
+                if(count($action) == 2 and isset($this->models[strtolower($action[0])])){
+                    $service = $this->models[strtolower($action[0])];
+
+                    if(method_exists($service,'handleRequest')){ 
+                        return $service->handleRequest($action[1], $request);
+                    }
+                }
         }
         return $this->error("test2!");
     }
@@ -852,7 +869,7 @@ class tableAPIController{
         
         $class = strtolower($package);
         if($class == 'modx') return $this->success();
-        
+
         $path = MODX_CORE_PATH."/components/$class/model/";
         if(file_exists($path."$class.class.php")){
             if(!$this->models[$package] = $this->modx->getService($package,$class,$path,[])) {
@@ -866,7 +883,7 @@ class tableAPIController{
             $this->modx->addPackage($class, MODX_CORE_PATH . "components/{$class}/model/");
             return $this->success("Компонент $package не имеет сервиса!");
         }
-        $service = $this->models[$package];
+        $service = $this->models[$class];
 
         if(method_exists($service,'regTriggers')){ 
             $triggers =  $service->regTriggers();
