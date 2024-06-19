@@ -2,8 +2,8 @@ import { mergeModels as y, useModel as C, ref as i, watchEffect as A, openBlock 
 import S from "primevue/autocomplete";
 import K from "primevue/inputgroup";
 import N from "primevue/inputtext";
-import { useNotifications as U } from "pvtables/notify";
-import k from "pvtables/api";
+import { useNotifications as O } from "pvtables/notify";
+import U from "pvtables/api";
 const G = {
   __name: "gtsAutoComplete",
   props: /* @__PURE__ */ y({
@@ -18,6 +18,11 @@ const G = {
     options: {
       type: Object,
       default: () => []
+    },
+    parent: {
+      type: Object,
+      default: () => {
+      }
     }
   }, {
     id: {
@@ -27,34 +32,34 @@ const G = {
     idModifiers: {}
   }),
   emits: /* @__PURE__ */ y(["update:id", "set-value"], ["update:id"]),
-  setup(s, { emit: w }) {
-    const o = C(s, "id"), n = s, d = k(n.table), p = w, { notify: r } = U(), l = i({});
+  setup(n, { emit: w }) {
+    const o = C(n, "id"), r = n, d = U(r.table), p = w, { notify: s } = O(), l = i({});
     A(async () => {
-      if (Array.isArray(n.options) && n.options.length) {
-        const [t] = n.options.filter((e) => o.value === e.id);
+      if (Array.isArray(r.options) && r.options.length) {
+        const [t] = r.options.filter((e) => o.value === e.id);
         t ? l.value = t : l.value = {};
       } else if (Number(o.value) > 0)
         try {
           const t = await f(o.value);
           if (!t) {
-            r("error", { detail: "Отсутствует такой ID" });
+            s("error", { detail: "Отсутствует такой ID" });
             return;
           }
           l.value = t;
         } catch (t) {
-          r("error", { detail: t.message });
+          s("error", { detail: t.message });
         }
     });
     const c = i(""), m = i([]), I = async ({ query: t }) => {
       try {
-        const e = await d.autocomplete({ query: t });
+        const e = await d.autocomplete({ query: t, parent: r.parent });
         m.value = e.data.rows;
       } catch (e) {
-        r("error", { detail: e.message });
+        s("error", { detail: e.message });
       }
     };
     async function f(t) {
-      return (await d.autocomplete({ id: t })).data.rows[0] || null;
+      return (await d.autocomplete({ id: t, parent: r.parent })).data.rows[0] || null;
     }
     const v = async (t) => {
       const e = t.target.value;
@@ -65,12 +70,12 @@ const G = {
       try {
         const a = await f(t.target.value);
         if (!a) {
-          r("error", { detail: "Отсутствует такой ID" }), o.value = c.value;
+          s("error", { detail: "Отсутствует такой ID" }), o.value = c.value;
           return;
         }
         l.value = a, o.value = e;
       } catch (a) {
-        r("error", { detail: a.message });
+        s("error", { detail: a.message });
       }
       p("set-value");
     }, V = (t) => {
@@ -88,7 +93,7 @@ const G = {
           onKeydown: g(v, ["enter"]),
           onFocus: e[1] || (e[1] = (a) => c.value = o.value),
           class: "gts-ac__id-field",
-          disabled: s.disabled
+          disabled: n.disabled
         }, null, 8, ["modelValue", "disabled"]),
         b(u(S), {
           modelValue: l.value,
@@ -99,7 +104,7 @@ const G = {
           class: "gts-ac__search-field",
           onComplete: I,
           onItemSelect: V,
-          disabled: s.disabled
+          disabled: n.disabled
         }, null, 8, ["modelValue", "suggestions", "disabled"])
       ]),
       _: 1

@@ -244,7 +244,7 @@ class tableAPIController{
         // }
         $default = '';
         if(isset($autocomplete['default_row']) and is_array($autocomplete['default_row'])){
-            if($obj = $this->modx->getObject($autocomplete['class'],$autocomplete['default_row'])){
+            if($obj = $this->modx->getObject($rule['class'],$autocomplete['default_row'])){
                 $default = $obj->id;
             }
         }
@@ -255,7 +255,7 @@ class tableAPIController{
             // 'log'=>$this->pdo->getTime()
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
-        
+
         return $this->success('',$out);
     }
     public function request_array_to_json($request){

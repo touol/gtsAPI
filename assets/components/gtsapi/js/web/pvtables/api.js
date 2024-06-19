@@ -1,10 +1,10 @@
-import a from "axios";
-import { useNotifications as p } from "pvtables/notify";
-const l = (o) => {
-  const t = a.create({
+import c from "axios";
+import { useNotifications as i } from "pvtables/notify";
+const m = (o, a = 1e4) => {
+  const t = c.create({
     baseURL: `/api/${o}`,
-    timeout: 1e4
-  }), { notify: n } = p();
+    timeout: a
+  }), { notify: n } = i();
   return t.interceptors.request.use(
     (e) => e,
     (e) => {
@@ -13,7 +13,7 @@ const l = (o) => {
   ), t.interceptors.response.use(
     ({ data: e }) => {
       if (!e.success)
-        throw new Error(response.message);
+        throw new Error(e.message);
       return e;
     },
     ({ message: e, response: s }) => {
@@ -21,6 +21,17 @@ const l = (o) => {
     }
   ), {
     create: async (e = null, s = {}) => await t.put("/", e, { params: s }),
+    get: async (e) => {
+      let s = {
+        limit: 1,
+        setTotal: 0,
+        filters: { id: { value: e, matchMode: "equals" } }
+      };
+      const r = await t.get("/", { params: s });
+      if (r.data.rows.length == 1)
+        return r.data.rows[0];
+      throw new Error(r.message);
+    },
     read: async (e = {}) => await t.get("/", { params: e }),
     update: async (e = null, s = {}) => await t.patch("/", e, s),
     delete: async (e = {}) => await t.delete("/", { params: e }),
@@ -37,9 +48,16 @@ const l = (o) => {
         ...e
       };
       return await t.post("/", null, { params: s });
+    },
+    action: async (e, s = {}) => {
+      const r = {
+        api_action: e,
+        ...s
+      };
+      return await t.post("/", null, { params: r });
     }
   };
 };
 export {
-  l as default
+  m as default
 };
