@@ -13,6 +13,7 @@ Changelog for gtsAPI.
 - autocomplet parent.
 - hide_actions.
 - service action.
+- autocomplete default_row.
 
 1.0.7-beta
 ==============
