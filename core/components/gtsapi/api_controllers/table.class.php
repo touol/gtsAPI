@@ -286,7 +286,7 @@ class tableAPIController{
                 }
             }
         }
-        foreach($fields as $field =>$v){
+        foreach($fields as $k =>$v){
             if(isset($v['readonly']) and is_array($v['readonly'])){
                 if(isset($v['readonly']['authenticated']) and $v['readonly']['authenticated'] == 1){
                     if($this->modx->user->id > 0) $fields[$k]['readonly'] = 0; 

@@ -34,6 +34,7 @@ return [
     'admin' => [
       'xtype' => 'textfield',
       'value' => '{
+        "showLog":1,
         "loadModels": "gtsapi",
         "selects":{
           "gtsAPIPackage":{
