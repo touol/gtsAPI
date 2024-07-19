@@ -368,7 +368,7 @@ class defaultAPIController{
         }
         $service = $this->models[$package];
 
-        if(method_exists($service,'regTriggers')){ 
+        if(!empty($service) and method_exists($service,'regTriggers')){ 
             $triggers =  $service->regTriggers();
             foreach($triggers as &$trigger){
                 $trigger['model'] = $package;
