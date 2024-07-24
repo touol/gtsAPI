@@ -17,6 +17,7 @@ Changelog for gtsAPI.
 - update pvtable.
 - Исправление ошибки.
 - php 8.1.
+- Update primevue 4.
 
 1.0.7-beta
 ==============
