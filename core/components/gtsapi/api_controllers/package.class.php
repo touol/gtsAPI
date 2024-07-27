@@ -351,58 +351,26 @@ class packageAPIController{
 
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($gtsapirules) . ' gtsapis');
     }
-    /**
-     * Add packages
-     */
-    // protected function gtsapipackages($packages)
+    // /**
+    //  * Add data
+    //  */
+    // protected function data($data)
     // {
-    //     /** @noinspection PhpIncludeInspection */
-    //     if (!is_array($packages)) {
-    //         $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in packages');
-
-    //         return;
-    //     }
-
-    //     $attributes = [
-    //         xPDOTransport::UNIQUE_KEY => 'name',
-    //         xPDOTransport::PRESERVE_KEYS => true,
-    //         xPDOTransport::UPDATE_OBJECT => !empty($this->config['update']['gtsapipackages']),
-    //         xPDOTransport::RELATED_OBJECTS => true,
-    //         xPDOTransport::RELATED_OBJECT_ATTRIBUTES => [
-    //             'gtsAPITable' => [
-    //                 xPDOTransport::PRESERVE_KEYS => true,
-    //                 xPDOTransport::UPDATE_OBJECT => true,
-    //                 xPDOTransport::UNIQUE_KEY => ['package_id', 'class'],
-    //             ],
-    //         ],
-    //     ];
-    //     $objects = [];
-    //     foreach ($packages as $name => $data) {
-    //         /** @var modPlugin $plugin */
-    //         $gtsAPIPackage = $this->modx->newObject('gtsAPIPackage');
-    //         $gtsAPIPackage->fromArray(array_merge([
-                
-    //         ], $data), '', true, true);
-
-    //         $gtsAPITables = [];
-    //         if (!empty($data['gtsAPITables'])) {
-    //             foreach ($data['gtsAPITables'] as $k => $table) {
-    //                 /** @var modPluginEvent $event */
-    //                 if(isset($table['properties'])) $table['properties'] = json_encode($table['properties'],JSON_PRETTY_PRINT);
-    //                 $gtsAPITable = $this->modx->newObject('gtsAPITable');
-    //                 $gtsAPITable->fromArray(array_merge([
-    //                 ], $table), '', true, true);
-    //                 $gtsAPITables[] = $gtsAPITable;
-    //             }
+    //     foreach($data as $table=>$v){
+    //         $attributes = [
+    //             xPDOTransport::UNIQUE_KEY => $v['transport']['key'],
+    //             xPDOTransport::PRESERVE_KEYS => true,
+    //             xPDOTransport::UPDATE_OBJECT => $v['transport']['update'],
+    //             xPDOTransport::RELATED_OBJECTS => false,
+    //         ];
+    //         foreach ($v['rows'] as $name => $data) {
+    //             $obj = $this->modx->newObject($table);
+    //             $obj->fromArray($data, '', true, true);
+    //             $vehicle = $this->builder->createVehicle($obj, $attributes);
+    //             $this->builder->putVehicle($vehicle);
     //         }
-    //         if (!empty($gtsAPITables)) {
-    //             $gtsAPIPackage->addMany($gtsAPITables);
-    //         }
-    //         $vehicle = $this->builder->createVehicle($gtsAPIPackage, $attributes);
-    //         $this->builder->putVehicle($vehicle);
     //     }
-
-    //     $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($packages) . ' gtsAPIPackage');
+    //     $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($data) . ' data');
     // }
     /**
      * @return modPackageBuilder
@@ -429,6 +397,7 @@ class packageAPIController{
                 $this->settings($settings);
             }
         }
+
         if(isset($request['gtsapirules'])){
             $gtsapirules = json_decode($request['gtsapirules'],1);
             if(is_array($gtsapirules) and count($gtsapirules) > 0){
@@ -436,16 +405,25 @@ class packageAPIController{
             }
         }
         if(isset($request['gtsapipackages'])){
-            // $gtsapipackages = json_decode($request['gtsapipackages'],1);
-            // if(is_array($gtsapipackages) and count($gtsapipackages) > 0){
-            //     $this->gtsapipackages($gtsapipackages);
-            // }
             $path = $this->config['core'];
             if ( ! is_dir($path)) {
                 mkdir($path, 0666, true);
             }
             file_put_contents($path . '/gtsapipackages.json',$request['gtsapipackages']);
         }
+        if(isset($request['data'])){
+            $path = $this->config['core'];
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
+            }
+            file_put_contents($path . '/data.json',$request['data']);
+        }
+        // if(isset($request['data'])){
+        //     $data = json_decode($request['data'],1);
+        //     if(is_array($data) and count($data) > 0){
+        //         $this->data($data);
+        //     }
+        // }
         $this->model();
         // $this->assets();
 
@@ -495,6 +473,10 @@ class packageAPIController{
         //add gtsapipackages
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'gtsapipackages.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'gtsapipackages.php'));
+        }
+        //add data
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'data.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'data.php'));
         }
         $this->builder->putVehicle($vehicle);
 

@@ -18,6 +18,7 @@ Changelog for gtsAPI.
 - Исправление ошибки.
 - php 8.1.
 - Update primevue 4.
+- Add custom data.
 
 1.0.7-beta
 ==============
