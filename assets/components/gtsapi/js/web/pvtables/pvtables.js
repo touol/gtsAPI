@@ -24690,7 +24690,7 @@ Ce.HttpStatusCode = hr;
 Ce.default = Ce;
 const Ar = (t, e = 1e4) => {
   let n = "/";
-  n = "http://modx.pl/";
+  n = "/";
   const o = Ce.create({
     baseURL: `${n}api/${t}`,
     timeout: e
