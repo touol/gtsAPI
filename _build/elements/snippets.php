@@ -29,4 +29,11 @@ return [
             
         ],
     ],
+    'mixVue' => [
+        'file' => 'mixVue',
+        'description' => '',
+        'properties' => [
+            
+        ],
+    ],
 ];

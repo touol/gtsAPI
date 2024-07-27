@@ -145,7 +145,7 @@ class gtsAPI
         }
         $resp = $this->auth_from_token();
         // return $resp;
-        if($this->modx->getOption('gtsapi_only_jwt', null, false)){
+        if($this->modx->getOption('gtsapi_only_jwt', null, false) and !$resp['success']){
             header('HTTP/1.1 401 Unauthorized0');
             return $resp;
         }

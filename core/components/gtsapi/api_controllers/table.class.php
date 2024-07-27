@@ -64,7 +64,7 @@ class tableAPIController{
         $resp = $this->checkPermissions($rule);
 
         if(!$resp['success']){
-            header('HTTP/1.1 401 Unauthorized2');
+            // header('HTTP/1.1 401 Unauthorized2');
             return $resp;
         }
 
@@ -86,14 +86,14 @@ class tableAPIController{
             if(isset($rule['properties']['actions'][$request['api_action']])){
                 $resp = $this->checkPermissions($rule['properties']['actions'][$request['api_action']]);
                 if(!$resp['success']){
-                    header('HTTP/1.1 401 Unauthorized1');
+                    // header('HTTP/1.1 401 Unauthorized1');
                     return $resp;
                 }
             }
             if(isset($rule['properties']['hide_actions'][$request['api_action']])){
                 $resp = $this->checkPermissions($rule['properties']['hide_actions'][$request['api_action']]);
                 if(!$resp['success']){
-                    header('HTTP/1.1 401 Unauthorized1');
+                    // header('HTTP/1.1 401 Unauthorized1');
                     return $resp;
                 }
             }

@@ -14,9 +14,11 @@ switch ($modx->event->name) {
             if ($gtsAPI instanceof gtsAPI) {
                 $start_time = microtime(true);
                 $resp = $gtsAPI->route($uri,$_SERVER['REQUEST_METHOD'],$_REQUEST);
+                
+                header("Access-Control-Allow-Credentials: true");
                 header("Access-Control-Allow-Origin: *");
                 header("Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, DELETE, PATCH");
-                header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+                header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, Authorization');
                 $resp['time'] = number_format(round(microtime(true) - $start_time, 7), 7);
                 exit(json_encode($resp));
             }
