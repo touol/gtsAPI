@@ -20,6 +20,7 @@ Changelog for gtsAPI.
 - Update primevue 4.
 - Add custom data.
 - default.
+- type html.
 
 1.0.7-beta
 ==============
