@@ -617,7 +617,7 @@ class SkladNarydPackage
                 'source' => 1,
                 'static_file' => 'core/components/' . $this->config['name_lower'] . '/elements/chunks/' . $data['file'] . '.tpl',
             ], $data), '', true, true);
-            $objects[$name]->setProperties(@$data['properties']);
+            if(isset($data['properties'])) $objects[$name]->setProperties(@$data['properties']);
         }
         $this->category->addMany($objects);
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($objects) . ' Chunks');
