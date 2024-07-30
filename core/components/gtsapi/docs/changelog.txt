@@ -21,6 +21,7 @@ Changelog for gtsAPI.
 - Add custom data.
 - default.
 - type html.
+- Чистка.
 
 1.0.7-beta
 ==============

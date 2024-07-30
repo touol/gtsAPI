@@ -18,7 +18,7 @@ if($debug_mode = $modx->getOption('gtsapi_debug_mode',null,false)){
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/lara-light-green/theme.css');
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/primeflex.min.css');
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/css/web/primeicons/primeicons.min.css');
-$modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/style.css');
+// $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/style.css');
 if(!$debug){
     
 
@@ -37,15 +37,15 @@ if(!$debug){
                 }
             }
         }
-        $pvtables_path = $modx->getOption('assets_path').'components/gtsapi/js/web/pvtables/';
-        if(file_exists($primevue_path.'importmaps.json')){
-            $importmaps = json_decode(file_get_contents($pvtables_path.'importmaps.json'),1);
-            if(is_array($importmaps)){
-                foreach($importmaps as $k=>$v){
-                    $imports['imports'][$k] = $assets_gtsapi_url.'js/web/pvtables/'.$v;
-                }
-            }
-        }
+        // $pvtables_path = $modx->getOption('assets_path').'components/gtsapi/js/web/pvtables/';
+        // if(file_exists($primevue_path.'importmaps.json')){
+        //     $importmaps = json_decode(file_get_contents($pvtables_path.'importmaps.json'),1);
+        //     if(is_array($importmaps)){
+        //         foreach($importmaps as $k=>$v){
+        //             $imports['imports'][$k] = $assets_gtsapi_url.'js/web/pvtables/'.$v;
+        //         }
+        //     }
+        // }
     }
     
     if(!empty($imports)){
