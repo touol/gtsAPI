@@ -38,11 +38,15 @@ if(!$debug){
         );
     }
 
+    $v = 0;
+    if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => $name_lower])) {
+        $v = strtotime($package->installed);
+    }
     $assets_url = $modx->getOption('assets_url').'components/'
         .$name_lower.'/';
-    $modx->regClientCSS($assets_url.'web/css/main.css');
+    $modx->regClientCSS($assets_url.'web/css/main.css?v='.$v);
     $modx->regClientHTMLBlock(
-        '<script type="module" src="'.$assets_url.'web/js/main.js"></script>'
+        '<script type="module" src="'.$assets_url.'web/js/main.js?v='.$v.'"></script>'
     );
 }else{
     $modx->regClientHTMLBlock(
