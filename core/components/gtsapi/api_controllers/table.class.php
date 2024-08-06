@@ -676,20 +676,23 @@ class tableAPIController{
                 }
             }
         }
-        $get_html = false;
-        foreach($rule['properties']['fields'] as $field=>$v){
-            if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])) $get_html = true;
-        }
-        if($get_html){
-            foreach($rows0 as $k=>$row){
-                foreach($rule['properties']['fields'] as $field=>$v){
-                    if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])){
-                        $rows0[$k][$field] = $this->pdoTools->getChunk("@INLINE ".$v['tpl'],$row);
+        
+        if(isset($rule['properties']['fields'])){
+            $get_html = false;
+            foreach($rule['properties']['fields'] as $field=>$v){
+                if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])) $get_html = true;
+            }
+            if($get_html){
+                foreach($rows0 as $k=>$row){
+                    foreach($rule['properties']['fields'] as $field=>$v){
+                        if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])){
+                            $rows0[$k][$field] = $this->pdoTools->getChunk("@INLINE ".$v['tpl'],$row);
+                        }
                     }
                 }
             }
         }
-
+        
         $out = [
             'rows'=>$rows0,
             'total'=>$total,
