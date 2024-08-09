@@ -23,6 +23,7 @@ Changelog for gtsAPI.
 - type html.
 - Чистка.
 - Пропустить проверку безопасности.
+- get_html.
 
 1.0.7-beta
 ==============
