@@ -78,7 +78,8 @@ class tableAPIController{
             $rule['properties'] = [];
         }
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
-        if(!in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
+        $action = explode('/',$request['api_action']);
+        if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
             if(!isset($rule['properties']['actions'][$request['api_action']]) and !isset($rule['properties']['hide_actions'][$request['api_action']])){
                 return $this->error("Not api action!");
             }
