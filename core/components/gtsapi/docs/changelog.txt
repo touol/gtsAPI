@@ -24,6 +24,7 @@ Changelog for gtsAPI.
 - Чистка.
 - Пропустить проверку безопасности.
 - get_html.
+- Update pvtables.
 
 1.0.7-beta
 ==============
