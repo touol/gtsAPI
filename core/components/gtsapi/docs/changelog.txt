@@ -24,6 +24,7 @@ Changelog for gtsAPI.
 - Чистка.
 - Пропустить проверку безопасности.
 - get_html.
+- import data json.
 
 1.0.7-beta
 ==============

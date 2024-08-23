@@ -21,6 +21,9 @@ if ($transport->xpdo) {
                                 $obj = $modx->newObject($table);
                             }
                             if($obj){
+                                foreach($row as $k=>$v){
+                                    if(is_array($v)) $row[$k] = json_encode($v);
+                                }
                                 $obj->fromArray(array_merge([], $row), '', true, true);
                                 $obj->save();
                             }
