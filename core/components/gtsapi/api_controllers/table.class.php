@@ -121,7 +121,7 @@ class tableAPIController{
         //     header('HTTP/1.1 404 Not found');
         //     return $this->error('Not found action!');
         // }
-
+        
         switch($request['api_action']){
             case 'create':
                 $request = $this->request_array_to_json($request);
@@ -155,7 +155,7 @@ class tableAPIController{
                     }
                 }
         }
-        return $this->error("test2!");
+        return $this->error("Не найдено действие!".print_r($this->models,1));
     }
     public function get_autocomplete($rule,$request){
         
@@ -608,7 +608,7 @@ class tableAPIController{
     public function read($rule,$request,$action){
         $resp = $this->run_triggers($rule['class'], 'before', 'read', $request);
         if(!$resp['success']) return $resp;
-
+        
         $default = [
             'class' => $rule['class'],
             'select' => [
@@ -704,9 +704,11 @@ class tableAPIController{
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
 
         $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
-
+        
         $resp = $this->run_triggers($rule['class'], 'after', 'read', $request, $out);
+        
         if(!$resp['success']) return $resp;
+        
         if(!empty($resp['data']['out'])) $out = $resp['data']['out'];
 
         return $this->success('',$out);
@@ -953,39 +955,50 @@ class tableAPIController{
         //     $canSave = $getTablesRunTriggers;
         // }
         // if(!empty($canSave)) return $this->error($canSave);
+        try {
+            $triggers = $this->triggers;
+            if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
+                // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
+                
+                $service = $this->models[$triggers[$class]['model']];
+                if(method_exists($service,$triggers[$class]['function'])){ 
+                    // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
+                    return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
+                }
+            }
+            if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
+                $service = $this->models[$triggers[$class]['model']];
+                if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
+                    $gettables_core_path = $this->modx->getOption('gettables_core_path',null, MODX_CORE_PATH . 'components/gettables/core/');
+                    $gettables_core_path = str_replace('[[+core_path]]', MODX_CORE_PATH, $gettables_core_path);
+                    if ($this->modx->loadClass('gettables', $gettables_core_path, false, true)) {
+                        $getTables = new getTables($this->modx, []);
+                        if ($getTables) {
+                            return  $service->{$triggers[$class]['gtsfunction']}($getTables,$class, $type, $method, $fields, $object_old, $object_new);
+                        }
+                    }
+                }
+            }
+            if(isset($triggers[$class]['gtsfunction2']) and isset($triggers[$class]['model'])){
+                $service = $this->models[$triggers[$class]['model']];
+                if(method_exists($service,$triggers[$class]['gtsfunction2'])){ 
+                    $params = [
+                        'class'=>$class,
+                        'type'=>$type,
+                        'method'=>$method,
+                        'fields'=>$fields,
+                        'object_old'=>$object_old,
+                        'object_new'=>$object_new,
+                        'object'=>&$object,
+                    ];
+                    return  $service->{$triggers[$class]['gtsfunction2']}($params);
+                }
+            }
+        } catch (Error $e) {
+            $this->modx->log(1,'Ошибка триггера '.$e->getMessage());
+            return $this->error('Ошибка триггера '.$e->getMessage());
+        }
         
-        $triggers = $this->triggers;
-        if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
-            // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
-            
-            $service = $this->models[$triggers[$class]['model']];
-            if(method_exists($service,$triggers[$class]['function'])){ 
-                // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
-                return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
-            }
-        }
-        if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
-            $service = $this->models[$triggers[$class]['model']];
-            if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
-                //$this->getTables->addTime("run_triggers gtsfunction");
-                return  $service->{$triggers[$class]['gtsfunction']}(null,$class, $type, $method, $fields, $object_old, $object_new);
-            }
-        }
-        if(isset($triggers[$class]['gtsfunction2']) and isset($triggers[$class]['model'])){
-            $service = $this->models[$triggers[$class]['model']];
-            if(method_exists($service,$triggers[$class]['gtsfunction2'])){ 
-                $params = [
-                    'class'=>$class,
-                    'type'=>$type,
-                    'method'=>$method,
-                    'fields'=>$fields,
-                    'object_old'=>$object_old,
-                    'object_new'=>$object_new,
-                    'object'=>&$object,
-                ];
-                return  $service->{$triggers[$class]['gtsfunction2']}($params);
-            }
-        }
         return $this->success('Выполнено успешно');
     }
 }
