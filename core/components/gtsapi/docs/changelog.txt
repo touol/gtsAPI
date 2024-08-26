@@ -26,6 +26,7 @@ Changelog for gtsAPI.
 - get_html.
 - import data json.
 - Update pvtables.
+- Log error auth.
 
 1.0.7-beta
 ==============

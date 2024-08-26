@@ -123,7 +123,7 @@ class gtsAPI
                         if(strtotime($gtsAPITokens[0]['valid_till']) > time()){
                             $user->addSessionContext('web');
                             $this->modx->user = $user;
-                            return $this->success();
+                            return $this->success($jwt);
                         }else{
                             return $this->error("Not found user! valid_till");
                         }
@@ -132,7 +132,7 @@ class gtsAPI
                 }
             }
         }
-        return $this->error("Not found user! $jwt");
+        return $this->success("Not found user! $jwt");
     }
     public function route($uri, $method, $request){
         if($uri[1] != 'api'){
@@ -144,7 +144,8 @@ class gtsAPI
             return $this->error("Not set api rule!");
         }
         $resp = $this->auth_from_token();
-        // return $resp;
+        if(!$resp['success']) 
+            $this->modx->log(1,"gtsAPI {$this->modx->user->id}".print_r($resp,1));
         if($this->modx->getOption('gtsapi_only_jwt', null, false) and !$resp['success']){
             header('HTTP/1.1 401 Unauthorized0');
             return $resp;
