@@ -8,6 +8,9 @@ $xpdo_meta_map = array (
     2 => 'gtsAPIPackage',
     3 => 'gtsAPITable',
     4 => 'gtsAPISelect',
+    5 => 'gtsAPIFieldGroup',
+    6 => 'gtsAPIFieldGroupLink',
+    7 => 'gtsAPIField',
   ),
   'xPDOObject' => 
   array (
