@@ -27,6 +27,7 @@ Changelog for gtsAPI.
 - import data json.
 - Update pvtables.
 - Log error auth.
+- gtsAPIField.
 
 1.0.7-beta
 ==============

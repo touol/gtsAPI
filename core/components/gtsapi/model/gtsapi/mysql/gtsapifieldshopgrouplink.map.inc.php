@@ -1,8 +1,8 @@
 <?php
-$xpdo_meta_map['gtsAPIFieldGroupLink']= array (
+$xpdo_meta_map['gtsAPIFieldShopGroupLink']= array (
   'package' => 'gtsapi',
   'version' => '1.1',
-  'table' => 'gtsapi_field_group_links',
+  'table' => 'gtsapi_field_shop_group_links',
   'extends' => 'xPDOSimpleObject',
   'tableMeta' => 
   array (
@@ -75,14 +75,6 @@ $xpdo_meta_map['gtsAPIFieldGroupLink']= array (
     array (
       'class' => 'gtsAPIFieldGroup',
       'local' => 'group_field_id',
-      'foreign' => 'id',
-      'cardinality' => 'one',
-      'owner' => 'foreign',
-    ),
-    'gtsAPIField' => 
-    array (
-      'class' => 'gtsAPIField',
-      'local' => 'field_id',
       'foreign' => 'id',
       'cardinality' => 'one',
       'owner' => 'foreign',

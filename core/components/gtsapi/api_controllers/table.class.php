@@ -270,6 +270,103 @@ class tableAPIController{
         }
         return $req;
     }
+    public function addFields($rule,$fields){
+
+        $gtsAPIFieldTableCount = $this->modx->getCount('gtsAPIFieldTable',['name_table'=>$rule['table'],'add_table'=>1]);
+        if($gtsAPIFieldTableCount == 0) return $fields;
+
+        $this->modx->addPackage('gtsshop', $this->modx->getOption('core_path') . 'components/gtsshop/model/');
+
+        $gtsAPIFieldTables = $this->modx->getIterator('gtsAPIFieldTable',['name_table'=>$rule['table'],'add_table'=>1]);
+        $addFields = [];
+        foreach($gtsAPIFieldTables as $gtsAPIFieldTable){
+            $gtsAPIFieldGroupTableLinks = $this->modx->getIterator('gtsAPIFieldGroupTableLink',['table_field_id'=>$gtsAPIFieldTable->id]);
+            foreach($gtsAPIFieldGroupTableLinks as $gtsAPIFieldGroupTableLink){
+                $gtsAPIFieldGroups = $this->modx->getIterator('gtsAPIFieldGroup',['id'=>$gtsAPIFieldGroupTableLink->group_field_id]);
+                foreach($gtsAPIFieldGroups as $gtsAPIFieldGroup){
+                    if($gtsAPIFieldGroup->all){
+                        $c = $this->modx->newQuery($gtsAPIFieldGroup->from_table);
+                        $c->sortby('rank','ASC');
+                        $gtsAPIFields = $this->modx->getIterator($gtsAPIFieldGroup->from_table,$c);
+                        foreach($gtsAPIFields as $gtsAPIField){
+                            $addFields[$gtsAPIField->name] = $gtsAPIField->toArray();
+                            $addFields[$gtsAPIField->name]['from_table'] = $gtsAPIFieldGroup->from_table;
+                            $addFields[$gtsAPIField->name]['after_field'] = $gtsAPIFieldTable->after_field;
+                            $addFields[$gtsAPIField->name]['gtsapi_config'] = json_decode($addFields[$gtsAPIField->name]['gtsapi_config'],1);
+                        }
+                    }else{
+                        $this->pdo->setConfig([
+                            'class'=>$gtsAPIFieldGroup->link_group_table,
+                            'leftJoin'=>[
+                                $gtsAPIFieldGroup->from_table=>[
+                                    'class'=>$gtsAPIFieldGroup->from_table,
+                                    'on'=>$gtsAPIFieldGroup->from_table.'.id = '.$gtsAPIFieldGroup->link_group_table.'.field_id'
+                                ]
+                            ],
+                            'where'=>[
+                                $gtsAPIFieldGroup->link_group_table.'.group_field_id'=>$gtsAPIFieldGroup->id
+                            ],
+                            'sortby'=>[
+                                $gtsAPIFieldGroup->from_table.'.rank'=>'ASC'
+                            ],
+                            'select'=>[
+                                $gtsAPIFieldGroup->from_table=>'*'
+                            ],
+                            'return' => 'data',
+                            'limit' => 0
+                        ]);
+                        $rows = $this->pdo->run();
+                        foreach($rows as $row){
+                            $addFields[$row['name']] = $row;
+                            $addFields[$row['name']]['from_table'] = $gtsAPIFieldGroup->from_table;
+                            $addFields[$row['name']]['after_field'] = $gtsAPIFieldTable->after_field;
+                        }
+                    }
+                }
+            }
+        }
+        if(empty($addFields)) return $fields;
+        $keys = [];
+        
+        foreach($addFields as $k=>$addField){
+            $field = [
+                'label'=>$addField['title']?$addField['title']:$k,
+                'type' => $addField['field_type']?$addField['field_type']:'text',
+            ];
+            if(!empty($addField['default'])) $field['default'] = $addField['default'];
+            if(!empty($addField['modal_only'])) $field['modal_only'] = $addField['modal_only'];
+            if(!empty($addField['table_only'])) $field['table_only'] = $addField['table_only'];
+            if(!empty($addField['gtsapi_config'])) $field = array_merge($field,$addField['gtsapi_config']);
+            if(!empty($addField['list_select'])){
+                $field['type'] = 'select';
+                
+                $this->pdo->setConfig([
+                    'class'=>'gsParamListSelect',
+                    'where'=>[
+                        'gsParamListSelect.param_id'=>$addField['id']
+                    ],
+                    'sortby'=>[
+                        'gsParamListSelect.id'=>'ASC'
+                    ],
+                    'return' => 'data',
+                    'limit' => 0
+                ]);
+                $rows = $this->pdo->run();
+                $select_data = [];
+                foreach($rows as $row){
+                    $select_data[] = ['id'=>$row['name'],'content'=>$row['name']];
+                }
+                $field['select_data'] = $select_data;
+            }
+
+            if(empty($keys[$addField['after_field']])){
+                $keys[$addField['after_field']] = $addField['after_field'];
+            }
+            $fields = $this->insertToArray($fields,[$k=>$field],$keys[$addField['after_field']]);
+            $keys[$addField['after_field']] = $addField['name'];
+        }
+        return $fields;
+    }
     public function options($rule,$request,$action){
         
         if(empty($rule['properties']['fields'])){
@@ -277,6 +374,7 @@ class tableAPIController{
         }else{
             $fields = $rule['properties']['fields'];
         }
+        $fields = $this->addFields($rule,$fields);
         $actions = [];
         if(isset($rule['properties']['actions'])){
             foreach($rule['properties']['actions'] as $action =>$v){
@@ -1000,5 +1098,29 @@ class tableAPIController{
         }
         
         return $this->success('Выполнено успешно');
+    }
+    public function insertToArray($array=array(), $new=array(), $after='') {
+        $res = array();
+        $res1 = array();
+        $res2 = array();
+        $c = 0;
+        $n = 0;
+        foreach ($array as $k => $v) {
+          if ($k == $after) { 
+            $n = $c;
+          } 
+          $c++;
+        }
+        $c = 0;
+        foreach ($array as $i => $a) {
+          if ($c > $n) { 
+            $res1[$i] = $a;
+          } else {
+            $res2[$i] = $a;
+          }
+          $c++;
+        }
+        $res = $res2 + $new + $res1;
+        return $res;
     }
 }

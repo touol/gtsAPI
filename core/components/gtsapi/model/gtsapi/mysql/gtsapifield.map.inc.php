@@ -2,7 +2,7 @@
 $xpdo_meta_map['gtsAPIField']= array (
   'package' => 'gtsapi',
   'version' => '1.1',
-  'table' => 'gtsapi_add_fields',
+  'table' => 'gtsapi_fields',
   'extends' => 'xPDOSimpleObject',
   'tableMeta' => 
   array (
@@ -17,22 +17,20 @@ $xpdo_meta_map['gtsAPIField']= array (
     'dbnull' => 0,
     'dbdefault' => '',
     'dbindex' => '',
-    'dbafter_field' => '',
-    'after_field' => '',
     'rank' => 0,
     'default' => '',
-    'thstyle' => '',
-    'tdstyle' => '',
-    'gts_config' => '',
-    'gts_config_select' => '',
+    'field_type' => '',
+    'gtsapi_config' => '',
     'description' => NULL,
+    'modal_only' => 0,
+    'table_only' => 0,
   ),
   'fieldMeta' => 
   array (
     'title' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -40,7 +38,7 @@ $xpdo_meta_map['gtsAPIField']= array (
     'name' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -48,7 +46,7 @@ $xpdo_meta_map['gtsAPIField']= array (
     'dbtype' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -72,7 +70,7 @@ $xpdo_meta_map['gtsAPIField']= array (
     'dbdefault' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -80,23 +78,7 @@ $xpdo_meta_map['gtsAPIField']= array (
     'dbindex' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
-      'phptype' => 'string',
-      'null' => false,
-      'default' => '',
-    ),
-    'dbafter_field' => 
-    array (
-      'dbtype' => 'varchar',
-      'precision' => '255',
-      'phptype' => 'string',
-      'null' => false,
-      'default' => '',
-    ),
-    'after_field' => 
-    array (
-      'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
@@ -113,39 +95,24 @@ $xpdo_meta_map['gtsAPIField']= array (
     'default' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
     ),
-    'thstyle' => 
+    'field_type' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
     ),
-    'tdstyle' => 
-    array (
-      'dbtype' => 'varchar',
-      'precision' => '255',
-      'phptype' => 'string',
-      'null' => false,
-      'default' => '',
-    ),
-    'gts_config' => 
+    'gtsapi_config' => 
     array (
       'dbtype' => 'text',
       'phptype' => 'string',
-      'null' => false,
-      'default' => '',
-    ),
-    'gts_config_select' => 
-    array (
-      'dbtype' => 'text',
-      'phptype' => 'string',
-      'null' => false,
+      'null' => true,
       'default' => '',
     ),
     'description' => 
@@ -153,6 +120,22 @@ $xpdo_meta_map['gtsAPIField']= array (
       'dbtype' => 'text',
       'phptype' => 'string',
       'null' => true,
+    ),
+    'modal_only' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+      'default' => 0,
+    ),
+    'table_only' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+      'default' => 0,
     ),
   ),
   'indexes' => 

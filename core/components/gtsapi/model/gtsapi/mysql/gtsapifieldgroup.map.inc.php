@@ -11,25 +11,43 @@ $xpdo_meta_map['gtsAPIFieldGroup']= array (
   'fields' => 
   array (
     'name' => '',
-    'title' => '',
+    'from_table' => 'gtsAPIField',
+    'link_group_table' => 'gtsAPIFieldGroupLink',
+    'all' => 0,
   ),
   'fieldMeta' => 
   array (
     'name' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
       'default' => '',
     ),
-    'title' => 
+    'from_table' => 
     array (
       'dbtype' => 'varchar',
-      'precision' => '255',
+      'precision' => '191',
       'phptype' => 'string',
       'null' => false,
-      'default' => '',
+      'default' => 'gtsAPIField',
+    ),
+    'link_group_table' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '191',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => 'gtsAPIFieldGroupLink',
+    ),
+    'all' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+      'default' => 0,
     ),
   ),
   'composites' => 
@@ -37,6 +55,14 @@ $xpdo_meta_map['gtsAPIFieldGroup']= array (
     'gtsAPIFieldGroupLink' => 
     array (
       'class' => 'gtsAPIFieldGroupLink',
+      'local' => 'id',
+      'foreign' => 'group_field_id',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+    'gtsAPIFieldGroupTableLink' => 
+    array (
+      'class' => 'gtsAPIFieldGroupTableLink',
       'local' => 'id',
       'foreign' => 'group_field_id',
       'cardinality' => 'many',

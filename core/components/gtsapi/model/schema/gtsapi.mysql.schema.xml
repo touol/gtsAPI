@@ -124,10 +124,26 @@
         </index>
     </object>
     <object class="gtsAPIFieldGroup" table="gtsapi_field_groups" extends="xPDOSimpleObject">
-        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        <field key="title" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        
+        <field key="name" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="from_table" dbtype="varchar" precision="191" phptype="string" null="false" default="gtsAPIField"/>
+        <field key="link_group_table" dbtype="varchar" precision="191" phptype="string" null="false" default="gtsAPIFieldGroupLink"/>
+        <field key="all" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
+
         <composite alias="gtsAPIFieldGroupLink" class="gtsAPIFieldGroupLink" local="id" foreign="group_field_id" cardinality="many" owner="local"/>
+        <composite alias="gtsAPIFieldGroupTableLink" class="gtsAPIFieldGroupTableLink" local="id" foreign="group_field_id" cardinality="many" owner="local"/>
+    </object>
+    <object class="gtsAPIFieldShopGroupLink" table="gtsapi_field_shop_group_links" extends="xPDOSimpleObject">
+        <field key="group_field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+        <field key="field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+
+        <index alias="group_field_id" name="group_field_id" primary="false" unique="false" type="BTREE">
+            <column key="group_field_id" length="" collation="A" null="false"/>
+        </index>
+        <index alias="field_id" name="field_id" primary="false" unique="false" type="BTREE">
+            <column key="field_id" length="" collation="A" null="false"/>
+        </index>
+
+        <aggregate alias="gtsAPIFieldGroup" class="gtsAPIFieldGroup" local="group_field_id" foreign="id" cardinality="one" owner="foreign"/>
     </object>
     <object class="gtsAPIFieldGroupLink" table="gtsapi_field_group_links" extends="xPDOSimpleObject">
         <field key="group_field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
@@ -141,27 +157,26 @@
         </index>
 
         <aggregate alias="gtsAPIFieldGroup" class="gtsAPIFieldGroup" local="group_field_id" foreign="id" cardinality="one" owner="foreign"/>
-        <aggregate alias="gtsAPIFieldGroup" class="gtsAPIFieldGroup" local="field_id" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="gtsAPIField" class="gtsAPIField" local="field_id" foreign="id" cardinality="one" owner="foreign"/>
     </object>
-    <object class="gtsAPIField" table="gtsapi_add_fields" extends="xPDOSimpleObject">
-        <field key="title" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+    <object class="gtsAPIField" table="gtsapi_fields" extends="xPDOSimpleObject">
+        <field key="title" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
         
-        <field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        <field key="dbtype" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="name" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="dbtype" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
         <field key="dbprecision" dbtype="varchar" precision="25" phptype="string" null="true" default="0"/>
         <field key="dbnull" dbtype="tinyint" precision="1" phptype="boolean" null="false" default="0"/>
-        <field key="dbdefault" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        <field key="dbindex" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
+        <field key="dbdefault" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="dbindex" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
         
-        <field key="dbafter_field" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        <field key="after_field" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
         <field key="rank" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
-        <field key="default" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        <field key="thstyle" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        <field key="tdstyle" dbtype="varchar" precision="255" phptype="string" null="false" default=""/>
-        <field key="gts_config" dbtype="text" phptype="string" null="false" default=""/>
-        <field key="gts_config_select" dbtype="text" phptype="string" null="false" default=""/>
+        <field key="default" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="field_type" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="gtsapi_config" dbtype="text" phptype="string" null="true" default=""/>
         <field key="description" dbtype="text" phptype="string" null="true"/>
+        
+        <field key="modal_only" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
+        <field key="table_only" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
 
         <index alias="name" name="name" primary="false" unique="false" type="BTREE">
             <column key="name" length="" collation="A" null="false"/>
@@ -171,5 +186,38 @@
         </index>
 
         <composite alias="gtsAPIFieldGroupLink" class="gtsAPIFieldGroupLink" local="id" foreign="field_id" cardinality="many" owner="local"/>
+    </object>
+    <object class="gtsAPIFieldTable" table="gtsapi_field_tables" extends="xPDOSimpleObject">
+        <field key="name_table" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="add_base" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
+        <field key="add_table" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
+        <field key="after_field" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="desc" dbtype="text" phptype="string" null="false" default=""/>
+
+        <index alias="name_table" name="name_table" primary="false" unique="false" type="BTREE">
+            <column key="name_table" length="" collation="A" null="false"/>
+        </index>
+        <index alias="add_base" name="add_base" primary="false" unique="false" type="BTREE">
+            <column key="add_base" length="" collation="A" null="false"/>
+        </index>
+        <index alias="add_table" name="add_table" primary="false" unique="false" type="BTREE">
+            <column key="add_table" length="" collation="A" null="false"/>
+        </index>
+
+        <composite alias="gtsAPIFieldGroupTableLink" class="gtsAPIFieldGroupTableLink" local="id" foreign="table_field_id" cardinality="many" owner="local"/>
+    </object>
+    <object class="gtsAPIFieldGroupTableLink" table="gtsapi_field_group_table_links" extends="xPDOSimpleObject">
+        <field key="group_field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+        <field key="table_field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+
+        <index alias="group_field_id" name="group_field_id" primary="false" unique="false" type="BTREE">
+            <column key="group_field_id" length="" collation="A" null="false"/>
+        </index>
+        <index alias="table_field_id" name="table_field_id" primary="false" unique="false" type="BTREE">
+            <column key="table_field_id" length="" collation="A" null="false"/>
+        </index>
+
+        <aggregate alias="gtsAPIFieldGroup" class="gtsAPIFieldGroup" local="group_field_id" foreign="id" cardinality="one" owner="foreign"/>
+        <aggregate alias="gtsAPIFieldTable" class="gtsAPIFieldTable" local="table_field_id" foreign="id" cardinality="one" owner="foreign"/>
     </object>
 </model>

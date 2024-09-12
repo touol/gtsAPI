@@ -34,15 +34,131 @@ return [
     'admin' => [
       'xtype' => 'textfield',
       'value' => '{
-        "showLog":1,
-        "loadModels": "gtsapi",
-        "selects":{
-          "gtsAPIPackage":{
-            "type":"autocomplect",
-            "pdoTools":{
-              "class":"gtsAPIPackage"
+        "showLog": 1,
+        "loadModels": "gtsapi,gtsshop",
+        "selects": {
+          "gtsAPIPackage": {
+            "type": "autocomplect",
+            "pdoTools": {
+              "class": "gtsAPIPackage"
             },
-            "content":"{$name}"
+            "content": "{$name}"
+          },
+          "group_field": {
+            "type": "autocomplect",
+            "pdoTools": {
+              "class": "gtsAPIFieldGroup"
+            },
+            "content": "{$name}"
+          },
+          "field": {
+            "type": "autocomplect",
+            "pdoTools": {
+              "class": "gtsAPIField"
+            },
+            "content": "{$title}"
+          },
+          "shop_field": {
+            "type": "autocomplect",
+            "pdoTools": {
+              "class": "gsParam"
+            },
+            "content": "{$title}"
+          },
+          "dbtype": {
+            "type": "data",
+            "rows": [
+              [
+                "int",
+                "int"
+              ],
+              [
+                "varchar",
+                "varchar"
+              ],
+              [
+                "text",
+                "text"
+              ],
+              [
+                "decimal",
+                "decimal"
+              ],
+              [
+                "tinyint",
+                "tinyint"
+              ],
+              [
+                "date",
+                "date"
+              ],
+              [
+                "datetime",
+                "datetime"
+              ]
+            ]
+          },
+          "field_type": {
+            "type": "data",
+            "rows": [
+              [
+                "text",
+                "text"
+              ],
+              [
+                "textarea",
+                "textarea"
+              ],
+              [
+                "number",
+                "number"
+              ],
+              [
+                "decimal",
+                "decimal"
+              ],
+              [
+                "autocomplete",
+                "autocomplete"
+              ],
+              [
+                "select",
+                "select"
+              ],
+              [
+                "date",
+                "date"
+              ],
+              [
+                "datetime",
+                "datetime"
+              ],
+              [
+                "boolean",
+                "boolean"
+              ]
+            ]
+          },
+          "dbindex": {
+            "type": "data",
+            "rows": [
+              [
+                "no",
+                "no"
+              ],
+              [
+                "INDEX",
+                "INDEX"
+              ],
+              [
+                "UNIQUE",
+                "UNIQUE"
+              ],
+              [
+                "FULLTEXT",
+                "FULLTEXT"
+              ]
+            ]
           }
         },
         "tabs": {
@@ -53,34 +169,34 @@ return [
               "actions": {
                 "create": {
                   "modal": {
-                    "tabs":{
-                      "main":{
-                        "label":"main",
-                        "fields":"id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
+                    "tabs": {
+                      "main": {
+                        "label": "main",
+                        "fields": "id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
                       },
-                      "properties":{
-                        "label":"properties",
-                        "fields":"properties"
+                      "properties": {
+                        "label": "properties",
+                        "fields": "properties"
                       }
                     }
                   }
                 },
                 "update": {
                   "modal": {
-                    "tabs":{
-                      "main":{
-                        "label":"main",
-                        "fields":"id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
+                    "tabs": {
+                      "main": {
+                        "label": "main",
+                        "fields": "id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
                       },
-                      "properties":{
-                        "label":"properties",
-                        "fields":"properties"
+                      "properties": {
+                        "label": "properties",
+                        "fields": "properties"
                       }
                     }
                   }
                 },
-                "copy":[],
-                "remove":[],
+                "copy": [],
+                "remove": [],
                 "export_table": {
                   "action": "gtsapi/export_table",
                   "title": "Экспорт-импорт таблицы",
@@ -92,7 +208,9 @@ return [
                   "action": "gtsapi/gen_fields",
                   "title": "",
                   "cls": "btn btn-primary",
-                  "row": {"title":"Сгенирировать поля"},
+                  "row": {
+                    "title": "Сгенирировать поля"
+                  },
                   "icon": "glyphicon glyphicon-menu-hamburger"
                 }
               },
@@ -104,10 +222,10 @@ return [
               "row": {
                 "id": {},
                 "package_id": {
-                  "label":"Пакет",
-                  "edit":{
-                    "type":"select",
-                    "select":"gtsAPIPackage"
+                  "label": "Пакет",
+                  "edit": {
+                    "type": "select",
+                    "select": "gtsAPIPackage"
                   },
                   "filter": 1
                 },
@@ -178,7 +296,7 @@ return [
               "actions": {
                 "create": [],
                 "update": [],
-                "remove":[]
+                "remove": []
               },
               "pdoTools": {
                 "class": "gtsAPIPackage"
@@ -201,7 +319,7 @@ return [
               "actions": {
                 "create": [],
                 "update": [],
-                "copy":[],
+                "copy": [],
                 "export_select": {
                   "action": "gtsapi/export_select",
                   "title": "Экспорт-импорт селекта",
@@ -209,7 +327,7 @@ return [
                   "row": [],
                   "icon": "glyphicon glyphicon-download"
                 },
-                "remove":[]
+                "remove": []
               },
               "pdoTools": {
                 "class": "gtsAPISelect"
@@ -237,6 +355,349 @@ return [
                     "type": "checkbox"
                   },
                   "default": 1,
+                  "filter": 1
+                }
+              }
+            }
+          },
+          "gtsAPIFieldTable": {
+            "label": "Таблицы допполей",
+            "table": {
+              "class": "gtsAPIFieldTable",
+              "actions": {
+                "create": [],
+                "update": [],
+                "subtable": {
+                  "subtable_name": "gtsAPIFieldGroupTableLink"
+                },
+                "remove": []
+              },
+              "subtables": {
+                "gtsAPIFieldGroupTableLink": {
+                  "class": "gtsAPIFieldGroupTableLink",
+                  "sub_where": {
+                    "table_field_id": "id"
+                  },
+                  "actions": {
+                    "create": [],
+                    "update": [],
+                    "remove": []
+                  },
+                  "pdoTools": {
+                    "class": "gtsAPIFieldGroupTableLink"
+                  },
+                  "checkbox": 0,
+                  "autosave": 1,
+                  "row": {
+                    "cols": {
+                      "id": {
+                        "label": "id"
+                      },
+                      "table_field_id": {
+                        "type": "hidden"
+                      },
+                      "group_field_id": {
+                        "label": "Группа полей",
+                        "filter": 1,
+                        "edit": {
+                          "type": "select",
+                          "select": "group_field"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "pdoTools": {
+                "class": "gtsAPIFieldTable"
+              },
+              "checkbox": 1,
+              "autosave": 1,
+              "row": {
+                "id": {},
+                "name_table": {
+                  "label": "Имя таблицы добавить допполя",
+                  "filter": 1
+                },
+                "add_base": {
+                  "label": "Добавить в базу",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 0,
+                  "filter": 1
+                },
+                "add_table": {
+                  "label": "Добавить в конфиг таблицы",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 0,
+                  "filter": 1
+                },
+                "after_field": {
+                  "label": "После поля",
+                  "filter": 1
+                },
+                "desc": {
+                  "label": "Описание",
+                  "edit": {
+                    "type": "textarea"
+                  }
+                }
+              }
+            }
+          },
+          "gtsAPIFieldGroup": {
+            "label": "Группы допполей",
+            "table": {
+              "class": "gtsAPIFieldGroup",
+              "actions": {
+                "create": [],
+                "update": [],
+                "subtable": {
+                  "subtable_name": "gtsAPIFieldGroupTableLink"
+                },
+                "subtable_shop": {
+                  "action": "getTable/subtable",
+                  "icon": [
+                    "fa fa-cog",
+                    "fa fa-cog"
+                  ],
+                  "subtable_name": "gtsAPIFieldShopGroupLink"
+                },
+                "remove": []
+              },
+              "subtables": {
+                "gtsAPIFieldGroupLink": {
+                  "class": "gtsAPIFieldGroupLink",
+                  "sub_where": {
+                    "group_field_id": "id"
+                  },
+                  "actions": {
+                    "create": [],
+                    "update": [],
+                    "remove": []
+                  },
+                  "pdoTools": {
+                    "class": "gtsAPIFieldGroupLink"
+                  },
+                  "checkbox": 0,
+                  "autosave": 1,
+                  "row": {
+                    "cols": {
+                      "id": {
+                        "label": "id"
+                      },
+                      "field_id": {
+                        "label": "Поле",
+                        "filter": 1,
+                        "edit": {
+                          "type": "select",
+                          "select": "field"
+                        }
+                      }
+                    }
+                  }
+                },
+                "gtsAPIFieldShopGroupLink": {
+                  "class": "gtsAPIFieldShopGroupLink",
+                  "sub_where": {
+                    "group_field_id": "id"
+                  },
+                  "actions": {
+                    "create": [],
+                    "update": [],
+                    "remove": []
+                  },
+                  "pdoTools": {
+                    "class": "gtsAPIFieldShopGroupLink"
+                  },
+                  "checkbox": 0,
+                  "autosave": 1,
+                  "row": {
+                    "cols": {
+                      "id": {
+                        "label": "id"
+                      },
+                      "field_id": {
+                        "label": "Поле",
+                        "filter": 1,
+                        "edit": {
+                          "type": "select",
+                          "select": "shop_field"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "pdoTools": {
+                "class": "gtsAPIFieldGroup"
+              },
+              "checkbox": 1,
+              "autosave": 1,
+              "row": {
+                "id": {},
+                "name": {
+                  "label": "Имя группы допполей",
+                  "filter": 1
+                },
+                "from_table": {
+                  "label": "Имя таблицы допполей. Для gtsShop",
+                  "default": "gtsAPIField",
+                  "filter": 1
+                },
+                "link_group_table": {
+                  "label": "Имя таблицы связи полей и группы. Для gtsShop",
+                  "default": "gtsAPIFieldGroupLink",
+                  "filter": 1
+                },
+                "all": {
+                  "label": "Все поля таблицы",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 0,
+                  "filter": 1
+                }
+              }
+            }
+          },
+          "gtsAPIField": {
+            "label": "Допполя",
+            "table": {
+              "class": "gtsAPIField",
+              "actions": {
+                "create": {
+                  "modal": {
+                    "tabs": {
+                      "main": {
+                        "label": "Основные",
+                        "fields": "id,title,name,dbtype,dbprecision,dbnull,dbdefault,dbindex"
+                      },
+                      "setting": {
+                        "label": "Настройки",
+                        "fields": "rank,,default,field_type,modal_only,table_only"
+                      },
+                      "dop": {
+                        "label": "Доп. настройки",
+                        "fields": "gtsapi_config,description"
+                      }
+                    }
+                  }
+                },
+                "update": {
+                  "modal": {
+                    "tabs": {
+                      "main": {
+                        "label": "Основные",
+                        "fields": "id,title,name,dbtype,dbprecision,dbnull,dbdefault,dbindex"
+                      },
+                      "setting": {
+                        "label": "Настройки",
+                        "fields": "rank,default,field_type,modal_only,table_only"
+                      },
+                      "dop": {
+                        "label": "Доп. настройки",
+                        "fields": "gtsapi_config,description"
+                      }
+                    }
+                  }
+                },
+                "remove": []
+              },
+              "pdoTools": {
+                "class": "gtsAPIField"
+              },
+              "checkbox": 0,
+              "autosave": 1,
+              "row": {
+                "id": [],
+                "title": {
+                  "label": "Название",
+                  "filter": 1
+                },
+                "name": {
+                  "filter": 1
+                },
+                "dbtype": {
+                  "edit": {
+                    "type": "select",
+                    "select": "dbtype"
+                  },
+                  "filter": 1
+                },
+                "dbprecision": {
+                  "filter": 1
+                },
+                "dbnull": {
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "filter": 1
+                },
+                "dbdefault": {
+                  "edit": {
+                    "type": "textarea"
+                  },
+                  "default": "none",
+                  "filter": 1
+                },
+                "dbindex": {
+                  "edit": {
+                    "type": "select",
+                    "select": "dbindex"
+                  },
+                  "filter": 1
+                },
+                "rank": {
+                  "filter": 1
+                },
+                "default": {
+                  "label": "По умолчанию",
+                  "filter": 1
+                },
+                "field_type": {
+                  "edit": {
+                    "type": "select",
+                    "select": "field_type"
+                  },
+                  "modal_only": 1,
+                  "filter": 1
+                },
+                "modal_only": {
+                  "label": "Только в форме",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 0,
+                  "modal_only": 1,
+                  "filter": 1
+                },
+                "table_only": {
+                  "label": "Только в таблице",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 0,
+                  "modal_only": 1,
+                  "filter": 1
+                },
+                "gtsapi_config": {
+                  "label": "gtsapi_config",
+                  "edit": {
+                    "type": "textarea"
+                  },
+                  "modal_only": 1,
+                  "filter": 1
+                },
+                "description": {
+                  "label": "Описание",
+                  "edit": {
+                    "type": "textarea"
+                  },
+                  "modal_only": 1,
                   "filter": 1
                 }
               }
@@ -319,8 +780,12 @@ return [
               "actions": {
                 "create": [],
                 "update": [],
-                "copy":{
-                  "child":{"subtables":["gtsAPIAction"]}
+                "copy": {
+                  "child": {
+                    "subtables": [
+                      "gtsAPIAction"
+                    ]
+                  }
                 },
                 "export_rule": {
                   "action": "gtsapi/export_rule",
@@ -333,13 +798,15 @@ return [
                   "action": "gtsapi/gen_rules",
                   "title": "",
                   "cls": "btn btn-primary",
-                  "multiple": {"title":"Сгенирировать правила"},
+                  "multiple": {
+                    "title": "Сгенирировать правила"
+                  },
                   "icon": "glyphicon glyphicon-menu-hamburger"
                 },
                 "subtable": {
                   "subtable_name": "gtsAPIAction"
                 },
-                "remove":[]
+                "remove": []
               },
               "pdoTools": {
                 "class": "gtsAPIRule"

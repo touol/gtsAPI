@@ -1,8 +1,8 @@
 <?php
-$xpdo_meta_map['gtsAPIFieldGroupLink']= array (
+$xpdo_meta_map['gtsAPIFieldGroupTableLink']= array (
   'package' => 'gtsapi',
   'version' => '1.1',
-  'table' => 'gtsapi_field_group_links',
+  'table' => 'gtsapi_field_group_table_links',
   'extends' => 'xPDOSimpleObject',
   'tableMeta' => 
   array (
@@ -11,7 +11,7 @@ $xpdo_meta_map['gtsAPIFieldGroupLink']= array (
   'fields' => 
   array (
     'group_field_id' => 0,
-    'field_id' => 0,
+    'table_field_id' => 0,
   ),
   'fieldMeta' => 
   array (
@@ -24,7 +24,7 @@ $xpdo_meta_map['gtsAPIFieldGroupLink']= array (
       'null' => true,
       'default' => 0,
     ),
-    'field_id' => 
+    'table_field_id' => 
     array (
       'dbtype' => 'int',
       'precision' => '10',
@@ -52,15 +52,15 @@ $xpdo_meta_map['gtsAPIFieldGroupLink']= array (
         ),
       ),
     ),
-    'field_id' => 
+    'table_field_id' => 
     array (
-      'alias' => 'field_id',
+      'alias' => 'table_field_id',
       'primary' => false,
       'unique' => false,
       'type' => 'BTREE',
       'columns' => 
       array (
-        'field_id' => 
+        'table_field_id' => 
         array (
           'length' => '',
           'collation' => 'A',
@@ -79,10 +79,10 @@ $xpdo_meta_map['gtsAPIFieldGroupLink']= array (
       'cardinality' => 'one',
       'owner' => 'foreign',
     ),
-    'gtsAPIField' => 
+    'gtsAPIFieldTable' => 
     array (
-      'class' => 'gtsAPIField',
-      'local' => 'field_id',
+      'class' => 'gtsAPIFieldTable',
+      'local' => 'table_field_id',
       'foreign' => 'id',
       'cardinality' => 'one',
       'owner' => 'foreign',
