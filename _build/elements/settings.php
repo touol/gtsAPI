@@ -489,6 +489,9 @@ return [
                       "id": {
                         "label": "id"
                       },
+                      "group_field_id": {
+                        "type": "hidden"
+                      },
                       "field_id": {
                         "label": "Поле",
                         "filter": 1,
@@ -519,6 +522,9 @@ return [
                     "cols": {
                       "id": {
                         "label": "id"
+                      },
+                      "group_field_id": {
+                        "type": "hidden"
                       },
                       "field_id": {
                         "label": "Поле",
