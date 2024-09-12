@@ -28,6 +28,7 @@ Changelog for gtsAPI.
 - Update pvtables.
 - Log error auth.
 - gtsAPIField.
+- trigger gtsapifunc.
 
 1.0.7-beta
 ==============

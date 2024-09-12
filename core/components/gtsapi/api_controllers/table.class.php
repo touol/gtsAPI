@@ -1055,31 +1055,31 @@ class tableAPIController{
         // if(!empty($canSave)) return $this->error($canSave);
         try {
             $triggers = $this->triggers;
-            if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
-                // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
+            // if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
+            //     // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
                 
+            //     $service = $this->models[$triggers[$class]['model']];
+            //     if(method_exists($service,$triggers[$class]['function'])){ 
+            //         // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
+            //         return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
+            //     }
+            // }
+            // if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
+            //     $service = $this->models[$triggers[$class]['model']];
+            //     if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
+            //         $gettables_core_path = $this->modx->getOption('gettables_core_path',null, MODX_CORE_PATH . 'components/gettables/core/');
+            //         $gettables_core_path = str_replace('[[+core_path]]', MODX_CORE_PATH, $gettables_core_path);
+            //         if ($this->modx->loadClass('gettables', $gettables_core_path, false, true)) {
+            //             $getTables = new getTables($this->modx, []);
+            //             if ($getTables) {
+            //                 return  $service->{$triggers[$class]['gtsfunction']}($getTables,$class, $type, $method, $fields, $object_old, $object_new);
+            //             }
+            //         }
+            //     }
+            // }
+            if(isset($triggers[$class]['gtsapifunc']) and isset($triggers[$class]['model'])){
                 $service = $this->models[$triggers[$class]['model']];
-                if(method_exists($service,$triggers[$class]['function'])){ 
-                    // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
-                    return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
-                }
-            }
-            if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
-                $service = $this->models[$triggers[$class]['model']];
-                if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
-                    $gettables_core_path = $this->modx->getOption('gettables_core_path',null, MODX_CORE_PATH . 'components/gettables/core/');
-                    $gettables_core_path = str_replace('[[+core_path]]', MODX_CORE_PATH, $gettables_core_path);
-                    if ($this->modx->loadClass('gettables', $gettables_core_path, false, true)) {
-                        $getTables = new getTables($this->modx, []);
-                        if ($getTables) {
-                            return  $service->{$triggers[$class]['gtsfunction']}($getTables,$class, $type, $method, $fields, $object_old, $object_new);
-                        }
-                    }
-                }
-            }
-            if(isset($triggers[$class]['gtsfunction2']) and isset($triggers[$class]['model'])){
-                $service = $this->models[$triggers[$class]['model']];
-                if(method_exists($service,$triggers[$class]['gtsfunction2'])){ 
+                if(method_exists($service,$triggers[$class]['gtsapifunc'])){ 
                     $params = [
                         'class'=>$class,
                         'type'=>$type,
@@ -1088,12 +1088,13 @@ class tableAPIController{
                         'object_old'=>$object_old,
                         'object_new'=>$object_new,
                         'object'=>&$object,
+                        'trigger'=>'gtsapifunc'
                     ];
-                    return  $service->{$triggers[$class]['gtsfunction2']}($params);
+                    return  $service->{$triggers[$class]['gtsapifunc']}($params);
                 }
             }
         } catch (Error $e) {
-            $this->modx->log(1,'Ошибка триггера '.$e->getMessage());
+            $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage());
             return $this->error('Ошибка триггера '.$e->getMessage());
         }
         
