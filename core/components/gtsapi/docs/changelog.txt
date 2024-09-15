@@ -29,6 +29,7 @@ Changelog for gtsAPI.
 - Log error auth.
 - gtsAPIField.
 - trigger gtsapifunc.
+- trigger rule.
 
 1.0.7-beta
 ==============

@@ -653,11 +653,11 @@ class tableAPIController{
             
             foreach($objs as $obj){
                 $object_old = $obj->toArray();
-                $resp = $this->run_triggers($rule['class'], 'before', 'remove', [], $object_old);
+                $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
                 if(!$resp['success']) return $resp;
 
                 if($obj->remove()){
-                    $resp = $this->run_triggers($rule['class'], 'after', 'remove', [], $object_old);
+                    $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
                     if(!$resp['success']) return $resp;
                 }
             }
@@ -755,13 +755,13 @@ class tableAPIController{
 
         // $this->modx->log(1,"create triggers".print_r($this->triggers,1));
 
-        $resp = $this->run_triggers($rule['class'], 'before', $request['api_action'], $request, $object_old,$object_new,$obj);
+        $resp = $this->run_triggers($rule, 'before', $request['api_action'], $request, $object_old,$object_new,$obj);
         if(!$resp['success']) return $resp;
 
         if($obj->save()){
             $object = $obj->toArray();
 
-            $resp = $this->run_triggers($rule['class'], 'after', $request['api_action'], $request, $object_old,$object,$obj);
+            $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old,$object,$obj);
             $resp['data']['object'] = $obj->toArray();
             if(!empty($rule['properties']['table_tree'])){//table_tree
                 $where = [
@@ -789,13 +789,13 @@ class tableAPIController{
             $object = $obj->fromArray($request);
             $object_new = $obj->toArray();
 
-            $resp = $this->run_triggers($rule['class'], 'before', 'update', $request, $object_old,$object_new,$obj);
+            $resp = $this->run_triggers($rule, 'before', 'update', $request, $object_old,$object_new,$obj);
             if(!$resp['success']) return $resp;
             
             if($obj->save()){
                 $object = $obj->toArray();
 
-                $resp = $this->run_triggers($rule['class'], 'after', 'update', $request, $object_old,$object,$obj);
+                $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
                 $resp['data']['object'] = $obj->toArray();
                 if(!empty($rule['properties']['table_tree'])){//table_tree
                     $where = [
@@ -812,7 +812,7 @@ class tableAPIController{
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
     public function read($rule,$request,$action, $where = []){
-        $resp = $this->run_triggers($rule['class'], 'before', 'read', $request);
+        $resp = $this->run_triggers($rule, 'before', 'read', $request);
         if(!$resp['success']) return $resp;
         
         $default = [
@@ -914,7 +914,7 @@ class tableAPIController{
         $this->modx->log(1,"read".$this->pdo->getTime());
         $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
         
-        $resp = $this->run_triggers($rule['class'], 'after', 'read', $request, $out);
+        $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
         
         if(!$resp['success']) return $resp;
         
@@ -1148,8 +1148,9 @@ class tableAPIController{
         // $this->modx->log(1,"getService $package "."test2!".print_r(array_keys($this->models),1));
         return $this->success();
     }
-    public function run_triggers($class, $type, $method, $fields, $object_old = [], $object_new =[], $object = null)
+    public function run_triggers($rule, $type, $method, $fields, $object_old = [], $object_new =[], $object = null)
     {
+        $class = $rule['class'];
         if(empty($class)) return $this->success('Выполнено успешно');
         // $getTablesRunTriggers = $this->modx->invokeEvent('gtsAPIRunTriggers', [
         //     'class'=>$class,
@@ -1199,6 +1200,7 @@ class tableAPIController{
                 $service = $this->models[$triggers[$class]['model']];
                 if(method_exists($service,$triggers[$class]['gtsapifunc'])){ 
                     $params = [
+                        'rule'=>$rule,
                         'class'=>$class,
                         'type'=>$type,
                         'method'=>$method,
