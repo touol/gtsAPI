@@ -124,18 +124,22 @@ class tableAPIController{
         
         switch($request['api_action']){
             case 'create':
+                $request = $this->request_array_to_json($request);
                 return $this->create($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'insert':
+                $request = $this->request_array_to_json($request);
                 return $this->create($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'insert_child':
+                $request = $this->request_array_to_json($request);
                 return $this->create($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'read':
                 return $this->read($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'update':
+                $request = $this->request_array_to_json($request);
                 return $this->update($rule,$request,$rule['aсtions'][$request['api_action']]);
             break;
             case 'delete':
@@ -694,9 +698,6 @@ class tableAPIController{
                 }
             }
         }
-        if(!empty($rule['properties']['table_tree'])){//table_tree
-            $tabs_where[$rule['properties']['table_tree']['parentIdField']] = 1;
-        }
         if(!empty($filters)){
             foreach($filters as $k=>$v){
                 $k = str_replace('`','',$k);
@@ -707,7 +708,6 @@ class tableAPIController{
                     $field = $arr[1];
                 }
                 if(isset($tabs_where[$field])) $data_filters[$field] = $v;
-                if(isset($request[$field])) $data_filters[$field] = $request[$field];
             }
         }
         if(!empty($rule['properties']['query'])){
@@ -735,13 +735,10 @@ class tableAPIController{
                 if(isset($fields[$field])) $data[$field] = $value;
             }
         }
-        // $this->modx->log(1,"request".print_r($request['filters'],1));
-        // $this->modx->log(1,"data_filters".print_r($data_filters,1));
         return array_merge($data,$data_filters);
     }
     public function create($rule,$request,$action){
         $data = $this->addDefaultFields($rule,$request);
-        $request = $this->request_array_to_json($request);
         $obj = $this->modx->newObject($rule['class'],$data);
         
         $object_old = $obj->toArray();
@@ -767,7 +764,11 @@ class tableAPIController{
                 $where = [
                     $rule['class'].'.'.$rule['properties']['table_tree']['parentIdField'] => $resp['data']['object'][$rule['properties']['table_tree']['idField']]
                 ];
-                $resp['data']['object']['gtsapi_children_count'] = $this->modx->getCount($rule['class'],$where);
+                $resp0 = $this->read($rule,$request,$action,$where);
+                $resp['data']['object']['gtsapi_children'] = $resp0['data']['rows'];
+                if(isset($resp0['data']['customFields']) and isset($resp['data']['customFields'])){
+                    $resp['data']['customFields'] = array_merge($resp0['data']['customFields'],$resp['data']['customFields']);
+                }
             }
             if(!$resp['success']) return $resp;
             
@@ -782,10 +783,8 @@ class tableAPIController{
         
         if($obj = $this->modx->getObject($rule['class'],(int)$request['id'])){
             $object_old = $obj->toArray();
-            $data = $this->addDefaultFields($rule,$request);
-            $request = $this->request_array_to_json($request);
-            $request = array_merge($request,$data);
 
+            $request = array_merge($request,$this->addDefaultFields($rule,$request));
             $object = $obj->fromArray($request);
             $object_new = $obj->toArray();
 
@@ -801,7 +800,11 @@ class tableAPIController{
                     $where = [
                         $rule['class'].'.'.$rule['properties']['table_tree']['parentIdField'] => $resp['data']['object'][$rule['properties']['table_tree']['idField']]
                     ];
-                    $resp['data']['object']['gtsapi_children_count'] = $this->modx->getCount($rule['class'],$where);
+                    $resp0 = $this->read($rule,$request,$action,$where);
+                    $resp['data']['object']['gtsapi_children'] = $resp0['data']['rows'];
+                    if(isset($resp0['data']['customFields']) and isset($resp['data']['customFields'])){
+                        $resp['data']['customFields'] = array_merge($resp0['data']['customFields'],$resp['data']['customFields']);
+                    }
                 }
                 if(!$resp['success']) return $resp;
                 $data = $resp['data'];
@@ -924,7 +927,11 @@ class tableAPIController{
                 $where = [
                     $rule['class'].'.'.$rule['properties']['table_tree']['parentIdField'] => $row[$rule['properties']['table_tree']['idField']]
                 ];
-                $out['rows'][$k]['gtsapi_children_count'] = $this->modx->getCount($rule['class'],$where);
+                $resp0 = $this->read($rule,$request,$action,$where);
+                $out['rows'][$k]['gtsapi_children'] = $resp0['data']['rows'];
+                if(isset($resp0['data']['customFields']) and isset($out['customFields'])){
+                    $out['customFields'] = array_merge($resp0['data']['customFields'],$out['customFields']);
+                }
             }
         }
         return $this->success('',$out);
