@@ -911,7 +911,7 @@ class tableAPIController{
             // 'log'=>$this->pdo->getTime()
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
-        $this->modx->log(1,"read".$this->pdo->getTime());
+        // $this->modx->log(1,"read".$this->pdo->getTime());
         $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
         
         $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
