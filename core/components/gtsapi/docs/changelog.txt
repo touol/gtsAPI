@@ -30,6 +30,7 @@ Changelog for gtsAPI.
 - gtsAPIField.
 - trigger gtsapifunc.
 - trigger rule.
+- Импорт data type link.
 
 1.0.7-beta
 ==============
