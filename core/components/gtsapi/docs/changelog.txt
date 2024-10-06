@@ -31,6 +31,7 @@ Changelog for gtsAPI.
 - trigger gtsapifunc.
 - trigger rule.
 - Импорт data type link.
+- slTree.
 
 1.0.7-beta
 ==============

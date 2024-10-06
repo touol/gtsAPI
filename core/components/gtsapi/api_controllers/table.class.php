@@ -815,6 +815,7 @@ class tableAPIController{
         $resp = $this->run_triggers($rule, 'before', 'read', $request);
         if(!$resp['success']) return $resp;
         
+        $parents = 0;
         $default = [
             'class' => $rule['class'],
             'select' => [
@@ -833,6 +834,10 @@ class tableAPIController{
             $default = array_merge($default, $rule['properties']['queryes'][$request['query']]);
         }
         if(!empty($rule['properties']['query'])){
+            if(isset($rule['properties']['query']['parents_option'])){//parents_option
+                $parents = $this->modx->getOption($rule['properties']['query']['parents_option']);
+                $rule['properties']['query']['parents'] = $parents;
+            }
             $default = array_merge($default, $rule['properties']['query']);
         }
         if(!empty($request['filters'])){
@@ -914,6 +919,9 @@ class tableAPIController{
         // $this->modx->log(1,"read".$this->pdo->getTime());
         $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
         
+        if(!empty($rule['properties']['slTree'])){
+            $out['slTree'] = $this->getslTree($rule['properties']['slTree'],$rows0,$parents);
+        }
         $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
         
         if(!$resp['success']) return $resp;
@@ -928,6 +936,90 @@ class tableAPIController{
             }
         }
         return $this->success('',$out);
+    }
+    public function getslTree($slTreeSettings, $rows, $parents){
+        foreach($rows as &$row){
+            $row['title'] = $this->pdoTools->getChunk("@INLINE ".$slTreeSettings['title'],$row);
+            $isLeaf = true;
+            foreach($slTreeSettings['isLeaf'] as $field=>$v){
+                if($row[$field] != $v) $isLeaf = false;
+            }
+            if($isLeaf) $row['isLeaf'] = true;
+            $row[$slTreeSettings['idField']] = (int)$row[$slTreeSettings['idField']];
+            $row[$slTreeSettings['parentIdField']] = (int)$row[$slTreeSettings['parentIdField']];
+        }
+        $tree0 = $this->buildTree($rows,$slTreeSettings['idField'],$slTreeSettings['parentIdField'], [(int)$parents]);
+        $tree = [];
+        $tree[] = $this->prepareTree($tree0[(int)$parents]);
+        return $tree;
+    }
+    public function prepareTree($node0){
+        $node = [];
+        $children = $node0['children'];
+        usort($children, function ($item1, $item2) {
+            return $item1['menuindex'] >= $item2['menuindex'];
+        });
+        unset($node0['children']);
+        $node = [
+            'title'=>$node0['title'],
+            'data'=>$node0
+        ];
+        if($node0['isLeaf']){
+            $node['isLeaf'] = true;
+        }else{
+            $node['isExpanded'] = false;
+        }
+            
+        foreach($children as $child){
+            $node['children'][] = $this->prepareTree($child);
+        }
+        return $node;
+    }
+    /**
+     * Builds a hierarchical tree from given array
+     *
+     * @param array $tmp Array with rows
+     * @param string $id Name of primary key
+     * @param string $parent Name of parent key
+     * @param array $roots Allowed roots of nodes
+     *
+     * @return array
+     */
+    public function buildTree($tmp = array(), $id = 'id', $parent = 'parent', array $roots = array())
+    {
+
+        if (empty($id)) {
+            $id = 'id';
+        }
+        if (empty($parent)) {
+            $parent = 'parent';
+        }
+
+        if (count($tmp) == 1) {
+            $row = current($tmp);
+            $tree = array(
+                $row[$parent] => array(
+                    'children' => array(
+                        $row[$id] => $row,
+                    ),
+                ),
+            );
+        } else {
+            $rows = $tree = array();
+            foreach ($tmp as $v) {
+                $rows[$v[$id]] = $v;
+            }
+
+            foreach ($rows as $id => &$row) {
+                if (empty($row[$parent]) || (!isset($rows[$row[$parent]]) && in_array($id, $roots))) {
+                    $tree[$id] = &$row;
+                } else {
+                    $rows[$row[$parent]]['children'][$id] = &$row;
+                }
+            }
+        }
+
+        return $tree;
     }
     public function autocompletes($fields, $rows0, $offset){
         //return $fields;
