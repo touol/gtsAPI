@@ -32,6 +32,7 @@ Changelog for gtsAPI.
 - trigger rule.
 - Импорт data type link.
 - slTree.
+- modx_user_id.
 
 1.0.7-beta
 ==============

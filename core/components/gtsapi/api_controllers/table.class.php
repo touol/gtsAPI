@@ -838,6 +838,13 @@ class tableAPIController{
                 $parents = $this->modx->getOption($rule['properties']['query']['parents_option']);
                 $rule['properties']['query']['parents'] = $parents;
             }
+            if(!empty($rule['properties']['query']['where'])){
+                foreach($rule['properties']['query']['where'] as $k=>$v1){
+                    if($v1 === 'modx_user_id'){
+                        $rule['properties']['query']['where'][$k] = $this->modx->user->id;
+                    }
+                }
+            }
             $default = array_merge($default, $rule['properties']['query']);
         }
         if(!empty($request['filters'])){
@@ -955,11 +962,14 @@ class tableAPIController{
     }
     public function prepareTree($node0){
         $node = [];
-        $children = $node0['children'];
-        usort($children, function ($item1, $item2) {
-            return $item1['menuindex'] >= $item2['menuindex'];
-        });
-        unset($node0['children']);
+        if(!empty($node0['children'])){
+            $children = $node0['children'];
+            usort($children, function ($item1, $item2) {
+                return $item1['menuindex'] >= $item2['menuindex'];
+            });
+            unset($node0['children']);
+        }
+        
         $node = [
             'title'=>$node0['title'],
             'data'=>$node0
@@ -969,9 +979,10 @@ class tableAPIController{
         }else{
             $node['isExpanded'] = false;
         }
-            
-        foreach($children as $child){
-            $node['children'][] = $this->prepareTree($child);
+        if(isset($children)){
+            foreach($children as $child){
+                $node['children'][] = $this->prepareTree($child);
+            }
         }
         return $node;
     }
