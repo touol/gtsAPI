@@ -706,7 +706,8 @@ class tableAPIController{
                 }else{
                     $field = $arr[1];
                 }
-                if(isset($tabs_where[$field])) $data_filters[$field] = $v;
+                // if(isset($tabs_where[$field])) 
+                $data_filters[$field] = $v;
                 if(isset($request[$field])) $data_filters[$field] = $request[$field];
             }
         }
