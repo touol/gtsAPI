@@ -82,7 +82,8 @@
         <field key="table" dbtype="varchar" precision="161" phptype="string" null="false"/>
         <field key="class" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
         <field key="tree" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
-        
+        <field key="type" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="1"/>
+
         <field key="authenticated" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
         <field key="groups" dbtype="text" phptype="string" null="false" default=""/>
         <field key="permitions" dbtype="text" phptype="string" null="false" default=""/>

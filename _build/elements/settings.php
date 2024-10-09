@@ -98,6 +98,23 @@ return [
               ]
             ]
           },
+          "table_type":{
+            "type": "data",
+            "rows": [
+              [
+                1,
+                "Таблица"
+              ],
+              [
+                2,
+                "JSON"
+              ],
+              [
+                3,
+                "Tree"
+              ]
+            ]
+          },
           "field_type": {
             "type": "data",
             "rows": [
@@ -176,7 +193,7 @@ return [
                       },
                       "properties": {
                         "label": "properties",
-                        "fields": "properties"
+                        "fields": "type,properties"
                       }
                     }
                   }
@@ -190,7 +207,7 @@ return [
                       },
                       "properties": {
                         "label": "properties",
-                        "fields": "properties"
+                        "fields": "type,properties"
                       }
                     }
                   }
@@ -235,6 +252,14 @@ return [
                 },
                 "class": {
                   "label": "Класс таблицы",
+                  "filter": 1
+                },
+                "type": {
+                  "label": "Тип таблицы",
+                  "edit": {
+                    "type": "select",
+                    "select": "table_type"
+                  },
                   "filter": 1
                 },
                 "autocomplete_field": {

@@ -381,7 +381,7 @@ class tableAPIController{
             $table_tree = $rule['properties']['table_tree'];
         }
         if(empty($rule['properties']['fields'])){
-            $fields = $this->gen_fields($rule);
+            if($rule['type'] == 1) $fields = $this->gen_fields($rule);
         }else{
             $fields = $rule['properties']['fields'];
         }
@@ -782,7 +782,8 @@ class tableAPIController{
         
         if($obj = $this->modx->getObject($rule['class'],(int)$request['id'])){
             $object_old = $obj->toArray();
-            $data = $this->addDefaultFields($rule,$request);
+            // $data = $this->addDefaultFields($rule,$request);
+            $data = [];
             $request = $this->request_array_to_json($request);
             $request = array_merge($request,$data);
 
@@ -796,6 +797,7 @@ class tableAPIController{
                 $object = $obj->toArray();
 
                 $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
+                
                 $resp['data']['object'] = $obj->toArray();
                 if(!empty($rule['properties']['table_tree'])){//table_tree
                     $where = [
@@ -920,7 +922,7 @@ class tableAPIController{
             'total'=>$total,
             // 'autocomplete'=>$autocompletes,
             'row_setting'=>$row_setting,
-            // 'log'=>$this->pdo->getTime()
+            'log'=>$this->pdo->getTime()
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
         // $this->modx->log(1,"read".$this->pdo->getTime());
@@ -1251,7 +1253,7 @@ class tableAPIController{
         // $this->modx->log(1,"getService $package "."test2!".print_r(array_keys($this->models),1));
         return $this->success();
     }
-    public function run_triggers($rule, $type, $method, $fields, $object_old = [], $object_new =[], $object = null)
+    public function run_triggers($rule, $type, $method, $fields, $object_old = [], &$object_new =[], $object = null)
     {
         $class = $rule['class'];
         if(empty($class)) return $this->success('Выполнено успешно');
@@ -1277,6 +1279,7 @@ class tableAPIController{
         // if(!empty($canSave)) return $this->error($canSave);
         try {
             $triggers = $this->triggers;
+            
             // if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
             //     // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
                 
@@ -1309,10 +1312,11 @@ class tableAPIController{
                         'method'=>$method,
                         'fields'=>$fields,
                         'object_old'=>$object_old,
-                        'object_new'=>$object_new,
+                        'object_new'=>&$object_new,
                         'object'=>&$object,
                         'trigger'=>'gtsapifunc',
                     ];
+                    // $this->modx->log(1,'gtsAPI run '.$triggers[$class]['gtsapifunc']);
                     return  $service->{$triggers[$class]['gtsapifunc']}($params);
                 }
             }

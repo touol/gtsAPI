@@ -1,0 +1,319 @@
+<?php
+require_once (dirname(__FILE__) . '/table.class.php');
+class jsonTableAPIController extends tableAPIController{
+
+
+    function __construct(modX &$modx, array $config = [])
+    {
+        parent :: __construct(
+            $modx,
+            $config
+        );
+    }
+
+    public function delete($rule,$request,$action){
+        
+        if(!empty($request['ids'])){
+            if(is_string($request['ids'])) $ids = explode(',',$request['ids']);
+            $resp = $this->getJSON($rule,$request);
+            if(!$resp['success']) return $resp;
+            $rows0 = $rows2 = $resp['data']['where']['json'];
+            $keys = [];
+            if(!empty($rule['properties']['json_path']['key'])){
+                $keys = explode('.',$rule['properties']['json_path']['key']);
+                foreach($keys as $key){
+                    if(isset($rows0[$key]) and !empty($rows0[$key])){
+                        $rows0 = $rows0[$key];
+                    }else{
+                        $rows0 = [];
+                    }
+                }
+            }
+            $obj = $resp['data']['where']['obj'];
+            foreach($rows0 as $k1=>$row){
+                if(in_array((string)$row['id'], $ids)){
+                    $object_old = $row;
+                    $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
+                    if(!$resp['success']) return $resp;
+                    switch(count($keys)){
+                        case 0:
+                            unset($rows2[$k1]);
+                        break;
+                        case 1:
+                            unset($rows2[$keys[0]][$k1]);
+                        break;
+                        case 2:
+                            unset($rows2[$keys[0]][$keys[1]][$k1]);
+                        break;
+                        case 3:
+                            unset($rows2[$keys[0]][$keys[1]][$keys[2]][$k1]);
+                        break;
+                        case 4:
+                            unset($rows2[$keys[0]][$keys[1]][$keys[2]][$keys[3]][$k1]);
+                        break;
+                        default:
+                        return $this->error('long key');
+                    }
+                    
+                }
+            }
+            $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
+            if($obj->save()){
+                $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
+                if(!$resp['success']) return $resp;
+                return $this->success('delete',['ids'=>$request['ids']]);
+            }
+        }
+        return $this->error('delete_error');
+    }
+    
+    public function create($rule,$request,$action){
+        $resp = $this->getJSON($rule,$request);
+        if(!$resp['success']) return $resp;
+        $rows0 = $rows2 = $resp['data']['json'];
+        $keys = [];
+        if(!empty($rule['properties']['json_path']['key'])){
+            $keys = explode('.',$rule['properties']['json_path']['key']);
+            foreach($keys as $key){
+                if(isset($rows0[$key]) and !empty($rows0[$key])){
+                    $rows0 = $rows0[$key];
+                }else{
+                    $rows0 = [];
+                }
+            }
+        }
+        $obj = $resp['data']['obj'];
+        $max_id = 1;
+        foreach($rows0 as $k1=>$row){
+            if($row['id'] > $max_id) $max_id = $row['id'];
+        }
+        $object_old = $object_new = [];
+        $data = $this->addDefaultFields($rule,$request);
+        $request = $this->request_array_to_json($request);
+        $request = array_merge($request,$data);
+        foreach($rule['properties']['fields'] as $field=>$v){
+            if(isset($request[$field])){
+                $object_new[$field] = $request[$field];
+            }else if(isset($v['default'])){
+                $object_new[$field] = $v['default'];
+            }
+        }
+        $object_new['id'] = $max_id + 1;
+        $resp = $this->run_triggers($rule, 'before', 'update', $request, $object_old,$object_new,$obj);
+        if(!$resp['success']) return $resp;
+        switch(count($keys)){
+            case 0:
+                $rows2[] = $object_new;
+            break;
+            case 1:
+                $rows2[$keys[0]][] = $object_new;
+            break;
+            case 2:
+                $rows2[$keys[0]][$keys[1]][] = $object_new;
+            break;
+            case 3:
+                $rows2[$keys[0]][$keys[1]][$keys[2]][] = $object_new;
+            break;
+            case 4:
+                $rows2[$keys[0]][$keys[1]][$keys[2]][$keys[3]][] = $object_new;
+            break;
+            default:
+            return $this->error('long key');
+        }
+        $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
+        if($obj->save()){
+            $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
+            $resp['data']['object'] = $object_new;
+            if(!$resp['success']) return $resp;
+            $data = $resp['data'];
+
+            return $this->success('update',$data);
+        }
+
+        return $this->error('create_error',$request);
+    }
+    public function update($rule,$request,$action){
+        
+        $resp = $this->getJSON($rule,$request);
+        if(!$resp['success']) return $resp;
+        $rows0 = $rows2 = $resp['data']['json'];
+        $keys = [];
+        if(!empty($rule['properties']['json_path']['key'])){
+            $keys = explode('.',$rule['properties']['json_path']['key']);
+            foreach($keys as $key){
+                if(isset($rows0[$key]) and !empty($rows0[$key])){
+                    $rows0 = $rows0[$key];
+                }else{
+                    $rows0 = [];
+                }
+            }
+        }
+        $obj = $resp['data']['obj'];
+        foreach($rows0 as $k1=>$row){
+            if($row['id'] == (int)$request['id']){
+                $object_old = $object_new = $row;
+                $data = [];
+                $request = $this->request_array_to_json($request);
+                $request = array_merge($request,$data);
+                foreach($rule['properties']['fields'] as $field=>$v){
+                    if(isset($request[$field])) $object_new[$field] = $request[$field];
+                }
+                $resp = $this->run_triggers($rule, 'before', 'update', $request, $object_old,$object_new,$obj);
+                if(!$resp['success']) return $resp;
+                switch(count($keys)){
+                    case 0:
+                        $rows2[$k1] = $object_new;
+                    break;
+                    case 1:
+                        $rows2[$keys[0]][$k1] = $object_new;
+                    break;
+                    case 2:
+                        $rows2[$keys[0]][$keys[1]][$k1] = $object_new;
+                    break;
+                    case 3:
+                        $rows2[$keys[0]][$keys[1]][$keys[2]][$k1] = $object_new;
+                    break;
+                    case 4:
+                        $rows2[$keys[0]][$keys[1]][$keys[2]][$keys[3]][$k1] = $object_new;
+                    break;
+                    default:
+                    return $this->error('long key');
+                }
+                $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
+                if($obj->save()){
+                    $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
+                    $resp['data']['object'] = $object_new;
+                    if(!$resp['success']) return $resp;
+                    $data = $resp['data'];
+
+                    return $this->success('update',$data);
+                }
+            }
+        }
+        
+        return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
+    }
+    
+    public function read($rule,$request,$action, $where = []){
+        $resp = $this->run_triggers($rule, 'before', 'read', $request);
+        if(!$resp['success']) return $resp;
+        $resp = $this->getJSON($rule,$request);
+        if(!$resp['success']) return $resp;
+
+        $rows0 = $resp['data']['json'];
+        if(!empty($rule['properties']['json_path']['key'])){
+            $keys = explode('.',$rule['properties']['json_path']['key']);
+            foreach($keys as $key){
+                if(isset($rows0[$key]) and !empty($rows0[$key])){
+                    $rows0 = $rows0[$key];
+                }else{
+                    $rows0 = [];
+                }
+            }
+        }
+        
+        if(isset($rule['properties']['fields'])){
+            $get_html = false;
+            foreach($rule['properties']['fields'] as $field=>$v){
+                if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])) $get_html = true;
+            }
+            if($get_html){
+                foreach($rows0 as $k=>$row){
+                    foreach($rule['properties']['fields'] as $field=>$v){
+                        if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])){
+                            $rows0[$k][$field] = $this->pdoTools->getChunk("@INLINE ".$v['tpl'],$row);
+                        }
+                    }
+                }
+            }
+        }
+        $where = $this->aplyFilters($rule,$request['filters']);
+        $where2 = [];
+        foreach($where as $k=>$v){
+            $k = str_replace('`','',$k);
+            $arr = explode('.',$k);
+            if(count($arr) == 1){
+                $field = $arr[0];
+            }else{
+                $field = $arr[1];
+            }
+            $where2[$field] = $v;
+        }
+        $k = 1;
+        $total = 0;
+        if(isset($request['limit']) and isset($request['offset'])){
+            $rows = [];
+            foreach($rows0 as $row){
+                foreach($where2 as $field=>$v){
+                    if(isset($row[$field]) and $row[$field] != $v){
+                        // $total++;
+                        continue 2;
+                    }
+                }
+                if($k > $request['offset'] and $k <= $request['offset'] + $request['limit']) $rows[] = $row;
+                $k++;
+                $total++;
+            }
+        }else{
+            $rows = [];
+            foreach($rows0 as $row){
+                foreach($where2 as $field=>$v){
+                    if(isset($row[$field]) and $row[$field] != $v){
+                        // $total++;
+                        continue 2;
+                    }
+                }
+                $rows[] = $row;
+                $total++;
+            }
+        }
+        $out = [
+            'rows'=>$rows,
+            'total'=>$total,
+            // 'where'=>$where,
+        ];
+
+        $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows,0);
+        
+        
+        $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
+        
+        if(!$resp['success']) return $resp;
+        
+        if(!empty($resp['data']['out'])) $out = $resp['data']['out'];
+        
+        return $this->success('',$out);
+    }
+    public function getJSONWhere($rule,$request){
+        if(empty($rule['properties']['json_path'])) return $this->error('not set json_path');
+        $json_path = $rule['properties']['json_path'];
+        if(empty($json_path['where']) and !is_array($json_path['where'])) return $this->error('not set json_path where');
+        if(empty($json_path['field']) and !is_array($json_path['field'])) return $this->error('not set json_path field'); //field
+        if(empty($request['filters'])) return $this->error('empty filters');
+        $where = [];
+        foreach($json_path['where'] as $k=>$v){
+            if(empty($request['filters'][$v])) return $this->error("empty filters $v");
+            if(isset($request['filters'][$v]['constraints'])){
+                $where[$k] = $request['filters'][$v]['constraints'][0]['value'];
+            }else if(isset($request['filters'][$v]['value'])){
+                $where[$k] = $request['filters'][$v]['value'];
+            }
+        }
+        if(empty($where)) return $this->error('empty where');
+        return $this->success('',$where);
+    }
+    public function getJSON($rule,$request){
+        $resp = $this->getJSONWhere($rule,$request);
+        if(!$resp['success']) return $resp;
+        if(!$obj = $this->modx->getObject($rule['class'],$resp['data'])) return $this->error('not found object',$resp['data']);
+        $json = $obj->get($rule['properties']['json_path']['field']);
+        if(empty($json)){
+            return $this->success('',['obj'=>$obj,'json'=>[]]);
+        }else{
+            $json = json_decode($json,1);
+            if(!is_array($json)) return $this->success('',['obj'=>$obj,'json'=>[]]);
+            return $this->success('',['obj'=>$obj,'json'=>$json]);
+        }
+        return $this->error('not found object');
+    }
+}

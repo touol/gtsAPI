@@ -152,13 +152,22 @@ class gtsAPI
         }
         $point = $uri[2];
         if($gtsAPITable = $this->modx->getObject('gtsAPITable',['table:LIKE'=>$point,'active'=>1])){
-            if($gtsAPITable->tree){
-                $controller_class = 'treeAPIController';
-                $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/tree.class.php';
-            }else{
-                $controller_class = 'tableAPIController';
-                $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/table.class.php';
+            switch($gtsAPITable->type){
+                case 1:
+                    $controller_class = 'tableAPIController';
+                    $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/table.class.php';
+                break;
+                case 2:
+                    $controller_class = 'jsonTableAPIController';
+                    $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/json_table.class.php';
+                break;
+                case 2:
+                    $controller_class = 'treeAPIController';
+                    $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/tree.class.php';
+                break;
+
             }
+
             $loaded = include_once($rule['controller_path']);
             if ($loaded) {
                 $controller = new $controller_class($this->modx,$this->config);

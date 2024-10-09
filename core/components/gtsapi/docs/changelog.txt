@@ -33,6 +33,7 @@ Changelog for gtsAPI.
 - Импорт data type link.
 - slTree.
 - modx_user_id.
+- jsonTableAPIController.
 
 1.0.7-beta
 ==============
