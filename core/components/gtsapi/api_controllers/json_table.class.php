@@ -198,7 +198,13 @@ class jsonTableAPIController extends tableAPIController{
         $resp = $this->run_triggers($rule, 'before', 'read', $request);
         if(!$resp['success']) return $resp;
         $resp = $this->getJSON($rule,$request);
-        if(!$resp['success']) return $resp;
+        if(!$resp['success']){
+            $resp['data'] = [
+                'rows'=>[],
+                'total'=>0,
+            ];
+            return $resp;
+        }
 
         $rows0 = $resp['data']['json'];
         if(!empty($rule['properties']['json_path']['key'])){

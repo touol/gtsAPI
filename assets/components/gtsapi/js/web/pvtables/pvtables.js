@@ -26282,7 +26282,7 @@ const di = {
       };
       try {
         const C = await r.read(K);
-        if (q.value = Mv(C.data.rows, R), C.data.autocomplete)
+        if (q.value = Mv(C.data.rows, R), !C.success && C.message && a("error", { detail: C.message }), C.data.autocomplete)
           for (let B in C.data.autocomplete)
             Ye.value[B] = C.data.autocomplete[B];
         C.data.row_setting && (at.value = C.data.row_setting), C.data.customFields && (ze.value = C.data.customFields), k.value = C.data.total, v.value = !1;
