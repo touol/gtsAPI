@@ -35,6 +35,7 @@ Changelog for gtsAPI.
 - modx_user_id.
 - jsonTableAPIController.
 - filters insert.
+- default FractionDigits.
 
 1.0.7-beta
 ==============

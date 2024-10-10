@@ -341,6 +341,7 @@ class tableAPIController{
             if(!empty($addField['modal_only'])) $field['modal_only'] = $addField['modal_only'];
             if(!empty($addField['table_only'])) $field['table_only'] = $addField['table_only'];
             if(!empty($addField['gtsapi_config'])) $field = array_merge($field,$addField['gtsapi_config']);
+            if($field['type'] == 'decimal' and !isset($field['FractionDigits'])) $field['FractionDigits'] = 2;
             if(!empty($addField['list_select'])){
                 $field['type'] = 'select';
                 
