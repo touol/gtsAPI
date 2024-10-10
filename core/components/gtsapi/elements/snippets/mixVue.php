@@ -3,7 +3,7 @@
 /** @var array $scriptProperties */
 $name_lower = strtolower($app);
 $debug = false;
-$v = 2;
+$v = 3;
 // $dev_path = 'http://'.$modx->getOption('http_host')
 //     . ':'
 //     . '3000/';
