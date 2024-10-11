@@ -3,7 +3,7 @@
 /** @var array $scriptProperties */
 $name_lower = strtolower($app);
 $debug = false;
-$v = 3;
+$vapi = 4;
 // $dev_path = 'http://'.$modx->getOption('http_host')
 //     . ':'
 //     . '3000/';
@@ -19,7 +19,10 @@ $v = 3;
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/lara-light-green/theme.css');
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/primeflex.min.css');
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/css/web/primeicons/primeicons.min.css');
-$modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/style.css?v='.$v);
+if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => 'gtssapi'])) {
+    $vapi = strtotime($package->installed);
+}
+$modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/style.css?v='.$vapi);
 if(!$debug){
     
 
@@ -28,7 +31,7 @@ if(!$debug){
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
         $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.global.prod.js';
         $pvtables_path = $modx->getOption('assets_path').'components/gtsapi/js/web/pvtables/';
-        $imports['imports']['pvtables/dist/pvtables'] = $assets_gtsapi_url.'js/web/pvtables/pvtables.js?v='.$v;
+        $imports['imports']['pvtables/dist/pvtables'] = $assets_gtsapi_url.'js/web/pvtables/pvtables.js?v='.$vapi;
     }
     
     if(!empty($imports)){

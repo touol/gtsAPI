@@ -87,7 +87,10 @@ class jsonTableAPIController extends tableAPIController{
         foreach($rows0 as $k1=>$row){
             if($row['id'] > $max_id) $max_id = $row['id'];
         }
-        $object_old = $object_new = [];
+        $object_old =  [];
+        $object_new = [];
+        $object_new = array_merge($object_new,$resp['data']['where']);
+
         $data = $this->addDefaultFields($rule,$request);
         $request = $this->request_array_to_json($request);
         $request = array_merge($request,$data);
@@ -123,6 +126,19 @@ class jsonTableAPIController extends tableAPIController{
         $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
         if($obj->save()){
             $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
+            if(isset($rule['properties']['fields'])){
+                $get_html = false;
+                foreach($rule['properties']['fields'] as $field=>$v){
+                    if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])) $get_html = true;
+                }
+                if($get_html){
+                    foreach($rule['properties']['fields'] as $field=>$v){
+                        if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])){
+                            $object_new[$field] = $this->pdoTools->getChunk("@INLINE ".$v['tpl'],$object_new);
+                        }
+                    }
+                }
+            }
             $resp['data']['object'] = $object_new;
             if(!$resp['success']) return $resp;
             $data = $resp['data'];
@@ -151,7 +167,9 @@ class jsonTableAPIController extends tableAPIController{
         $obj = $resp['data']['obj'];
         foreach($rows0 as $k1=>$row){
             if($row['id'] == (int)$request['id']){
-                $object_old = $object_new = $row;
+                $object_old = $row;
+                $object_new = json_decode(json_encode($row),1);
+                $object_new = array_merge($object_new,$resp['data']['where']);
                 $data = [];
                 $request = $this->request_array_to_json($request);
                 $request = array_merge($request,$data);
@@ -159,6 +177,7 @@ class jsonTableAPIController extends tableAPIController{
                     if(isset($request[$field])) $object_new[$field] = $request[$field];
                 }
                 $resp = $this->run_triggers($rule, 'before', 'update', $request, $object_old,$object_new,$obj);
+                
                 if(!$resp['success']) return $resp;
                 switch(count($keys)){
                     case 0:
@@ -182,6 +201,19 @@ class jsonTableAPIController extends tableAPIController{
                 $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
                 if($obj->save()){
                     $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
+                    if(isset($rule['properties']['fields'])){
+                        $get_html = false;
+                        foreach($rule['properties']['fields'] as $field=>$v){
+                            if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])) $get_html = true;
+                        }
+                        if($get_html){
+                            foreach($rule['properties']['fields'] as $field=>$v){
+                                if(isset($v['type']) and $v['type'] == 'html' and isset($v['tpl'])){
+                                    $object_new[$field] = $this->pdoTools->getChunk("@INLINE ".$v['tpl'],$object_new);
+                                }
+                            }
+                        }
+                    }
                     $resp['data']['object'] = $object_new;
                     if(!$resp['success']) return $resp;
                     $data = $resp['data'];
@@ -317,8 +349,8 @@ class jsonTableAPIController extends tableAPIController{
             return $this->success('',['obj'=>$obj,'json'=>[]]);
         }else{
             $json = json_decode($json,1);
-            if(!is_array($json)) return $this->success('',['obj'=>$obj,'json'=>[]]);
-            return $this->success('',['obj'=>$obj,'json'=>$json]);
+            if(!is_array($json)) return $this->success('',['obj'=>$obj,'json'=>[],'where'=>$resp['data']]);
+            return $this->success('',['obj'=>$obj,'json'=>$json,'where'=>$resp['data']]);
         }
         return $this->error('not found object');
     }

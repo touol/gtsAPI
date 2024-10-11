@@ -358,6 +358,7 @@ class tableAPIController{
                 ]);
                 $rows = $this->pdo->run();
                 $select_data = [];
+                $select_data[] = ['id'=>'','content'=>''];
                 foreach($rows as $row){
                     $select_data[] = ['id'=>$row['name'],'content'=>$row['name']];
                 }
@@ -469,6 +470,7 @@ class tableAPIController{
                 $filters[$field] = $filter;
             }
         }
+        
         return $this->success('options',[
             'fields'=>$fields,
             'actions'=>$actions,
