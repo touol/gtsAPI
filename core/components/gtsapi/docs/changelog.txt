@@ -36,6 +36,7 @@ Changelog for gtsAPI.
 - jsonTableAPIController.
 - filters insert.
 - default FractionDigits.
+- jsonTable минимальные фильтры.
 
 1.0.7-beta
 ==============

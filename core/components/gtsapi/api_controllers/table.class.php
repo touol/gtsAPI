@@ -1134,6 +1134,9 @@ class tableAPIController{
             case "in":
                 $where[$field.':IN'] = $filter['value'];
             break;
+            case "notEquals":
+                $where[$field.':!='] = $filter['value'];
+            break;
             case "lt":
                 $where[$field.':<'] = $filter['value'];
             break;

@@ -266,28 +266,24 @@ class jsonTableAPIController extends tableAPIController{
             }
         }
         $where = $this->aplyFilters($rule,$request['filters']);
-        $where2 = [];
-        foreach($where as $k=>$v){
-            $k = str_replace('`','',$k);
-            $arr = explode('.',$k);
-            if(count($arr) == 1){
-                $field = $arr[0];
-            }else{
-                $field = $arr[1];
+        if($request['multiSortMeta']){
+            foreach($request['multiSortMeta'] as $sort){
+                // $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
+                usort($rows0, function($a, $b) use ($sort) {
+                    if($sort['order'] == 1){
+                        return $a[$sort['field']] <= $b[$sort['field']];
+                    }else{
+                        return $a[$sort['field']] > $b[$sort['field']];
+                    }
+                });
             }
-            $where2[$field] = $v;
         }
         $k = 1;
         $total = 0;
         if(isset($request['limit']) and isset($request['offset'])){
             $rows = [];
             foreach($rows0 as $row){
-                foreach($where2 as $field=>$v){
-                    if(isset($row[$field]) and $row[$field] != $v){
-                        // $total++;
-                        continue 2;
-                    }
-                }
+                if(!$this->php_filter_array_like_modx($row,$where)) continue;
                 if($k > $request['offset'] and $k <= $request['offset'] + $request['limit']) $rows[] = $row;
                 $k++;
                 $total++;
@@ -295,16 +291,12 @@ class jsonTableAPIController extends tableAPIController{
         }else{
             $rows = [];
             foreach($rows0 as $row){
-                foreach($where2 as $field=>$v){
-                    if(isset($row[$field]) and $row[$field] != $v){
-                        // $total++;
-                        continue 2;
-                    }
-                }
+                if(!$this->php_filter_array_like_modx($row,$where)) continue;
                 $rows[] = $row;
                 $total++;
             }
         }
+        
         $out = [
             'rows'=>$rows,
             'total'=>$total,
@@ -353,5 +345,58 @@ class jsonTableAPIController extends tableAPIController{
             return $this->success('',['obj'=>$obj,'json'=>$json,'where'=>$resp['data']]);
         }
         return $this->error('not found object');
+    }
+    public function php_filter_array_like_modx($row,$where){
+        // $check = true;
+        foreach($row as $fieldr=>$vr){
+            foreach($where as $k=>$v){
+                $k = str_replace('`','',$k);
+                $arr = explode('.',$k);
+                if(count($arr) == 1){
+                    $field = $arr[0];
+                }else{
+                    $field = $arr[1];
+                }
+                $arr = explode(':',$field);
+                if(count($arr) == 1){
+                    if($fieldr == $field and $vr != $v) return false;
+                }else{
+                    $field = $arr[0]; $op = $arr[1];
+                    switch($op){
+                        case '!=':
+                            if($fieldr == $field and $vr == $v) return false;
+                        break;
+                        case 'LIKE':
+                            // $v = str_replace('%','',$v);
+                            if($fieldr == $field){
+                                if(preg_match(sprintf('/^%s$/i', preg_replace('/(^%)|(%$)/', '.*', $v)), $vr) !== 1) return false;
+                            }
+                        break;
+                        case 'NOT LIKE':
+                            // $v = str_replace('%','',$v);
+                            if($fieldr == $field){
+                                if(preg_match(sprintf('/^%s$/i', preg_replace('/(^%)|(%$)/', '.*', $v)), $vr) === 1) return false;
+                            }
+                        break;
+                        case 'IN':
+                            if($fieldr == $field and !in_array($vr,$v)) return false;
+                        break;
+                        case '<':
+                            if($fieldr == $field and $vr >= $v) return false;
+                        break;
+                        case '<=':
+                            if($fieldr == $field and $vr > $v) return false;
+                        break;
+                        case '>':
+                            if($fieldr == $field and $vr <= $v) return false;
+                        break;
+                        case '>=':
+                            if($fieldr == $field and $vr < $v) return false;
+                        break;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
