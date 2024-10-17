@@ -25863,7 +25863,10 @@ const di = {
     return Lo(async () => {
       o.value = n.selectSettings;
       for (let i in n.columns)
-        n.columns[i].hasOwnProperty("default") && (e.value.hasOwnProperty(n.columns[i].field) || (e.value[n.columns[i].field] = n.columns[i].default)), n.columns[i].select_data && (o.value[n.columns[i].field] || (o.value[n.columns[i].field] = {}), o.value[n.columns[i].field].rows = n.columns[i].select_data), n.customFields.hasOwnProperty(n.columns[i].field) && (n.customFields[n.columns[i].field].readonly == 1 ? n.columns[i].readonly = !0 : n.columns[i].readonly = !1);
+        if (n.columns[i].hasOwnProperty("default") && (e.value.hasOwnProperty(n.columns[i].field) || (e.value[n.columns[i].field] = n.columns[i].default)), n.columns[i].select_data && (o.value[n.columns[i].field] || (o.value[n.columns[i].field] = {}), o.value[n.columns[i].field].rows = n.columns[i].select_data), n.customFields.hasOwnProperty(n.columns[i].field)) {
+          let r = n.customFields[n.columns[i].field];
+          r.readonly == 1 ? n.columns[i].readonly = !0 : n.columns[i].readonly = !1, r.select_data && (o.value[n.columns[i].field] || (o.value[n.columns[i].field] = {}), o.value[n.columns[i].field].rows = r.select_data);
+        }
     }), (i, r) => (d(), g("div", {
       class: W({ "flex flex-wrap": t.inline })
     }, [
