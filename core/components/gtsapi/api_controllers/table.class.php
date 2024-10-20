@@ -295,7 +295,7 @@ class tableAPIController{
                         foreach($gtsAPIFields as $gtsAPIField){
                             $addFields[$gtsAPIField->name] = $gtsAPIField->toArray();
                             $addFields[$gtsAPIField->name]['from_table'] = $gtsAPIFieldGroup->from_table;
-                            $addFields[$gtsAPIField->name]['after_field'] = $gtsAPIFieldTable->after_field;
+                            if(empty($addFields[$gtsAPIField->name]['after_field'])) $addFields[$gtsAPIField->name]['after_field'] = $gtsAPIFieldTable->after_field;
                             $addFields[$gtsAPIField->name]['gtsapi_config'] = json_decode($addFields[$gtsAPIField->name]['gtsapi_config'],1);
                         }
                     }else{
@@ -320,10 +320,11 @@ class tableAPIController{
                             'limit' => 0
                         ]);
                         $rows = $this->pdo->run();
+                        
                         foreach($rows as $row){
                             $addFields[$row['name']] = $row;
                             $addFields[$row['name']]['from_table'] = $gtsAPIFieldGroup->from_table;
-                            $addFields[$row['name']]['after_field'] = $gtsAPIFieldTable->after_field;
+                            if(empty($row['after_field'])) $addFields[$row['name']]['after_field'] = $gtsAPIFieldTable->after_field;
                         }
                     }
                 }
@@ -371,6 +372,7 @@ class tableAPIController{
             $fields = $this->insertToArray($fields,[$k=>$field],$keys[$addField['after_field']]);
             $keys[$addField['after_field']] = $addField['name'];
         }
+        
         return $fields;
     }
     public function options($rule,$request,$action){

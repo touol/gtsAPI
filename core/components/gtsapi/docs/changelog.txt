@@ -37,6 +37,7 @@ Changelog for gtsAPI.
 - filters insert.
 - default FractionDigits.
 - jsonTable минимальные фильтры.
+- after_field.
 
 1.0.7-beta
 ==============
