@@ -26113,7 +26113,7 @@ const di = {
       try {
         const P = await r.options();
         if (P.data.hasOwnProperty("fields")) {
-          W = P.data.fields, P.data.limit !== !1 && (b.value = P.data.limit), P.data.selects && (se.value = P.data.selects);
+          W = P.data.fields, P.data.limit !== !1 && (b.value = P.data.limit, L.value.rows = P.data.limit), P.data.selects && (se.value = P.data.selects);
           let O = [], K = [];
           for (let T in W) {
             switch (W[T].field = T, W[T].hasOwnProperty("label") || (W[T].label = T), W[T].hasOwnProperty("type") || (W[T].type = "text"), W[T].hasOwnProperty("readonly") && (W[T].readonly === !0 || W[T].readonly == 1 ? W[T].readonly = !0 : W[T].readonly = !1), W[T].select_data && (se.value[T] || (se.value[T] = {}), se.value[T].rows = W[T].select_data), W[T].type) {
@@ -26484,7 +26484,7 @@ const di = {
           F(j(Qr), {
             value: q.value,
             lazy: "",
-            paginator: "true",
+            paginator: "",
             first: k.value,
             rows: b.value,
             rowsPerPageOptions: [10, 60, 30, 1e3],
