@@ -472,6 +472,8 @@ class tableAPIController{
                 $filters[$field] = $filter;
             }
         }
+        $limit = false;
+        if(isset($rule['properties']['limit'])) $limit = $rule['properties']['limit'];
         
         return $this->success('options',[
             'fields'=>$fields,
@@ -480,6 +482,7 @@ class tableAPIController{
             'filters'=>$filters,
             'row_class_trigger'=>$row_class_trigger,
             'table_tree'=>$table_tree,
+            'limit'=>$limit,
         ]);
     }
     public function getSelects($fields){
