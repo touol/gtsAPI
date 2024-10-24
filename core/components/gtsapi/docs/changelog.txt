@@ -38,6 +38,7 @@ Changelog for gtsAPI.
 - default FractionDigits.
 - jsonTable минимальные фильтры.
 - after_field.
+- Правка autocomplete.
 
 1.0.7-beta
 ==============

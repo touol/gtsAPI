@@ -188,12 +188,16 @@ class tableAPIController{
         }
         
 
-        if(!empty($request['query']) or !empty($request['parent'])){
+        if(isset($request['query']) or !empty($request['parent'])){
             if(empty($default['where'])) $default['where'] = [];
             $where = [];
             foreach($autocomplete['where'] as $field=>$value){
-                if(!empty($request['query']) and strpos($value,'query') !== false){
-                    $value = str_replace('query',$request['query'],$value);
+                if(strpos($value,'query') !== false){
+                    if(!empty($request['query'])){
+                        $value = str_replace('query',$request['query'],$value);
+                        $where[$field] = $value;
+                    }
+                }else{
                     $where[$field] = $value;
                 }
                 if(!empty($request['parent'])){
