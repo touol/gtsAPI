@@ -24968,7 +24968,7 @@ const ci = {
         s.readonly == 1 ? s.readonly = !0 : s.readonly = !1, s.select_data && (o.selectSettings.rows = s.select_data), i.value = { ...o.field, ...s };
       } else
         i.value = { ...o.field };
-      o.use_data && (n.value = o.data);
+      o.use_data && (n.value = o.data), i.value.type == "boolean" && n.value == "1" && (n.value = !0);
     });
     const r = e, a = () => {
       r("set-value", n.value);
@@ -25862,11 +25862,13 @@ const di = {
     const e = oo(t, "modelValue"), n = t, o = N({});
     return Eo(async () => {
       o.value = n.selectSettings;
-      for (let i in n.columns)
+      for (let i in n.columns) {
         if (n.columns[i].hasOwnProperty("default") && (e.value.hasOwnProperty(n.columns[i].field) || (e.value[n.columns[i].field] = n.columns[i].default)), n.columns[i].select_data && (o.value[n.columns[i].field] || (o.value[n.columns[i].field] = {}), o.value[n.columns[i].field].rows = n.columns[i].select_data), n.customFields.hasOwnProperty(n.columns[i].field)) {
           let r = n.customFields[n.columns[i].field];
           r.readonly == 1 ? n.columns[i].readonly = !0 : n.columns[i].readonly = !1, r.select_data && (o.value[n.columns[i].field] || (o.value[n.columns[i].field] = {}), o.value[n.columns[i].field].rows = r.select_data);
         }
+        i.type == "boolean" && e.value[n.columns[i].field] == "1" && (e.value[n.columns[i].field] = !0);
+      }
     }), (i, r) => (d(), g("div", {
       class: Y({ "flex flex-wrap": t.inline })
     }, [
