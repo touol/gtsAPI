@@ -26311,7 +26311,7 @@ const di = {
       };
       try {
         const ee = await r.update(T, Ke);
-        if (i("get-response", { action: "update", response: ee }), O[C] = K, ee.success ? ee.data.refresh_table == 1 && Ue() : a("error", { detail: ee.message }, !0), ee.data.customFields)
+        if (i("get-response", { action: "update", response: ee }), O[C] = K, ee.success || a("error", { detail: ee.message }, !0), ee.data.refresh_table == 1 && Ue(), ee.data.customFields)
           for (let ke in ee.data.customFields)
             je.value[ke] = ee.data.customFields[ke];
         if (ee.data.refresh_row == 1 ? q.value[I(Number(ee.data.object.id))] = ee.data.object : ee.data.defvalues && (q.value[I(Number(ee.data.object.id))] = { ...q.value[I(Number(ee.data.object.id))], ...ee.data.defvalues }), ee.data.row_setting)
