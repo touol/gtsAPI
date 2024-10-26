@@ -1,4 +1,4 @@
-import { renderSlot as R, openBlock as d, createBlock as y, Teleport as Bs, createCommentVNode as S, ref as N, readonly as Ds, getCurrentInstance as Ls, onMounted as Do, nextTick as Es, watch as Jt, mergeProps as f, createElementBlock as g, createElementVNode as x, resolveDirective as He, resolveDynamicComponent as G, Fragment as z, toDisplayString as _, normalizeProps as no, withDirectives as De, resolveComponent as H, withCtx as M, createVNode as F, TransitionGroup as Ms, renderList as le, createTextVNode as Fe, normalizeClass as Y, Transition as Wt, createSlots as Mt, normalizeStyle as jr, toHandlers as mo, withModifiers as Lo, withKeys as be, computed as Ma, mergeModels as $t, useModel as oo, watchEffect as Eo, unref as j, vShow as ar, reactive as lr, defineComponent as $s } from "vue";
+import { renderSlot as R, openBlock as d, createBlock as y, Teleport as Bs, createCommentVNode as S, ref as N, readonly as Ds, getCurrentInstance as Ls, onMounted as Do, nextTick as Es, watch as Jt, mergeProps as f, createElementBlock as g, createElementVNode as x, resolveDirective as He, resolveDynamicComponent as G, Fragment as z, toDisplayString as _, normalizeProps as no, withDirectives as De, resolveComponent as H, withCtx as M, createVNode as F, TransitionGroup as Ms, renderList as le, createTextVNode as Fe, normalizeClass as Y, Transition as Wt, createSlots as Mt, normalizeStyle as jr, toHandlers as mo, withModifiers as Lo, withKeys as be, computed as Ma, mergeModels as $t, useModel as oo, watchEffect as Eo, unref as K, vShow as ar, reactive as lr, defineComponent as $s } from "vue";
 function As(t, e) {
   return t ? t.classList ? t.classList.contains(e) : new RegExp("(^| )" + e + "( |$)", "gi").test(t.className) : !1;
 }
@@ -21569,12 +21569,12 @@ const ai = (t, e = 1e4) => {
     }, h = (b) => {
       n.value = b.value.id, r("set-value");
     };
-    return (b, v) => (d(), y(j(Nl), {
+    return (b, v) => (d(), y(K(Nl), {
       onKeydown: v[3] || (v[3] = be(Lo(() => {
       }, ["stop"]), ["tab"]))
     }, {
       default: M(() => [
-        F(j(pt), {
+        F(K(pt), {
           modelValue: n.value,
           "onUpdate:modelValue": v[0] || (v[0] = (w) => n.value = w),
           onBlur: m,
@@ -21583,7 +21583,7 @@ const ai = (t, e = 1e4) => {
           class: "gts-ac__id-field",
           disabled: t.disabled
         }, null, 8, ["modelValue", "disabled"]),
-        F(j(ti), {
+        F(K(ti), {
           modelValue: l.value,
           "onUpdate:modelValue": v[2] || (v[2] = (w) => l.value = w),
           dropdown: "",
@@ -24868,7 +24868,7 @@ const ci = {
       }
     });
     return (r, a) => (d(), g("div", null, [
-      F(j(fs), {
+      F(K(fs), {
         modelValue: i.value,
         "onUpdate:modelValue": a[0] || (a[0] = (l) => i.value = l),
         showIcon: "",
@@ -24909,7 +24909,7 @@ const ci = {
     }, s = () => {
       a.value = [];
     };
-    return (c, p) => (d(), y(j(ti), {
+    return (c, p) => (d(), y(K(ti), {
       modelValue: r.value,
       "onUpdate:modelValue": p[0] || (p[0] = (m) => r.value = m),
       dropdown: "",
@@ -25007,7 +25007,7 @@ const ci = {
         "model-value": n.value,
         "onUpdate:modelValue": c[4] || (c[4] = (m) => l(m)),
         disabled: t.use_readonly && i.value.readonly
-      }, null, 8, ["model-value", "disabled"])) : i.value.type == "boolean" ? (d(), y(j(li), {
+      }, null, 8, ["model-value", "disabled"])) : i.value.type == "boolean" ? (d(), y(K(li), {
         key: 6,
         modelValue: n.value,
         "onUpdate:modelValue": c[5] || (c[5] = (m) => n.value = m),
@@ -25786,11 +25786,11 @@ const di = {
         for (let l in n.tabs)
           i.value[l].refresh();
     } }), (a, l) => (d(), g(z, null, [
-      F(j(hs), { value: o.value }, {
+      F(K(hs), { value: o.value }, {
         default: M(() => [
-          F(j(ms), null, {
+          F(K(ms), null, {
             default: M(() => [
-              (d(!0), g(z, null, le(t.tabs, (u) => (d(), y(j(gs), {
+              (d(!0), g(z, null, le(t.tabs, (u) => (d(), y(K(gs), {
                 value: u.key
               }, {
                 default: M(() => [
@@ -25801,9 +25801,9 @@ const di = {
             ]),
             _: 1
           }),
-          F(j(bs), null, {
+          F(K(bs), null, {
             default: M(() => [
-              (d(!0), g(z, null, le(t.tabs, (u) => (d(), y(j(vs), {
+              (d(!0), g(z, null, le(t.tabs, (u) => (d(), y(K(vs), {
                 value: u.key
               }, {
                 default: M(() => [
@@ -25827,7 +25827,7 @@ const di = {
         ]),
         _: 1
       }, 8, ["value"]),
-      F(j(sn))
+      F(K(sn))
     ], 64));
   }
 }, Dv = { class: "flex items-center gap-4 mb-4" }, Lv = ["for"], Ev = ["id"], pi = {
@@ -25884,7 +25884,7 @@ const di = {
             id: a.field,
             class: "flex-auto",
             autocomplete: "off"
-          }, _(e.value[a.field]), 9, Ev)) : a.type == "textarea" ? (d(), y(j(on), {
+          }, _(e.value[a.field]), 9, Ev)) : a.type == "textarea" ? (d(), y(K(on), {
             key: 1,
             id: a.field,
             modelValue: e.value[a.field],
@@ -25893,7 +25893,7 @@ const di = {
             disabled: a.readonly,
             class: "flex-auto",
             autocomplete: "off"
-          }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "disabled"])) : a.type == "number" ? (d(), y(j(ot), {
+          }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "disabled"])) : a.type == "number" ? (d(), y(K(ot), {
             key: 2,
             id: a.field,
             modelValue: e.value[a.field],
@@ -25918,7 +25918,7 @@ const di = {
             disabled: a.readonly,
             class: "flex-auto",
             autocomplete: "off"
-          }, null, 8, ["id", "onUpdate:id", "options", "disabled"])) : a.type == "decimal" ? (d(), y(j(ot), {
+          }, null, 8, ["id", "onUpdate:id", "options", "disabled"])) : a.type == "decimal" ? (d(), y(K(ot), {
             key: 5,
             id: a.field,
             modelValue: e.value[a.field],
@@ -25928,7 +25928,7 @@ const di = {
             disabled: a.readonly,
             class: "flex-auto",
             autocomplete: "off"
-          }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : a.type == "boolean" ? (d(), y(j(li), {
+          }, null, 8, ["id", "modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : a.type == "boolean" ? (d(), y(K(li), {
             key: 6,
             id: a.field,
             modelValue: e.value[a.field],
@@ -25941,7 +25941,7 @@ const di = {
             disabled: a.readonly,
             class: "flex-auto",
             autocomplete: "off"
-          }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (d(), y(j(pt), {
+          }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (d(), y(K(pt), {
             key: 8,
             id: a.field,
             modelValue: e.value[a.field],
@@ -26078,11 +26078,11 @@ const di = {
       for (let O in ne)
         switch (ne[O].type) {
           default:
-            const K = ne[O].default ? ne[O].default : null;
+            const j = ne[O].default ? ne[O].default : null;
             P[O] = {
               operator: Ne.AND,
               constraints: [
-                { value: K, matchMode: ue.EQUALS }
+                { value: j, matchMode: ue.EQUALS }
               ]
             };
         }
@@ -26116,7 +26116,7 @@ const di = {
         const P = await r.options();
         if (P.data.hasOwnProperty("fields")) {
           W = P.data.fields, P.data.limit !== !1 && (b.value = P.data.limit, L.value.rows = P.data.limit), P.data.selects && (se.value = P.data.selects);
-          let O = [], K = [];
+          let O = [], j = [];
           for (let T in W) {
             switch (W[T].field = T, W[T].hasOwnProperty("label") || (W[T].label = T), W[T].hasOwnProperty("type") || (W[T].type = "text"), W[T].hasOwnProperty("readonly") && (W[T].readonly === !0 || W[T].readonly == 1 ? W[T].readonly = !0 : W[T].readonly = !1), W[T].select_data && (se.value[T] || (se.value[T] = {}), se.value[T].rows = W[T].select_data), W[T].type) {
               case "view":
@@ -26134,7 +26134,7 @@ const di = {
               default:
                 W[T].dataType = "text";
             }
-            K.push(W[T]), O.push(T);
+            j.push(W[T]), O.push(T);
           }
           if (P.data.hasOwnProperty("row_class_trigger") && (Le.value = P.data.row_class_trigger), P.data.hasOwnProperty("table_tree") && (ce.value = P.data.table_tree), P.data.hasOwnProperty("filters")) {
             ne = P.data.filters;
@@ -26189,7 +26189,7 @@ const di = {
             }
             E.action || (E.action = T), Ke && (E.hasOwnProperty("row") && (Z.value = !0), J.value.push(E));
           }
-          $.value = K;
+          $.value = j;
         }
         await ht();
       } catch (P) {
@@ -26209,8 +26209,8 @@ const di = {
       if (ye.value[P.id])
         delete ye.value[P.id], delete O[P.id], await qe(O), delete Se.value[P.id];
       else {
-        let K = {};
-        delete O[P.id], await qe(O), K[ce.value.parentIdField] = {
+        let j = {};
+        delete O[P.id], await qe(O), j[ce.value.parentIdField] = {
           operator: Ne.AND,
           constraints: [
             {
@@ -26218,7 +26218,7 @@ const di = {
               matchMode: ue.EQUALS
             }
           ]
-        }, Ge.value[P.id] = { ...K, ...s.value }, Se.value[P.id] = {
+        }, Ge.value[P.id] = { ...j, ...s.value }, Se.value[P.id] = {
           action: "subtables",
           table: o.table
         }, O[P.id] = !0, ye.value[P.id] = !0, ve.value = { ...O };
@@ -26226,15 +26226,15 @@ const di = {
     }, Ge = N({}), qe = async (P) => {
       ve.value = { ...P };
     }, ft = async (P, O) => {
-      let K = { ...ve.value };
-      if (K.hasOwnProperty(P.id))
+      let j = { ...ve.value };
+      if (j.hasOwnProperty(P.id))
         if (Se.value[P.id].table == O.table) {
-          delete K[P.id], await qe(K);
+          delete j[P.id], await qe(j);
           return;
         } else
-          delete K[P.id], await qe(K), K[P.id] = !0;
+          delete j[P.id], await qe(j), j[P.id] = !0;
       else
-        K[P.id] = !0;
+        j[P.id] = !0;
       if (Se.value[P.id] = O, O.action == "subtables") {
         if (O.hasOwnProperty("where")) {
           let C = {};
@@ -26267,7 +26267,7 @@ const di = {
             Ge.value.hasOwnProperty(P.id) || (Ge.value[P.id] = {}), Ge.value[P.id][C] = T;
           }
       }
-      ve.value = { ...K };
+      ve.value = { ...j };
     }, lt = N({}), zt = N({}), je = N({}), ht = async (P) => {
       w.value = !0, L.value = {
         ...L.value,
@@ -26276,7 +26276,7 @@ const di = {
       let O = {};
       for (let C in s.value)
         s.value[C].hasOwnProperty("constraints") ? s.value[C].constraints[0].value !== null && (O[C] = s.value[C]) : s.value[C].value !== null && (O[C] = s.value[C]);
-      let K = {
+      let j = {
         limit: L.value.rows,
         setTotal: 1,
         offset: L.value.first,
@@ -26286,7 +26286,7 @@ const di = {
         filters: O
       };
       try {
-        const C = await r.read(K);
+        const C = await r.read(j);
         if (q.value = $v(C.data.rows, W), !C.success && C.message && a("error", { detail: C.message }), C.data.autocomplete)
           for (let T in C.data.autocomplete)
             lt.value[T] = C.data.autocomplete[T];
@@ -26295,12 +26295,12 @@ const di = {
         a("error", { detail: C.message });
       }
     }, { cacheAction: Qe, cache: Bt } = ys(), pn = async (P) => {
-      let { data: O, newValue: K, field: C } = P;
-      if (O[C] == K)
+      let { data: O, newValue: j, field: C } = P;
+      if (O[C] == j)
         return;
       const T = {
         id: O.id,
-        [C]: K
+        [C]: j
       };
       Qe({ type: "update", payload: T });
       let E = {};
@@ -26311,7 +26311,7 @@ const di = {
       };
       try {
         const ee = await r.update(T, Ke);
-        if (i("get-response", { action: "update", response: ee }), O[C] = K, ee.success || a("error", { detail: ee.message }, !0), ee.data.refresh_table == 1 && Ue(), ee.data.customFields)
+        if (i("get-response", { action: "update", response: ee }), O[C] = j, ee.success || a("error", { detail: ee.message }, !0), ee.data.refresh_table == 1 && Ue(), ee.data.customFields)
           for (let ke in ee.data.customFields)
             je.value[ke] = ee.data.customFields[ke];
         if (ee.data.refresh_row == 1 ? q.value[I(Number(ee.data.object.id))] = ee.data.object : ee.data.defvalues && (q.value[I(Number(ee.data.object.id))] = { ...q.value[I(Number(ee.data.object.id))], ...ee.data.defvalues }), ee.data.row_setting)
@@ -26332,47 +26332,47 @@ const di = {
     }, V = async () => {
       fn.value = !0;
       let P = {};
-      for (let K in s.value)
-        s.value[K].hasOwnProperty("constraints") ? s.value[K].constraints[0].value !== null && (P[K] = s.value[K]) : s.value[K].value !== null && (P[K] = s.value[K]);
+      for (let j in s.value)
+        s.value[j].hasOwnProperty("constraints") ? s.value[j].constraints[0].value !== null && (P[j] = s.value[j]) : s.value[j].value !== null && (P[j] = s.value[j]);
       let O = {
         filters: P
       };
       if (Te.value.id)
         try {
-          const K = await r.update(Te.value, O);
-          K.data.customFields && (je.value[Te.value.id] = K.data.customFields[Te.value.id]), K.data.refresh_row == 1 && (Te.value = K.data.object), K.data.refresh_table == 1 && Ue(), q.value[I(Number(Te.value.id))] = Te.value, ze.value = !1, Te.value = {};
-        } catch (K) {
-          a("error", { detail: K.message });
+          const j = await r.update(Te.value, O);
+          j.success || a("error", { detail: j.message }, !0), j.data.customFields && (je.value[Te.value.id] = j.data.customFields[Te.value.id]), j.data.refresh_row == 1 && (Te.value = j.data.object), j.data.refresh_table == 1 && Ue(), q.value[I(Number(Te.value.id))] = Te.value, ze.value = !1, Te.value = {};
+        } catch (j) {
+          a("error", { detail: j.message });
         }
       else
         try {
           await r.create(Te.value, O), Ue(), ze.value = !1, Te.value = {};
-        } catch (K) {
-          a("error", { detail: K.message });
+        } catch (j) {
+          a("error", { detail: j.message });
         }
     }, U = async (P) => {
       let O = {};
-      for (let K in s.value)
-        s.value[K].hasOwnProperty("constraints") ? s.value[K].constraints[0].value !== null && (O[K] = s.value[K]) : s.value[K].value !== null && (O[K] = s.value[K]);
+      for (let j in s.value)
+        s.value[j].hasOwnProperty("constraints") ? s.value[j].constraints[0].value !== null && (O[j] = s.value[j]) : s.value[j].value !== null && (O[j] = s.value[j]);
       try {
-        await r.action("insert_child", { [ce.value.parentIdField]: P[ce.value.idField], filters: O }), Ue();
-      } catch (K) {
-        a("error", { detail: K.message });
+        response = await r.action("insert_child", { [ce.value.parentIdField]: P[ce.value.idField], filters: O }), response.success || a("error", { detail: response.message }, !0), Ue();
+      } catch (j) {
+        a("error", { detail: j.message });
       }
     }, de = async () => {
       let P = {};
       for (let O in s.value)
         s.value[O].hasOwnProperty("constraints") ? s.value[O].constraints[0].value !== null && (P[O] = s.value[O]) : s.value[O].value !== null && (P[O] = s.value[O]);
       try {
-        await r.action("insert", { filters: P }), Ue();
+        response = await r.action("insert", { filters: P }), response.success || a("error", { detail: response.message }, !0), Ue();
       } catch (O) {
         a("error", { detail: O.message });
       }
     }, I = (P) => {
       let O = -1;
-      for (let K = 0; K < q.value.length; K++)
-        if (q.value[K].id === P) {
-          O = K;
+      for (let j = 0; j < q.value.length; j++)
+        if (q.value[j].id === P) {
+          O = j;
           break;
         }
       return O;
@@ -26380,20 +26380,20 @@ const di = {
       Te.value = {}, fn.value = !1, ze.value = !0;
     }, te = async (P) => {
       let O = {};
-      for (let K in s.value)
-        s.value[K].hasOwnProperty("constraints") ? s.value[K].constraints[0].value !== null && (O[K] = s.value[K]) : s.value[K].value !== null && (O[K] = s.value[K]);
+      for (let j in s.value)
+        s.value[j].hasOwnProperty("constraints") ? s.value[j].constraints[0].value !== null && (O[j] = s.value[j]) : s.value[j].value !== null && (O[j] = s.value[j]);
       try {
-        const K = await r.action(P.action, { filters: O });
-        K.success || a("error", { detail: K.message }), Ue();
-      } catch (K) {
-        a("error", { detail: K.message });
+        const j = await r.action(P.action, { filters: O });
+        j.success || a("error", { detail: j.message }), Ue();
+      } catch (j) {
+        a("error", { detail: j.message });
       }
     }, Be = async (P, O) => {
-      let K = {};
+      let j = {};
       for (let C in s.value)
-        s.value[C].hasOwnProperty("constraints") ? s.value[C].constraints[0].value !== null && (K[C] = s.value[C]) : s.value[C].value !== null && (K[C] = s.value[C]);
+        s.value[C].hasOwnProperty("constraints") ? s.value[C].constraints[0].value !== null && (j[C] = s.value[C]) : s.value[C].value !== null && (j[C] = s.value[C]);
       try {
-        const C = await r.action(O.action, { ...P, filters: K });
+        const C = await r.action(O.action, { ...P, filters: j });
         i("get-response", { action: O.action, response: C }), C.success || a("error", { detail: C.message }), Ue();
       } catch (C) {
         a("error", { detail: C.message });
@@ -26426,8 +26426,8 @@ const di = {
     }, Ps = () => {
       jt.value = !1;
     }, Is = (P, O) => {
-      let K = "td-body " + P.type, C = !1;
-      return je.value[O.id] && je.value[O.id][P.field] && je.value[O.id][P.field].readonly == 1 && (C = !0), P.readonly || C ? K + " readonly" : K;
+      let j = "td-body " + P.type, C = !1;
+      return je.value[O.id] && je.value[O.id][P.field] && je.value[O.id][P.field].readonly == 1 && (C = !0), P.readonly || C ? j + " readonly" : j;
     }, Rs = (P) => P.type, Ts = (P) => {
       if (zt.value[P.id] && zt.value[P.id].class)
         return zt.value[P.id].class;
@@ -26435,12 +26435,12 @@ const di = {
         return Le.value.class;
     }, ho = (P, O) => !!(je.value[P.id] && je.value[P.id][O] && je.value[P.id][O].readonly == 1);
     return (P, O) => {
-      const K = H("PVTables", !0);
+      const j = H("PVTables", !0);
       return d(), g(z, null, [
         x("div", Av, [
-          F(j(ei), { class: "p-mb-4" }, {
+          F(K(ei), { class: "p-mb-4" }, {
             start: M(() => [
-              (d(!0), g(z, null, le(j(J).filter((C) => C.head), (C) => (d(), y(j(Oe), {
+              (d(!0), g(z, null, le(K(J).filter((C) => C.head), (C) => (d(), y(K(Oe), {
                 icon: C.icon,
                 label: C.label,
                 class: Y(C.class),
@@ -26470,12 +26470,12 @@ const di = {
                   class: Y(["pi", { "pi-moon": l.value, "pi-sun": !l.value }])
                 }, null, 2)
               ]),
-              F(j(Oe), {
+              F(K(Oe), {
                 icon: "pi pi-refresh",
                 class: "p-button-rounded p-button-success",
                 onClick: O[0] || (O[0] = (C) => Ue())
               }),
-              F(j(Oe), {
+              F(K(Oe), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: O[1] || (O[1] = (C) => h())
@@ -26483,7 +26483,7 @@ const di = {
             ]),
             _: 1
           }),
-          F(j(Qr), {
+          F(K(Qr), {
             value: q.value,
             lazy: "",
             paginator: "",
@@ -26525,7 +26525,7 @@ const di = {
           }, {
             expansion: M((C) => [
               Se.value[C.data.id].action == "subtables" ? (d(), g("div", Fv, [
-                F(K, {
+                F(j, {
                   table: Se.value[C.data.id].table,
                   actions: t.actions,
                   filters: Ge.value[C.data.id],
@@ -26546,18 +26546,18 @@ const di = {
               ])) : S("", !0)
             ]),
             default: M(() => [
-              ce.value ? (d(), y(j(Ht), {
+              ce.value ? (d(), y(K(Ht), {
                 key: 0,
                 headerStyle: "width: 3rem"
               }, {
                 body: M(({ data: C }) => [
                   C.gtsapi_children_count > 0 ? (d(), g(z, { key: 0 }, [
-                    ye.value[C.id] ? (d(), y(j(Oe), {
+                    ye.value[C.id] ? (d(), y(K(Oe), {
                       key: 0,
                       icon: "pi pi-angle-down",
                       class: "p-button-text",
                       onClick: (T) => Xe(C)
-                    }, null, 8, ["onClick"])) : (d(), y(j(Oe), {
+                    }, null, 8, ["onClick"])) : (d(), y(K(Oe), {
                       key: 1,
                       icon: "pi pi-angle-right",
                       class: "p-button-text",
@@ -26567,11 +26567,11 @@ const di = {
                 ]),
                 _: 1
               })) : S("", !0),
-              F(j(Ht), {
+              F(K(Ht), {
                 selectionMode: "multiple",
                 headerStyle: "width: 3rem"
               }),
-              (d(!0), g(z, null, le($.value.filter((C) => C.modal_only != !0), (C) => (d(), y(j(Ht), {
+              (d(!0), g(z, null, le($.value.filter((C) => C.modal_only != !0), (C) => (d(), y(K(Ht), {
                 field: C.field,
                 header: C.label,
                 sortable: "",
@@ -26604,22 +26604,22 @@ const di = {
                     use_readonly: !1,
                     class: "p-column-filter"
                   }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "autocompleteSettings", "selectSettings"])) : (d(), g(z, { key: 1 }, [
-                    C.type == "number" ? (d(), y(j(ot), {
+                    C.type == "number" ? (d(), y(K(ot), {
                       key: 0,
                       modelValue: T.value,
                       "onUpdate:modelValue": (E) => T.value = E
-                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : C.type == "decimal" ? (d(), y(j(ot), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : C.type == "decimal" ? (d(), y(K(ot), {
                       key: 1,
                       modelValue: T.value,
                       "onUpdate:modelValue": (E) => T.value = E,
                       minFractionDigits: C.FractionDigits,
                       maxFractionDigits: C.FractionDigits
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits"])) : C.type == "textarea" ? (d(), y(j(on), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits"])) : C.type == "textarea" ? (d(), y(K(on), {
                       key: 2,
                       modelValue: T.value,
                       "onUpdate:modelValue": (E) => T.value = E,
                       rows: "1"
-                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : (d(), y(j(pt), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : (d(), y(K(pt), {
                       key: 3,
                       modelValue: T.value,
                       "onUpdate:modelValue": (E) => T.value = E
@@ -26640,25 +26640,25 @@ const di = {
                       selectSettings: se.value[E],
                       onSetValue: (Ke) => pn({ data: T, field: E, newValue: Ke }),
                       customFields: je.value[T.id]
-                    }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])) : C.type == "number" ? (d(), y(j(ot), {
+                    }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])) : C.type == "number" ? (d(), y(K(ot), {
                       key: 1,
                       modelValue: T[E],
                       "onUpdate:modelValue": (Ke) => T[E] = Ke,
                       disabled: ho(T, E)
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : C.type == "decimal" ? (d(), y(j(ot), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : C.type == "decimal" ? (d(), y(K(ot), {
                       key: 2,
                       modelValue: T[E],
                       "onUpdate:modelValue": (Ke) => T[E] = Ke,
                       minFractionDigits: C.FractionDigits,
                       maxFractionDigits: C.FractionDigits,
                       disabled: ho(T, E)
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : C.type == "textarea" ? (d(), y(j(on), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : C.type == "textarea" ? (d(), y(K(on), {
                       key: 3,
                       modelValue: T[E],
                       "onUpdate:modelValue": (Ke) => T[E] = Ke,
                       rows: "1",
                       disabled: ho(T, E)
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (d(), y(j(pt), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (d(), y(K(pt), {
                       key: 4,
                       modelValue: T[E],
                       "onUpdate:modelValue": (Ke) => T[E] = Ke,
@@ -26668,13 +26668,13 @@ const di = {
                   key: "0"
                 } : void 0
               ]), 1032, ["field", "header", "dataType", "class"]))), 256)),
-              Z.value ? (d(), y(j(Ht), {
+              Z.value ? (d(), y(K(Ht), {
                 key: 1,
                 exportable: !1,
                 style: { "white-space": "nowrap" }
               }, {
                 body: M((C) => [
-                  (d(!0), g(z, null, le(j(J).filter((T) => T.row), (T) => (d(), y(j(Oe), {
+                  (d(!0), g(z, null, le(K(J).filter((T) => T.row), (T) => (d(), y(K(Oe), {
                     icon: T.icon,
                     class: Y(T.class),
                     onClick: (E) => T.click(C.data, $.value, t.table, s.value)
@@ -26685,20 +26685,20 @@ const di = {
             ]),
             _: 1
           }, 8, ["value", "first", "rows", "totalRecords", "loading", "selection", "selectAll", "filters", "globalFilterFields", "expandedRows"]),
-          F(j(Ut), {
+          F(K(Ut), {
             visible: ze.value,
             "onUpdate:visible": O[9] || (O[9] = (C) => ze.value = C),
             header: "Редактировать",
             modal: ""
           }, {
             footer: M(() => [
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: Wo
               }),
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -26717,20 +26717,20 @@ const di = {
             ]),
             _: 1
           }, 8, ["visible"]),
-          F(j(Ut), {
+          F(K(Ut), {
             visible: we.value,
             "onUpdate:visible": O[11] || (O[11] = (C) => we.value = C),
             header: "Confirm",
             modal: ""
           }, {
             footer: M(() => [
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: O[10] || (O[10] = (C) => we.value = !1)
               }),
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -26745,20 +26745,20 @@ const di = {
             ]),
             _: 1
           }, 8, ["visible"]),
-          F(j(Ut), {
+          F(K(Ut), {
             visible: kt.value,
             "onUpdate:visible": O[13] || (O[13] = (C) => kt.value = C),
             header: "Confirm",
             modal: ""
           }, {
             footer: M(() => [
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: O[12] || (O[12] = (C) => kt.value = !1)
               }),
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -26774,7 +26774,7 @@ const di = {
             _: 1
           }, 8, ["visible"])
         ]),
-        F(j(sn))
+        F(K(sn))
       ], 64);
     };
   }
@@ -26791,7 +26791,7 @@ const di = {
           filters: {}
         }, null, 8, ["tabs"])
       ])) : (d(), g("p", Wv, "Табы не заданы!")),
-      F(j(sn))
+      F(K(sn))
     ], 64));
   }
 }, Zv = { key: 0 }, qv = { key: 1 }, _v = {
@@ -26808,7 +26808,7 @@ const di = {
           key: e.value
         }, null, 8, ["table"]))
       ])) : (d(), g("p", qv, "Таблица не задана!")),
-      F(j(sn))
+      F(K(sn))
     ], 64));
   }
 }, Jv = { class: "card" }, Xv = {
@@ -27093,9 +27093,9 @@ const di = {
       const de = H("PVTables");
       return d(), g(z, null, [
         x("div", Jv, [
-          F(j(ei), { class: "p-mb-4" }, {
+          F(K(ei), { class: "p-mb-4" }, {
             start: M(() => [
-              (d(!0), g(z, null, le(j(v).filter((I) => I.head), (I) => (d(), y(j(Oe), {
+              (d(!0), g(z, null, le(K(v).filter((I) => I.head), (I) => (d(), y(K(Oe), {
                 icon: I.icon,
                 label: I.label,
                 class: Y(I.class),
@@ -27125,7 +27125,7 @@ const di = {
                   class: Y(["pi", { "pi-moon": i.value, "pi-sun": !i.value }])
                 }, null, 2)
               ]),
-              F(j(Oe), {
+              F(K(Oe), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: U[0] || (U[0] = (I) => s())
@@ -27133,7 +27133,7 @@ const di = {
             ]),
             _: 1
           }),
-          F(j(Qr), {
+          F(K(Qr), {
             value: e.value,
             ref_key: "dt",
             ref: c,
@@ -27183,11 +27183,11 @@ const di = {
               ])) : S("", !0)
             ]),
             default: M(() => [
-              F(j(Ht), {
+              F(K(Ht), {
                 selectionMode: "multiple",
                 headerStyle: "width: 3rem"
               }),
-              (d(!0), g(z, null, le(b.value.filter((I) => I.modal_only != !0), (I) => (d(), y(j(Ht), {
+              (d(!0), g(z, null, le(b.value.filter((I) => I.modal_only != !0), (I) => (d(), y(K(Ht), {
                 field: I.field,
                 header: I.label,
                 sortable: "",
@@ -27219,22 +27219,22 @@ const di = {
                     selectSettings: k.value[I.field],
                     class: "p-column-filter"
                   }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "autocompleteSettings", "selectSettings"])) : (d(), g(z, { key: 1 }, [
-                    I.type == "number" ? (d(), y(j(ot), {
+                    I.type == "number" ? (d(), y(K(ot), {
                       key: 0,
                       modelValue: A.value,
                       "onUpdate:modelValue": (te) => A.value = te
-                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : I.type == "decimal" ? (d(), y(j(ot), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : I.type == "decimal" ? (d(), y(K(ot), {
                       key: 1,
                       modelValue: A.value,
                       "onUpdate:modelValue": (te) => A.value = te,
                       minFractionDigits: I.FractionDigits,
                       maxFractionDigits: I.FractionDigits
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits"])) : I.type == "textarea" ? (d(), y(j(on), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits"])) : I.type == "textarea" ? (d(), y(K(on), {
                       key: 2,
                       modelValue: A.value,
                       "onUpdate:modelValue": (te) => A.value = te,
                       rows: "1"
-                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : (d(), y(j(pt), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue"])) : (d(), y(K(pt), {
                       key: 3,
                       modelValue: A.value,
                       "onUpdate:modelValue": (te) => A.value = te
@@ -27255,25 +27255,25 @@ const di = {
                       selectSettings: k.value[te],
                       onSetValue: (Be) => Le({ data: A, field: te, newValue: Be }),
                       customFields: ze.value[A.id]
-                    }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])) : I.type == "number" ? (d(), y(j(ot), {
+                    }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])) : I.type == "number" ? (d(), y(K(ot), {
                       key: 1,
                       modelValue: A[te],
                       "onUpdate:modelValue": (Be) => A[te] = Be,
                       disabled: Zt(A, te)
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : I.type == "decimal" ? (d(), y(j(ot), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : I.type == "decimal" ? (d(), y(K(ot), {
                       key: 2,
                       modelValue: A[te],
                       "onUpdate:modelValue": (Be) => A[te] = Be,
                       minFractionDigits: I.FractionDigits,
                       maxFractionDigits: I.FractionDigits,
                       disabled: Zt(A, te)
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : I.type == "textarea" ? (d(), y(j(on), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : I.type == "textarea" ? (d(), y(K(on), {
                       key: 3,
                       modelValue: A[te],
                       "onUpdate:modelValue": (Be) => A[te] = Be,
                       rows: "1",
                       disabled: Zt(A, te)
-                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (d(), y(j(pt), {
+                    }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (d(), y(K(pt), {
                       key: 4,
                       modelValue: A[te],
                       "onUpdate:modelValue": (Be) => A[te] = Be,
@@ -27283,13 +27283,13 @@ const di = {
                   key: "0"
                 } : void 0
               ]), 1032, ["field", "header", "dataType", "class"]))), 256)),
-              w.value ? (d(), y(j(Ht), {
+              w.value ? (d(), y(K(Ht), {
                 key: 0,
                 exportable: !1,
                 style: { "white-space": "nowrap" }
               }, {
                 body: M((I) => [
-                  (d(!0), g(z, null, le(j(v).filter((A) => A.row), (A) => (d(), y(j(Oe), {
+                  (d(!0), g(z, null, le(K(v).filter((A) => A.row), (A) => (d(), y(K(Oe), {
                     icon: A.icon,
                     class: Y(A.class),
                     onClick: (te) => A.click(I.data, b.value, t.table, a.value)
@@ -27300,20 +27300,20 @@ const di = {
             ]),
             _: 1
           }, 8, ["value", "loading", "selection", "selectAll", "filters", "expandedRows"]),
-          F(j(Ut), {
+          F(K(Ut), {
             visible: ye.value,
             "onUpdate:visible": U[5] || (U[5] = (I) => ye.value = I),
             header: "Редактировать",
             modal: ""
           }, {
             footer: M(() => [
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: Ae
               }),
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -27331,20 +27331,20 @@ const di = {
             ]),
             _: 1
           }, 8, ["visible"]),
-          F(j(Ut), {
+          F(K(Ut), {
             visible: qe.value,
             "onUpdate:visible": U[7] || (U[7] = (I) => qe.value = I),
             header: "Confirm",
             modal: ""
           }, {
             footer: M(() => [
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: U[6] || (U[6] = (I) => qe.value = !1)
               }),
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -27359,20 +27359,20 @@ const di = {
             ]),
             _: 1
           }, 8, ["visible"]),
-          F(j(Ut), {
+          F(K(Ut), {
             visible: ft.value,
             "onUpdate:visible": U[9] || (U[9] = (I) => ft.value = I),
             header: "Confirm",
             modal: ""
           }, {
             footer: M(() => [
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: U[8] || (U[8] = (I) => ft.value = !1)
               }),
-              F(j(Oe), {
+              F(K(Oe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -27388,7 +27388,7 @@ const di = {
             _: 1
           }, 8, ["visible"])
         ]),
-        F(j(sn))
+        F(K(sn))
       ], 64);
     };
   }
