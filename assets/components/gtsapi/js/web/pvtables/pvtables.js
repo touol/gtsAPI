@@ -26355,7 +26355,8 @@ const di = {
       for (let j in s.value)
         s.value[j].hasOwnProperty("constraints") ? s.value[j].constraints[0].value !== null && (O[j] = s.value[j]) : s.value[j].value !== null && (O[j] = s.value[j]);
       try {
-        response = await r.action("insert_child", { [ce.value.parentIdField]: P[ce.value.idField], filters: O }), response.success || a("error", { detail: response.message }, !0), Ue();
+        const j = await r.action("insert_child", { [ce.value.parentIdField]: P[ce.value.idField], filters: O });
+        j.success || a("error", { detail: j.message }, !0), Ue();
       } catch (j) {
         a("error", { detail: j.message });
       }
@@ -26364,7 +26365,8 @@ const di = {
       for (let O in s.value)
         s.value[O].hasOwnProperty("constraints") ? s.value[O].constraints[0].value !== null && (P[O] = s.value[O]) : s.value[O].value !== null && (P[O] = s.value[O]);
       try {
-        response = await r.action("insert", { filters: P }), response.success || a("error", { detail: response.message }, !0), Ue();
+        const O = await r.action("insert", { filters: P });
+        O.success || a("error", { detail: O.message }, !0), Ue();
       } catch (O) {
         a("error", { detail: O.message });
       }
