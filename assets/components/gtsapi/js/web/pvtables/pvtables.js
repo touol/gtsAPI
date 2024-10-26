@@ -25867,7 +25867,7 @@ const di = {
           let r = n.customFields[n.columns[i].field];
           r.readonly == 1 ? n.columns[i].readonly = !0 : n.columns[i].readonly = !1, r.select_data && (o.value[n.columns[i].field] || (o.value[n.columns[i].field] = {}), o.value[n.columns[i].field].rows = r.select_data);
         }
-        i.type == "boolean" && e.value[n.columns[i].field] == "1" && (e.value[n.columns[i].field] = !0);
+        n.columns[i].type == "boolean" && e.value[n.columns[i].field] == "1" && (e.value[n.columns[i].field] = !0);
       }
     }), (i, r) => (d(), g("div", {
       class: Y({ "flex flex-wrap": t.inline })
