@@ -39,6 +39,7 @@ Changelog for gtsAPI.
 - jsonTable минимальные фильтры.
 - after_field.
 - Правка autocomplete.
+- Фильтр ids и show_id.
 
 1.0.7-beta
 ==============

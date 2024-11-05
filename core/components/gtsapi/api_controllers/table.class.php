@@ -210,9 +210,16 @@ class tableAPIController{
             }
             $default['where'] = array_merge($default['where'],$where);
         }
+        if(isset($request['ids']) and is_array($request['ids'])){
+            if(empty($default['where'])) $default['where'] = [];
+            $default['where']["{$rule['class']}.id:IN"] = $request['ids'];
+        }
         $default['decodeJSON'] = 1;
         if(!empty($request['id'])){
             $default['where']["{$rule['class']}.id"] = $request['id'];
+        }
+        if(!empty($request['show_id']) and isset($autocomplete['show_id_where'])){
+            $default['where'][1001] = "({$rule['class']}.id = {$request['show_id']} or {$autocomplete['show_id_where']} = {$request['show_id']})";
         }
         if(isset($autocomplete['limit'])){
             $default['limit'] = $autocomplete['limit'];
@@ -261,7 +268,7 @@ class tableAPIController{
             'rows'=>$rows0,
             'total'=>$total,
             'default'=>$default,
-            // 'log'=>$this->pdo->getTime()
+            'log'=>$this->pdo->getTime()
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
 
@@ -939,7 +946,7 @@ class tableAPIController{
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
         // $this->modx->log(1,"read".$this->pdo->getTime());
-        $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows0,$request['offset']);
+        $out['autocomplete'] = $this->autocompletes($this->addFields($rule,$rule['properties']['fields']),$rows0,$request['offset']);
         
         if(!empty($rule['properties']['slTree'])){
             $out['slTree'] = $this->getslTree($rule['properties']['slTree'],$rows0,$parents);
@@ -949,6 +956,8 @@ class tableAPIController{
         if(!$resp['success']) return $resp;
         
         if(!empty($resp['data']['out'])) $out = $resp['data']['out'];
+        if(!empty($resp['data']['timings'])) $out['timings'] = $resp['data']['timings'];
+        
         if(!empty($rule['properties']['table_tree'])){//table_tree
             foreach($out['rows'] as $k=>$row){
                 $where = [
