@@ -764,15 +764,44 @@ class tableAPIController{
         $request = $this->request_array_to_json($request);
         $obj = $this->modx->newObject($rule['class'],$data);
         
+        //class link Редактирование 2 таблиц одновременно
+        $set_data[$rule['class']] = [];
+        $fields = [];
+        if(!empty($rule['properties']['fields'])){
+            $fields = $this->addFields($rule,$rule['properties']['fields']);
+            foreach($fields as $field=>$desc){
+                if($request[$field]){
+                    if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                        $set_data[$rule['class']][$field] = $request[$field];
+                    }else{
+                        $set_data[$desc['class']][$field] = $request[$field];
+                    }
+                }
+            }
+        }else{
+            $set_data[$rule['class']] = $request;
+        }
+        
+        
         $object_old = $obj->toArray();
         if(isset($request['id'])){
-            $object = $obj->fromArray($request,'',true);
+            $object = $obj->fromArray($set_data[$rule['class']],'',true);
         }else{
-            $object = $obj->fromArray($request);
+            $object = $obj->fromArray($set_data[$rule['class']]);
         }
         
         $object_new = $obj->toArray();
 
+        //class link Редактирование 2 таблиц одновременно
+        if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
+            foreach($rule['properties']['class_link'] as $class=>$class_link){
+                foreach($fields as $field=>$desc){
+                    if(isset($desc['class']) and $desc['class'] == $class and isset($set_data[$class][$field])){
+                        $object_new[$field] = $set_data[$class][$field];
+                    }
+                }
+            }
+        }
         // $this->modx->log(1,"create triggers".print_r($this->triggers,1));
 
         $resp = $this->run_triggers($rule, 'before', $request['api_action'], $request, $object_old,$object_new,$obj);
@@ -780,6 +809,33 @@ class tableAPIController{
 
         if($obj->save()){
             $object = $obj->toArray();
+            //class link Редактирование 2 таблиц одновременно
+            if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
+                foreach($rule['properties']['class_link'] as $class=>$class_link){
+                    if(!empty($set_data[$class])){
+                        $search = [];
+                        foreach($class_link as $field=>$v){
+                            if(isset($object[$v])){
+                                $search[$field] = $object[$v];
+                            }else if(is_number($v)){
+                                $search[$field] = $v;
+                            }
+                        }
+                    }
+                    if(!$link_obj = $this->modx->getObject($class,$search)){
+                        $link_obj = $this->modx->newObject($class,$search);
+                    }
+                    if($link_obj){
+                        $link_obj->fromArray($set_data[$class]);
+                        $link_obj->save();
+                        foreach($fields as $field=>$desc){
+                            if(isset($desc['class']) and $desc['class'] == $class){
+                                $object[$field] = $link_obj->get($field);
+                            }
+                        }
+                    }
+                }
+            }
 
             $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old,$object,$obj);
             $resp['data']['object'] = $obj->toArray();
@@ -806,15 +862,73 @@ class tableAPIController{
             $data = [];
             $request = $this->request_array_to_json($request);
             $request = array_merge($request,$data);
+            
+            //class link Редактирование 2 таблиц одновременно
+            $set_data[$rule['class']] = [];
+            $fields = [];
+            if(!empty($rule['properties']['fields'])){
+                $fields = $this->addFields($rule,$rule['properties']['fields']);
+                foreach($fields as $field=>$desc){
+                    if($request[$field]){
+                        if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                            $set_data[$rule['class']][$field] = $request[$field];
+                        }else{
+                            $set_data[$desc['class']][$field] = $request[$field];
+                        }
+                    }
+                }
+            }else{
+                $set_data[$rule['class']] = $request;
+            }
+            
 
-            $object = $obj->fromArray($request);
+            $object = $obj->fromArray($set_data[$rule['class']]);
             $object_new = $obj->toArray();
+            
+            //class link Редактирование 2 таблиц одновременно
+            if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
+                foreach($rule['properties']['class_link'] as $class=>$class_link){
+                    foreach($fields as $field=>$desc){
+                        if(isset($desc['class']) and $desc['class'] == $class and isset($set_data[$class][$field])){
+                            $object_new[$field] = $set_data[$class][$field];
+                        }
+                    }
+                }
+            }
 
             $resp = $this->run_triggers($rule, 'before', 'update', $request, $object_old,$object_new,$obj);
             if(!$resp['success']) return $resp;
             
             if($obj->save()){
                 $object = $obj->toArray();
+                
+                //class link Редактирование 2 таблиц одновременно
+                if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
+                    foreach($rule['properties']['class_link'] as $class=>$class_link){
+                        if(!empty($set_data[$class])){
+                            $search = [];
+                            foreach($class_link as $field=>$v){
+                                if(isset($object[$v])){
+                                    $search[$field] = $object[$v];
+                                }else if(is_number($v)){
+                                    $search[$field] = $v;
+                                }
+                            }
+                        }
+                        if(!$link_obj = $this->modx->getObject($class,$search)){
+                            $link_obj = $this->modx->newObject($class,$search);
+                        }
+                        if($link_obj){
+                            $link_obj->fromArray($set_data[$class]);
+                            $link_obj->save();
+                            foreach($fields as $field=>$desc){
+                                if(isset($desc['class']) and $desc['class'] == $class){
+                                    $object[$field] = $link_obj->get($field);
+                                }
+                            }
+                        }
+                    }
+                }
 
                 $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
                 
@@ -1282,26 +1396,33 @@ class tableAPIController{
     {
         $class = $rule['class'];
         if(empty($class)) return $this->success('Выполнено успешно');
-        // $getTablesRunTriggers = $this->modx->invokeEvent('gtsAPIRunTriggers', [
-        //     'class'=>$class,
-        //     'type'=>$type,
-        //     'method'=>$method,
-        //     'fields'=>$fields,
-        //     'object_old'=>$object_old,
-        //     'object_new'=>$object_new,
-        //     'object'=>&$object,
-        // ]);
-        // if (is_array($getTablesRunTriggers)) {
-        //     $canSave = false;
-        //     foreach ($getTablesRunTriggers as $msg) {
-        //         if (!empty($msg)) {
-        //             $canSave .= $msg."\n";
-        //         }
-        //     }
-        // } else {
-        //     $canSave = $getTablesRunTriggers;
-        // }
-        // if(!empty($canSave)) return $this->error($canSave);
+        
+        // Событие для плагинов
+        $gtsAPIRunTriggers = $this->modx->invokeEvent('gtsAPIRunTriggers', [
+            'class'=>$class,
+            'rule'=>$rule,
+            'type'=>$type,
+            'method'=>$method,
+            'fields'=>$fields,
+            'object_old'=>$object_old,
+            'object_new'=>$object_new,
+            'object'=>$object,
+        ]);
+        if (is_array($gtsAPIRunTriggers)) {
+            $canSave = false;
+            foreach ($gtsAPIRunTriggers as $msg) {
+                if (!empty($msg)) {
+                    $canSave .= $msg."\n";
+                }
+            }
+        } else {
+            $canSave = $gtsAPIRunTriggers;
+        }
+        if(!empty($canSave)) return $this->error($canSave);
+        if(isset($modx->event->returnedValues['object'])){
+            $object = $modx->event->returnedValues['object'];
+        }
+
         try {
             $triggers = $this->triggers;
             
