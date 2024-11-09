@@ -43,6 +43,7 @@ Changelog for gtsAPI.
 - customFields in PVForm.
 - Редактирование 2 таблиц одновременно. Event gtsAPIRunTriggers.
 - Исправление set_data.
+- emit refresh-table и правки json_table.
 
 1.0.7-beta
 ==============

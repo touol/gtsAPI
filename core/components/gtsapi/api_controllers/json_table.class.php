@@ -83,7 +83,7 @@ class jsonTableAPIController extends tableAPIController{
             }
         }
         $obj = $resp['data']['obj'];
-        $max_id = 1;
+        $max_id = 0;
         foreach($rows0 as $k1=>$row){
             if($row['id'] > $max_id) $max_id = $row['id'];
         }
@@ -102,7 +102,7 @@ class jsonTableAPIController extends tableAPIController{
             }
         }
         $object_new['id'] = $max_id + 1;
-        $resp = $this->run_triggers($rule, 'before', 'update', $request, $object_old,$object_new,$obj);
+        $resp = $this->run_triggers($rule, 'before', 'create', $request, $object_old,$object_new,$obj);
         if(!$resp['success']) return $resp;
         switch(count($keys)){
             case 0:
@@ -125,7 +125,7 @@ class jsonTableAPIController extends tableAPIController{
         }
         $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
         if($obj->save()){
-            $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
+            $resp = $this->run_triggers($rule, 'after', 'create', $request, $object_old,$object_new,$obj);
             if(isset($rule['properties']['fields'])){
                 $get_html = false;
                 foreach($rule['properties']['fields'] as $field=>$v){
@@ -200,7 +200,7 @@ class jsonTableAPIController extends tableAPIController{
                 }
                 $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
                 if($obj->save()){
-                    $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
+                    $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object_new,$obj);
                     if(isset($rule['properties']['fields'])){
                         $get_html = false;
                         foreach($rule['properties']['fields'] as $field=>$v){
