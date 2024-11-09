@@ -28282,7 +28282,8 @@ const ki = {
         return;
       const E = {
         id: P.id,
-        [x]: j
+        [x]: j,
+        update_from_row: 1
       };
       tt({ type: "update", payload: E });
       let $ = {};
@@ -28317,7 +28318,8 @@ const ki = {
       for (let j in s.value)
         s.value[j].hasOwnProperty("constraints") ? s.value[j].constraints[0].value !== null && (T[j] = s.value[j]) : s.value[j].value !== null && (T[j] = s.value[j]);
       let P = {
-        filters: T
+        filters: T,
+        update_from_modal: 1
       };
       if (De.value.id)
         try {
