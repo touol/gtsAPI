@@ -23530,7 +23530,7 @@ const Jo = (t, e = 1e4) => {
           u("error", { detail: "Отсутствует такой ID" }), n.value = c.value;
           return;
         }
-        s.value = I, n.value = S, r.field.show_id && (I[r.field.show_id] > 0 ? i.value = I[r.field.show_id] : i.value = n.value);
+        s.value = I, n.value = I.id, r.field.show_id && (I[r.field.show_id] > 0 ? i.value = I[r.field.show_id] : i.value = n.value);
       } catch (I) {
         u("error", { detail: I.message });
       }
