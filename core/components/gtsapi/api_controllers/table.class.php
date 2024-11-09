@@ -770,7 +770,7 @@ class tableAPIController{
         if(!empty($rule['properties']['fields'])){
             $fields = $this->addFields($rule,$rule['properties']['fields']);
             foreach($fields as $field=>$desc){
-                if($request[$field]){
+                if(isset($request[$field])){
                     if(empty($desc['class']) or $desc['class'] == $rule['class']){
                         $set_data[$rule['class']][$field] = $request[$field];
                     }else{
@@ -869,7 +869,7 @@ class tableAPIController{
             if(!empty($rule['properties']['fields'])){
                 $fields = $this->addFields($rule,$rule['properties']['fields']);
                 foreach($fields as $field=>$desc){
-                    if($request[$field]){
+                    if(isset($request[$field])){
                         if(empty($desc['class']) or $desc['class'] == $rule['class']){
                             $set_data[$rule['class']][$field] = $request[$field];
                         }else{
