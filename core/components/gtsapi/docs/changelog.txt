@@ -44,6 +44,7 @@ Changelog for gtsAPI.
 - Редактирование 2 таблиц одновременно. Event gtsAPIRunTriggers.
 - Исправление set_data.
 - emit refresh-table и правки json_table.
+- Допполя перенес в gtsAPI.
 
 1.0.7-beta
 ==============

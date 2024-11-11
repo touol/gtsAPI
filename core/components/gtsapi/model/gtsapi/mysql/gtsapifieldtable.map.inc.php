@@ -14,6 +14,7 @@ $xpdo_meta_map['gtsAPIFieldTable']= array (
     'add_base' => 0,
     'add_table' => 0,
     'after_field' => '',
+    'only_text' => 0,
     'desc' => '',
   ),
   'fieldMeta' => 
@@ -49,6 +50,14 @@ $xpdo_meta_map['gtsAPIFieldTable']= array (
       'phptype' => 'string',
       'null' => false,
       'default' => '',
+    ),
+    'only_text' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+      'default' => 0,
     ),
     'desc' => 
     array (

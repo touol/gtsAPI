@@ -460,6 +460,14 @@ return [
                   "default": 0,
                   "filter": 1
                 },
+                "only_text": {
+                  "label": "Сделать все поля в таблице текстовые",
+                  "edit": {
+                    "type": "checkbox"
+                  },
+                  "default": 0,
+                  "filter": 1
+                },
                 "after_field": {
                   "label": "После поля",
                   "filter": 1
@@ -481,7 +489,7 @@ return [
                 "create": [],
                 "update": [],
                 "subtable": {
-                  "subtable_name": "gtsAPIFieldGroupTableLink"
+                  "subtable_name": "gtsAPIFieldGroupLink"
                 },
                 "subtable_shop": {
                   "action": "getTable/subtable",
@@ -609,7 +617,7 @@ return [
                       },
                       "setting": {
                         "label": "Настройки",
-                        "fields": "rank,,default,field_type,modal_only,table_only"
+                        "fields": "rank,,default,field_type,after_field,modal_only,table_only"
                       },
                       "dop": {
                         "label": "Доп. настройки",
@@ -627,7 +635,7 @@ return [
                       },
                       "setting": {
                         "label": "Настройки",
-                        "fields": "rank,default,field_type,modal_only,table_only"
+                        "fields": "rank,default,field_type,after_field,modal_only,table_only"
                       },
                       "dop": {
                         "label": "Доп. настройки",
@@ -695,6 +703,10 @@ return [
                     "select": "field_type"
                   },
                   "modal_only": 1,
+                  "filter": 1
+                },
+                "after_field": {
+                  "label": "После поля",
                   "filter": 1
                 },
                 "modal_only": {

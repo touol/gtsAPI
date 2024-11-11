@@ -5,6 +5,7 @@ return [
         'file' => 'gtsapi',
         'description' => '',
         'events' => [
+            'OnMODXInit' => [],
             'OnHandleRequest' => [],
         ],
     ],

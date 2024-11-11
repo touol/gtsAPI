@@ -475,4 +475,46 @@ class gtsAPI
         }
         return $this->success('Успешно');
     }
+    public function regTriggers()
+    {
+        return [
+            'gtsAPIFieldTable'=>[
+                'gtsfunction'=>'triggergsAddFields',
+            ],
+            'gtsAPIFieldGroupTableLink'=>[
+                'gtsfunction'=>'triggergsAddFields',
+            ],
+            'gtsAPIField'=>[
+                'gtsfunction'=>'triggergsAddFields',
+            ],
+            'gtsAPIFieldGroupLink'=>[
+                'gtsfunction'=>'triggergsAddFields',
+            ],
+            'gtsAPIFieldGroup'=>[
+                'gtsfunction'=>'triggergsAddFields',
+            ],
+        ];
+    }
+    public function triggergsAddFields(&$getTables,$class, $type, $method, $fields, $object_old, $object_new){
+        if($type == 'after'){
+            if($class == 'gtsAPIField' and $method == 'update'){
+                if(!($object_new['dbtype'] != $object_old['dbtype']
+                    or $object_new['dbtype'] != $object_old['dbtype']
+                    or $object_new['dbprecision'] != $object_old['dbprecision']
+                    or $object_new['dbnull'] != $object_old['dbnull']
+                    or $object_new['dbdefault'] != $object_old['dbdefault']
+                    or $object_new['dbindex'] != $object_old['dbindex']
+                )){
+                    return $this->success();
+                }
+            }
+
+            $loaded = include_once($this->config['corePath'] . 'classes/addfields.class.php');
+            if ($loaded) {
+                $addFields = new AddFields($this->modx,$this->config);
+                $addFields->triggergsAddFields($getTables,$class, $type, $method, $fields, $object_old, $object_new);
+            }
+        }
+        return $this->success();
+    }
 }
