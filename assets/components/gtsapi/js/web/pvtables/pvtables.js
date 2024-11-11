@@ -27120,9 +27120,7 @@ const qv = {
         onKeydown: u[10] || (u[10] = fe(cn(() => {
         }, ["stop"]), ["tab"])),
         onChange: u[11] || (u[11] = (h) => a()),
-        disabled: t.use_readonly && i.value.readonly,
-        class: "w-full",
-        autocomplete: "off"
+        disabled: t.use_readonly && i.value.readonly
       }, null, 8, ["modelValue", "disabled"])) : i.value.type == "textarea" ? (d(), y(N($o), {
         key: 7,
         modelValue: n.value,
