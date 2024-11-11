@@ -46,6 +46,7 @@ Changelog for gtsAPI.
 - emit refresh-table и правки json_table.
 - Допполя перенес в gtsAPI.
 - Исправлено индексы допполей.
+- Extended fields.
 
 1.0.7-beta
 ==============

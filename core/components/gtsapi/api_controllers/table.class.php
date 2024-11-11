@@ -769,14 +769,37 @@ class tableAPIController{
         $fields = [];
         if(!empty($rule['properties']['fields'])){
             $fields = $this->addFields($rule,$rule['properties']['fields']);
+            $ext_fields = [];
             foreach($fields as $field=>$desc){
                 if(isset($request[$field])){
-                    if(empty($desc['class']) or $desc['class'] == $rule['class']){
-                        $set_data[$rule['class']][$field] = $request[$field];
-                    }else{
-                        $set_data[$desc['class']][$field] = $request[$field];
+                    $field_arr = explode('.',$field);
+                    if(count($field_arr) == 1){
+                        if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                            $set_data[$rule['class']][$field] = $request[$field];
+                        }else{
+                            $set_data[$desc['class']][$field] = $request[$field];
+                        }
+                    }else if(count($field_arr) == 2){
+                        if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                            $ext_fields[$field_arr[0]] = $rule['class'];
+                            $set_data[$rule['class']][$field_arr[0]][$field_arr[1]] = $request[$field];
+                        }else{
+                            $ext_fields[$field_arr[0]] = $desc['class'];
+                            $set_data[$desc['class']][$field_arr[0]][$field_arr[1]] = $request[$field];
+                        }
+                    }else if(count($field_arr) == 3){
+                        if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                            $ext_fields[$field_arr[0]] = $rule['class'];
+                            $set_data[$rule['class']][$field_arr[0]][$field_arr[1]][$field_arr[2]] = $request[$field];
+                        }else{
+                            $ext_fields[$field_arr[0]] = $desc['class'];
+                            $set_data[$desc['class']][$field_arr[0]][$field_arr[1]][$field_arr[2]] = $request[$field];
+                        }
                     }
                 }
+            }
+            foreach($ext_fields as $field=>$class){
+                $set_data[$class][$field] = json_encode($set_data[$class][$field]);
             }
         }else{
             $set_data[$rule['class']] = $request;
@@ -868,13 +891,74 @@ class tableAPIController{
             $fields = [];
             if(!empty($rule['properties']['fields'])){
                 $fields = $this->addFields($rule,$rule['properties']['fields']);
+                $ext_fields = [];
                 foreach($fields as $field=>$desc){
                     if(isset($request[$field])){
-                        if(empty($desc['class']) or $desc['class'] == $rule['class']){
-                            $set_data[$rule['class']][$field] = $request[$field];
-                        }else{
-                            $set_data[$desc['class']][$field] = $request[$field];
+                        $field_arr = explode('.',$field);
+                        if(count($field_arr) == 1){
+                            if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                                $set_data[$rule['class']][$field] = $request[$field];
+                            }else{
+                                $set_data[$desc['class']][$field] = $request[$field];
+                            }
+                        }else if(count($field_arr) == 2){
+                            if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                                $ext_fields[$field_arr[0]] = $rule['class'];
+                                $set_data[$rule['class']][$field_arr[0]][$field_arr[1]] = $request[$field];
+                            }else{
+                                $ext_fields[$field_arr[0]] = $desc['class'];
+                                $set_data[$desc['class']][$field_arr[0]][$field_arr[1]] = $request[$field];
+                            }
+                        }else if(count($field_arr) == 3){
+                            if(empty($desc['class']) or $desc['class'] == $rule['class']){
+                                $ext_fields[$field_arr[0]] = $rule['class'];
+                                $set_data[$rule['class']][$field_arr[0]][$field_arr[1]][$field_arr[2]] = $request[$field];
+                            }else{
+                                $ext_fields[$field_arr[0]] = $desc['class'];
+                                $set_data[$desc['class']][$field_arr[0]][$field_arr[1]][$field_arr[2]] = $request[$field];
+                            }
                         }
+                    }
+                }
+                if(!empty($rule['properties']['class_link'])){
+                    foreach($rule['properties']['class_link'] as $class=>$class_link){
+                        if(!isset($set_data[$class])) continue;
+                        $search = [];
+                        foreach($class_link as $field=>$v){
+                            if(isset($object[$v])){
+                                $search[$field] = $object[$v];
+                            }else if(is_number($v)){
+                                $search[$field] = $v;
+                            }
+                        }
+                        if($link_obj = $this->modx->getObject($class,$search)){
+                            foreach($ext_fields as $field=>$class2){
+                                if($class == $class2){
+                                    if(is_array($link_obj->{$field})){
+                                        $arr = $link_obj->{$field};
+                                    }else if(is_string($link_obj->{$field})){
+                                        $arr = json_decode($link_obj->{$field});
+                                    }
+                                    if(is_array($arr)){
+                                        $set_data[$class2][$field] = array_merge($arr,$set_data[$class2][$field]);
+                                    }
+                                    $set_data[$class2][$field] = json_encode($set_data[$class2][$field]);
+                                }
+                            }
+                        }
+                    }
+                }
+                foreach($ext_fields as $field=>$class){
+                    if($class == $rule['class']){
+                        if(is_array($object_old[$field])){
+                            $arr = $object_old[$field];
+                        }else if(is_string($object_old[$field])){
+                            $arr = json_decode($object_old[$field]);
+                        }
+                        if(is_array($arr)){
+                            $set_data[$class][$field] = array_merge($arr,$set_data[$class][$field]);
+                        }
+                        $set_data[$class][$field] = json_encode($set_data[$class][$field]);
                     }
                 }
             }else{
