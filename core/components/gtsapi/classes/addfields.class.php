@@ -356,12 +356,16 @@ class AddFields
             }
             foreach($add_fields as $field=>$add_field){
                 if(isset($fields[$class][$field])){
-                    $manager->alterField($add_field,$class,'id');
+                    if ($manager->alterField($add_field,$class,'id')) {
+                        if (!$okIndex = $manager->addIndex($add_field,$class)) {
+                            $this->modx->log(1,"gtsAPI err_index_add ");
+                        }
+                    }
                     unset($fields[$class][$field]);
                 }else{
                     if ($manager->addField($add_field,$class,'id')) {
                         if (!$okIndex = $manager->addIndex($add_field,$class)) {
-                            $okIndex = $this->modx->lexicon('msfieldsmanager.err_index_add');
+                            $this->modx->log(1,"gtsAPI err_index_add ");
                         }
                     }
                 }
