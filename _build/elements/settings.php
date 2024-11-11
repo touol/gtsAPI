@@ -166,14 +166,6 @@ return [
               [
                 "INDEX",
                 "INDEX"
-              ],
-              [
-                "UNIQUE",
-                "UNIQUE"
-              ],
-              [
-                "FULLTEXT",
-                "FULLTEXT"
               ]
             ]
           }

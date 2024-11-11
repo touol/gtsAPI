@@ -421,62 +421,44 @@ class AddFields
                 $map['fieldMeta'][$field['name']]['phptype'] = $phpType;
                 $map['fieldMeta'][$field['name']]['default'] = $default;
                 $map['fieldMeta'][$field['name']]['null'] = (!empty($null) && strtolower($null) !== 'false') ? true : false;
+                if($field['dbindex'] == 'INDEX'){
+                    // 'available_for_manager' => 
+                    //     array (
+                    //     'alias' => 'available_for_manager',
+                    //     'primary' => false,
+                    //     'unique' => false,
+                    //     'type' => 'BTREE',
+                    //     'columns' => 
+                    //     array (
+                    //         'available_for_manager' => 
+                    //         array (
+                    //         'length' => '',
+                    //         'collation' => 'A',
+                    //         'null' => false,
+                    //         ),
+                    //     ),
+                    //     ),
+                    $map['indexes'][$field['name']] = [
+                            'alias' => $field['name'],
+                            'primary' => false,
+                            'unique' => false,
+                            'type' => 'BTREE',
+                            'columns' => 
+                            [
+                                $field['name'] => 
+                                [
+                                    'length' => '',
+                                    'collation' => 'A',
+                                    'null' => false,
+                                ]
+                            ]
+                    ];
+                }
             }
             $manager->setMap($map);
             $manager->outputMap($gsPluginsCorePath,$add_table);
         }
     }
-
-    // public function generateMap($className,$paramTable = 'gsParam')
-    // {
-    //     $manager = $this->getManager();
-    //     $map = array('fields' => array(), 'fieldMeta' => array());
-    //     if ($manager) {
-    //         $q = $this->modx->newQuery($paramTable);
-    //         //$q->where(array('enable' => 1));
-    //         if($paramTable != 'gsParam'){
-    //             if($gsAddFieldConfigLink = $this->modx->getObject('gsAddFieldConfigLink',['add_table'=>$className])){
-    //                 $q->where(['config_id' => $gsAddFieldConfigLink->config_id]);
-    //             }
-    //         }
-    //         $q->sortby('rank', 'ASC');
-    //         if ($fields = $this->modx->getCollection($paramTable, $q)) {
-    //             foreach ($fields as $field) {
-    //                 $null = $field->dbnull ? 'true' : 'false';
-    //                 $key = $manager->getIndex('');
-    //                 $default = $field->dbdefault;
-    //                 $defaultType = $this->modx->driver->getPhpType($field->dbtype);
-    //                 $phpType = $field->xtype ? $this->xtypeToPhpType($field->xtype, $defaultType) : $defaultType;
-    //                 if ($default === 'NULL') {
-    //                     $default = null;
-    //                 }
-    //                 switch ($defaultType) {
-    //                     case 'integer':
-    //                     case 'boolean':
-    //                     case 'bit':
-    //                         $default = (integer)$default;
-    //                         break;
-    //                     case 'float':
-    //                     case 'numeric':
-    //                         $default = (float)$default;
-    //                         break;
-    //                     default:
-    //                         break;
-    //                 }
-    //                 $map['fields'][$field->name] = $default;
-    //                 $map['fieldMeta'][$field->name] = array();
-    //                 $map['fieldMeta'][$field->name]['dbtype'] = $field->dbtype;
-    //                 $map['fieldMeta'][$field->name]['precision'] = $field->dbprecision;
-    //                 $map['fieldMeta'][$field->name]['phptype'] = $phpType;
-    //                 $map['fieldMeta'][$field->name]['default'] = $default;
-    //                 $map['fieldMeta'][$field->name]['null'] = (!empty($null) && strtolower($null) !== 'false') ? true : false;
-    //             }
-    //         }
-    //         $manager->setMap($map);
-    //         $manager->outputMap($this->config['gsPluginsCorePath'],$className);
-            
-    //     }
-    // }
     
         /**
      * @param string $xtype
