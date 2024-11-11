@@ -26697,7 +26697,6 @@ const ki = {
         return n.modelValue ? n.modelValue.split("-").reverse().join(".") : "";
       },
       set(r) {
-        console.log("computedDate", r);
         let a = "";
         r && (a = r.toLocaleDateString("ru-RU").split(".").reverse().join("-")), o("update:modelValue", a);
       }
@@ -28390,7 +28389,7 @@ const Si = {
       };
       try {
         const ee = await r.update(A, Ue);
-        if (i("get-response", { action: "update", response: ee }), console.log("data", x), er(x, I, V), ee.success || a("error", { detail: ee.message }, !0), ee.data.refresh_table == 1 && je(!1), ee.data.customFields)
+        if (i("get-response", { action: "update", response: ee }), er(x, I, V), ee.success || a("error", { detail: ee.message }, !0), ee.data.refresh_table == 1 && je(!1), ee.data.customFields)
           for (let Ce in ee.data.customFields)
             st.value[Ce] = ee.data.customFields[Ce];
         if (ee.data.refresh_row == 1 ? X.value[te(Number(ee.data.object.id))] = ee.data.object : ee.data.defvalues && (X.value[te(Number(ee.data.object.id))] = { ...X.value[te(Number(ee.data.object.id))], ...ee.data.defvalues }), ee.data.row_setting)
