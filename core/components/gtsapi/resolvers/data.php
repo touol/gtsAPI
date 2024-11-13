@@ -64,11 +64,11 @@ if ($transport->xpdo) {
             if(is_array($data)){
                 if(isset($data['gtsapi'])){
                     if(add_data_package($modx,'gtsapi',$data['gtsapi'])){
-                        $loaded = include_once(MODX_CORE_PATH . 'components/gtsapi/classes/addfields.class.php');
-                        if ($loaded) {
-                            $addFields = new AddFields($modx,[]);
-                            $addFields->updateFields();
-                        }
+                        // $loaded = include_once(MODX_CORE_PATH . 'components/gtsapi/classes/addfields.class.php');
+                        // if ($loaded) {
+                        //     $addFields = new AddFields($modx,[]);
+                        //     $addFields->updateFields();
+                        // }
                     }
                     unset($data['gtsapi']);
                 }
