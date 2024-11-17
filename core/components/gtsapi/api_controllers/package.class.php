@@ -62,10 +62,10 @@ class packageAPIController{
         $assets = MODX_BASE_PATH . 'assets/components/' . $request['config']['name_lower'] . '/';
         $core = MODX_BASE_PATH . 'core/components/' . $request['config']['name_lower'] . '/';
 
-        $this->config = array_merge([
+        $this->config = array_merge($request['config'], $this->config,[
             'assets' => $assets,
             'core' => $core,
-        ],$request['config'], $this->config);
+        ]);
         
         $this->initialize();
         $this->process($request);
