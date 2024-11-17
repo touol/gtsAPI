@@ -78,7 +78,7 @@ class packageAPIController{
      */
     protected function model()
     {
-        if(!$this->config['schema']) return;
+        if(empty($this->config['schema']) ) return;
         // upload schema
         if(isset($_FILES['schema'])){
             $path = $this->config['core'] . 'model/schema/';

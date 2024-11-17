@@ -23236,10 +23236,8 @@ Ve.getAdapter = Cs.getAdapter;
 Ve.HttpStatusCode = Yr;
 Ve.default = Ve;
 const Xo = (t, e = 1e4) => {
-  let n = "/";
-  n = "/";
   const o = Ve.create({
-    baseURL: `${n}api/${t}`,
+    baseURL: `/api/${t}`,
     timeout: e
   }), { notify: i } = bn();
   return o.interceptors.request.use(

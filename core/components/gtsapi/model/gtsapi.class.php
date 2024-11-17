@@ -208,7 +208,7 @@ class gtsAPI
         }
         if(!$gtsAPIRule){
             header('HTTP/1.1 404 Not found');
-            return $this->error("Not found API point $point!");
+            return $this->error("Not found API point $point!".print_r($request,1));
         }
             
 
