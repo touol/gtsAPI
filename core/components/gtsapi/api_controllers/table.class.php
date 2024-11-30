@@ -80,19 +80,22 @@ class tableAPIController{
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         $action = explode('/',$request['api_action']);
         if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
-            if(!isset($rule['properties']['actions'][$request['api_action']]) and !isset($rule['properties']['hide_actions'][$request['api_action']])){
+            $api_action = $request['api_action'];
+            if($api_action == 'watch_form') $api_action = $request['watch_action'];
+
+            if(!isset($rule['properties']['actions'][$api_action]) and !isset($rule['properties']['hide_actions'][$api_action])){
                 return $this->error("Not api action!");
             }
 
-            if(isset($rule['properties']['actions'][$request['api_action']])){
-                $resp = $this->checkPermissions($rule['properties']['actions'][$request['api_action']]);
+            if(isset($rule['properties']['actions'][$api_action])){
+                $resp = $this->checkPermissions($rule['properties']['actions'][$api_action]);
                 if(!$resp['success']){
                     // header('HTTP/1.1 401 Unauthorized1');
                     return $resp;
                 }
             }
-            if(isset($rule['properties']['hide_actions'][$request['api_action']])){
-                $resp = $this->checkPermissions($rule['properties']['hide_actions'][$request['api_action']]);
+            if(isset($rule['properties']['hide_actions'][$api_action])){
+                $resp = $this->checkPermissions($rule['properties']['hide_actions'][$api_action]);
                 if(!$resp['success']){
                     // header('HTTP/1.1 401 Unauthorized1');
                     return $resp;
@@ -146,6 +149,9 @@ class tableAPIController{
             case 'autocomplete':
                 return $this->get_autocomplete($rule,$request);
             break;
+            case 'watch_form':
+                return $this->watch_form($rule,$request);
+            break;
             default:
                 $action = explode('/',$request['api_action']);
                 // $this->modx->log(1,"route_post {$request['api_action']}");
@@ -160,6 +166,31 @@ class tableAPIController{
                 }
         }
         return $this->error("Не найдено действие!".print_r($this->models,1));
+    }
+    public function watch_form($rule,$request){
+        try {
+            $class = $rule['class'];
+            $triggers = $this->triggers;
+            // $this->modx->log(1,'gtsAPI run '.print_r($triggers,1));
+            if(isset($triggers[$class]['gtsapi_watch_form']) and isset($triggers[$class]['model'])){
+                $service = $this->models[$triggers[$class]['model']];
+                if(method_exists($service,$triggers[$class]['gtsapi_watch_form'])){ 
+                    $params = [
+                        'rule'=>$rule,
+                        'class'=>$class,
+                        'request'=>$request,
+                        'fields' => $this->addFields($rule,$rule['properties']['fields'],$request['watch_action']),
+                        'trigger'=>'gtsapi_watch_form',
+                    ];
+                    // $this->modx->log(1,'gtsAPI run '.$triggers[$class]['gtsapifunc']);
+                    return  $service->{$triggers[$class]['gtsapi_watch_form']}($params);
+                }
+            }
+        } catch (Error $e) {
+            $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage());
+            return $this->error('Ошибка триггера '.$e->getMessage());
+        }
+        return $this->error('Ошибка триггера 2');
     }
     public function get_autocomplete($rule,$request){
         
@@ -285,7 +316,7 @@ class tableAPIController{
         }
         return $req;
     }
-    public function addFields($rule,$fields){
+    public function addFields($rule,$fields,$action){
 
         $gtsAPIFieldTableCount = $this->modx->getCount('gtsAPIFieldTable',['name_table'=>$rule['table'],'add_table'=>1]);
         if($gtsAPIFieldTableCount == 0) return $fields;
@@ -383,7 +414,28 @@ class tableAPIController{
             $fields = $this->insertToArray($fields,[$k=>$field],$keys[$addField['after_field']]);
             $keys[$addField['after_field']] = $addField['name'];
         }
-        
+        try {
+            $class = $rule['class'];
+            $triggers = $this->triggers;
+
+            if(isset($triggers[$class]['gtsapi_addfields']) and isset($triggers[$class]['model'])){
+                $service = $this->models[$triggers[$class]['model']];
+                if(method_exists($service,$triggers[$class]['gtsapi_addfields'])){ 
+                    $params = [
+                        'rule'=>$rule,
+                        'class'=>$class,
+                        'method'=>$action,
+                        'fields'=>&$fields,
+                        'trigger'=>'gtsapi_addfields',
+                    ];
+                    // $this->modx->log(1,'gtsAPI run '.$triggers[$class]['gtsapifunc']);
+                    $service->{$triggers[$class]['gtsapi_addfields']}($params);
+                }
+            }
+        } catch (Error $e) {
+            $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage());
+            // return $this->error('Ошибка триггера '.$e->getMessage());
+        }    
         return $fields;
     }
     public function options($rule,$request,$action){
@@ -400,7 +452,7 @@ class tableAPIController{
         }else{
             $fields = $rule['properties']['fields'];
         }
-        $fields = $this->addFields($rule,$fields);
+        $fields = $this->addFields($rule,$fields,'options');
         $actions = [];
         if(isset($rule['properties']['actions'])){
             foreach($rule['properties']['actions'] as $action =>$v){
@@ -768,7 +820,7 @@ class tableAPIController{
         $set_data[$rule['class']] = [];
         $fields = [];
         if(!empty($rule['properties']['fields'])){
-            $fields = $this->addFields($rule,$rule['properties']['fields']);
+            $fields = $this->addFields($rule,$rule['properties']['fields'],'create');
             $ext_fields = [];
             foreach($fields as $field=>$desc){
                 if(isset($request[$field])){
@@ -890,7 +942,7 @@ class tableAPIController{
             $set_data[$rule['class']] = [];
             $fields = [];
             if(!empty($rule['properties']['fields'])){
-                $fields = $this->addFields($rule,$rule['properties']['fields']);
+                $fields = $this->addFields($rule,$rule['properties']['fields'],'update');
                 $ext_fields = [];
                 foreach($fields as $field=>$desc){
                     if(isset($request[$field])){
@@ -1144,7 +1196,7 @@ class tableAPIController{
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
         // $this->modx->log(1,"read".$this->pdo->getTime());
-        $out['autocomplete'] = $this->autocompletes($this->addFields($rule,$rule['properties']['fields']),$rows0,$request['offset']);
+        $out['autocomplete'] = $this->autocompletes($this->addFields($rule,$rule['properties']['fields'],'autocomplete'),$rows0,$request['offset']);
         
         if(!empty($rule['properties']['slTree'])){
             $out['slTree'] = $this->getslTree($rule['properties']['slTree'],$rows0,$parents);
@@ -1551,7 +1603,7 @@ class tableAPIController{
                 }
             }
         } catch (Error $e) {
-            $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage());
+            $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage().print_r($e->getTrace()[0],1));
             return $this->error('Ошибка триггера '.$e->getMessage());
         }
         
