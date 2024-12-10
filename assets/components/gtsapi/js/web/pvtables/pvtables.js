@@ -23286,10 +23286,9 @@ const bo = (t, e = 6e4) => {
     },
     action: async (r, a = {}) => {
       const l = {
-        api_action: r,
-        ...a
+        api_action: r
       };
-      return await o.post("/", null, { params: l });
+      return await o.post("/", a, { params: l });
     }
   };
 }, Qo = {
