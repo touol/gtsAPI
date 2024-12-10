@@ -758,7 +758,7 @@ class tableAPIController{
                                 }else{
                                     $field = $arr[1];
                                 }
-                                $tabs_where[$field] = 1;
+                                $tabs_where[$field] = $v;
                             }
                         }
                     }
@@ -779,7 +779,14 @@ class tableAPIController{
                 }
                 // if(isset($tabs_where[$field])) 
                 $data_filters[$field] = $v;
-                if(isset($request[$field])) $data_filters[$field] = $request[$field];
+                if(isset($request[$field])){
+                    if(isset($tabs_where[$field])){
+                        if((int)$tabs_where[$field] == 0) $data_filters[$field] = $request[$field];
+                    }else{
+                        $data_filters[$field] = $request[$field];
+                    }
+                    
+                }
             }
         }
         if(!empty($rule['properties']['query'])){
