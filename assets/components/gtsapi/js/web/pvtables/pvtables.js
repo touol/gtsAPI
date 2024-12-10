@@ -23235,7 +23235,7 @@ Ve.formToJSON = (t) => Ss(M.isHTMLForm(t) ? new FormData(t) : t);
 Ve.getAdapter = Is.getAdapter;
 Ve.HttpStatusCode = Zr;
 Ve.default = Ve;
-const bo = (t, e = 1e4) => {
+const bo = (t, e = 6e4) => {
   const o = Ve.create({
     baseURL: `/api/${t}`,
     timeout: e
