@@ -161,7 +161,7 @@ class gtsAPI
                     $controller_class = 'jsonTableAPIController';
                     $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/json_table.class.php';
                 break;
-                case 2:
+                case 3:
                     $controller_class = 'treeAPIController';
                     $rule['controller_path'] = $this->config['corePath'] . 'api_controllers/tree.class.php';
                 break;
