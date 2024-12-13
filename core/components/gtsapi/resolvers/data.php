@@ -10,6 +10,7 @@ if ($transport->xpdo) {
             $modx->addPackage($package, MODX_CORE_PATH . 'components/'.$package.'/model/');
             $run_add_fields = false;
             foreach($v as $table=>$v2){
+                $modx->log(1,"add_data_package {$table}");
                 if(in_array($table,['gtsAPIFieldTable','gtsAPIFieldGroupTableLink','gtsAPIField','gtsAPIFieldGroupLink','gtsAPIFieldGroup'])) $run_add_fields = true;
 
                 if(isset($v2['type'])){
@@ -31,13 +32,16 @@ if ($transport->xpdo) {
                             }
                             if($obj){
                                 $obj->fromArray(array_merge([], $set), '', true, true);
-                                $obj->save();
+                                if(!$obj->save()){
+                                    $modx->log(1,"Error saving {$table} ".print_r($search,1));
+                                }
                             }
                             
                         }
                     }
                 }else{
                     foreach($v2['rows'] as $row){
+                        // $modx->log(1,"add_data_package {$table} ".print_r($row,1));
                         if(!$obj = $modx->getObject($table,[$v2['key']=>$row[$v2['key']]])){
                             $obj = $modx->newObject($table);
                         }
@@ -46,7 +50,11 @@ if ($transport->xpdo) {
                                 if(is_array($v)) $row[$k] = json_encode($v);
                             }
                             $obj->fromArray(array_merge([], $row), '', true, true);
-                            $obj->save();
+                            if(!$obj->save()){
+                                $modx->log(1,"Error saving {$table} {$v2['key']} {$row[$v2['key']]}");
+                            }
+                        }else{
+                            $modx->log(1,"Error getting {$table} {$v2['key']} {$row[$v2['key']]}");
                         }
                     }
                 }
@@ -73,6 +81,7 @@ if ($transport->xpdo) {
                     unset($data['gtsapi']);
                 }
                 foreach ($data as $package => $v) {
+                    $modx->log(1,"add_data_package {$package}");
                     add_data_package($modx,$package,$v);
                 }
             }
