@@ -29714,7 +29714,8 @@ const ji = {
                 options: R.value,
                 optionLabel: "label",
                 "onUpdate:modelValue": Ic,
-                placeholder: "Выберете столбцы"
+                placeholder: "Выберете столбцы",
+                maxSelectedLabels: 3
               }, null, 8, ["modelValue", "options"])
             ]),
             _: 1
