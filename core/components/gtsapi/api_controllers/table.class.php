@@ -814,7 +814,10 @@ class tableAPIController{
                 if(isset($fields[$field])) $data[$field] = $value;
             }
         }
-        // $this->modx->log(1,"request".print_r($request['filters'],1));
+        if(!empty($request['parent_id'])){
+            $data['parent_id'] = $request['parent_id'];
+        }
+        // $this->modx->log(1,"request".print_r($request,1));
         // $this->modx->log(1,"data_filters".print_r($data_filters,1));
         return array_merge($data,$data_filters);
     }
@@ -822,7 +825,7 @@ class tableAPIController{
         $data = $this->addDefaultFields($rule,$request);
         $request = $this->request_array_to_json($request);
         $obj = $this->modx->newObject($rule['class'],$data);
-        
+        // $this->modx->log(1,"create {$rule['class']} ".print_r($data,1));
         //class link Редактирование 2 таблиц одновременно
         $set_data[$rule['class']] = [];
         $fields = [];
