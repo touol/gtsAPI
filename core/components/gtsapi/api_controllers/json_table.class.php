@@ -335,7 +335,10 @@ class jsonTableAPIController extends tableAPIController{
     public function getJSON($rule,$request){
         $resp = $this->getJSONWhere($rule,$request);
         if(!$resp['success']) return $resp;
-        if(!$obj = $this->modx->getObject($rule['class'],$resp['data'])) return $this->error('not found object',$resp['data']);
+        if(!$obj = $this->modx->getObject($rule['class'],$resp['data'])){
+            // return $this->error('not found object',$resp['data']);
+            $obj = $this->modx->newObject($rule['class'],$resp['data']);
+        }
         $json = $obj->get($rule['properties']['json_path']['field']);
         if(empty($json)){
             return $this->success('',['obj'=>$obj,'json'=>[]]);
