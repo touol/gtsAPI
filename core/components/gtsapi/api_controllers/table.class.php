@@ -1163,6 +1163,12 @@ class tableAPIController{
                 $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
             }
         }
+        if(isset($rule['properties']['group'])){
+            $default['sortby'] = [];
+            foreach($rule['properties']['group']['fields'] as $field => $v){
+                $default['sortby'][$field] = $v['order'];
+            }
+        }
         $this->pdo->setConfig($default);
         $rows0 = $this->pdo->run();
         if($request['setTotal']){
@@ -1196,7 +1202,79 @@ class tableAPIController{
                 }
             }
         }
-        
+        if(isset($rule['properties']['group']) and count($rows0) > 0){
+            $rows1 = $check_row = [];
+            $select_row = $this->setSelectRow($rule,$rows0);
+            $select_row_all = $this->setSelectRow($rule,$rows0);
+            foreach($rows0 as $row){
+                if(empty($check_row)) $check_row = $row;
+                $check = true;
+                $check_count = 0;
+                $rows_current = [];
+                foreach($rule['properties']['group']['fields'] as $field => $v){
+                    if($row[$field] != $check_row[$field]){
+                        $check = false;
+                    }
+                }
+                if(!$check){
+                    $check_row = $row;
+                    $add_sum_row = false;
+                    foreach($rows_current as $row_current){
+                        foreach($rule['properties']['group']['select'] as $field => $v){
+                            if($v['type_select'] == 'group'){
+                                $row_current[$v['alias']] = $select_row[$field];
+                            }else{
+                                $add_sum_row = true;
+                            }
+                        }
+                        $rows1[] = $row_current;
+                    }
+                    if($check_count > 1 and $add_sum_row){
+                        $sum_row = [];
+                        foreach($rule['properties']['group']['select'] as $field => $v){
+                            if($v['type_select'] != 'group'){
+                                $sum_row[$field] = $select_row[$field];
+                            }
+                        }
+                        $rows1[] = $sum_row;
+                    }
+                    $check_count = 0;
+                    $select_row = $this->setSelectRow($rule);
+                }
+                $rows_current[] = $row;
+                $check_count++;
+                foreach($rule['properties']['group']['select'] as $field => $v){
+                    switch($v['type_aggs']){
+                        case 'count':
+                            $select_row[$field]++;
+                            $select_row_all[$field]++;
+                        break;
+                        case 'sum':
+                            $select_row[$field] += $row[$field];
+                            $select_row_all[$field] += $row[$field];
+                        break;
+                        case 'max':
+                            if($row[$field] > $select_row[$field]) $select_row[$field] = $row[$field];
+                            if($row[$field] > $select_row_all[$field]) $select_row_all[$field] = $row[$field];
+                        break;
+                        case 'min':
+                            if($row[$field] < $select_row[$field]) $select_row[$field] = $row[$field];
+                            if($row[$field] < $select_row_all[$field]) $select_row_all[$field] = $row[$field];
+                        break;
+                    }
+                }
+            }
+            if($add_sum_row){
+                $sum_row = [];
+                foreach($rule['properties']['group']['select'] as $field => $v){
+                    if($v['type_select'] != 'group'){
+                        $sum_row[$field] = $select_row[$field];
+                    }
+                }
+                array_unshift($rows1, $sum_row);
+            }
+            $rows0 = $rows1;
+        }
         $out = [
             'rows'=>$rows0,
             'total'=>$total,
@@ -1228,6 +1306,29 @@ class tableAPIController{
         }
         return $this->success('',$out);
     }
+    public function setSelectRow($rule,$rows0){
+        $select_row = [];
+        foreach($rule['properties']['group']['select'] as $field => $v){
+            switch($v['type_aggs']){
+                case 'count':
+                    $select_row[$field] = 0;
+                break;
+                case 'sum':
+                    $select_row[$field] = 0;
+                break;
+                case 'max':
+                    $select_row[$field] = $rows0[0][$field];
+                break;
+                case 'min':
+                    $select_row[$field] = $rows0[0][$field];
+                break;
+                default:
+                   $select_row[$field] = $v;
+            }
+        }
+        return $select_row;
+    }
+
     public function getslTree($slTreeSettings, $rows, $parents){
         foreach($rows as &$row){
             $row['title'] = $this->pdoTools->getChunk("@INLINE ".$slTreeSettings['title'],$row);
