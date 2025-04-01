@@ -206,13 +206,24 @@ $xpdo_meta_map['gtsAPITable']= array (
   ),
   'composites' => 
   array (
+    'gtsAPIUniTreeClass' => 
+    array (
+      'class' => 'gtsAPIUniTreeClass',
+      'local' => 'id',
+      'foreign' => 'table_id',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
+  ),
+  'aggregates' => 
+  array (
     'gtsAPIPackage' => 
     array (
       'class' => 'gtsAPIPackage',
-      'local' => 'id',
-      'foreign' => 'package_id',
-      'cardinality' => 'many',
-      'owner' => 'local',
+      'local' => 'package_id',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
     ),
   ),
 );

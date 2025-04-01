@@ -174,6 +174,53 @@ return [
           "gtsAPITable": {
             "label": "Таблицы АПИ",
             "table": {
+              "subtables": {
+                "gtsAPIUniTreeClass": {
+                  "class": "gtsAPIUniTreeClass",
+                  "sub_where": {
+                    "table_id": "id"
+                  },
+                  "actions": {
+                    "create": [],
+                    "update": [],
+                    "remove": []
+                  },
+                  "pdoTools": {
+                    "class": "gtsAPIUniTreeClass"
+                  },
+                  "checkbox": 0,
+                  "autosave": 1,
+                  "row": {
+                    "cols": {
+                      "id": {
+                        "label": "id"
+                      },
+                      "table_id": {
+                        "label": "Дерево АПИ",
+                        "filter": 1,
+                        "edit": {
+                          "type": "hidden"
+                        }
+                      },
+                      "class": {
+                        "label": "Класс таблицы",
+                        "filter": 1
+                      },
+                      "exdended_modresource": {
+                        "label": "Таблица расширение modResource",
+                        "edit": {
+                          "type": "checkbox"
+                        },
+                        "filter": 1
+                      },
+                      "title_template": {
+                        "label": "Шаблон заголовка(fenom)",
+                        "filter": 1
+                      }
+                    }
+                  }
+                }
+              },
               "class": "gtsAPITable",
               "actions": {
                 "create": {
@@ -221,6 +268,9 @@ return [
                     "title": "Сгенирировать поля"
                   },
                   "icon": "glyphicon glyphicon-menu-hamburger"
+                },
+                "subtable": {
+                  "subtable_name": "gtsAPIUniTreeClass"
                 }
               },
               "pdoTools": {

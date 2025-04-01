@@ -351,27 +351,6 @@ class packageAPIController{
 
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($gtsapirules) . ' gtsapis');
     }
-    // /**
-    //  * Add data
-    //  */
-    // protected function data($data)
-    // {
-    //     foreach($data as $table=>$v){
-    //         $attributes = [
-    //             xPDOTransport::UNIQUE_KEY => $v['transport']['key'],
-    //             xPDOTransport::PRESERVE_KEYS => true,
-    //             xPDOTransport::UPDATE_OBJECT => $v['transport']['update'],
-    //             xPDOTransport::RELATED_OBJECTS => false,
-    //         ];
-    //         foreach ($v['rows'] as $name => $data) {
-    //             $obj = $this->modx->newObject($table);
-    //             $obj->fromArray($data, '', true, true);
-    //             $vehicle = $this->builder->createVehicle($obj, $attributes);
-    //             $this->builder->putVehicle($vehicle);
-    //         }
-    //     }
-    //     $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($data) . ' data');
-    // }
     /**
      * @return modPackageBuilder
      */

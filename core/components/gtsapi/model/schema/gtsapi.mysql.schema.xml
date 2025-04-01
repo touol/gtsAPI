@@ -110,7 +110,27 @@
             <column key="active" length="" collation="A" null="false"/>
         </index>
 
-        <composite alias="gtsAPIPackage" class="gtsAPIPackage" local="id" foreign="package_id" cardinality="many" owner="local"/>
+        <composite alias="gtsAPIUniTreeClass" class="gtsAPIUniTreeClass" local="id" foreign="table_id" cardinality="many" owner="local"/>
+        <aggregate alias="gtsAPIPackage" class="gtsAPIPackage" local="package_id" foreign="id" cardinality="one" owner="foreign"/>
+    </object>
+    <object class="gtsAPIUniTreeClass" table="gtsapi_unitree_classes" extends="xPDOSimpleObject">
+        <field key="table_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+        <field key="table" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+        <field key="class" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+        <field key="exdended_modresource" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
+        <field key="title_field" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+
+        <index alias="table_id" name="table_id" primary="false" unique="false" type="BTREE">
+            <column key="table_id" length="" collation="A" null="false"/>
+        </index>
+        <index alias="table" name="table" primary="false" unique="false" type="BTREE">
+            <column key="table" length="" collation="A" null="false"/>
+        </index>
+        <index alias="exdended_modresource" name="exdended_modresource" primary="false" unique="false" type="BTREE">
+            <column key="exdended_modresource" length="" collation="A" null="false"/>
+        </index>
+
+        <aggregate alias="gtsAPITable" class="gtsAPITable" local="table_id" foreign="id" cardinality="one" owner="foreign"/>
     </object>
     <object class="gtsAPISelect" table="gtsapi_selects" extends="xPDOSimpleObject">
         <field key="field" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>

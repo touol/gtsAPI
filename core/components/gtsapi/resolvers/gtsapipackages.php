@@ -41,6 +41,24 @@ if ($transport->xpdo) {
                                             $gtsAPITable->save();
                                         }
                                     }
+                                    if($gtsAPITable and !empty($table['gtsAPIUniTreeClass'])){
+                                        foreach($table['gtsAPIUniTreeClass'] as $classtree=>$val)
+                                        if($gtsAPIUniTreeClass = $modx->getObject('gtsAPIUniTreeClass',['table_id'=>$gtsAPITable->id, 'table'=>$classtree])){
+                                            $gtsAPIUniTreeClass->fromArray(array_merge([
+                                                'table_id'=>$gtsAPITable->id, 
+                                                'table'=>$classtree
+                                            ], $val), '', true, true);
+                                            $gtsAPIUniTreeClass->save();
+                                        }else{
+                                            if($gtsAPIUniTreeClass = $modx->newObject('gtsAPIUniTreeClass')){
+                                                $gtsAPIUniTreeClass->fromArray(array_merge([
+                                                    'table_id'=>$gtsAPITable->id, 
+                                                    'table'=>$classtree
+                                                ], $val), '', true, true);
+                                                $gtsAPIUniTreeClass->save();
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
