@@ -939,6 +939,29 @@ class tableAPIController{
         }
         return $this->error('create_error',$request);
     }
+
+    public function setUniTreeTitle($rule,$obj){
+        $table = '';
+        if($gtsAPIUniTreeClass = $this->modx->getObject('gtsAPIUniTreeClass',['table'=>$rule['table']])){
+            if($gtsAPITable = $this->modx->getObject('gtsAPITable',$gtsAPIUniTreeClass->table_id)){
+                if(empty($gtsAPITable->class)) $gtsAPITable->class = $gtsAPITable->table;
+                $this->addPackages($gtsAPITable->package_id);
+                $treeNodes = $this->modx->getIterator($gtsAPITable->class,['target_id'=>$obj->get('id')]);
+                foreach($treeNodes as $treeNode){
+                    if(empty($gtsAPIUniTreeClass->title_field)){
+                        if($gtsAPIUniTreeClass->exdended_modresource){
+                            $gtsAPIUniTreeClass->title_field = 'pagetitle';
+                        }else{
+                            $gtsAPIUniTreeClass->title_field = 'name';
+                        }
+                    }
+                    $treeNode->title = $obj->get($gtsAPIUniTreeClass->title_field);
+                    if($treeNode->save()) $table = $gtsAPITable->table;
+                }
+            }
+        }
+        return $table ;
+    }
     public function update($rule,$request,$action){
         
         if($obj = $this->modx->getObject($rule['class'],(int)$request['id'])){
@@ -1078,6 +1101,8 @@ class tableAPIController{
 
                 $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
                 
+                
+
                 $resp['data']['object'] = $obj->toArray();
                 if(!empty($rule['properties']['table_tree'])){//table_tree
                     $where = [
@@ -1087,7 +1112,9 @@ class tableAPIController{
                 }
                 if(!$resp['success']) return $resp;
                 $data = $resp['data'];
-
+                //uniTree
+                $uniTreeTable = $this->setUniTreeTitle($rule,$obj);
+                if(!empty($uniTreeTable)) $data['uniTreeTable'] = $uniTreeTable;
                 return $this->success('update',$data);
             }
         }
@@ -1673,28 +1700,6 @@ class tableAPIController{
         try {
             $triggers = $this->triggers;
             
-            // if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
-            //     // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
-                
-            //     $service = $this->models[$triggers[$class]['model']];
-            //     if(method_exists($service,$triggers[$class]['function'])){ 
-            //         // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
-            //         return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
-            //     }
-            // }
-            // if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
-            //     $service = $this->models[$triggers[$class]['model']];
-            //     if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
-            //         $gettables_core_path = $this->modx->getOption('gettables_core_path',null, MODX_CORE_PATH . 'components/gettables/core/');
-            //         $gettables_core_path = str_replace('[[+core_path]]', MODX_CORE_PATH, $gettables_core_path);
-            //         if ($this->modx->loadClass('gettables', $gettables_core_path, false, true)) {
-            //             $getTables = new getTables($this->modx, []);
-            //             if ($getTables) {
-            //                 return  $service->{$triggers[$class]['gtsfunction']}($getTables,$class, $type, $method, $fields, $object_old, $object_new);
-            //             }
-            //         }
-            //     }
-            // }
             if(isset($triggers[$class]['gtsapifunc']) and isset($triggers[$class]['model'])){
                 $service = $this->models[$triggers[$class]['model']];
                 if(method_exists($service,$triggers[$class]['gtsapifunc'])){ 

@@ -96,7 +96,7 @@ class treeAPIController{
         }
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         $action = explode('/',$request['api_action']);
-        if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
+        if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete','nodedrop']) and isset($rule['properties']['actions'])){
             $api_action = $request['api_action'];
             if($api_action == 'watch_form') $api_action = $request['watch_action'];
 
@@ -169,6 +169,9 @@ class treeAPIController{
             case 'watch_form':
                 return $this->watch_form($rule,$request);
             break;
+            case 'nodedrop':
+                return $this->nodedrop($rule,$request);
+            break;
             default:
                 $action = explode('/',$request['api_action']);
                 // $this->modx->log(1,"route_post {$request['api_action']}");
@@ -183,6 +186,172 @@ class treeAPIController{
                 }
         }
         return $this->error("Не найдено действие!".print_r($this->models,1));
+    }
+    public function get_slTreeSettings($rule){
+        $slTreeSettings = [
+            'rootIds'=>$rule['properties']['rootIds']?$rule['properties']['rootIds']:0,
+            'idField'=>$rule['properties']['idField']?$rule['properties']['idField']:'id',
+            'parentIdField'=>$rule['properties']['parentIdField']?$rule['properties']['parentIdField']:'parent_id',
+            'parents_idsField'=>$rule['properties']['parents_idsField']?$rule['properties']['parents_idsField']:'parents_ids',
+            'isLeaf' => $rule['properties']['isLeaf'] ? $rule['properties']['isLeaf'] : [],
+            'menuindexField'=>$rule['properties']['menuindexField']?$rule['properties']['menuindexField']:'menuindex',
+            'extendedModResource'=>$rule['properties']['extendedModResource']?$rule['properties']['extendedModResource']:false,
+        ];
+        return $slTreeSettings;
+    }
+
+    public function nodedrop($rule,$request){
+        $class = $rule['class'];
+        $slTreeSettings = $this->get_slTreeSettings($rule);
+        $position = $request['position1'];
+        
+        if($rule['properties']['useUniTree']){
+            foreach($request['nodes1'] as $node){
+                if($obj = $this->modx->getObject($class,$node['id'])){
+                    if($position['node']['parent_id'] != $node['parent_id']){
+                        $obj->set($slTreeSettings['parentIdField'],$position['node']['parent_id']);
+                        if($position['node']['parent_id'] == 0){
+                            if($position['placement'] != 'inside'){
+                                $patents_ids_old = $obj->get($slTreeSettings['parents_idsField']);
+                                if($patents_ids_old != ''){
+                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
+                                        WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
+                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = ''
+                                        WHERE {$slTreeSettings['parents_idsField']} = '#'");
+                                }
+                            }else{
+                                if($parentObj = $this->modx->getObject($class,$position['node']['id'])){
+                                    $parents_ids = $parentObj->get($slTreeSettings['parents_idsField']);
+                                    $patents_ids_old = $obj->get($slTreeSettings['parents_idsField']);
+                                    
+                                    if($parents_ids == '') $parents_ids = '#';
+                                    $parents_ids .= $parentObj->id.'#';
+                                    if($patents_ids_old != ''){
+                                        $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
+                                            WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
+                                    }else{
+                                        $patents_ids_old .= '#'.$obj->id.'#';
+                                        $parents_ids .= $obj->id.'#';
+                                        $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
+                                            WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
+                                        $obj->set($slTreeSettings['parents_idsField'],'');
+                                    }
+                                }
+                            }
+                        }else{
+                            if($parentObj = $this->modx->getObject($class,$position['node']['parent_id'])){
+                                if($position['placement'] == 'inside'){
+                                    $parentObj = $this->modx->getObject($class,$position['node']['id']);
+                                }
+                                $parents_ids = $parentObj->get($slTreeSettings['parents_idsField']);
+                                $patents_ids_old = $obj->get($slTreeSettings['parents_idsField']);
+                                
+                                if($parents_ids == '') $parents_ids = '#';
+                                $parents_ids .= $parentObj->id.'#';
+                                if($patents_ids_old != ''){
+                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
+                                        WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
+                                }else{
+                                    $patents_ids_old .= '#'.$obj->id.'#';
+                                    $parents_ids .= $obj->id.'#';
+                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
+                                        WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
+                                    $obj->set($slTreeSettings['parents_idsField'],'');
+                                }
+                            }
+                        }
+                    }
+                    switch($position['placement']){
+                        case 'before':
+                            $obj->set($slTreeSettings['menuindexField'],$position['node']['menuindex']);
+                            $obj->save();
+
+                            $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
+                                WHERE {$slTreeSettings['parentIdField']} = {$position['node']['parent_id']} 
+                                AND {$slTreeSettings['menuindexField']} >= {$position['node']['menuindex']}");
+                        
+                            if($slTreeSettings['extendedModResource']){
+                                if($source = $this->modx->getObject('modResource', $obj->get('target_id'))
+                                    and $targetObj = $this->modx->getObject($class, $position['node']['id'])
+                                    and $target = $this->modx->getObject('modResource', $targetObj->get('target_id'))
+                                ){
+                                    $sort = [
+                                        'target' => $target->get('context_key').'_'.$target->get('id'),
+                                        'source' => $source->get('context_key').'_'.$source->get('id'),
+                                        'point' => 'above',
+                                        'data' => urlencode($this->modx->toJSON(['web_0'=>['web_1'=>[]]])),
+                                    ];
+                                    $modx_response = $this->modx->runProcessor('resource/sort', $sort);
+                                    if ($modx_response->isError()) {
+                                        return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
+                                    }
+                                }
+                            }
+                        break;
+                        case 'after':
+                            $obj->set($slTreeSettings['menuindexField'],$position['node']['menuindex'] + 1);
+                            
+
+                            $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
+                                WHERE {$slTreeSettings['parentIdField']} = {$position['node']['parent_id']} 
+                                AND {$slTreeSettings['menuindexField']} > {$position['node']['menuindex']}");
+                            $obj->save();
+                            if($slTreeSettings['extendedModResource']){
+                                if($source = $this->modx->getObject('modResource', $obj->get('target_id'))
+                                    and $targetObj = $this->modx->getObject($class, $position['node']['id'])
+                                    and $target = $this->modx->getObject('modResource', $targetObj->get('target_id'))
+                                ){
+                                    // return $this->error('Ошибка nodedrop 2');
+                                    $sort = [
+                                        'target' => $target->get('context_key').'_'.$target->get('id'),
+                                        'source' => $source->get('context_key').'_'.$source->get('id'),
+                                        'point' => 'below',
+                                        'data' => urlencode($this->modx->toJSON(['web_0'=>['web_1'=>[]]])),
+                                    ];
+                                    $modx_response = $this->modx->runProcessor('resource/sort', $sort);
+                                    if ($modx_response->isError()) {
+                                        return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
+                                    }
+                                }
+                            }
+                        break;
+                        case 'inside':
+                            // $obj->set($slTreeSettings['menuindexField'],$position['node']['menuindex']);
+                            $obj->save();
+
+                            // $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
+                            //     WHERE {$slTreeSettings['parentIdField']} = {$position['node']['parent_id']} 
+                            //     AND {$slTreeSettings['menuindexField']} >= {$position['node']['menuindex']}");
+                        
+                            if($slTreeSettings['extendedModResource']){
+                                if($source = $this->modx->getObject('modResource', $obj->get('target_id'))
+                                    and $targetObj = $this->modx->getObject($class, $position['node']['id'])
+                                    and $target = $this->modx->getObject('modResource', $targetObj->get('target_id'))
+                                ){
+                                    // return $this->error('Ошибка nodedrop 2');
+                                    $sort = [
+                                        'target' => $target->get('context_key').'_'.$target->get('id'),
+                                        'source' => $source->get('context_key').'_'.$source->get('id'),
+                                        'point' => 'append',
+                                        'data' => urlencode($this->modx->toJSON(['web_0'=>['web_1'=>[]]])),
+                                    ];
+                                    $modx_response = $this->modx->runProcessor('resource/sort', $sort);
+                                    if ($modx_response->isError()) {
+                                        return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
+                                    }
+                                }
+                                $source->menuindex = 0;
+                                $source->save();
+                            }
+                        break;
+                    }
+                }
+                
+            }
+
+        }
+        return $this->success('success');
+        // return $this->error('Ошибка nodedrop 2');
     }
     public function watch_form($rule,$request){
         try {
@@ -476,8 +645,10 @@ class treeAPIController{
         // if(isset($rule['properties']['limit'])) $limit = $rule['properties']['limit'];
         $resp = $this->read($rule,$request,$action);
         if(!$resp['success']) return $resp;
+        if(empty($rule['properties']['nodeclick'])) $rule['properties']['nodeclick'] = [];
         return $this->success('options',[
             'actions'=>$actions,
+            'nodeclick'=>$rule['properties']['nodeclick'],
             'fields'=>$fields,
             'classField'=>$rule['properties']['classField']?$rule['properties']['classField']:'class',
             'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
@@ -840,7 +1011,16 @@ class treeAPIController{
                 $object_old = $obj->toArray();
                 $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
                 if(!$resp['success']) return $resp;
-
+                if($rule['properties']['useUniTree']){
+                    $count = $this->modx->getObject($rule['class'],['target_id'=>$obj->target_id]);
+                    if($count == 1 and $target = $this->modx->getObject($obj->class,$obj->target_id)){
+                        $target->remove();
+                    }
+                    $childs = $this->modx->getIterator($rule['class'],['parent_id'=>$obj->id]);
+                    foreach($childs as $child){
+                        $this->delete($rule,['ids'=>$child->id],$action);
+                    }
+                }
                 if($obj->remove()){
                     $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
                     if(!$resp['success']) return $resp;
@@ -938,19 +1118,19 @@ class treeAPIController{
     public function create($rule,$request,$action){
         if($request['form'] == 'UniTree'){
             if(isset($rule['gtsAPIUniTreeClass'][$request['table']])){
-                if(!$tmp = $this->modx->getObject($rule['class'], (int)$request['parent_id'])){
+                if(!$parentObj = $this->modx->getObject($rule['class'], (int)$request['parent_id'])){
                     return $this->error("Не найден родительский элемент {$request['parent_id']} в таблице {$rule['class']}");
                 }
                 if($rule['gtsAPIUniTreeClass'][$request['table']]['exdended_modresource'] == 1){
                     $res = [
                         'pagetitle'=>$request['title'],
-                        'parent'=>$tmp->target_id,
+                        'parent'=>$parentObj->target_id,
                         'class_key'=>$rule['gtsAPIUniTreeClass'][$request['table']]['class'],
                         'content'=>'',
                     ];
                     if(isset($rule['properties']['actions']['create']['tables'][$request['table']]['add_fields'])){
-                        $this->modx->log(1,"table ".print_r($rule['properties']['actions'],1).
-                            print_r($rule['properties']['actions']['create']['tables'][$request['table']]['add_fields'],1));
+                        // $this->modx->log(1,"table ".print_r($rule['properties']['actions'],1).
+                            // print_r($rule['properties']['actions']['create']['tables'][$request['table']]['add_fields'],1));
                         foreach($rule['properties']['actions']['create']['tables'][$request['table']]['add_fields'] as $field=>$val){
                             if(isset($request[$field])) $res[$field] = $request[$field];
                         }
@@ -964,29 +1144,21 @@ class treeAPIController{
                             'title'=>$request['title'],
                             'class'=>$rule['gtsAPIUniTreeClass'][$request['table']]['class'],
                         ];
-                        $slTreeSettings = [
-                            'rootIds'=>$rule['properties']['rootIds']?$rule['properties']['rootIds']:0,
-                            'idField'=>$rule['properties']['idField']?$rule['properties']['idField']:'id',
-                            'parentIdField'=>$rule['properties']['parentIdField']?$rule['properties']['parentIdField']:'parent_id',
-                            'parents_idsField'=>$rule['properties']['parents_idsField']?$rule['properties']['parents_idsField']:'parents_ids',
-                            'isLeaf' => $rule['properties']['isLeaf'] ? $rule['properties']['isLeaf'] : [],
-                            'menuindexField'=>$rule['properties']['menuindexField']?$rule['properties']['menuindexField']:'menuindex',
-                        ];
+                        $slTreeSettings = $this->get_slTreeSettings($rule);
                         $data[$slTreeSettings['parentIdField']] = $request['parent_id'];
                         
-                            if(empty($tmp->{$slTreeSettings['parents_idsField']})){
+                            if(empty($parentObj->{$slTreeSettings['parents_idsField']})){
                                 $parents_ids = '#';
                             }else{
-                                $parents_ids = $tmp->{$slTreeSettings['parents_idsField']};
+                                $parents_ids = $parentObj->{$slTreeSettings['parents_idsField']};
                             }
                             $data[$slTreeSettings['parents_idsField']] = $parents_ids.$data[$slTreeSettings['parentIdField']].'#';
                             if($count = $this->modx->getCount($rule['class'], [$slTreeSettings['parentIdField'] => (int)$request['parent_id']])){
-                                $data[$slTreeSettings['parentIdField']] = $count + 1;
+                                $data[$slTreeSettings['menuindexField']] = $count + 1;
                             }
                         $request = $data;
                     }
                 }
-                
             }
         }
         $data = $this->addDefaultFields($rule,$request);
