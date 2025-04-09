@@ -942,25 +942,33 @@ class tableAPIController{
 
     public function setUniTreeTitle($rule,$obj){
         $table = '';
-        if($gtsAPIUniTreeClass = $this->modx->getObject('gtsAPIUniTreeClass',['table'=>$rule['table']])){
+        $gtsAPIUniTreeClasses = $this->modx->getIterator('gtsAPIUniTreeClass',['table'=>$rule['table']]);
+        foreach($gtsAPIUniTreeClasses as $gtsAPIUniTreeClass){
             if($gtsAPITable = $this->modx->getObject('gtsAPITable',$gtsAPIUniTreeClass->table_id)){
                 if(empty($gtsAPITable->class)) $gtsAPITable->class = $gtsAPITable->table;
-                $this->addPackages($gtsAPITable->package_id);
-                $treeNodes = $this->modx->getIterator($gtsAPITable->class,['target_id'=>$obj->get('id')]);
-                foreach($treeNodes as $treeNode){
-                    if(empty($gtsAPIUniTreeClass->title_field)){
-                        if($gtsAPIUniTreeClass->exdended_modresource){
-                            $gtsAPIUniTreeClass->title_field = 'pagetitle';
-                        }else{
-                            $gtsAPIUniTreeClass->title_field = 'name';
-                        }
+                if($gtsAPITable->properties){
+                    $properties = json_decode($gtsAPITable->properties,1);
+                    if(!isset($properties['useUniTree']) or $properties['useUniTree'] == false){
+                        $table = $gtsAPITable->table;
+                        continue;
                     }
-                    $treeNode->title = $obj->get($gtsAPIUniTreeClass->title_field);
-                    if($treeNode->save()) $table = $gtsAPITable->table;
+                    $this->addPackages($gtsAPITable->package_id);
+                    $treeNodes = $this->modx->getIterator($gtsAPITable->class,['target_id'=>$obj->get('id')]);
+                    foreach($treeNodes as $treeNode){
+                        if(empty($gtsAPIUniTreeClass->title_field)){
+                            if($gtsAPIUniTreeClass->exdended_modresource){
+                                $gtsAPIUniTreeClass->title_field = 'pagetitle';
+                            }else{
+                                $gtsAPIUniTreeClass->title_field = 'name';
+                            }
+                        }
+                        $treeNode->title = $obj->get($gtsAPIUniTreeClass->title_field);
+                        if($treeNode->save()) $table = $gtsAPITable->table;
+                    }
                 }
             }
         }
-        return $table ;
+        return $table;
     }
     public function update($rule,$request,$action){
         

@@ -196,7 +196,15 @@ class treeAPIController{
             'isLeaf' => $rule['properties']['isLeaf'] ? $rule['properties']['isLeaf'] : [],
             'menuindexField'=>$rule['properties']['menuindexField']?$rule['properties']['menuindexField']:'menuindex',
             'extendedModResource'=>$rule['properties']['extendedModResource']?$rule['properties']['extendedModResource']:false,
+            'classField'=>$rule['properties']['classField']?$rule['properties']['classField']:'class',
+            'titleField'=>$rule['properties']['titleField']?$rule['properties']['titleField']:'title',
+            'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
         ];
+        if(!$rule['properties']['useUniTree'] and $rule['properties']['extendedModResource']){
+            $slTreeSettings['titleField'] = $rule['properties']['titleField']?$rule['properties']['titleField']:'pagetitle';
+            $slTreeSettings['parentIdField'] = $rule['properties']['parentIdField']?$rule['properties']['parentIdField']:'parent';
+        }
+
         return $slTreeSettings;
     }
 
@@ -650,8 +658,7 @@ class treeAPIController{
             'actions'=>$actions,
             'nodeclick'=>$rule['properties']['nodeclick'],
             'fields'=>$fields,
-            'classField'=>$rule['properties']['classField']?$rule['properties']['classField']:'class',
-            'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
+            // 'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
             'out'=>$resp['data'],
         ]);
     }
@@ -686,14 +693,7 @@ class treeAPIController{
             $default = array_merge($default, $rule['properties']['query']);
         }
 
-        $slTreeSettings = [
-            'rootIds'=>$rule['properties']['rootIds']?$rule['properties']['rootIds']:0,
-            'idField'=>$rule['properties']['idField']?$rule['properties']['idField']:'id',
-            'parentIdField'=>$rule['properties']['parentIdField']?$rule['properties']['parentIdField']:'parent_id',
-            'parents_idsField'=>$rule['properties']['parents_idsField']?$rule['properties']['parents_idsField']:'parents_ids',
-            'isLeaf' => $rule['properties']['isLeaf'] ? $rule['properties']['isLeaf'] : [],
-            'menuindexField'=>$rule['properties']['menuindexField']?$rule['properties']['menuindexField']:'menuindex',
-        ];
+        $slTreeSettings = $this->get_slTreeSettings($rule);
         $rootIds = [];
         if($slTreeSettings['rootIds'] !== 0){
             if(strpos($slTreeSettings['rootIds'],'option') !== false) {
@@ -740,16 +740,21 @@ class treeAPIController{
     }
     public function getslTree($slTreeSettings, $rows, $parents = []){
         foreach($rows as &$row){
-            // $row['title'] = $this->pdoTools->getChunk("@INLINE ".$slTreeSettings['title'],$row);
+            $row['id'] = (int)$row[$slTreeSettings['idField']];
+            $row['parent_id'] = (int)$row[$slTreeSettings['parentIdField']];
+            $row['menuindex'] = (int)$row[$slTreeSettings['menuindexField']];
+            $row['class'] = $row[$slTreeSettings['classField']];
+            $row['title'] = $row[$slTreeSettings['titleField']];
+            if(!$slTreeSettings['useUniTree']){
+                $row['target_id'] = $row['id'];
+            }
             $isLeaf = true;
             foreach($slTreeSettings['isLeaf'] as $field=>$v){
                 if($row[$field] != $v) $isLeaf = false;
             }
             $row['isLeaf'] = $isLeaf;
-            $row[$slTreeSettings['idField']] = (int)$row[$slTreeSettings['idField']];
-            $row[$slTreeSettings['parentIdField']] = (int)$row[$slTreeSettings['parentIdField']];
         }
-        $tree0 = $this->buildTree($rows,$slTreeSettings['idField'],$slTreeSettings['parentIdField'], $parents);
+        $tree0 = $this->buildTree($rows,'id','parent_id', $parents);
         if(empty($parents)){
             $tree = [];
             foreach($tree0 as $v){
@@ -1116,15 +1121,18 @@ class treeAPIController{
         return array_merge($data,$data_filters);
     }
     public function create($rule,$request,$action){
+        $slTreeSettings = $this->get_slTreeSettings($rule);
         if($request['form'] == 'UniTree'){
             if(isset($rule['gtsAPIUniTreeClass'][$request['table']])){
-                if(!$parentObj = $this->modx->getObject($rule['class'], (int)$request['parent_id'])){
-                    return $this->error("Не найден родительский элемент {$request['parent_id']} в таблице {$rule['class']}");
+                $parent = 0;
+                if($parentObj = $this->modx->getObject($rule['class'], (int)$request['parent_id'])){
+                    $parent = $parentObj->target_id;
+                    if(!$slTreeSettings['useUniTree']) $parent = $parentObj->id;
                 }
                 if($rule['gtsAPIUniTreeClass'][$request['table']]['exdended_modresource'] == 1){
                     $res = [
                         'pagetitle'=>$request['title'],
-                        'parent'=>$parentObj->target_id,
+                        'parent'=>$parent,
                         'class_key'=>$rule['gtsAPIUniTreeClass'][$request['table']]['class'],
                         'content'=>'',
                     ];
@@ -1135,6 +1143,9 @@ class treeAPIController{
                             if(isset($request[$field])) $res[$field] = $request[$field];
                         }
                     }
+                    $resp = $this->run_triggers($rule, 'before', $request['api_action'], $request, [],$res,null,$rule['gtsAPIUniTreeClass'][$request['table']]['class']);
+                    if(!$resp['success']) return $resp;
+
                     $modx_response = $this->modx->runProcessor('resource/create', $res);
                     if ($modx_response->isError()) {
                         return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
@@ -1144,18 +1155,28 @@ class treeAPIController{
                             'title'=>$request['title'],
                             'class'=>$rule['gtsAPIUniTreeClass'][$request['table']]['class'],
                         ];
-                        $slTreeSettings = $this->get_slTreeSettings($rule);
+                        $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, [],$modx_response->response['object'],null,$rule['gtsAPIUniTreeClass'][$request['table']]['class']);
+                        if(!$slTreeSettings['useUniTree']){
+                            header('HTTP/1.1 201 Created');
+                            return $this->success('created',['object'=>$data]);
+                        } 
+
                         $data[$slTreeSettings['parentIdField']] = $request['parent_id'];
-                        
+                        if($parentObj){
                             if(empty($parentObj->{$slTreeSettings['parents_idsField']})){
                                 $parents_ids = '#';
                             }else{
                                 $parents_ids = $parentObj->{$slTreeSettings['parents_idsField']};
                             }
                             $data[$slTreeSettings['parents_idsField']] = $parents_ids.$data[$slTreeSettings['parentIdField']].'#';
-                            if($count = $this->modx->getCount($rule['class'], [$slTreeSettings['parentIdField'] => (int)$request['parent_id']])){
-                                $data[$slTreeSettings['menuindexField']] = $count + 1;
-                            }
+                        }else{
+                            $data[$slTreeSettings['parents_idsField']] = '';
+                        }
+                            
+                        
+                        if($count = $this->modx->getCount($rule['class'], [$slTreeSettings['parentIdField'] => $parent])){
+                            $data[$slTreeSettings['menuindexField']] = $count + 1;
+                        }
                         $request = $data;
                     }
                 }
@@ -1691,9 +1712,9 @@ class treeAPIController{
         // $this->modx->log(1,"getService $package "."test2!".print_r(array_keys($this->models),1));
         return $this->success();
     }
-    public function run_triggers($rule, $type, $method, $fields, $object_old = [], &$object_new =[], $object = null)
+    public function run_triggers($rule, $type, $method, $fields, $object_old = [], &$object_new =[], $object = null, $class2 = '')
     {
-        $class = $rule['class'];
+        $class = $class2?$class2:$rule['class'];
         if(empty($class)) return $this->success('Выполнено успешно');
         
         // Событие для плагинов
