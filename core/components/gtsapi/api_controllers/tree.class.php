@@ -213,7 +213,7 @@ class treeAPIController{
         $slTreeSettings = $this->get_slTreeSettings($rule);
         $position = $request['position1'];
         
-        if($rule['properties']['useUniTree']){
+        if($slTreeSettings['useUniTree']){
             foreach($request['nodes1'] as $node){
                 if($obj = $this->modx->getObject($class,$node['id'])){
                     if($position['node']['parent_id'] != $node['parent_id']){
@@ -357,9 +357,69 @@ class treeAPIController{
                 
             }
 
+        }else{
+            foreach($request['nodes1'] as $node){
+                if($source = $this->modx->getObject($class,$node['id'])){
+                    switch($position['placement']){
+                        case 'before':
+                            if($slTreeSettings['extendedModResource']){
+                                if($target = $this->modx->getObject('modResource', $position['node']['id'])
+                                ){
+                                    $sort = [
+                                        'target' => $target->get('context_key').'_'.$target->get('id'),
+                                        'source' => $source->get('context_key').'_'.$source->get('id'),
+                                        'point' => 'above',
+                                        'data' => urlencode($this->modx->toJSON(['web_0'=>['web_1'=>[]]])),
+                                    ];
+                                    $modx_response = $this->modx->runProcessor('resource/sort', $sort);
+                                    if ($modx_response->isError()) {
+                                        return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
+                                    }
+                                }
+                            }
+                        break;
+                        case 'after':
+                            if($slTreeSettings['extendedModResource']){
+                                if($target = $this->modx->getObject('modResource', $position['node']['id'])
+                                ){
+                                    // return $this->error('Ошибка nodedrop 2');
+                                    $sort = [
+                                        'target' => $target->get('context_key').'_'.$target->get('id'),
+                                        'source' => $source->get('context_key').'_'.$source->get('id'),
+                                        'point' => 'below',
+                                        'data' => urlencode($this->modx->toJSON(['web_0'=>['web_1'=>[]]])),
+                                    ];
+                                    $modx_response = $this->modx->runProcessor('resource/sort', $sort);
+                                    if ($modx_response->isError()) {
+                                        return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
+                                    }
+                                }
+                            }
+                        break;
+                        case 'inside':
+                            if($slTreeSettings['extendedModResource']){
+                                if($target = $this->modx->getObject('modResource', $position['node']['id'])
+                                ){
+                                    $sort = [
+                                        'target' => $target->get('context_key').'_'.$target->get('id'),
+                                        'source' => $source->get('context_key').'_'.$source->get('id'),
+                                        'point' => 'append',
+                                        'data' => urlencode($this->modx->toJSON(['web_0'=>['web_1'=>[]]])),
+                                    ];
+                                    $modx_response = $this->modx->runProcessor('resource/sort', $sort);
+                                    if ($modx_response->isError()) {
+                                        return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
+                                    }
+                                }
+                                $source->menuindex = 0;
+                                $source->save();
+                            }
+                        break;
+                    }
+                }
+            }
         }
         return $this->success('success');
-        // return $this->error('Ошибка nodedrop 2');
     }
     public function watch_form($rule,$request){
         try {
@@ -1746,28 +1806,6 @@ class treeAPIController{
         try {
             $triggers = $this->triggers;
             
-            // if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
-            //     // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
-                
-            //     $service = $this->models[$triggers[$class]['model']];
-            //     if(method_exists($service,$triggers[$class]['function'])){ 
-            //         // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
-            //         return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
-            //     }
-            // }
-            // if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
-            //     $service = $this->models[$triggers[$class]['model']];
-            //     if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
-            //         $gettables_core_path = $this->modx->getOption('gettables_core_path',null, MODX_CORE_PATH . 'components/gettables/core/');
-            //         $gettables_core_path = str_replace('[[+core_path]]', MODX_CORE_PATH, $gettables_core_path);
-            //         if ($this->modx->loadClass('gettables', $gettables_core_path, false, true)) {
-            //             $getTables = new getTables($this->modx, []);
-            //             if ($getTables) {
-            //                 return  $service->{$triggers[$class]['gtsfunction']}($getTables,$class, $type, $method, $fields, $object_old, $object_new);
-            //             }
-            //         }
-            //     }
-            // }
             if(isset($triggers[$class]['gtsapifunc']) and isset($triggers[$class]['model'])){
                 $service = $this->models[$triggers[$class]['model']];
                 if(method_exists($service,$triggers[$class]['gtsapifunc'])){ 
