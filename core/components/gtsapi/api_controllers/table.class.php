@@ -824,7 +824,8 @@ class tableAPIController{
     public function create($rule,$request,$action){
         $data = $this->addDefaultFields($rule,$request);
         $request = $this->request_array_to_json($request);
-        $obj = $this->modx->newObject($rule['class'],$data);
+        if(!$obj = $this->modx->newObject($rule['class'],$data)) return $this->error('Ошибка. Возможно таблица не существует!',$request);
+        
         // $this->modx->log(1,"create {$rule['class']} ".print_r($data,1));
         //class link Редактирование 2 таблиц одновременно
         $set_data[$rule['class']] = [];
@@ -953,7 +954,7 @@ class tableAPIController{
                         continue;
                     }
                     $this->addPackages($gtsAPITable->package_id);
-                    $treeNodes = $this->modx->getIterator($gtsAPITable->class,['target_id'=>$obj->get('id')]);
+                    $treeNodes = $this->modx->getIterator($gtsAPITable->class,['class'=>$rule['class'],'target_id'=>$obj->get('id')]);
                     foreach($treeNodes as $treeNode){
                         if(empty($gtsAPIUniTreeClass->title_field)){
                             if($gtsAPIUniTreeClass->exdended_modresource){

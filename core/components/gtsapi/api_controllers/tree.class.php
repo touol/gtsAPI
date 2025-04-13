@@ -210,63 +210,77 @@ class treeAPIController{
 
     public function nodedrop($rule,$request){
         $class = $rule['class'];
+        // Получаем имя таблицы из класса
+        $table_name = $this->modx->getTableName($class);
+        
         $slTreeSettings = $this->get_slTreeSettings($rule);
         $position = $request['position1'];
         
         if($slTreeSettings['useUniTree']){
             foreach($request['nodes1'] as $node){
                 if($obj = $this->modx->getObject($class,$node['id'])){
-                    if($position['node']['parent_id'] != $node['parent_id']){
-                        $obj->set($slTreeSettings['parentIdField'],$position['node']['parent_id']);
-                        if($position['node']['parent_id'] == 0){
-                            if($position['placement'] != 'inside'){
-                                $patents_ids_old = $obj->get($slTreeSettings['parents_idsField']);
-                                if($patents_ids_old != ''){
-                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
-                                        WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
-                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = ''
-                                        WHERE {$slTreeSettings['parents_idsField']} = '#'");
-                                }
-                            }else{
-                                if($parentObj = $this->modx->getObject($class,$position['node']['id'])){
-                                    $parents_ids = $parentObj->get($slTreeSettings['parents_idsField']);
-                                    $patents_ids_old = $obj->get($slTreeSettings['parents_idsField']);
-                                    
-                                    if($parents_ids == '') $parents_ids = '#';
-                                    $parents_ids .= $parentObj->id.'#';
-                                    if($patents_ids_old != ''){
-                                        $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
-                                            WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
-                                    }else{
-                                        $patents_ids_old .= '#'.$obj->id.'#';
-                                        $parents_ids .= $obj->id.'#';
-                                        $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
-                                            WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
-                                        $obj->set($slTreeSettings['parents_idsField'],'');
-                                    }
-                                }
-                            }
+                    if($position['node']['parent_id'] != $node['parent_id'] 
+                     or ($position['placement'] == 'inside' and $position['node']['id'] != $node['parent_id'])
+                    ){
+                        $this->modx->log(1,'placement0');
+                        if($position['placement'] == 'inside'){
+                            $obj->set($slTreeSettings['parentIdField'], $position['node']['id']);
                         }else{
-                            if($parentObj = $this->modx->getObject($class,$position['node']['parent_id'])){
-                                if($position['placement'] == 'inside'){
-                                    $parentObj = $this->modx->getObject($class,$position['node']['id']);
+                            $obj->set($slTreeSettings['parentIdField'], $position['node']['parent_id']);
+                        }
+                        
+                        
+                        // Получаем текущий parents_ids перетаскиваемого узла
+                        $current_node_parents_ids = $obj->get($slTreeSettings['parents_idsField']);
+                        
+                        // Формируем новый parents_ids для перетаскиваемого узла
+                        $new_parents_ids = '';
+                        
+                        // Если перемещаем в корень
+                        if($position['node']['parent_id'] == 0) {
+                            // Если размещаем внутри другого узла
+                            if($position['placement'] == 'inside' && $parentObj = $this->modx->getObject($class, $position['node']['id'])) {
+                                $parent_parents_ids = $parentObj->get($slTreeSettings['parents_idsField']);
+                                $new_parents_ids = ($parent_parents_ids == '' ? '#' : $parent_parents_ids) . $parentObj->id . '#';
+                            } else {
+                                // Если размещаем в корне
+                                $new_parents_ids = '';
+                            }
+                        } else {
+                            // Если перемещаем не в корень
+                            if($parentObj = $this->modx->getObject($class, $position['node']['parent_id'])) {
+                                // Если размещаем внутри другого узла
+                                if($position['placement'] == 'inside') {
+                                    $parentObj = $this->modx->getObject($class, $position['node']['id']);
                                 }
-                                $parents_ids = $parentObj->get($slTreeSettings['parents_idsField']);
-                                $patents_ids_old = $obj->get($slTreeSettings['parents_idsField']);
                                 
-                                if($parents_ids == '') $parents_ids = '#';
-                                $parents_ids .= $parentObj->id.'#';
-                                if($patents_ids_old != ''){
-                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
-                                        WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
-                                }else{
-                                    $patents_ids_old .= '#'.$obj->id.'#';
-                                    $parents_ids .= $obj->id.'#';
-                                    $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['parents_idsField']} = REPLACE({$slTreeSettings['parents_idsField']}, $patents_ids_old, $patents_ids)
-                                        WHERE {$slTreeSettings['parents_idsField']} LIKE '$patents_ids_old%'");
-                                    $obj->set($slTreeSettings['parents_idsField'],'');
+                                if($parentObj) {
+                                    $parent_parents_ids = $parentObj->get($slTreeSettings['parents_idsField']);
+                                    $new_parents_ids = ($parent_parents_ids == '' ? '#' : $parent_parents_ids) . $parentObj->id . '#';
                                 }
                             }
+                        }
+                        
+                        // Устанавливаем новый parents_ids для перетаскиваемого узла
+                        $obj->set($slTreeSettings['parents_idsField'], $new_parents_ids);
+                        $obj->save();
+                        
+                        // Если у узла есть дочерние элементы, обновляем их parents_ids с помощью SQL запроса
+                        if($current_node_parents_ids != '') {
+                            // Формируем шаблон для поиска дочерних элементов
+                            $search_pattern = $current_node_parents_ids . $obj->id . '#%';
+                            
+                            // Формируем SQL запрос для обновления всех дочерних элементов
+                            $sql = "UPDATE {$table_name} 
+                                   SET {$slTreeSettings['parents_idsField']} = REPLACE(
+                                       {$slTreeSettings['parents_idsField']}, 
+                                       '{$current_node_parents_ids}{$obj->id}#', 
+                                       '{$new_parents_ids}{$obj->id}#'
+                                   )
+                                   WHERE {$slTreeSettings['parents_idsField']} LIKE '{$search_pattern}'";
+                            
+                            $this->modx->log(1, "Updating children with SQL: {$sql}");
+                            $this->modx->exec($sql);
                         }
                     }
                     switch($position['placement']){
@@ -274,7 +288,7 @@ class treeAPIController{
                             $obj->set($slTreeSettings['menuindexField'],$position['node']['menuindex']);
                             $obj->save();
 
-                            $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
+                            $this->modx->exec("UPDATE {$table_name} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
                                 WHERE {$slTreeSettings['parentIdField']} = {$position['node']['parent_id']} 
                                 AND {$slTreeSettings['menuindexField']} >= {$position['node']['menuindex']}");
                         
@@ -300,7 +314,7 @@ class treeAPIController{
                             $obj->set($slTreeSettings['menuindexField'],$position['node']['menuindex'] + 1);
                             
 
-                            $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
+                            $this->modx->exec("UPDATE {$table_name} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
                                 WHERE {$slTreeSettings['parentIdField']} = {$position['node']['parent_id']} 
                                 AND {$slTreeSettings['menuindexField']} > {$position['node']['menuindex']}");
                             $obj->save();
@@ -327,7 +341,7 @@ class treeAPIController{
                             // $obj->set($slTreeSettings['menuindexField'],$position['node']['menuindex']);
                             $obj->save();
 
-                            // $this->modx->exec("UPDATE {$class} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
+                            // $this->modx->exec("UPDATE {$table_name} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
                             //     WHERE {$slTreeSettings['parentIdField']} = {$position['node']['parent_id']} 
                             //     AND {$slTreeSettings['menuindexField']} >= {$position['node']['menuindex']}");
                         
@@ -346,10 +360,12 @@ class treeAPIController{
                                     $modx_response = $this->modx->runProcessor('resource/sort', $sort);
                                     if ($modx_response->isError()) {
                                         return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
+                                    }else{
+                                        $source->menuindex = 0;
+                                        $source->save();
                                     }
                                 }
-                                $source->menuindex = 0;
-                                $source->save();
+                                
                             }
                         break;
                     }
@@ -699,6 +715,19 @@ class treeAPIController{
                 $resp = $this->checkPermissions($rule['properties']['actions'][$action]);
 
                 if($resp['success']){
+                    // Если это действие create и есть tables, проверяем права доступа для каждой таблицы
+                    if($action == 'create' && isset($v['tables']) && is_array($v['tables'])) {
+                        $filteredTables = [];
+                        foreach($v['tables'] as $tableName => $tableConfig) {
+                            // Проверяем права доступа для таблицы
+                            $tableResp = $this->checkPermissions($tableConfig);
+                            if($tableResp['success']) {
+                                $filteredTables[$tableName] = $tableConfig;
+                            }
+                        }
+                        // Заменяем оригинальные таблицы на отфильтрованные
+                        $v['tables'] = $filteredTables;
+                    }
                     $actions[$action] = $v;
                 }
             }
@@ -788,17 +817,33 @@ class treeAPIController{
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
         
-        $out['slTree'] = $this->getslTree($slTreeSettings,$rows0,$rootIds);
-        
+        if(empty($rows0)){
+            $out['slTree'] = [];
+        }else{
+            $out['slTree'] = $this->getslTree($slTreeSettings,$rows0,$rootIds);
+        }
         $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
         
         if(!$resp['success']) return $resp;
         
         if(!empty($resp['data']['out'])) $out = $resp['data']['out'];
+        if(isset($resp['data']['out']['rows'])){
+            $rows0 = $resp['data']['out']['rows'];
+            if(empty($rows0)){
+                $out['slTree'] = [];
+            }else{
+                $out['slTree'] = $this->getslTree($slTreeSettings,$rows0,$rootIds);
+            }
+        }
         // unset($out['rows']);
         return $this->success('',$out);
     }
     public function getslTree($slTreeSettings, $rows, $parents = []){
+        // Для случая с одной записью, устанавливаем parent_id в 0, чтобы запись отображалась на верхнем уровне
+        if(count($rows) == 1) {
+            $rows[0][$slTreeSettings['parentIdField']] = 0;
+        }
+        
         foreach($rows as &$row){
             $row['id'] = (int)$row[$slTreeSettings['idField']];
             $row['parent_id'] = (int)$row[$slTreeSettings['parentIdField']];
@@ -862,26 +907,19 @@ class treeAPIController{
             $parent = 'parent';
         }
 
-        if (count($tmp) == 1) {
-            $row = current($tmp);
-            $tree = array(
-                $row[$parent] => array(
-                    'children' => array(
-                        $row[$id] => $row,
-                    ),
-                ),
-            );
-        } else {
-            $rows = $tree = array();
-            foreach ($tmp as $v) {
-                $rows[$v[$id]] = $v;
-            }
+        $rows = $tree = array();
+        foreach ($tmp as $v) {
+            $rows[$v[$id]] = $v;
+        }
 
-            foreach ($rows as $id => &$row) {
-                if (empty($row[$parent]) || (!isset($rows[$row[$parent]]) && in_array($id, $roots))) {
-                    $tree[$id] = &$row;
-                } else {
+        foreach ($rows as $id => &$row) {
+            if (empty($row[$parent]) || (!isset($rows[$row[$parent]]) && in_array($id, $roots))) {
+                $tree[$id] = &$row;
+            } else {
+                if (isset($rows[$row[$parent]])) {
                     $rows[$row[$parent]]['children'][$id] = &$row;
+                } else {
+                    $tree[$id] = &$row;
                 }
             }
         }
@@ -1185,7 +1223,7 @@ class treeAPIController{
         if($request['form'] == 'UniTree'){
             if(isset($rule['gtsAPIUniTreeClass'][$request['table']])){
                 $parent = 0;
-                if($parentObj = $this->modx->getObject($rule['class'], (int)$request['parent_id'])){
+                if(!empty($request['parent_id']) and $parentObj = $this->modx->getObject($rule['class'], (int)$request['parent_id'])){
                     $parent = $parentObj->target_id;
                     if(!$slTreeSettings['useUniTree']) $parent = $parentObj->id;
                 }
@@ -1239,12 +1277,50 @@ class treeAPIController{
                         }
                         $request = $data;
                     }
+                }else if(!empty($rule['gtsAPIUniTreeClass'][$request['table']]['class'])){
+                    if($obj = $this->modx->newObject($rule['gtsAPIUniTreeClass'][$request['table']]['class'])){
+                        $res = [
+                            $rule['gtsAPIUniTreeClass'][$request['table']]['title_field']=>$request['title'],
+                        ];
+                        if(isset($rule['properties']['actions']['create']['tables'][$request['table']]['add_fields'])){
+                            foreach($rule['properties']['actions']['create']['tables'][$request['table']]['add_fields'] as $field=>$val){
+                                if(isset($request[$field])) $res[$field] = $request[$field];
+                            }
+                        }
+                        // $this->modx->log(1,print_r($res,1));
+                        $obj->fromArray($res);
+                        if($obj->save()){
+                            $data = [
+                                'target_id'=>$obj->id,
+                                'title'=>$request['title'],
+                                'class'=>$rule['gtsAPIUniTreeClass'][$request['table']]['class'],
+                            ];
+                            $data[$slTreeSettings['parentIdField']] = $request['parent_id'];
+                            if($parentObj){
+                                if(empty($parentObj->{$slTreeSettings['parents_idsField']})){
+                                    $parents_ids = '#';
+                                }else{
+                                    $parents_ids = $parentObj->{$slTreeSettings['parents_idsField']};
+                                }
+                                $data[$slTreeSettings['parents_idsField']] = $parents_ids.$data[$slTreeSettings['parentIdField']].'#';
+                            }else{
+                                $data[$slTreeSettings['parents_idsField']] = '';
+                            }
+
+                            if($count = $this->modx->getCount($rule['class'], [$slTreeSettings['parentIdField'] => $parent])){
+                                $data[$slTreeSettings['menuindexField']] = $count + 1;
+                            }
+                            $request = $data;
+                        }
+                    }
+                    
                 }
             }
         }
         $data = $this->addDefaultFields($rule,$request);
         $request = $this->request_array_to_json($request);
-        $obj = $this->modx->newObject($rule['class'],$data);
+        if(!$obj = $this->modx->newObject($rule['class'],$data)) return $this->error('Ошибка. Возможно таблица не существует!',$request);
+        
         // $this->modx->log(1,"create {$rule['class']} ".print_r($data,1));
         //class link Редактирование 2 таблиц одновременно
         $set_data[$rule['class']] = [];
