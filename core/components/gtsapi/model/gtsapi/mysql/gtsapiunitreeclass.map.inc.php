@@ -15,6 +15,7 @@ $xpdo_meta_map['gtsAPIUniTreeClass']= array (
     'class' => '',
     'exdended_modresource' => 0,
     'title_field' => '',
+    'svg' => '',
   ),
   'fieldMeta' => 
   array (
@@ -55,6 +56,13 @@ $xpdo_meta_map['gtsAPIUniTreeClass']= array (
     array (
       'dbtype' => 'varchar',
       'precision' => '161',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
+    ),
+    'svg' => 
+    array (
+      'dbtype' => 'text',
       'phptype' => 'string',
       'null' => false,
       'default' => '',

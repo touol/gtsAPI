@@ -747,6 +747,7 @@ class treeAPIController{
             'actions'=>$actions,
             'nodeclick'=>$rule['properties']['nodeclick'],
             'fields'=>$fields,
+            'gtsAPIUniTreeClass'=>$rule['gtsAPIUniTreeClass'],
             // 'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
             'out'=>$resp['data'],
         ]);

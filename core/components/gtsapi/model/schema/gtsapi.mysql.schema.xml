@@ -119,6 +119,7 @@
         <field key="class" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
         <field key="exdended_modresource" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
         <field key="title_field" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+        <field key="svg" dbtype="text" phptype="string" null="false" default=""/>
 
         <index alias="table_id" name="table_id" primary="false" unique="false" type="BTREE">
             <column key="table_id" length="" collation="A" null="false"/>
