@@ -964,6 +964,12 @@ class tableAPIController{
                             }
                         }
                         $treeNode->title = $obj->get($gtsAPIUniTreeClass->title_field);
+                        
+                        // Проверяем поле active в объекте $obj
+                        if($obj->get('active') !== null) {
+                            $treeNode->active = $obj->get('active');
+                        }
+                        
                         if($treeNode->save()) $table = $gtsAPITable->table;
                     }
                 }
@@ -1530,6 +1536,12 @@ class tableAPIController{
         $field = "{$rule['class']}.$name";
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
         if(strpos($name,'.') !== false) $field = $name;
+
+        if($filter['value'] == 'true'){
+            $filter['value'] = 1;
+        }else if($filter['value'] == 'false'){
+            $filter['value'] = 0;
+        }
         switch($filter['matchMode']){
             case "startsWith":
                 $where[$field.':LIKE'] = "{$filter['value']}%";
@@ -1544,7 +1556,11 @@ class tableAPIController{
                 $where[$field.':LIKE'] = "%{$filter['value']}";
             break;
             case "equals":
-                $where[$field] = $filter['value'];
+                if($name == 'parents_ids'){
+                    $where["{$rule['class']}.parents_ids:LIKE"] = '%#'.$filter['value'].'#%';
+                }else{
+                    $where[$field] = $filter['value'];
+                }
             break;
             case "in":
                 $where[$field.':IN'] = $filter['value'];
