@@ -215,14 +215,22 @@ class treeAPIController{
         
         $slTreeSettings = $this->get_slTreeSettings($rule);
         $position = $request['position1'];
-        
+        $isCopy  = $request['copy'];
+        // $this->modx->log(1,"nodedrop $isCopy");
+
         if($slTreeSettings['useUniTree']){
             foreach($request['nodes1'] as $node){
                 if($obj = $this->modx->getObject($class,$node['id'])){
+                    if($isCopy == 'true' or $isCopy === true){
+                        if($newObj = $this->modx->newObject($class)){
+                            $newObj->fromArray($obj->toArray());
+                            $newObj->save();
+                        }
+                    }
                     if($position['node']['parent_id'] != $node['parent_id'] 
                      or ($position['placement'] == 'inside' and $position['node']['id'] != $node['parent_id'])
                     ){
-                        $this->modx->log(1,'placement0');
+                        // $this->modx->log(1,'placement0');
                         if($position['placement'] == 'inside'){
                             $obj->set($slTreeSettings['parentIdField'], $position['node']['id']);
                         }else{
@@ -279,7 +287,7 @@ class treeAPIController{
                                    )
                                    WHERE {$slTreeSettings['parents_idsField']} LIKE '{$search_pattern}'";
                             
-                            $this->modx->log(1, "Updating children with SQL: {$sql}");
+                            // $this->modx->log(1, "Updating children with SQL: {$sql}");
                             $this->modx->exec($sql);
                         }
                     }
@@ -376,6 +384,12 @@ class treeAPIController{
         }else{
             foreach($request['nodes1'] as $node){
                 if($source = $this->modx->getObject($class,$node['id'])){
+                    if($isCopy == 'true' or $isCopy === true){
+                        if($newObj = $this->modx->newObject($class)){
+                            $newObj->fromArray($source->toArray());
+                            $newObj->save();
+                        }
+                    }
                     switch($position['placement']){
                         case 'before':
                             if($slTreeSettings['extendedModResource']){
@@ -1115,8 +1129,10 @@ class treeAPIController{
                 $object_old = $obj->toArray();
                 $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
                 if(!$resp['success']) return $resp;
+                
                 if($rule['properties']['useUniTree']){
-                    $count = $this->modx->getObject($rule['class'],['target_id'=>$obj->target_id]);
+                    $count = $this->modx->getCount($rule['class'],['target_id'=>$obj->target_id]);
+                    // $this->modx->log(1,"delete $count");
                     if($count == 1 and $target = $this->modx->getObject($obj->class,$obj->target_id)){
                         $target->remove();
                     }
@@ -1125,6 +1141,7 @@ class treeAPIController{
                         $this->delete($rule,['ids'=>$child->id],$action);
                     }
                 }
+                
                 if($obj->remove()){
                     $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
                     if(!$resp['success']) return $resp;
