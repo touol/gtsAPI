@@ -1065,7 +1065,7 @@ class tableAPIController{
                 $set_data[$rule['class']] = $request;
             }
             
-
+            // $this->modx->log(1,"table".print_r($set_data[$rule['class']],1));
             $object = $obj->fromArray($set_data[$rule['class']]);
             $object_new = $obj->toArray();
             

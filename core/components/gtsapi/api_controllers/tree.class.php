@@ -199,6 +199,7 @@ class treeAPIController{
             'classField'=>$rule['properties']['classField']?$rule['properties']['classField']:'class',
             'titleField'=>$rule['properties']['titleField']?$rule['properties']['titleField']:'title',
             'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
+            'isLeafEmptyChild'=>$rule['properties']['isLeafEmptyChild']?$rule['properties']['isLeafEmptyChild']:0,
         ];
         if(!$rule['properties']['useUniTree'] and $rule['properties']['extendedModResource']){
             $slTreeSettings['titleField'] = $rule['properties']['titleField']?$rule['properties']['titleField']:'pagetitle';
@@ -294,12 +295,13 @@ class treeAPIController{
                     switch($position['placement']){
                         case 'before':
                             $obj->set($slTreeSettings['menuindexField'],$position['node']['menuindex']);
-                            $obj->save();
+                            
 
                             $this->modx->exec("UPDATE {$table_name} SET {$slTreeSettings['menuindexField']} = {$slTreeSettings['menuindexField']} + 1 
                                 WHERE {$slTreeSettings['parentIdField']} = {$position['node']['parent_id']} 
                                 AND {$slTreeSettings['menuindexField']} >= {$position['node']['menuindex']}");
-                        
+                            $obj->save();
+                            
                             if($slTreeSettings['extendedModResource']){
                                 if($source = $this->modx->getObject('modResource', $obj->get('target_id'))
                                     and $targetObj = $this->modx->getObject($class, $position['node']['id'])
@@ -868,25 +870,28 @@ class treeAPIController{
             if(!$slTreeSettings['useUniTree']){
                 $row['target_id'] = $row['id'];
             }
-            $isLeaf = true;
-            foreach($slTreeSettings['isLeaf'] as $field=>$v){
-                if($row[$field] != $v) $isLeaf = false;
+            if(empty($slTreeSettings['isLeafEmptyChild'])){
+                $isLeaf = true;
+                foreach($slTreeSettings['isLeaf'] as $field=>$v){
+                    if($row[$field] != $v) $isLeaf = false;
+                }
+                $row['isLeaf'] = $isLeaf;
             }
-            $row['isLeaf'] = $isLeaf;
+            
         }
         $tree0 = $this->buildTree($rows,'id','parent_id', $parents);
         if(empty($parents)){
             $tree = [];
             foreach($tree0 as $v){
-                $tree[] = $this->prepareTree($v);
+                $tree[] = $this->prepareTree($v,$slTreeSettings);
             }
         }else{
             $tree = [];
-            $tree[] = $this->prepareTree($tree0[(int)$parents]);
+            $tree[] = $this->prepareTree($tree0[(int)$parents],$slTreeSettings);
         }
         return $tree;
     }
-    public function prepareTree($node0){
+    public function prepareTree($node0,$slTreeSettings = []){
         $node = [];
         if(!empty($node0['children'])){
             $children = $node0['children'];
@@ -900,14 +905,25 @@ class treeAPIController{
             'title'=>$node0['title'],
             'data'=>$node0
         ];
+
+        if(!empty($slTreeSettings['isLeafEmptyChild'])){
+            
+            if(!isset($children)){
+                $node0['isLeaf'] = true;
+            }else{
+                $node0['isLeaf'] = false;
+            }
+        }
+        
         if($node0['isLeaf']){
             $node['isLeaf'] = true;
         }else{
             $node['isExpanded'] = false;
         }
+
         if(isset($children)){
             foreach($children as $child){
-                $node['children'][] = $this->prepareTree($child);
+                $node['children'][] = $this->prepareTree($child,$slTreeSettings);
             }
         }
         return $node;
@@ -941,36 +957,7 @@ class treeAPIController{
 
         return $tree;
     }
-    // public function getSelects($fields){
-    //     $selects = [];
-    //     foreach($fields as $field =>$v){
-    //         if($v['type'] == 'select'){
-    //             if($gtsAPISelect = $this->modx->getObject('gtsAPISelect',['field'=>$field])){
-    //                 $rows0 = json_decode($gtsAPISelect->rows,1);
-    //                 $rows = [];
-    //                 if(!is_array($rows0)){
-    //                     $rows0 = array_map('trim',explode(',',$gtsAPISelect->rows));
-    //                 }
-    //                 foreach($rows0 as $row){
-    //                     if(count($row) == 2){
-    //                         $rows[] = $row;
-    //                     }else{
-    //                         $rows[] = [$row,$row];
-    //                     }
-    //                 }
-    //                 $rowsEnd = [];
-    //                 foreach($rows as $row){
-    //                     $rowsEnd[] = [
-    //                         'id'=>$row[0],
-    //                         'content'=>$row[1],
-    //                     ];
-    //                 }
-    //                 $selects[$field]['rows'] = $rowsEnd;
-    //             }
-    //         }
-    //     }
-    //     return $selects;
-    // }
+    
     public function gen_fields_class($class,$select = '*'){
         $fields0 = [];
         $fields = [];
