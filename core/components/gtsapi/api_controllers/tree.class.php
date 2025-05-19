@@ -1109,6 +1109,7 @@ class treeAPIController{
     public function delete($rule,$request,$action){
         
         if(!empty($request['ids'])){
+            $slTreeSettings = $this->get_slTreeSettings($rule);
             if(is_string($request['ids'])) $request['ids'] = explode(',',$request['ids']);
             $objs = $this->modx->getIterator($rule['class'],['id:IN'=>$request['ids']]);
             
@@ -1120,12 +1121,12 @@ class treeAPIController{
                 if($rule['properties']['useUniTree']){
                     $count = $this->modx->getCount($rule['class'],['target_id'=>$obj->target_id]);
                     // $this->modx->log(1,"delete $count");
-                    if($count == 1 and $target = $this->modx->getObject($obj->class,$obj->target_id)){
+                    if($count == 1 and $target = $this->modx->getObject($obj->class,$obj->target_id) and $obj->class != $rule['class']){
                         $target->remove();
                     }
-                    $childs = $this->modx->getIterator($rule['class'],['parent_id'=>$obj->id]);
+                    $childs = $this->modx->getIterator($rule['class'],[$slTreeSettings['parentIdField']=>$obj->id]);
                     foreach($childs as $child){
-                        $this->delete($rule,['ids'=>$child->id],$action);
+                        $this->delete($rule,['ids'=>"{$child->id}"],$action);
                     }
                 }
                 
@@ -1225,6 +1226,7 @@ class treeAPIController{
     }
     public function create($rule,$request,$action){
         $slTreeSettings = $this->get_slTreeSettings($rule);
+        $set_target_id = false;
         if($request['form'] == 'UniTree'){
             if(isset($rule['gtsAPIUniTreeClass'][$request['table']])){
                 $parent = 0;
@@ -1320,6 +1322,36 @@ class treeAPIController{
                     }
                     
                 }
+            }else{
+                if($slTreeSettings['useUniTree']){
+                    if($gtsAPITable0 = $this->modx->getObject('gtsAPITable',['table'=>$request['table']])){
+                        if(empty($gtsAPITable0->class)) $gtsAPITable0->class = $gtsAPITable0->table;
+                        $data = [
+                            'class'=> $gtsAPITable0->class,
+                            'title'=>$request['title'],
+                        ];
+                        $data[$slTreeSettings['parentIdField']] = $request['parent_id'];
+                        $set_target_id = true;
+                        $parent = 0;
+                        if(!empty($request['parent_id']) and $parentObj = $this->modx->getObject($rule['class'], (int)$request['parent_id'])){
+                            $parent = $parentObj->id;
+                        }
+                        if($parentObj){
+                            if(empty($parentObj->{$slTreeSettings['parents_idsField']})){
+                                $parents_ids = '#';
+                            }else{
+                                $parents_ids = $parentObj->{$slTreeSettings['parents_idsField']};
+                            }
+                            $data[$slTreeSettings['parents_idsField']] = $parents_ids.$data[$slTreeSettings['parentIdField']].'#';
+                        }else{
+                            $data[$slTreeSettings['parents_idsField']] = '';
+                        }
+                        if($count = $this->modx->getCount($rule['class'], [$slTreeSettings['parentIdField'] => $parent])){
+                            $data[$slTreeSettings['menuindexField']] = $count + 1;
+                        }
+                        $request = array_merge($request,$data);
+                    }
+                }
             }
         }
         $data = $this->addDefaultFields($rule,$request);
@@ -1394,6 +1426,11 @@ class treeAPIController{
         if(!$resp['success']) return $resp;
 
         if($obj->save()){
+            if($set_target_id){
+                $obj->target_id = $obj->id;
+                $obj->save();
+            }
+
             $object = $obj->toArray();
             //class link Редактирование 2 таблиц одновременно
             if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
@@ -1595,29 +1632,6 @@ class treeAPIController{
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
     
-    // public function setSelectRow($rule,$rows0){
-    //     $select_row = [];
-    //     foreach($rule['properties']['group']['select'] as $field => $v){
-    //         switch($v['type_aggs']){
-    //             case 'count':
-    //                 $select_row[$field] = 0;
-    //             break;
-    //             case 'sum':
-    //                 $select_row[$field] = 0;
-    //             break;
-    //             case 'max':
-    //                 $select_row[$field] = $rows0[0][$field];
-    //             break;
-    //             case 'min':
-    //                 $select_row[$field] = $rows0[0][$field];
-    //             break;
-    //             default:
-    //                 $select_row[$field] = $v;
-    //         }
-    //     }
-    //     return $select_row;
-    // }
-
     
     
     /**
