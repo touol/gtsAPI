@@ -66,7 +66,7 @@ class packageAPIController{
             'assets' => $assets,
             'core' => $core,
         ]);
-        
+        $this->modx->log(1,print_r($this->config,1));
         $this->initialize();
         $this->process($request);
         return $this->success("Пакет установлен",['request'=>$request,'files'=>$_FILES]);
