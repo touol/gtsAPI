@@ -1136,6 +1136,16 @@ class tableAPIController{
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
     public function read($rule,$request,$action, $where = []){
+        if(isset($rule['properties']['actions'][$action]['custom'])){
+            $custom_action = explode('/',$rule['properties']['actions'][$action]['custom']);
+            if(count($custom_action) == 2 and isset($this->models[strtolower($custom_action[0])])){
+                $service = $this->models[strtolower($custom_action[0])];
+
+                if(method_exists($service,'handleRequest')){ 
+                    return $service->handleRequest($custom_action[1], $request);
+                }
+            }
+        }
         $resp = $this->run_triggers($rule, 'before', 'read', $request);
         if(!$resp['success']) return $resp;
         
