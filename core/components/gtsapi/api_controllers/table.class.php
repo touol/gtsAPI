@@ -553,7 +553,7 @@ class tableAPIController{
             $options['rowGroupMode'] = $rule['properties']['rowGroupMode'];
             $options['groupRowsBy'] = $rule['properties']['groupRowsBy'];
         }
-        return $this->success('options',);
+        return $this->success('options',$options);
     }
     public function getSelects($fields){
         $selects = [];
