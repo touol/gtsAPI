@@ -321,7 +321,9 @@ class tableAPIController{
         $gtsAPIFieldTableCount = $this->modx->getCount('gtsAPIFieldTable',['name_table'=>$rule['table'],'add_table'=>1]);
         if($gtsAPIFieldTableCount == 0) return $fields;
 
-        $this->modx->addPackage('gtsshop', $this->modx->getOption('core_path') . 'components/gtsshop/model/');
+        if (is_dir( $this->modx->getOption('core_path') . 'components/gtsshop/model/' )) {
+            $this->modx->addPackage('gtsshop', $this->modx->getOption('core_path') . 'components/gtsshop/model/');
+        }
 
         $gtsAPIFieldTables = $this->modx->getIterator('gtsAPIFieldTable',['name_table'=>$rule['table'],'add_table'=>1]);
         $addFields = [];
@@ -537,8 +539,8 @@ class tableAPIController{
         }
         $limit = false;
         if(isset($rule['properties']['limit'])) $limit = $rule['properties']['limit'];
-        
-        return $this->success('options',[
+
+        $options = [
             'fields'=>$fields,
             'actions'=>$actions,
             'selects'=>$selects,
@@ -546,7 +548,12 @@ class tableAPIController{
             'row_class_trigger'=>$row_class_trigger,
             'table_tree'=>$table_tree,
             'limit'=>$limit,
-        ]);
+        ];
+        if(isset($rule['properties']['rowGroupMode'])){
+            $options['rowGroupMode'] = $rule['properties']['rowGroupMode'];
+            $options['groupRowsBy'] = $rule['properties']['groupRowsBy'];
+        }
+        return $this->success('options',);
     }
     public function getSelects($fields){
         $selects = [];
@@ -1136,8 +1143,8 @@ class tableAPIController{
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
     public function read($rule,$request,$action, $where = []){
-        if(isset($rule['properties']['actions'][$action]['custom'])){
-            $custom_action = explode('/',$rule['properties']['actions'][$action]['custom']);
+        if(isset($rule['properties']['actions']['read']['custom'])){
+            $custom_action = explode('/',$rule['properties']['actions']['read']['custom']);
             if(count($custom_action) == 2 and isset($this->models[strtolower($custom_action[0])])){
                 $service = $this->models[strtolower($custom_action[0])];
 

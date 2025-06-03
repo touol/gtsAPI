@@ -607,8 +607,9 @@ class treeAPIController{
         $gtsAPIFieldTableCount = $this->modx->getCount('gtsAPIFieldTable',['name_table'=>$rule['table'],'add_table'=>1]);
         if($gtsAPIFieldTableCount == 0) return $fields;
 
-        $this->modx->addPackage('gtsshop', $this->modx->getOption('core_path') . 'components/gtsshop/model/');
-
+        if (is_dir( $this->modx->getOption('core_path') . 'components/gtsshop/model/' )) {
+            $this->modx->addPackage('gtsshop', $this->modx->getOption('core_path') . 'components/gtsshop/model/');
+        }
         $gtsAPIFieldTables = $this->modx->getIterator('gtsAPIFieldTable',['name_table'=>$rule['table'],'add_table'=>1]);
         $addFields = [];
         foreach($gtsAPIFieldTables as $gtsAPIFieldTable){
