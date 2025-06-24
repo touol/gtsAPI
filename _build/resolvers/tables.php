@@ -127,6 +127,14 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                 'groups'=>'Administrator',
                 'active'=>1,
             ],
+            [
+                'point' => 'files',
+                'controller_class'=>'filesAPIController',
+                'controller_path'=>'[[+core_path]]components/gtsapi/api_controllers/files.class.php',
+                'authenticated'=>0,
+                'groups'=>'',
+                'active'=>1,
+            ],
         ];
         foreach($rules as $t){
             if(!$gtsAPIRule = $modx->getObject("gtsAPIRule",['point'=>$t['point']])){
