@@ -49,6 +49,13 @@ if(!$debug){
     $assets_url = $modx->getOption('assets_url').'components/'
         .$name_lower.'/';
     $modx->regClientCSS($assets_url.'web/css/main.css?v='.$v);
+    if(isset($config) and is_array($config)){
+        $modx->regClientHTMLBlock(
+            '<script>
+                let '.$name_lower.'Configs ='.json_encode($config).'
+            </script>'
+        );
+    }
     $modx->regClientHTMLBlock(
         '<script type="module" src="'.$assets_url.'web/js/main.js?v='.$v.'"></script>'
     );
