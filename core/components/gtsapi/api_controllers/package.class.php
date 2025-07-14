@@ -397,6 +397,13 @@ class packageAPIController{
             }
             file_put_contents($path . '/data.json',$request['data']);
         }
+        if(isset($request['resources'])){
+            $path = $this->config['core'];
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
+            }
+            file_put_contents($path . '/resources.json',$request['resources']);
+        }
         // if(isset($request['data'])){
         //     $data = json_decode($request['data'],1);
         //     if(is_array($data) and count($data) > 0){
@@ -456,6 +463,10 @@ class packageAPIController{
         //add data
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'data.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'data.php'));
+        }
+        //add resources
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'resources.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'resources.php'));
         }
         $this->builder->putVehicle($vehicle);
 
