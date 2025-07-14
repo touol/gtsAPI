@@ -50,9 +50,29 @@ return $success;
 function _addResource($modx, array $data, $uri, $parent = 0, $package = 'unknown')
 {
     $file = $data['context_key'] . '/' . $uri;
-    $config_name = $package . '_p_' . str_replace('/', '_', $uri);
+    
+    // Используем config_name из данных, если задан, иначе генерируем автоматически
+    $config_name = isset($data['config_name']) ? $data['config_name'] : $package . '_p_' . str_replace('/', '_', $uri);
     $id = $modx->getOption($config_name, null, 0);
     $new = false;
+    
+    // Если ресурс существует и update = false, пропускаем обновление
+    if ($id && isset($data['update']) && $data['update'] === false) {
+        $resource = $modx->getObject('modResource', $id);
+        if ($resource) {
+            // Ресурс существует и обновление отключено, обрабатываем только дочерние ресурсы
+            if (!empty($data['resources'])) {
+                $menuindex = 0;
+                foreach ($data['resources'] as $alias => $item) {
+                    $item['alias'] = $alias;
+                    $item['context_key'] = $data['context_key'];
+                    $item['menuindex'] = $menuindex++;
+                    _addResource($modx, $item, $uri . '/' . $alias, $resource->id, $package);
+                }
+            }
+            return;
+        }
+    }
     
     if (!$resource = $modx->getObject('modResource', $id)) {
         $resource = $modx->newObject('modResource');
