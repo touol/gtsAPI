@@ -11,7 +11,7 @@ $success = false;
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
     case xPDOTransport::ACTION_UPGRADE:
-        $packageName = $options['package_name'] ?? 'unknown';
+        $packageName = $options['namespace'] ?? 'unknown';
         $resourcesFile = MODX_CORE_PATH . 'components/' . $packageName . '/resources.json';
         
         if (file_exists($resourcesFile)) {
