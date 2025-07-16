@@ -553,6 +553,12 @@ class tableAPIController{
             $options['rowGroupMode'] = $rule['properties']['rowGroupMode'];
             $options['groupRowsBy'] = $rule['properties']['groupRowsBy'];
         }
+        if(isset($rule['properties']['data_fields'])){
+            $options['data_fields'] = $rule['properties']['data_fields'];
+        }
+        if(isset($rule['properties']['hide_id'])){
+            $options['hide_id'] = $rule['properties']['hide_id'];
+        }
         return $this->success('options',$options);
     }
     public function getSelects($fields){
