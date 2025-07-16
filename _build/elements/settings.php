@@ -777,6 +777,14 @@ return [
                   "modal_only": 1,
                   "filter": 1
                 },
+                "properties": {
+                  "label": "Допсвойства в json",
+                  "edit": {
+                    "type": "textarea"
+                  },
+                  "modal_only": 1,
+                  "filter": 1
+                },
                 "description": {
                   "label": "Описание",
                   "edit": {
