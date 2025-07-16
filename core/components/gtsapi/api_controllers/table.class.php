@@ -77,6 +77,41 @@ class tableAPIController{
         }else{
             $rule['properties'] = [];
         }
+        $this->addPackages($rule['package_id']);
+        
+        if(isset($rule['properties']['loadModels'])){
+            $loadModels = explode(',',$rule['properties']['loadModels']);
+            foreach($loadModels as $package){
+                $resp = $this->getService($package);
+                if(!$resp['success']){
+                    return $resp;
+                }
+            }
+        }
+
+        //добавь здесь вызов триггера при помощи которого можно заменить $rule
+        try {
+            $class = $rule['class'];
+            $triggers = $this->triggers;
+            
+            if(isset($triggers[$class]['gtsapi_rule']) and isset($triggers[$class]['model'])){
+                $service = $this->models[$triggers[$class]['model']];
+                if(method_exists($service,$triggers[$class]['gtsapi_rule'])){ 
+                    $params = [
+                        'rule'=>&$rule,
+                        'class'=>$class,
+                        'request'=>$request,
+                        'trigger'=>'gtsapi_rule',
+                    ];
+                    $resp = $service->{$triggers[$class]['gtsapi_rule']}($params);
+                    if(!$resp['success']) return $resp;
+                }
+            }
+        } catch (Error $e) {
+            $this->modx->log(1,'gtsAPI Ошибка триггера gtsapi_rule '.$e->getMessage());
+            return $this->error('Ошибка триггера gtsapi_rule '.$e->getMessage());
+        }
+        
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         $action = explode('/',$request['api_action']);
         if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
@@ -105,17 +140,7 @@ class tableAPIController{
         if(in_array($request['api_action'],['autocomplete'])){
             if(empty($rule['properties']['autocomplete'])) return $this->error("Not api autocomplete!");
         }
-        $this->addPackages($rule['package_id']);
         
-        if(isset($rule['properties']['loadModels'])){
-            $loadModels = explode(',',$rule['properties']['loadModels']);
-            foreach($loadModels as $package){
-                $resp = $this->getService($package);
-                if(!$resp['success']){
-                    return $resp;
-                }
-            }
-        }
 
         if(!isset($rule['properties']['aсtions'][$request['api_action']]['skip_sanitize']))
             $request = $this->modx->sanitize($request, $this->modx->sanitizePatterns);
