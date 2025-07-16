@@ -219,26 +219,40 @@ class tableAPIController{
         }
         
 
-        if(isset($request['query']) or !empty($request['parent'])){
+        if(isset($request['query']) or !empty($request['parent']) or !empty($request['search'])){
             if(empty($default['where'])) $default['where'] = [];
             $where = [];
-            foreach($autocomplete['where'] as $field=>$value){
-                if(strpos($value,'query') !== false){
-                    if(!empty($request['query'])){
-                        $value = str_replace('query',$request['query'],$value);
+            
+            // Обработка стандартных where условий
+            if(isset($autocomplete['where'])){
+                foreach($autocomplete['where'] as $field=>$value){
+                    if(strpos($value,'query') !== false){
+                        if(!empty($request['query'])){
+                            $value = str_replace('query',$request['query'],$value);
+                            $where[$field] = $value;
+                        }
+                    }else{
                         $where[$field] = $value;
                     }
-                }else{
-                    $where[$field] = $value;
-                }
-                if(!empty($request['parent'])){
-                    foreach($request['parent'] as $pfield=>$pval){
-                        if($value == $pfield){
-                            $where[$field] = $pval;
+                    if(!empty($request['parent'])){
+                        foreach($request['parent'] as $pfield=>$pval){
+                            if($value == $pfield){
+                                $where[$field] = $pval;
+                            }
                         }
                     }
                 }
             }
+            
+            // Обработка множественных полей поиска для multiautocomplete
+            if(!empty($request['search'])){
+                foreach($request['search'] as $searchField => $searchConfig){
+                    if(isset($searchConfig['value']) && !empty($searchConfig['value'])){
+                        $where[$searchField] = $searchConfig['value'];
+                    }
+                }
+            }
+            
             $default['where'] = array_merge($default['where'],$where);
         }
         if(isset($request['ids']) and is_array($request['ids'])){
@@ -1313,6 +1327,7 @@ class tableAPIController{
                 }
             }
         }
+        
         if(isset($rule['properties']['group']) and count($rows0) > 0){
             $rows1 = $check_row = [];
             $select_row = $this->setSelectRow($rule,$rows0);
@@ -1548,6 +1563,60 @@ class tableAPIController{
                             $autocompletes[$field] = $this->autocomplete($autocomplete,$rows0);
                         }
                     }
+                } else if($desc['type'] == 'multiautocomplete' and isset($desc['table']) and isset($desc['search'])){
+                    // Обработка multiautocomplete
+                    if($gtsAPITable = $this->modx->getObject('gtsAPITable',['table'=>$desc['table'],'active'=>1])){
+                        $properties = json_decode($gtsAPITable->properties,1);
+                        if(is_array($properties) and isset($properties['autocomplete'])){
+                            $this->addPackages($gtsAPITable->package_id);
+                            $autocomplete = $properties['autocomplete'];
+                            if(isset($autocomplete['limit']) and $autocomplete['limit'] == 0 and $offset != 0) continue;
+                            $autocomplete['field'] = $field;
+                            $autocomplete['table'] = $desc['table'];
+                            $autocomplete['class'] = $gtsAPITable->class?$gtsAPITable->class:$desc['table'];
+                            
+                            // Добавляем данные для полей поиска
+                            $searchFieldsData = [];
+                            foreach($desc['search'] as $searchFieldKey => $searchFieldConfig){
+                                if(isset($searchFieldConfig['table'])){
+                                    if($searchGtsAPITable = $this->modx->getObject('gtsAPITable',['table'=>$searchFieldConfig['table'],'active'=>1])){
+                                        $searchProperties = json_decode($searchGtsAPITable->properties,1);
+                                        if(is_array($searchProperties) and isset($searchProperties['autocomplete'])){
+                                            $this->addPackages($searchGtsAPITable->package_id);
+                                            $searchAutocomplete = $searchProperties['autocomplete'];
+                                            $searchAutocomplete['field'] = $searchFieldKey;
+                                            $searchAutocomplete['table'] = $searchFieldConfig['table'];
+                                            $searchAutocomplete['class'] = $searchGtsAPITable->class?$searchGtsAPITable->class:$searchFieldConfig['table'];
+                                            
+                                            // Получаем значения для полей поиска из текущих строк
+                                            $searchFieldValues = [];
+                                            foreach($rows0 as $row){
+                                                if(isset($row[$searchFieldKey]) && !empty($row[$searchFieldKey])){
+                                                    $searchFieldValues[$row[$searchFieldKey]] = $row[$searchFieldKey];
+                                                }
+                                            }
+                                            
+                                            if(!empty($searchFieldValues)){
+                                                $searchFieldsData[$searchFieldKey] = $this->autocomplete($searchAutocomplete, []);
+                                                // Фильтруем только нужные значения
+                                                $filteredRows = [];
+                                                foreach($searchFieldsData[$searchFieldKey]['rows'] as $searchRow){
+                                                    if(in_array($searchRow['id'], $searchFieldValues)){
+                                                        $filteredRows[] = $searchRow;
+                                                    }
+                                                }
+                                                $searchFieldsData[$searchFieldKey]['rows'] = $filteredRows;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            $autocompleteResult = $this->autocomplete($autocomplete,$rows0);
+                            $autocompleteResult['searchFields'] = $searchFieldsData;
+                            $autocompletes[$field] = $autocompleteResult;
+                        }
+                    }
                 }
             }
         }
@@ -1601,9 +1670,16 @@ class tableAPIController{
         
         $where = [];
         if($filter['value'] == null) return $where;
-        
+        if(isset($rule['properties']['filters'][$name]) and is_array($rule['properties']['filters'][$name])){
+            $filter = array_merge($rule['properties']['filters'][$name],$filter);
+        }
+        if(isset($rule['properties']['fields'][$name]) and is_array($rule['properties']['fields'][$name])){
+            $filter = array_merge($rule['properties']['fields'][$name],$filter);
+        }
         $field = "{$rule['class']}.$name";
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
+        if(isset($filter['as']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['as']}";
+        $this->modx->log(1,"$field".print_r($filter,1));
         if(strpos($name,'.') !== false) $field = $name;
 
         if($filter['value'] == 'true'){
@@ -1665,6 +1741,7 @@ class tableAPIController{
         $where = [];
         //constraints
         foreach($filters as $name=>$filter){
+            
             if(isset($filter['constraints'])){
                 if($filter['operator'] == 'and'){
                     foreach($filter['constraints'] as $filter2){
