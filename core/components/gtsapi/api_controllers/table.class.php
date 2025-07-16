@@ -731,21 +731,67 @@ class tableAPIController{
     }
     public function delete($rule,$request,$action){
         
-        if(!empty($request['ids'])){
-            if(is_string($request['ids'])) $request['ids'] = explode(',',$request['ids']);
-            $objs = $this->modx->getIterator($rule['class'],['id:IN'=>$request['ids']]);
+        if(!empty($request['ids']) || (!empty($rule['properties']['data_fields']) && !empty($request['data_fields_values']))){
+            $where = [];
             
-            foreach($objs as $obj){
-                $object_old = $obj->toArray();
-                $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
-                if(!$resp['success']) return $resp;
-
-                if($obj->remove()){
-                    $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
-                    if(!$resp['success']) return $resp;
+            // Если есть data_fields и data_fields_values, формируем where на основе полей
+            if(!empty($rule['properties']['data_fields']) && !empty($request['data_fields_values'])){
+                $dataFields = $rule['properties']['data_fields'];
+                $dataFieldsValues = $request['data_fields_values'];
+                
+                // Формируем OR условие для каждой строки, но внутри каждой строки AND условие
+                $orConditions = [];
+                foreach($dataFieldsValues as $rowData){
+                    $andCondition = [];
+                    foreach($dataFields as $field){
+                        if(isset($rowData[$field])){
+                            $andCondition[$field] = $rowData[$field];
+                        }
+                    }
+                    if(!empty($andCondition)){
+                        $orConditions[] = $andCondition;
+                    }
                 }
+                
+                if(!empty($orConditions)){
+                    if(count($orConditions) == 1){
+                        // Если только одна строка, используем простое AND условие
+                        $where = $orConditions[0];
+                    } else {
+                        // Если несколько строк, используем OR между группами AND условий
+                        $where = [];
+                        foreach($orConditions as $index => $condition){
+                            if($index == 0){
+                                $where = array_merge($where, $condition);
+                            } else {
+                                foreach($condition as $field => $value){
+                                    $where['OR:'.$field.':'.$index] = $value;
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Используем стандартную логику с ids
+                if(is_string($request['ids'])) $request['ids'] = explode(',',$request['ids']);
+                $where = ['id:IN'=>$request['ids']];
             }
-            return $this->success('delete',['ids'=>$request['ids']]);
+            
+            if(!empty($where)){
+                $objs = $this->modx->getIterator($rule['class'], $where);
+                
+                foreach($objs as $obj){
+                    $object_old = $obj->toArray();
+                    $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
+                    if(!$resp['success']) return $resp;
+
+                    if($obj->remove()){
+                        $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
+                        if(!$resp['success']) return $resp;
+                    }
+                }
+                return $this->success('delete',['ids'=>$request['ids']]);
+            }
         }
         return $this->error('delete_error');
     }
