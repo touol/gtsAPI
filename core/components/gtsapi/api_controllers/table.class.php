@@ -1679,7 +1679,7 @@ class tableAPIController{
         $field = "{$rule['class']}.$name";
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
         if(isset($filter['as']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['as']}";
-        $this->modx->log(1,"$field".print_r($filter,1));
+        
         if(strpos($name,'.') !== false) $field = $name;
 
         if($filter['value'] == 'true'){
