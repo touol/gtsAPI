@@ -23,6 +23,7 @@ $xpdo_meta_map['gtsAPIField']= array (
     'gtsapi_config' => '',
     'description' => NULL,
     'after_field' => '',
+    'properties' => NULL,
     'modal_only' => 0,
     'table_only' => 0,
   ),
@@ -129,6 +130,12 @@ $xpdo_meta_map['gtsAPIField']= array (
       'phptype' => 'string',
       'null' => false,
       'default' => '',
+    ),
+    'properties' => 
+    array (
+      'dbtype' => 'text',
+      'phptype' => 'string',
+      'null' => true,
     ),
     'modal_only' => 
     array (

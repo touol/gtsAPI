@@ -197,6 +197,7 @@
         <field key="gtsapi_config" dbtype="text" phptype="string" null="true" default=""/>
         <field key="description" dbtype="text" phptype="string" null="true"/>
         <field key="after_field" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
+        <field key="properties" dbtype="text" phptype="string" null="true"/>
         
         <field key="modal_only" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
         <field key="table_only" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
