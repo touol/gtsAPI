@@ -190,7 +190,7 @@ class tableAPIController{
                     }
                 }
         }
-        return $this->error("Не найдено действие!".print_r($this->models,1));
+        return $this->error("Не найдено действие!");
     }
     public function watch_form($rule,$request){
         try {
@@ -335,6 +335,10 @@ class tableAPIController{
             $request['offset'] = 0;
         }
         
+        // Добавляем поддержку limit из запроса для виртуального скроллинга
+        if(isset($request['limit'])){
+            $default['limit'] = $request['limit'];
+        }
         
         $default['setTotal'] = true;
         
@@ -375,6 +379,12 @@ class tableAPIController{
             'default'=>$default,
             'log'=>$this->pdo->getTime()
         ];
+        
+        // Добавляем шаблон из конфигурации autocomplete для динамического отображения
+        if(!empty($autocomplete['template'])){
+            $out['template'] = $autocomplete['template'];
+        }
+        
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
 
         return $this->success('',$out);

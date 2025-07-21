@@ -25,7 +25,7 @@ if(!$debug){
     $assets_gtsapi_url = $modx->getOption('server_protocol').'://'.$modx->getOption('http_host').$modx->getOption('assets_url').'components/gtsapi/';
     $imports = [];
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
-        $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.global.prod.js';
+        $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.esm-browser.js';
         $imports['imports']['axios'] = $assets_gtsapi_url.'js/web/axios.min.js';
         //$imports['imports']['../ru.json'] = $assets_gtsapi_url.'js/web/primevue/ru.json';
         $primevue_path = $modx->getOption('assets_path').'components/gtsapi/js/web/primevue/';

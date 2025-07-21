@@ -29,7 +29,7 @@ if(!$debug){
     $assets_gtsapi_url = $modx->getOption('server_protocol').'://'.$modx->getOption('http_host').$modx->getOption('assets_url').'components/gtsapi/';
     $imports = [];
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
-        $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.global.prod.js';
+        $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.esm-browser.js';
         $pvtables_path = $modx->getOption('assets_path').'components/gtsapi/js/web/pvtables/';
         $imports['imports']['pvtables/dist/pvtables'] = $assets_gtsapi_url.'js/web/pvtables/pvtables.js?v='.$vapi;
     }
