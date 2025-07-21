@@ -280,6 +280,41 @@ class tableAPIController{
             
             $default['where'] = array_merge($default['where'],$where);
         }
+        
+        // Обработка where условий из поля автокомплита (только из конфигурации, безопасно)
+        if (isset($autocomplete['field']) && 
+            isset($rule['properties']['fields'][$autocomplete['field']]['where']) && 
+            is_array($rule['properties']['fields'][$autocomplete['field']]['where'])) {
+            
+            $fieldWhere = $rule['properties']['fields'][$autocomplete['field']]['where'];
+            
+            // Обработка Fenom-шаблонов в значениях where (только модификатор date для безопасности)
+            foreach ($fieldWhere as $key => $value) {
+                if (is_string($value) && preg_match('/^\{[^}]*\|\s*date\s*:\s*["\'][^"\']*["\']\s*\}$/', $value)) {
+                    // Используем pdoTools для обработки Fenom-шаблона только с модификатором date
+                    $fieldWhere[$key] = $this->pdoTools->getChunk("@INLINE " . $value, []);
+                }
+            }
+            
+            if (empty($default['where'])) $default['where'] = [];
+            $default['where'] = array_merge($default['where'], $fieldWhere);
+        }
+
+        // Обработка where из запроса (только модификатор date для безопасности)
+        if (!empty($request['where']) && is_array($request['where'])) {
+            $requestWhere = $request['where'];
+            
+            // Обработка Fenom-шаблонов в значениях where (только модификатор date)
+            foreach ($requestWhere as $key => $value) {
+                if (is_string($value) && preg_match('/^\{[^}]*\|\s*date\s*:\s*["\'][^"\']*["\']\s*\}$/', $value)) {
+                    // Используем pdoTools для обработки Fenom-шаблона только с модификатором date
+                    $requestWhere[$key] = $this->pdoTools->getChunk("@INLINE " . $value, []);
+                }
+            }
+            
+            if (empty($default['where'])) $default['where'] = [];
+            $default['where'] = array_merge($default['where'], $requestWhere);
+        }
         if(isset($request['ids']) and is_array($request['ids'])){
             if(empty($default['where'])) $default['where'] = [];
             $default['where']["{$rule['class']}.id:IN"] = $request['ids'];
