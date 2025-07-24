@@ -539,6 +539,15 @@ class tableAPIController{
             $fields = $rule['properties']['fields'];
         }
         $fields = $this->addFields($rule,$fields,'options');
+        foreach($fields as $k=>$field){
+            if(empty($field['type'])){
+                if($k == 'id'){
+                    $fields[$k]['type'] = 'view';
+                }else{
+                    $fields[$k]['type'] = 'text';
+                }
+            }
+        }
         $actions = [];
         if(isset($rule['properties']['actions'])){
             foreach($rule['properties']['actions'] as $action =>$v){
