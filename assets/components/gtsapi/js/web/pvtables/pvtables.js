@@ -23656,6 +23656,7 @@ const Bt = (t, e = 6e4) => {
             onItemSelect: De,
             onLazyLoad: X,
             disabled: t.disabled,
+            placeholder: t.field.label,
             virtualScrollerOptions: { itemSize: 38, lazy: !0 }
           }, Lt({ _: 2 }, [
             v.value ? {
@@ -23668,7 +23669,7 @@ const Bt = (t, e = 6e4) => {
               ]),
               key: "0"
             } : void 0
-          ]), 1032, ["modelValue", "suggestions", "disabled"]),
+          ]), 1032, ["modelValue", "suggestions", "disabled", "placeholder"]),
           (d(!0), g(W, null, Oe(T.value, (oe, Ie) => (d(), k(oa, {
             key: Ie,
             modelValue: m.value[oe.key],
@@ -23687,7 +23688,7 @@ const Bt = (t, e = 6e4) => {
       })
     ]));
   }
-}, Fa = /* @__PURE__ */ Xt(N0, [["__scopeId", "data-v-231471b2"]]);
+}, Fa = /* @__PURE__ */ Xt(N0, [["__scopeId", "data-v-8f92f22f"]]);
 var H0 = function(e) {
   var n = e.dt;
   return `
