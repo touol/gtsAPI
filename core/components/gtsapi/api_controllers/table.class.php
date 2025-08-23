@@ -206,7 +206,10 @@ class tableAPIController{
                 // $this->modx->log(1,"route_post {$request['api_action']}");
                 // return $this->error("test11!".print_r(array_keys($this->models),1));
                 if(count($action) == 2 and isset($this->models[strtolower($action[0])])){
-                    
+                    $resp = $this->getService(strtolower($action[0]));
+                    if(!$resp['success']){
+                        return $resp;
+                    }
                     $service = $this->models[strtolower($action[0])];
 
                     if(method_exists($service,'handleRequest')){ 
