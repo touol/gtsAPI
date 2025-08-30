@@ -47025,6 +47025,7 @@ export {
   V6 as PVTable,
   Y6 as PVTableModel,
   Wa as PVTables,
+  pr as PVTabs,
   Ac as Popover,
   ri as Select,
   z4 as SpeedDial,
