@@ -211,10 +211,11 @@ class packageAPIController{
     /**
      * Add snippets
      */
-    protected function snippets($snippets,$files)
+    protected function snippets($snippets)
     {
         /** @noinspection PhpIncludeInspection */
         // $snippets = include($this->config['elements'] . 'snippets.php');
+        $path = $this->config['core'];
         if (!is_array($snippets)) {
             $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in Snippets');
 
@@ -233,7 +234,7 @@ class packageAPIController{
                 'id' => 0,
                 'name' => $name,
                 'description' => @$data['description'],
-                'snippet' => $this::_getContent($files[$data['tmp_file']]['tmp_name']),
+                'snippet' => $this::_getContent($path.'elements/snippets/' . $data['file'] . '.php'),
                 // 'static' => !empty($this->config['static']['snippets']),
                 'source' => 1,
                 // 'static_file' => 'core/components/' . $this->config['name_lower'] . '/elements/snippets/' . $data['file'] . '.php',
@@ -250,6 +251,40 @@ class packageAPIController{
         }
         $this->category->addMany($objects);
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($objects) . ' Snippets');
+    }
+    /**
+     * Add chunks
+     */
+    protected function chunks($chunks)
+    {
+        /** @noinspection PhpIncludeInspection */
+        if (!is_array($chunks)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in Chunks');
+
+            return;
+        }
+        $this->category_attributes[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Chunks'] = [
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => !empty($this->config['update']['chunks']),
+            xPDOTransport::UNIQUE_KEY => 'name',
+        ];
+        $objects = [];
+        foreach ($chunks as $name => $data) {
+            /** @var modChunk[] $objects */
+            $objects[$name] = $this->modx->newObject('modChunk');
+            $objects[$name]->fromArray(array_merge([
+                'id' => 0,
+                'name' => $name,
+                'description' => @$data['description'],
+                'snippet' => $this::_getContent($this->config['core'] . 'elements/chunks/' . $data['file'] . '.tpl'),
+                'static' => !empty($this->config['static']['chunks']),
+                'source' => 1,
+                'static_file' => 'core/components/' . $this->config['name_lower'] . '/elements/chunks/' . $data['file'] . '.tpl',
+            ], $data), '', true, true);
+            $objects[$name]->setProperties(@$data['properties']);
+        }
+        $this->category->addMany($objects);
+        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($objects) . ' Chunks');
     }
     /**
      * @param $filename
@@ -356,17 +391,44 @@ class packageAPIController{
      */
     public function process($request)
     {
+        $path = $this->config['core'];
         if(isset($request['snippets'])){
             $snippets = json_decode($request['snippets'],1);
-            if(is_array($snippets) and count($snippets) > 0 and !empty($_FILES)){
-                foreach($snippets as $ks=>$snippet){
-                    foreach($_FILES as $kf=>$file){
-                        if($snippet['file'] == $file['name']) $snippets[$ks]['tmp_file'] = $kf; 
+            if(is_array($snippets) and count($snippets) > 0){
+                if(!empty($_FILES)){
+                    foreach($snippets as $ks=>$snippet){
+                        foreach($_FILES as $kf=>$file){
+                            if($snippet['file'] == $file['name']) $snippets[$ks]['tmp_file'] = $kf; 
+                        }
+                        if(empty($snippets[$ks]['tmp_file'])){
+                            unset($snippets[$ks]);
+                        }else{
+                            // Создаем директорию для сниппетов если её нет
+                            $snippetPath = $path.'elements/snippets/';
+                            if (!is_dir($snippetPath)) {
+                                mkdir($snippetPath, 0755, true);
+                            }
+                            
+                            // Перемещаем загруженный файл
+                            $targetFile = $snippetPath . $snippet['file'] . '.php';
+                            if (move_uploaded_file($_FILES[$snippets[$ks]['tmp_file']]['tmp_name'], $targetFile)) {
+                                $this->modx->log(modX::LOG_LEVEL_INFO, 'Snippet file moved: ' . $targetFile);
+                            } else {
+                                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Failed to move snippet file: ' . $snippet['file']);
+                            }
+                        }
                     }
-                    if(empty($snippets[$ks]['tmp_file'])) unset($snippets[$ks]);
                 }
                 if(count($snippets) > 0){
-                    $this->snippets($snippets,$_FILES);
+                    $this->snippets($snippets);
+                }
+            }
+        }
+        if(isset($request['chunks'])){
+            $chunks = json_decode($request['chunks'],1);
+            if(is_array($chunks) and count($chunks) > 0){
+                if(count($chunks) > 0){
+                    $this->chunks($chunks);
                 }
             }
         }
@@ -398,7 +460,7 @@ class packageAPIController{
             file_put_contents($path . '/data.json',$request['data']);
         }
         if(isset($request['resources'])){
-            $path = $this->config['core'];
+            
             if ( ! is_dir($path)) {
                 mkdir($path, 0666, true);
             }
@@ -494,6 +556,7 @@ class packageAPIController{
         
         return $this->builder;
     }
+    
     /**
      * Initialize package builder
      */
