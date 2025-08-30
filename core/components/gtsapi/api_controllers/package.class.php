@@ -279,7 +279,7 @@ class packageAPIController{
                 'snippet' => $this::_getContent($this->config['core'] . 'elements/chunks/' . $data['file'] . '.tpl'),
                 'static' => !empty($this->config['static']['chunks']),
                 'source' => 1,
-                'static_file' => 'core/components/' . $this->config['name_lower'] . '/elements/chunks/' . $data['file'] . '.tpl',
+                // 'static_file' => 'core/components/' . $this->config['name_lower'] . '/elements/chunks/' . $data['file'] . '.tpl',
             ], $data), '', true, true);
             $objects[$name]->setProperties(@$data['properties']);
         }
