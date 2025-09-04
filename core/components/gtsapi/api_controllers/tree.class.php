@@ -200,6 +200,8 @@ class treeAPIController{
             'titleField'=>$rule['properties']['titleField']?$rule['properties']['titleField']:'title',
             'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
             'isLeafEmptyChild'=>$rule['properties']['isLeafEmptyChild']?$rule['properties']['isLeafEmptyChild']:0,
+            'makeUrl'=>$rule['properties']['makeUrl']?$rule['properties']['makeUrl']:0,
+            'level'=>$rule['properties']['level']?$rule['properties']['level']:0,
         ];
         if(!$rule['properties']['useUniTree'] and $rule['properties']['extendedModResource']){
             $slTreeSettings['titleField'] = $rule['properties']['titleField']?$rule['properties']['titleField']:'pagetitle';
@@ -822,7 +824,7 @@ class treeAPIController{
                     }
                     $default2['where'] = [100=>implode(' OR ', $where1)];
                 }
-                $this->pdo->setConfig($default1);
+                $this->pdo->setConfig($default2);
                 $rows0 = array_merge($rows0,$this->pdo->run());
             }
         }else{
@@ -871,6 +873,33 @@ class treeAPIController{
             if(!$slTreeSettings['useUniTree']){
                 $row['target_id'] = $row['id'];
             }
+            if($slTreeSettings['makeUrl']){
+                // Генерируем правильный URL для modResource
+                $resourceId = null;
+                
+                // Определяем ID ресурса для генерации URL
+                if($slTreeSettings['useUniTree'] && isset($row['target_id'])) {
+                    // Для UniTree используем target_id
+                    $resourceId = $row['target_id'];
+                } else {
+                    // Для всех остальных случаев используем ID записи
+                    $resourceId = $row['id'];
+                }
+                
+                // Генерируем URL через makeUrl MODX
+                if($resourceId && is_numeric($resourceId)) {
+                    try {
+                        $url = $this->modx->makeUrl($resourceId);
+                        $row['url'] = $url ? $url : $row['id']; // fallback к ID если URL не сгенерирован
+                    } catch (Exception $e) {
+                        // В случае ошибки используем ID как fallback
+                        $row['url'] = $row['id'];
+                    }
+                } else {
+                    // Для не-ресурсов оставляем ID
+                    $row['url'] = $row['id'];
+                }
+            }
             if(empty($slTreeSettings['isLeafEmptyChild'])){
                 $isLeaf = true;
                 foreach($slTreeSettings['isLeaf'] as $field=>$v){
@@ -881,15 +910,15 @@ class treeAPIController{
             
         }
         $tree0 = $this->buildTree($rows,'id','parent_id', $parents);
-        if(empty($parents)){
+        // if(empty($parents)){
             $tree = [];
             foreach($tree0 as $v){
                 $tree[] = $this->prepareTree($v,$slTreeSettings);
             }
-        }else{
-            $tree = [];
-            $tree[] = $this->prepareTree($tree0[(int)$parents],$slTreeSettings);
-        }
+        // }else{
+        //     $tree = [];
+        //     $tree[] = $this->prepareTree($tree0[(int)$parents],$slTreeSettings);
+        // }
         return $tree;
     }
     public function prepareTree($node0,$slTreeSettings = []){

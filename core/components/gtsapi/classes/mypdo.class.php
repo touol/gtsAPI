@@ -1396,6 +1396,8 @@ class myPdo
                         $depth = (isset($config['depth']) && $config['depth'] !== '')
                             ? (int)$config['depth']
                             : 10;
+
+                        // $this->modx->log(1,"depth $depth".print_r($config,1));
                         if (!empty($depth) && $depth > 0) {
                             $pids = array();
                             $q = $this->modx->newQuery($class,
