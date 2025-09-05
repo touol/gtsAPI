@@ -806,7 +806,7 @@ class treeAPIController{
         $rootIds = [];
         if($slTreeSettings['rootIds'] !== 0){
             if(strpos($slTreeSettings['rootIds'],'option') !== false) {
-                $slTreeSettings['rootIds'] = $this->pdo->getChunk('@INLINE '.$slTreeSettings['rootIds']);
+                $slTreeSettings['rootIds'] = $this->pdoTools->getChunk('@INLINE '.$slTreeSettings['rootIds']);
             }
             $rootIds = array_map('trim', explode(',', $slTreeSettings['rootIds']));
             if(!empty($rootIds)){
