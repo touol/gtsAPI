@@ -1508,6 +1508,11 @@ class tableAPIController{
             }
             $rows0 = $rows1;
         }
+        if(isset($rule['properties']['reset_id']) and $rule['properties']['reset_id'] == 1 and count($rows0) > 0){
+            foreach($rows0 as $k=>$row){
+                $rows0[$k]['id'] = $request['offset'] + $k + 1;
+            }
+        }
         $out = [
             'rows'=>$rows0,
             'total'=>$total,
