@@ -287,6 +287,40 @@ class packageAPIController{
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($objects) . ' Chunks');
     }
     /**
+     * Add templates
+     */
+    protected function templates($templates)
+    {
+        /** @noinspection PhpIncludeInspection */
+        if (!is_array($templates)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in Templates');
+
+            return;
+        }
+        $this->category_attributes[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Templates'] = [
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => !empty($this->config['update']['templates']),
+            xPDOTransport::UNIQUE_KEY => 'templatename',
+        ];
+        $objects = [];
+        foreach ($templates as $name => $data) {
+            /** @var modTemplate[] $objects */
+            $objects[$name] = $this->modx->newObject('modTemplate');
+            $objects[$name]->fromArray(array_merge([
+                'id' => 0,
+                'templatename' => $name,
+                'description' => @$data['description'],
+                'content' => $this::_getContent($this->config['core'] . 'elements/templates/' . $data['file'] . '.tpl'),
+                'static' => !empty($this->config['static']['templates']),
+                'source' => 1,
+                // 'static_file' => 'core/components/' . $this->config['name_lower'] . '/elements/templates/' . $data['file'] . '.tpl',
+            ], $data), '', true, true);
+            $objects[$name]->setProperties(@$data['properties']);
+        }
+        $this->category->addMany($objects);
+        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($objects) . ' Templates');
+    }
+    /**
      * @param $filename
      *
      * @return string
@@ -429,6 +463,14 @@ class packageAPIController{
             if(is_array($chunks) and count($chunks) > 0){
                 if(count($chunks) > 0){
                     $this->chunks($chunks);
+                }
+            }
+        }
+        if(isset($request['templates'])){
+            $templates = json_decode($request['templates'],1);
+            if(is_array($templates) and count($templates) > 0){
+                if(count($templates) > 0){
+                    $this->templates($templates);
                 }
             }
         }
