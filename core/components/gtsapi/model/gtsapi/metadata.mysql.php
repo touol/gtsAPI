@@ -15,6 +15,7 @@ $xpdo_meta_map = array (
     9 => 'gtsAPIField',
     10 => 'gtsAPIFieldTable',
     11 => 'gtsAPIFieldGroupTableLink',
+    12 => 'gtsAPIFile',
   ),
   'xPDOObject' => 
   array (
