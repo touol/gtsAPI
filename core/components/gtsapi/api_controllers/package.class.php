@@ -508,6 +508,13 @@ class packageAPIController{
             }
             file_put_contents($path . '/resources.json',$request['resources']);
         }
+        if(isset($request['resource_groups'])){
+            
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
+            }
+            file_put_contents($path . '/resource_groups.json',$request['resource_groups']);
+        }
         // if(isset($request['data'])){
         //     $data = json_decode($request['data'],1);
         //     if(is_array($data) and count($data) > 0){
@@ -568,10 +575,15 @@ class packageAPIController{
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'data.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'data.php'));
         }
+        //add resource_groups
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'resource_groups.resolver.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'resource_groups.resolver.php'));
+        }
         //add resources
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'resources.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'resources.php'));
         }
+        
         $this->builder->putVehicle($vehicle);
 
         $this->builder->setPackageAttributes([
