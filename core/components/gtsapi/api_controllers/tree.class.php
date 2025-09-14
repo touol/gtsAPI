@@ -79,7 +79,7 @@ class treeAPIController{
         $rule['gtsAPIUniTreeClass'] = $gtsAPIUniTreeClass;
 
         $resp = $this->checkPermissions($rule);
-
+        $this->modx->log(1,print_r($resp,1));
         if(!$resp['success']){
             // header('HTTP/1.1 401 Unauthorized2');
             return $resp;
@@ -862,6 +862,7 @@ class treeAPIController{
                 $out['slTree'] = $this->getslTree($slTreeSettings,$rows0,$rootIds);
             }
         }
+        // $out['user'] = $this->modx->user->id;
         // unset($out['rows']);
         return $this->success('',$out);
     }
@@ -1851,9 +1852,9 @@ class treeAPIController{
             $groups = array_map('trim', explode(',', $rule_action['groups']));
             if(!$this->modx->user->isMember($groups)) return $this->error("Not api permission groups!");
         }
-        if(isset($rule_action['permitions'])and !empty($rule_action['permitions'])){
-            $permitions = array_map('trim', explode(',', $rule_action['permitions']));
-            foreach($permitions as $pm){
+        if(isset($rule_action['permissions'])and !empty($rule_action['permissions'])){
+            $permissions = array_map('trim', explode(',', $rule_action['permissions']));
+            foreach($permissions as $pm){
                 if(!$this->modx->hasPermission($pm)) return $this->error("Not api modx permission!");
             }
         }

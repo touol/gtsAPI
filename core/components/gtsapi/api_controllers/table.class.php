@@ -1896,9 +1896,9 @@ class tableAPIController{
             $groups = array_map('trim', explode(',', $rule_action['groups']));
             if(!$this->modx->user->isMember($groups)) return $this->error("Not api permission groups!");
         }
-        if(isset($rule_action['permitions'])and !empty($rule_action['permitions'])){
-            $permitions = array_map('trim', explode(',', $rule_action['permitions']));
-            foreach($permitions as $pm){
+        if(isset($rule_action['permissions'])and !empty($rule_action['permissions'])){
+            $permissions = array_map('trim', explode(',', $rule_action['permissions']));
+            foreach($permissions as $pm){
                 if(!$this->modx->hasPermission($pm)) return $this->error("Not api modx permission!");
             }
         }

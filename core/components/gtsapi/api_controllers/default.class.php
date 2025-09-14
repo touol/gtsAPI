@@ -318,16 +318,19 @@ class defaultAPIController{
         return $where;
     }
     public function checkPermissions($rule_action){
-        if($rule_action['authenticated']){
+        // $this->modx->log(1,"checkPermissions ".print_r($rule_action,1));
+        if(isset($rule_action['authenticated']) and $rule_action['authenticated'] == 1){
             if(!$this->modx->user->id > 0) return $this->error("Not api authenticated!",['user_id'=>$this->modx->user->id]);
         }
-        if($rule_action['groups']){
+
+        if(isset($rule_action['groups']) and !empty($rule_action['groups'])){
+            // $this->modx->log(1,"checkPermissions groups".print_r($rule_action['groups'],1));
             $groups = array_map('trim', explode(',', $rule_action['groups']));
             if(!$this->modx->user->isMember($groups)) return $this->error("Not api permission groups!");
         }
-        if($rule_action['permitions']){
-            $permitions = array_map('trim', explode(',', $rule_action['permitions']));
-            foreach($permitions as $pm){
+        if(isset($rule_action['permissions'])and !empty($rule_action['permissions'])){
+            $permissions = array_map('trim', explode(',', $rule_action['permissions']));
+            foreach($permissions as $pm){
                 if(!$this->modx->hasPermission($pm)) return $this->error("Not api modx permission!");
             }
         }

@@ -86,7 +86,7 @@
 
         <field key="authenticated" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
         <field key="groups" dbtype="text" phptype="string" null="false" default=""/>
-        <field key="permitions" dbtype="text" phptype="string" null="false" default=""/>
+        <field key="permissions" dbtype="text" phptype="string" null="false" default=""/>
         <field key="properties" dbtype="text" phptype="string" null="false" default=""/>
 
         <field key="autocomplete_field" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>

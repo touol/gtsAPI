@@ -322,7 +322,7 @@ return [
                     "type": "textarea"
                   }
                 },
-                "permitions": {
+                "permissions": {
                   "label": "Разрешения (имена разрешений MODX через запятую)",
                   "edit": {
                     "type": "textarea"
