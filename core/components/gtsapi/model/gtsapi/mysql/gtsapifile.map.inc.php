@@ -11,6 +11,7 @@ $xpdo_meta_map['gtsAPIFile']= array (
   'fields' => 
   array (
     'parent' => 0,
+    'parent0' => 0,
     'class' => '',
     'list' => '',
     'name' => NULL,
@@ -35,6 +36,15 @@ $xpdo_meta_map['gtsAPIFile']= array (
   'fieldMeta' => 
   array (
     'parent' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '10',
+      'phptype' => 'integer',
+      'attributes' => 'unsigned',
+      'null' => false,
+      'default' => 0,
+    ),
+    'parent0' => 
     array (
       'dbtype' => 'int',
       'precision' => '10',
@@ -220,6 +230,22 @@ $xpdo_meta_map['gtsAPIFile']= array (
         ),
       ),
     ),
+    'parent0' => 
+    array (
+      'alias' => 'parent0',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'parent0' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
     'class' => 
     array (
       'alias' => 'class',
@@ -293,6 +319,22 @@ $xpdo_meta_map['gtsAPIFile']= array (
       'columns' => 
       array (
         'type' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+    'trumb' => 
+    array (
+      'alias' => 'trumb',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'trumb' => 
         array (
           'length' => '',
           'collation' => 'A',

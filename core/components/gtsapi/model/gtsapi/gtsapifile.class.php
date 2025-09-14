@@ -239,6 +239,9 @@ class gtsAPIFile extends xPDOSimpleObject
             return false;
         }
 
+        // Удаляем существующие миниатюры перед генерацией новых
+        $this->removeExistingThumbnails();
+
         $thumbnailType = $this->getThumbnailType();
         foreach ($imageThumbnails as $k => $imageThumbnail) {
             $imageThumbnails[$k] = array_merge(
@@ -248,9 +251,43 @@ class gtsAPIFile extends xPDOSimpleObject
             );
         }
 
-        foreach ($imageThumbnails as $k => $imageThumbnail) {
+        foreach ($imageThumbnails as $sizeName => $imageThumbnail) {
             if ($thumbnail = $this->makeThumbnail($imageThumbnail)) {
-                $this->saveThumbnail($thumbnail, $imageThumbnail);
+                $this->saveThumbnail($thumbnail, $imageThumbnail, $sizeName);
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Удаление существующих миниатюр
+     * @return bool
+     */
+    public function removeExistingThumbnails()
+    {
+        if (!$this->initialized()) {
+            return false;
+        }
+
+        // Находим все существующие миниатюры этого файла
+        $thumbnails = $this->xpdo->getCollection('gtsAPIFile', array(
+            'parent' => $this->get('id'),
+            'trumb:!=' => ''
+        ));
+
+        foreach ($thumbnails as $thumbnail) {
+            // Удаляем физический файл
+            $filename = $thumbnail->get('path') . $thumbnail->get('file');
+            if (!@$this->mediaSource->removeObject($filename)) {
+                $this->modx->log(xPDO::LOG_LEVEL_WARN,
+                    '[gtsAPIFile] Could not remove thumbnail file: ' . $filename);
+            }
+
+            // Удаляем запись из базы данных
+            if (!$thumbnail->remove()) {
+                $this->modx->log(xPDO::LOG_LEVEL_ERROR,
+                    '[gtsAPIFile] Could not remove thumbnail record with ID: ' . $thumbnail->get('id'));
             }
         }
 
@@ -356,58 +393,30 @@ class gtsAPIFile extends xPDOSimpleObject
      * Сохранение миниатюры
      * @param $thumbnail
      * @param array $options
+     * @param string $sizeName
      * @return bool
      */
-    public function saveThumbnail($thumbnail, $options = array())
+    public function saveThumbnail($thumbnail, $options = array(), $sizeName = '')
     {
-        $pls = array(
-            'pl' => array(
-                '{name}',
-                '{id}',
-                '{class}',
-                '{list}',
-                '{session}',
-                '{createdby}',
-                '{source}',
-                '{context}',
-                '{w}',
-                '{h}',
-                '{q}',
-                '{zc}',
-                '{bg}',
-                '{ext}',
-                '{rand}'
-            ),
-            'vl' => array(
-                rtrim(str_replace($this->get('type'), '', $this->get('file')), '.'),
-                $this->get('id'),
-                $this->get('class'),
-                $this->get('list'),
-                $this->get('session'),
-                $this->get('createdby'),
-                $this->get('source'),
-                $this->get('context'),
-                $options['w'],
-                $options['h'],
-                $options['q'],
-                $options['zc'],
-                $options['bg'],
-                $options['f'],
-                strtolower(strtr(base64_encode(openssl_random_pseudo_bytes(2)), '+/=', 'zzz'))
-            )
-        );
-
-        $thumbnailName = $this->getThumbnailName();
-        $filename = strtolower(str_replace($pls['pl'], $pls['vl'], $thumbnailName));
+        // Генерируем случайный суффикс
+        $randomSuffix = strtolower(strtr(base64_encode(openssl_random_pseudo_bytes(2)), '+/=', 'zzz'));
+        
+        // Получаем имя файла без расширения
+        $baseName = rtrim(str_replace('.' . $this->get('type'), '', $this->get('file')), '.');
+        
+        // Формируем новое имя файла: logo_1757790816_7684.nguz.medium.jpg
+        $filename = $baseName . '.' . $randomSuffix . '.' . $sizeName . '.' . $options['f'];
 
         /** @var gtsAPIFile $thumbnailFile */
         $thumbnailFile = $this->xpdo->newObject('gtsAPIFile', array_merge(
             $this->toArray('', true),
             array(
-                'class'  => 'gtsAPIFile',
-                'parent' => $this->get('id'),
-                'file'   => $filename,
-                'hash'   => sha1($thumbnail)
+                'class'   => $this->get('class'),        // Сохраняем оригинальный класс
+                'parent'  => $this->get('id'),           // parent = ID оригинального файла
+                'parent0' => $this->get('parent'),       // parent0 = оригинальный parent
+                'file'    => $filename,
+                'trumb'   => $sizeName,                  // Записываем размер миниатюры
+                'hash'    => sha1($thumbnail)
             )
         ));
 
@@ -474,6 +483,11 @@ class gtsAPIFile extends xPDOSimpleObject
                 if (!empty($this->modx->user) AND $this->modx->user instanceof modUser) {
                     $this->set('createdby', $this->modx->user->get('id'));
                 }
+            }
+            
+            // Устанавливаем parent0 равным parent, если он не задан
+            if (!$this->get('parent0')) {
+                $this->set('parent0', $this->get('parent'));
             }
 
             $q = $this->xpdo->newQuery('gtsAPIFile');

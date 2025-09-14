@@ -41,6 +41,68 @@ class filesAPIController{
         }
         return $this->success();
     }
+
+    /**
+     * Проверка прав доступа к файловым операциям
+     */
+    public function checkFilePermissions($action = 'read')
+    {
+        $sourceId = $this->source->get('id');
+        
+        // Проверяем, настроены ли ACL для источника медиа
+        $acls = $this->modx->getCollection('sources.modAccessMediaSource', ['target' => $sourceId]);
+        
+        if (!empty($acls)) {
+            switch ($action) {
+            
+            case 'list':
+                return $this->source->checkPolicy('list');
+            case 'download':
+            case 'read':
+            case 'view':
+                return $this->source->checkPolicy('load');
+            case 'upload':
+            case 'create':
+            case 'update':
+                return $this->source->checkPolicy('create');
+            case 'delete':
+            case 'remove':
+                return $this->source->checkPolicy('remove');
+            case 'edit':
+            case 'save':
+                return $this->source->checkPolicy('save');
+            default:
+                return false;
+            }
+        }
+        
+        // Если права не заданы, применяем дефолтные правила
+        switch ($action) {
+            case 'list':
+                return false;
+            case 'read':
+            case 'download':
+            case 'view':
+                // Чтение доступно всем
+                return true;
+                
+            case 'upload':
+            case 'create':
+            case 'update':
+            case 'delete':
+            case 'remove':
+            case 'edit':
+            case 'save':
+                // Редактирование только для группы Administrator
+                if (!$this->modx->user->isMember('Administrator')) {
+                    return false;
+                }
+                return true;
+                
+            default:
+                return false;
+        }
+    }
     /**
      * Инициализация MediaSource
      * 
@@ -135,8 +197,6 @@ class filesAPIController{
         // Перебор и формирование списка медиа-источников
         $sources = [];
         foreach ($mediaSources as $source) {
-            
-            
             // Проверяем права доступа
             if (!$source->checkPolicy('list')) continue;
             
@@ -155,8 +215,8 @@ class filesAPIController{
      */
     public function getFiles($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('list')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('list')) {
+            return $this->error('Нет прав доступа для просмотра списка файлов');
         }
         
         // Получаем путь к директории
@@ -235,8 +295,8 @@ class filesAPIController{
      */
     public function createDirectory($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('create')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('create')) {
+            return $this->error('Нет прав доступа для создания директорий');
         }
         
         // Проверяем наличие необходимых параметров
@@ -274,8 +334,8 @@ class filesAPIController{
      */
     public function uploadFile($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('create')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('upload')) {
+            return $this->error('Нет прав доступа для загрузки файлов');
         }
         
         // Проверяем наличие необходимых параметров
@@ -317,8 +377,8 @@ class filesAPIController{
      */
     public function renameFileOrDirectory($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('save')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('save')) {
+            return $this->error('Нет прав доступа для переименования файлов');
         }
         
         // Проверяем наличие необходимых параметров
@@ -367,8 +427,8 @@ class filesAPIController{
      */
     public function removeFileOrDirectory($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('remove')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('remove')) {
+            return $this->error('Нет прав доступа для удаления файлов');
         }
         
         // Проверяем наличие необходимых параметров
@@ -408,8 +468,8 @@ class filesAPIController{
      */
     public function downloadFile($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('list')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('download')) {
+            return $this->error('Нет прав доступа для скачивания файлов');
         }
         
         // Проверяем наличие необходимых параметров
@@ -486,8 +546,8 @@ class filesAPIController{
      */
     public function getFileContent($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('list')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('read')) {
+            return $this->error('Нет прав доступа для чтения содержимого файлов');
         }
         
         // Проверяем наличие необходимых параметров
@@ -525,8 +585,8 @@ class filesAPIController{
      */
     public function updateFileContent($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('save')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('save')) {
+            return $this->error('Нет прав доступа для редактирования содержимого файлов');
         }
         
         // Проверяем наличие необходимых параметров
@@ -563,8 +623,8 @@ class filesAPIController{
      */
     public function createFile($request) {
         // Проверка прав доступа
-        if (!$this->source->checkPolicy('create')) {
-            return $this->error('Доступ запрещен');
+        if (!$this->checkFilePermissions('create')) {
+            return $this->error('Нет прав доступа для создания файлов');
         }
         
         // Проверяем наличие необходимых параметров

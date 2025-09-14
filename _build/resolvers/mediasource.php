@@ -102,7 +102,7 @@ if ($transport->xpdo) {
                             'name' => 'imageThumbnails',
                             'desc' => 'Настройки миниатюр изображений',
                             'type' => 'textarea',
-                            'value' => '[{"w":120,"h":90,"q":90,"zc":1,"bg":"fff","f":"jpg"},{"w":300,"h":200,"q":85,"zc":1,"bg":"fff","f":"jpg"}]',
+                            'value' => '{"small":{"w":120,"h":90,"q":90,"zc":1,"bg":"fff","f":"jpg"},"medium":{"w":300,"h":200,"q":85,"zc":1,"bg":"fff","f":"jpg"},"large":{"w":1200,"h":800,"q":85,"zc":1,"bg":"fff","f":"jpg"}}',
                             'lexicon' => 'core:source'
                         ),
                         'thumbnailName' => array(
@@ -181,6 +181,50 @@ if ($transport->xpdo) {
                         $modx->log(modX::LOG_LEVEL_INFO, 'Обновлена системная настройка gtsapi_default_media_source');
                     }
                     
+                    // Создаем ACL для группы Administrator
+                    $modx->log(modX::LOG_LEVEL_INFO, 'Настройка ACL для источника медиа...');
+                    
+                    // Находим группу Administrator
+                    $adminGroup = $modx->getObject('modUserGroup', array('name' => 'Administrator'));
+                    if ($adminGroup) {
+                        // Находим политику "Media Source Admin"
+                        $mediaSourceAdminPolicy = $modx->getObject('modAccessPolicy', array('name' => 'Media Source Admin'));
+                        if ($mediaSourceAdminPolicy) {
+                            // Проверяем, существует ли уже ACL
+                            $existingAcl = $modx->getObject('sources.modAccessMediaSource', array(
+                                'target' => $mediaSource->get('id'),
+                                'principal_class' => 'modUserGroup',
+                                'principal' => $adminGroup->get('id'),
+                                'authority' => 9999,
+                                'policy' => $mediaSourceAdminPolicy->get('id')
+                            ));
+                            
+                            if (!$existingAcl) {
+                                // Создаем новый ACL
+                                $acl = $modx->newObject('sources.modAccessMediaSource');
+                                $acl->fromArray(array(
+                                    'target' => $mediaSource->get('id'),
+                                    'principal_class' => 'modUserGroup',
+                                    'principal' => $adminGroup->get('id'),
+                                    'authority' => 9999,
+                                    'policy' => $mediaSourceAdminPolicy->get('id')
+                                ), '', true, true);
+                                
+                                if ($acl->save()) {
+                                    $modx->log(modX::LOG_LEVEL_INFO, 'Создан ACL для группы Administrator с политикой Media Source Admin');
+                                } else {
+                                    $modx->log(modX::LOG_LEVEL_ERROR, 'Не удалось создать ACL для группы Administrator');
+                                }
+                            } else {
+                                $modx->log(modX::LOG_LEVEL_INFO, 'ACL для группы Administrator уже существует');
+                            }
+                        } else {
+                            $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена политика "Media Source Admin"');
+                        }
+                    } else {
+                        $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена группа "Administrator"');
+                    }
+                    
                 } else {
                     $modx->log(modX::LOG_LEVEL_ERROR, 'Не удалось создать источник медиа "gtsAPIFile"');
                 }
@@ -192,7 +236,7 @@ if ($transport->xpdo) {
                 
                 // Добавляем новые свойства, если их нет
                 $newProperties = array(
-                    'imageThumbnails' => '[{"w":120,"h":90,"q":90,"zc":1,"bg":"fff","f":"jpg"},{"w":300,"h":200,"q":85,"zc":1,"bg":"fff","f":"jpg"}]',
+                    'imageThumbnails' => '{"small":{"w":120,"h":90,"q":90,"zc":1,"bg":"fff","f":"jpg"},"medium":{"w":300,"h":200,"q":85,"zc":1,"bg":"fff","f":"jpg"},"large":{"w":1200,"h":800,"q":85,"zc":1,"bg":"fff","f":"jpg"}}',
                     'thumbnailName' => '{name}.{rand}.{w}.{h}.{ext}',
                     'thumbnailType' => 'jpg',
                     'thumbnailQuality' => 90
@@ -217,6 +261,50 @@ if ($transport->xpdo) {
                     if ($mediaSource->save()) {
                         $modx->log(modX::LOG_LEVEL_INFO, 'Обновлены свойства источника медиа "gtsAPIFile"');
                     }
+                }
+                
+                // Проверяем и создаем ACL для существующего источника медиа
+                $modx->log(modX::LOG_LEVEL_INFO, 'Проверка ACL для существующего источника медиа...');
+                
+                // Находим группу Administrator
+                $adminGroup = $modx->getObject('modUserGroup', array('name' => 'Administrator'));
+                if ($adminGroup) {
+                    // Находим политику "Media Source Admin"
+                    $mediaSourceAdminPolicy = $modx->getObject('modAccessPolicy', array('name' => 'Media Source Admin'));
+                    if ($mediaSourceAdminPolicy) {
+                        // Проверяем, существует ли уже ACL
+                        $existingAcl = $modx->getObject('sources.modAccessMediaSource', array(
+                            'target' => $mediaSource->get('id'),
+                            'principal_class' => 'modUserGroup',
+                            'principal' => $adminGroup->get('id'),
+                            'authority' => 9999,
+                            'policy' => $mediaSourceAdminPolicy->get('id')
+                        ));
+                        
+                        if (!$existingAcl) {
+                            // Создаем новый ACL
+                            $acl = $modx->newObject('sources.modAccessMediaSource');
+                            $acl->fromArray(array(
+                                'target' => $mediaSource->get('id'),
+                                'principal_class' => 'modUserGroup',
+                                'principal' => $adminGroup->get('id'),
+                                'authority' => 9999,
+                                'policy' => $mediaSourceAdminPolicy->get('id')
+                            ), '', true, true);
+                            
+                            if ($acl->save()) {
+                                $modx->log(modX::LOG_LEVEL_INFO, 'Создан ACL для группы Administrator с политикой Media Source Admin (для существующего источника)');
+                            } else {
+                                $modx->log(modX::LOG_LEVEL_ERROR, 'Не удалось создать ACL для группы Administrator (для существующего источника)');
+                            }
+                        } else {
+                            $modx->log(modX::LOG_LEVEL_INFO, 'ACL для группы Administrator уже существует (для существующего источника)');
+                        }
+                    } else {
+                        $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена политика "Media Source Admin" (для существующего источника)');
+                    }
+                } else {
+                    $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена группа "Administrator" (для существующего источника)');
                 }
             }
             

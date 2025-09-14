@@ -248,6 +248,7 @@
 
     <object class="gtsAPIFile" table="gtsapi_files" extends="xPDOSimpleObject">
 		<field key="parent" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+		<field key="parent0" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
 		<field key="class" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
 		<field key="list" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
 
@@ -278,6 +279,9 @@
 		<index alias="parent" name="parent" primary="false" unique="false" type="BTREE" >
 			<column key="parent" length="" collation="A" null="false" />
 		</index>
+		<index alias="parent0" name="parent0" primary="false" unique="false" type="BTREE" >
+			<column key="parent0" length="" collation="A" null="false" />
+		</index>
 		<index alias="class" name="class" primary="false" unique="false" type="BTREE" >
 			<column key="class" length="" collation="A" null="false" />
 		</index>
@@ -292,6 +296,9 @@
 		</index>
 		<index alias="type" name="type" primary="false" unique="false" type="BTREE" >
 			<column key="type" length="" collation="A" null="false" />
+		</index>
+		<index alias="trumb" name="trumb" primary="false" unique="false" type="BTREE" >
+			<column key="trumb" length="" collation="A" null="false" />
 		</index>
 		<index alias="hash" name="hash" primary="false" unique="false" type="BTREE" >
 			<column key="hash" length="" collation="A" null="false" />

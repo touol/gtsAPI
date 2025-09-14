@@ -51,73 +51,57 @@ class fileGalleryAPIController{
      */
     public function checkFilePermissions($action = 'read')
     {
-        // Получаем свойства источника медиа для проверки прав
-        $sourceProperties = $this->source->getPropertyList();
+        $sourceId = $this->source->get('id');
         
-        // Проверяем, заданы ли права в источнике
-        $hasCustomPermissions = false;
-        $allowedGroups = [];
-        $allowedUsers = [];
+        // Проверяем, настроены ли ACL для источника медиа
+        $acls = $this->modx->getCollection('sources.modAccessMediaSource', ['target' => $sourceId]);
         
-        // Проверяем настройки прав в источнике
-        if (
-            isset($sourceProperties['allowedGroups']) || 
-            isset($sourceProperties['allowedUsers'])) {
-            $hasCustomPermissions = true;
+        if (!empty($acls)) {
+            switch ($action) {
             
-            if (isset($sourceProperties['allowedGroups'])) {
-                $allowedGroups = array_map('trim', explode(',', $sourceProperties['allowedGroups']));
-            }
-            if (isset($sourceProperties['allowedUsers'])) {
-                $allowedUsers = array_map('trim', explode(',', $sourceProperties['allowedUsers']));
+            case 'list':
+                return $this->source->checkPolicy('list');
+            case 'download':
+            case 'read':
+            case 'view':
+                return $this->source->checkPolicy('load');
+            case 'upload':
+            case 'create':
+            case 'update':
+                return $this->source->checkPolicy('create');
+            case 'delete':
+                return $this->source->checkPolicy('remove');
+            case 'edit':
+                return $this->source->checkPolicy('save');
+            default:
+                return false;
             }
         }
         
         // Если права не заданы, применяем дефолтные правила
-        if (!$hasCustomPermissions) {
-            switch ($action) {
-                case 'read':
-                case 'list':
-                case 'download':
-                case 'view':
-                    // Чтение доступно всем
-                    return true;
-                    
-                case 'upload':
-                case 'create':
-                case 'update':
-                case 'delete':
-                case 'edit':
-                    // Редактирование только для группы Administrator
-                    if (!$this->modx->user->isMember('Administrator')) {
-                        return false;
-                    }
-                    return true;
-                    
-                default:
+        switch ($action) {
+            case 'list':
+                return false;
+            case 'read':
+            case 'download':
+            case 'view':
+                // Чтение доступно всем
+                return true;
+                
+            case 'upload':
+            case 'create':
+            case 'update':
+            case 'delete':
+            case 'edit':
+                // Редактирование только для группы Administrator
+                if (!$this->modx->user->isMember('Administrator')) {
                     return false;
-            }
-        }
-        
-        // Если права заданы в источнике, проверяем их
-        $userId = $this->modx->user->get('id');
-        $userGroups = $this->modx->user->getUserGroups();
-        
-        // Проверяем пользователей
-        if (!empty($allowedUsers) && in_array($userId, $allowedUsers)) {
-            return true;
-        }
-        
-        // Проверяем группы
-        if (!empty($allowedGroups)) {
-            foreach ($userGroups as $groupId => $groupData) {
-                if (in_array($groupData['name'], $allowedGroups)) {
-                    return true;
                 }
-            }
+                return true;
+                
+            default:
+                return false;
         }
-        
-        return false;
     }
 
     /**
