@@ -111,14 +111,7 @@ function _addResource($modx, array $data, $uri, $parent = 0, $package = 'unknown
             'content' => $content,
         ], $data), '', true, true);
 
-        if (!empty($data['groups'])) {
-            if (is_string($data['groups'])) {
-                $data['groups'] = explode(',', $data['groups']);
-            }
-            foreach ($data['groups'] as $group) {
-                $resource->joinGroup($group);
-            }
-        }
+        
         
         $resource->save();
         
@@ -134,7 +127,14 @@ function _addResource($modx, array $data, $uri, $parent = 0, $package = 'unknown
             $setting->save();
         }
     }
-
+    if (!empty($data['groups'])) {
+        if (is_string($data['groups'])) {
+            $data['groups'] = explode(',', $data['groups']);
+        }
+        foreach ($data['groups'] as $group) {
+            $resource->joinGroup($group);
+        }
+    }
     if (!empty($data['resources'])) {
         $menuindex = 0;
         foreach ($data['resources'] as $alias => $item) {
