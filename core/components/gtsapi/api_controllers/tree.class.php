@@ -804,6 +804,13 @@ class treeAPIController{
 
         $slTreeSettings = $this->get_slTreeSettings($rule);
         $rootIds = [];
+        if(!empty($request['filters'])){
+            if(empty($default['where'])) $default['where'] = [];
+            $default['where'] = array_merge($default['where'],$this->aplyFilters($rule,$request['filters']));
+        }
+        if(isset($request['limit'])){
+            $default['limit'] = $request['limit'];
+        }
         if($slTreeSettings['rootIds'] !== 0){
             if(strpos($slTreeSettings['rootIds'],'option') !== false) {
                 $slTreeSettings['rootIds'] = $this->pdoTools->getChunk('@INLINE '.$slTreeSettings['rootIds']);
