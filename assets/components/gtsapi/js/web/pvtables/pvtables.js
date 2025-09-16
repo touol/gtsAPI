@@ -38547,6 +38547,33 @@ const Nu = /* @__PURE__ */ Bt(B3, [["render", GI], ["__scopeId", "data-v-39b35fb
   created() {
     this.debouncedSearch = this.debounce(this.loadFiles, 500), this.loadFiles();
   },
+  watch: {
+    // Отслеживаем изменения props, которые влияют на загрузку файлов
+    parentId: {
+      handler() {
+        this.refreshFiles();
+      },
+      immediate: !1
+    },
+    parentClass: {
+      handler() {
+        this.refreshFiles();
+      },
+      immediate: !1
+    },
+    listName: {
+      handler() {
+        this.refreshFiles();
+      },
+      immediate: !1
+    },
+    apiEndpoint: {
+      handler() {
+        this.refreshFiles();
+      },
+      immediate: !1
+    }
+  },
   methods: {
     async loadFiles() {
       this.loading = !0;
@@ -38706,10 +38733,10 @@ const Nu = /* @__PURE__ */ Bt(B3, [["render", GI], ["__scopeId", "data-v-39b35fb
       return r;
     }
   }
-}, Ot = (t) => (qt("data-v-be02af27"), t = t(), Zt(), t), YI = { class: "file-gallery" }, qI = { class: "gallery-header" }, ZI = { class: "gallery-title" }, JI = { class: "gallery-actions" }, XI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "⬆", -1)), QI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "↻", -1)), e4 = {
+}, Ot = (t) => (qt("data-v-b8be86b2"), t = t(), Zt(), t), YI = { class: "file-gallery" }, qI = { class: "gallery-header" }, ZI = { class: "gallery-title" }, JI = { class: "gallery-actions" }, XI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "⬆", -1)), QI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "↻", -1)), e4 = {
   key: 0,
   class: "gallery-filters"
-}, t4 = { class: "filter-row" }, n4 = { class: "filter-group" }, o4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Поиск:", -1)), r4 = { class: "filter-group" }, i4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Тип файла:", -1)), a4 = /* @__PURE__ */ fd('<option value="" data-v-be02af27>Все типы</option><option value="jpg" data-v-be02af27>JPG</option><option value="png" data-v-be02af27>PNG</option><option value="gif" data-v-be02af27>GIF</option><option value="pdf" data-v-be02af27>PDF</option><option value="doc" data-v-be02af27>DOC</option><option value="docx" data-v-be02af27>DOCX</option>', 7), l4 = [
+}, t4 = { class: "filter-row" }, n4 = { class: "filter-group" }, o4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Поиск:", -1)), r4 = { class: "filter-group" }, i4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Тип файла:", -1)), a4 = /* @__PURE__ */ fd('<option value="" data-v-b8be86b2>Все типы</option><option value="jpg" data-v-b8be86b2>JPG</option><option value="png" data-v-b8be86b2>PNG</option><option value="gif" data-v-b8be86b2>GIF</option><option value="pdf" data-v-b8be86b2>PDF</option><option value="doc" data-v-b8be86b2>DOC</option><option value="docx" data-v-b8be86b2>DOCX</option>', 7), l4 = [
   a4
 ], s4 = { class: "filter-group" }, c4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Вид:", -1)), u4 = { class: "view-toggle" }, d4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "⊞", -1)), p4 = [
   d4
@@ -39019,7 +39046,7 @@ function C7(t, e, n, r, i, o) {
     }, null, 8, ["file"])) : S("", !0)
   ]);
 }
-const _u = /* @__PURE__ */ Bt(WI, [["render", C7], ["__scopeId", "data-v-be02af27"]]), br = {
+const _u = /* @__PURE__ */ Bt(WI, [["render", C7], ["__scopeId", "data-v-b8be86b2"]]), br = {
   __name: "PVTabs",
   props: {
     tabs: {
