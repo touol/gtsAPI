@@ -1083,7 +1083,7 @@ class tableAPIController{
                         foreach($class_link as $field=>$v){
                             if(isset($object[$v])){
                                 $search[$field] = $object[$v];
-                            }else if(is_number($v)){
+                            }else if(is_numeric($v)){
                                 $search[$field] = $v;
                             }
                         }
@@ -1207,7 +1207,7 @@ class tableAPIController{
                         foreach($class_link as $field=>$v){
                             if(isset($object[$v])){
                                 $search[$field] = $object[$v];
-                            }else if(is_number($v)){
+                            }else if(is_numeric($v)){
                                 $search[$field] = $v;
                             }
                         }
@@ -1274,7 +1274,7 @@ class tableAPIController{
                             foreach($class_link as $field=>$v){
                                 if(isset($object[$v])){
                                     $search[$field] = $object[$v];
-                                }else if(is_number($v)){
+                                }else if(is_numeric($v)){
                                     $search[$field] = $v;
                                 }
                             }
