@@ -37643,7 +37643,7 @@ const $s = {
       }[t.toLowerCase()] || "📄";
     }
   }
-}, Xn = (t) => (qt("data-v-1c8c0104"), t = t(), Zt(), t), K6 = { class: "modal-header" }, j6 = /* @__PURE__ */ Xn(() => /* @__PURE__ */ g("h4", { class: "modal-title" }, "Загрузка файлов", -1)), N6 = /* @__PURE__ */ Xn(() => /* @__PURE__ */ g("span", { class: "icon" }, "✕", -1)), _6 = [
+}, Xn = (t) => (qt("data-v-ce019907"), t = t(), Zt(), t), K6 = { class: "modal-header" }, j6 = /* @__PURE__ */ Xn(() => /* @__PURE__ */ g("h4", { class: "modal-title" }, "Загрузка файлов", -1)), N6 = /* @__PURE__ */ Xn(() => /* @__PURE__ */ g("span", { class: "icon" }, "✕", -1)), _6 = [
   N6
 ], H6 = { class: "modal-body" }, U6 = {
   key: 0,
@@ -37795,7 +37795,7 @@ function x5(t, e, n, r, i, o) {
     ])
   ]);
 }
-const Ku = /* @__PURE__ */ Bt(z6, [["render", x5], ["__scopeId", "data-v-1c8c0104"]]), O5 = {
+const Ku = /* @__PURE__ */ Bt(z6, [["render", x5], ["__scopeId", "data-v-ce019907"]]), O5 = {
   name: "FileEditDialog",
   props: {
     file: {
@@ -37924,7 +37924,7 @@ const Ku = /* @__PURE__ */ Bt(z6, [["render", x5], ["__scopeId", "data-v-1c8c010
       e.className = "file-icon-error", e.textContent = "🖼", t.target.parentNode.appendChild(e);
     }
   }
-}, vt = (t) => (qt("data-v-a8a95b01"), t = t(), Zt(), t), P5 = { class: "modal-header" }, T5 = /* @__PURE__ */ vt(() => /* @__PURE__ */ g("h4", { class: "modal-title" }, "Редактирование файла", -1)), L5 = /* @__PURE__ */ vt(() => /* @__PURE__ */ g("span", { class: "icon" }, "✕", -1)), D5 = [
+}, vt = (t) => (qt("data-v-5520ef1d"), t = t(), Zt(), t), P5 = { class: "modal-header" }, T5 = /* @__PURE__ */ vt(() => /* @__PURE__ */ g("h4", { class: "modal-title" }, "Редактирование файла", -1)), L5 = /* @__PURE__ */ vt(() => /* @__PURE__ */ g("span", { class: "icon" }, "✕", -1)), D5 = [
   L5
 ], R5 = { class: "modal-body" }, B5 = { class: "file-preview" }, E5 = { class: "preview-container" }, M5 = ["src", "alt"], F5 = {
   key: 1,
@@ -38161,7 +38161,7 @@ function R3(t, e, n, r, i, o) {
     ])
   ]);
 }
-const ju = /* @__PURE__ */ Bt(O5, [["render", R3], ["__scopeId", "data-v-a8a95b01"]]), B3 = {
+const ju = /* @__PURE__ */ Bt(O5, [["render", R3], ["__scopeId", "data-v-5520ef1d"]]), B3 = {
   name: "FileViewDialog",
   props: {
     file: {
@@ -38248,7 +38248,7 @@ const ju = /* @__PURE__ */ Bt(O5, [["render", R3], ["__scopeId", "data-v-a8a95b0
       }[t.toLowerCase()] || "📄";
     }
   }
-}, ht = (t) => (qt("data-v-2cbe5b9c"), t = t(), Zt(), t), E3 = { class: "modal-header" }, M3 = { class: "modal-title" }, F3 = { class: "header-actions" }, $3 = /* @__PURE__ */ ht(() => /* @__PURE__ */ g("span", { class: "icon" }, "⬇", -1)), A3 = [
+}, ht = (t) => (qt("data-v-39b35fba"), t = t(), Zt(), t), E3 = { class: "modal-header" }, M3 = { class: "modal-title" }, F3 = { class: "header-actions" }, $3 = /* @__PURE__ */ ht(() => /* @__PURE__ */ g("span", { class: "icon" }, "⬇", -1)), A3 = [
   $3
 ], V3 = /* @__PURE__ */ ht(() => /* @__PURE__ */ g("span", { class: "icon" }, "✕", -1)), z3 = [
   V3
@@ -38455,7 +38455,7 @@ function GI(t, e, n, r, i, o) {
     ])
   ]);
 }
-const Nu = /* @__PURE__ */ Bt(B3, [["render", GI], ["__scopeId", "data-v-2cbe5b9c"]]), WI = {
+const Nu = /* @__PURE__ */ Bt(B3, [["render", GI], ["__scopeId", "data-v-39b35fba"]]), WI = {
   name: "FileGallery",
   components: {
     FileUploadDialog: Ku,
@@ -41489,7 +41489,7 @@ const f8 = { class: "tree-container" }, h8 = {
   },
   setup(t) {
     const e = P(), n = P(), r = P(20), i = P({}), o = P(""), a = P(""), s = P(""), c = P({}), l = (m) => {
-      console.log("event.tabs", m.tabs), i.value = m.tabs, o.value = m.node.data.target_id ? m.node.data.target_id : m.node.data.id, a.value = m.node.data.class, s.value = "", m.label && (s.value = m.label + ": "), s.value += m.node.title, c.value = m.subfilters;
+      i.value = m.tabs, o.value = m.node.data.target_id ? m.node.data.target_id : m.node.data.id, a.value = m.node.data.class, s.value = "", m.label && (s.value = m.label + ": "), s.value += m.node.title, c.value = m.subfilters;
     }, d = (m) => {
       e.value.refresh(!0, m.uniTreeTable);
     }, p = (m) => {
