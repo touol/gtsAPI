@@ -95,38 +95,38 @@ function _addResource($modx, array $data, $uri, $parent = 0, $package = 'unknown
         } else if (file_exists(MODX_CORE_PATH . 'components/' . $package . '/elements/resources/' . $file . '.md')) {
             $content = _getContent(MODX_CORE_PATH . 'components/' . $package . '/elements/resources/' . $file . '.md');
         }
-        
-        $resource->fromArray(array_merge([
-            'parent' => $parent,
-            'published' => true,
-            'deleted' => false,
-            'hidemenu' => false,
-            'createdon' => time(),
-            'template' => $template_id,
-            'isfolder' => !empty($data['isfolder']) || !empty($data['resources']),
-            'uri' => $uri,
-            'uri_override' => false,
-            'richtext' => false,
-            'searchable' => true,
-            'content' => $content,
-        ], $data), '', true, true);
+    }    
+    $resource->fromArray(array_merge([
+        'parent' => $parent,
+        'published' => true,
+        'deleted' => false,
+        'hidemenu' => false,
+        'createdon' => time(),
+        'template' => $template_id,
+        'isfolder' => !empty($data['isfolder']) || !empty($data['resources']),
+        'uri' => $uri,
+        'uri_override' => false,
+        'richtext' => false,
+        'searchable' => true,
+        'content' => $content,
+    ], $data), '', true, true);
 
-        
-        
-        $resource->save();
-        
-        if (empty($id)) {
-            $setting = $modx->newObject('modSystemSetting');
-            $setting->fromArray([
-                'key' => $config_name,
-                'namespace' => $package,
-                'xtype' => 'textfield',
-                'value' => $resource->id,
-                'area' => $package . '_pages',
-            ], '', true, true);
-            $setting->save();
-        }
+    
+    
+    $resource->save();
+    
+    if (empty($id)) {
+        $setting = $modx->newObject('modSystemSetting');
+        $setting->fromArray([
+            'key' => $config_name,
+            'namespace' => $package,
+            'xtype' => 'textfield',
+            'value' => $resource->id,
+            'area' => $package . '_pages',
+        ], '', true, true);
+        $setting->save();
     }
+    
     if (!empty($data['groups'])) {
         if (is_string($data['groups'])) {
             $data['groups'] = explode(',', $data['groups']);

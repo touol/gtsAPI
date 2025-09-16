@@ -811,7 +811,7 @@ class treeAPIController{
         if(isset($request['limit'])){
             $default['limit'] = $request['limit'];
         }
-        if($slTreeSettings['rootIds'] !== 0){
+        if($slTreeSettings['rootIds'] !== 0 and $request['limit'] != 1){
             if(strpos($slTreeSettings['rootIds'],'option') !== false) {
                 $slTreeSettings['rootIds'] = $this->pdoTools->getChunk('@INLINE '.$slTreeSettings['rootIds']);
             }
