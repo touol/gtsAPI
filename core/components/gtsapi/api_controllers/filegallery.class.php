@@ -227,6 +227,10 @@ class fileGalleryAPIController{
             $where['type'] = $request['type'];
         }
 
+        if (isset($request['trumb'])) {
+            $where['trumb'] = $request['trumb'];
+        }
+
         // Фильтрация по MIME типу
         if (isset($request['mime']) && !empty($request['mime'])) {
             $where['mime:LIKE'] = '%' . $request['mime'] . '%';
