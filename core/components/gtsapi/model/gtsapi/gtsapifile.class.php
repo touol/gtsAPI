@@ -273,6 +273,8 @@ class gtsAPIFile extends xPDOSimpleObject
         // Находим все существующие миниатюры этого файла
         $thumbnails = $this->xpdo->getCollection('gtsAPIFile', array(
             'parent' => $this->get('id'),
+            'parent0'=> $this->get('parent0'),
+            'class'=> $this->get('class'),
             'trumb:!=' => ''
         ));
 

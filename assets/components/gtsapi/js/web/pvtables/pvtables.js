@@ -38557,6 +38557,7 @@ const Nu = /* @__PURE__ */ Bt(B3, [["render", GI], ["__scopeId", "data-v-39b35fb
           class: this.parentClass,
           list: this.listName,
           limit: this.pageSize,
+          trumb: "",
           offset: (this.currentPage - 1) * this.pageSize,
           ...this.filters
         }, n = await (await fetch(`${this.apiEndpoint}?${new URLSearchParams(t)}`)).json();
@@ -38705,10 +38706,10 @@ const Nu = /* @__PURE__ */ Bt(B3, [["render", GI], ["__scopeId", "data-v-39b35fb
       return r;
     }
   }
-}, Ot = (t) => (qt("data-v-3f2fea9e"), t = t(), Zt(), t), YI = { class: "file-gallery" }, qI = { class: "gallery-header" }, ZI = { class: "gallery-title" }, JI = { class: "gallery-actions" }, XI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "⬆", -1)), QI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "↻", -1)), e4 = {
+}, Ot = (t) => (qt("data-v-be02af27"), t = t(), Zt(), t), YI = { class: "file-gallery" }, qI = { class: "gallery-header" }, ZI = { class: "gallery-title" }, JI = { class: "gallery-actions" }, XI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "⬆", -1)), QI = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "↻", -1)), e4 = {
   key: 0,
   class: "gallery-filters"
-}, t4 = { class: "filter-row" }, n4 = { class: "filter-group" }, o4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Поиск:", -1)), r4 = { class: "filter-group" }, i4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Тип файла:", -1)), a4 = /* @__PURE__ */ fd('<option value="" data-v-3f2fea9e>Все типы</option><option value="jpg" data-v-3f2fea9e>JPG</option><option value="png" data-v-3f2fea9e>PNG</option><option value="gif" data-v-3f2fea9e>GIF</option><option value="pdf" data-v-3f2fea9e>PDF</option><option value="doc" data-v-3f2fea9e>DOC</option><option value="docx" data-v-3f2fea9e>DOCX</option>', 7), l4 = [
+}, t4 = { class: "filter-row" }, n4 = { class: "filter-group" }, o4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Поиск:", -1)), r4 = { class: "filter-group" }, i4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Тип файла:", -1)), a4 = /* @__PURE__ */ fd('<option value="" data-v-be02af27>Все типы</option><option value="jpg" data-v-be02af27>JPG</option><option value="png" data-v-be02af27>PNG</option><option value="gif" data-v-be02af27>GIF</option><option value="pdf" data-v-be02af27>PDF</option><option value="doc" data-v-be02af27>DOC</option><option value="docx" data-v-be02af27>DOCX</option>', 7), l4 = [
   a4
 ], s4 = { class: "filter-group" }, c4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("label", null, "Вид:", -1)), u4 = { class: "view-toggle" }, d4 = /* @__PURE__ */ Ot(() => /* @__PURE__ */ g("span", { class: "icon" }, "⊞", -1)), p4 = [
   d4
@@ -39018,7 +39019,7 @@ function C7(t, e, n, r, i, o) {
     }, null, 8, ["file"])) : S("", !0)
   ]);
 }
-const _u = /* @__PURE__ */ Bt(WI, [["render", C7], ["__scopeId", "data-v-3f2fea9e"]]), br = {
+const _u = /* @__PURE__ */ Bt(WI, [["render", C7], ["__scopeId", "data-v-be02af27"]]), br = {
   __name: "PVTabs",
   props: {
     tabs: {
