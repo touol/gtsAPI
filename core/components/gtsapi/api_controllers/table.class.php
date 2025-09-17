@@ -1363,6 +1363,13 @@ class tableAPIController{
         }
         if(!empty($request['filters'])){
             if(empty($default['where'])) $default['where'] = [];
+            if(isset($request['filters']['insert_menu_id'])){
+                $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
+                unset($request['filters']['insert_menu_id']);
+                //Замена в значениях в $default в строках содержащих insert_menu_id на значение $insert_menu_id
+                $default = $this->replaceInsertMenuIdInArray($default, $insert_menu_id);
+
+            }
             $default['where'] = array_merge($default['where'],$this->aplyFilters($rule,$request['filters']));
         }
         if(!empty($where)){
@@ -2363,5 +2370,30 @@ class tableAPIController{
         } catch (Exception $e) {
             return $this->error('Excel export error: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Рекурсивно заменяет все строковые значения, содержащие 'insert_menu_id', на значение $insert_menu_id
+     *
+     * @param array $array Массив для обработки
+     * @param int $insert_menu_id Значение для замены
+     * @return array Обработанный массив
+     */
+    public function replaceInsertMenuIdInArray($array, $insert_menu_id) {
+        if (!is_array($array)) {
+            return $array;
+        }
+        
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                // Рекурсивно обрабатываем вложенные массивы
+                $array[$key] = $this->replaceInsertMenuIdInArray($value, $insert_menu_id);
+            } elseif (is_string($value) && strpos($value, 'insert_menu_id') !== false) {
+                // Заменяем строку 'insert_menu_id' на значение переменной
+                $array[$key] = str_replace('insert_menu_id', $insert_menu_id, $value);
+            }
+        }
+        
+        return $array;
     }
 }
