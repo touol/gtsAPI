@@ -1077,6 +1077,17 @@ class tableAPIController{
             $object = $obj->toArray();
             //class link Редактирование 2 таблиц одновременно
             if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
+                if(isset($request['filters']['insert_menu_id'])){
+                    $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
+                    unset($request['filters']['insert_menu_id']);
+                    foreach($rule['properties']['class_link'] as $class=>$class_link){
+                        foreach($class_link as $field=>$v){
+                            if($v == 'insert_menu_id'){
+                                $rule['properties']['class_link'][$class][$field] = $insert_menu_id;
+                            }
+                        }
+                    }
+                }
                 foreach($rule['properties']['class_link'] as $class=>$class_link){
                     if(!empty($set_data[$class])){
                         $search = [];
@@ -1201,6 +1212,17 @@ class tableAPIController{
                     }
                 }
                 if(!empty($rule['properties']['class_link'])){
+                    if(isset($request['filters']['insert_menu_id'])){
+                        $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
+                        unset($request['filters']['insert_menu_id']);
+                        foreach($rule['properties']['class_link'] as $class=>$class_link){
+                            foreach($class_link as $field=>$v){
+                                if($v == 'insert_menu_id'){
+                                    $rule['properties']['class_link'][$class][$field] = $insert_menu_id;
+                                }
+                            }
+                        }
+                    }
                     foreach($rule['properties']['class_link'] as $class=>$class_link){
                         if(!isset($set_data[$class])) continue;
                         $search = [];
