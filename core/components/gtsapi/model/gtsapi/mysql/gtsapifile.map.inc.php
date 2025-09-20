@@ -30,6 +30,7 @@ $xpdo_meta_map['gtsAPIFile']= array (
     'context' => 'web',
     'active' => 1,
     'rank' => 0,
+    'child' => 0,
     'createdon' => NULL,
     'properties' => NULL,
   ),
@@ -196,6 +197,15 @@ $xpdo_meta_map['gtsAPIFile']= array (
       'precision' => '3',
       'attributes' => 'unsigned',
       'phptype' => 'integer',
+      'null' => false,
+      'default' => 0,
+    ),
+    'child' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'attributes' => 'unsigned',
       'null' => false,
       'default' => 0,
     ),
@@ -443,7 +453,7 @@ $xpdo_meta_map['gtsAPIFile']= array (
   array (
     'Children' => 
     array (
-      'class' => 'UserFile',
+      'class' => 'gtsAPIFile',
       'local' => 'id',
       'foreign' => 'parent',
       'cardinality' => 'many',
@@ -452,7 +462,7 @@ $xpdo_meta_map['gtsAPIFile']= array (
       array (
         'local' => 
         array (
-          'class' => 'gtsAPIFile',
+          'child' => '1',
         ),
       ),
     ),
@@ -461,7 +471,7 @@ $xpdo_meta_map['gtsAPIFile']= array (
   array (
     'Parent' => 
     array (
-      'class' => 'UserFile',
+      'class' => 'gtsAPIFile',
       'local' => 'parent',
       'foreign' => 'id',
       'cardinality' => 'one',
@@ -470,7 +480,7 @@ $xpdo_meta_map['gtsAPIFile']= array (
       array (
         'local' => 
         array (
-          'class' => 'gtsAPIFile',
+          'child' => '1',
         ),
       ),
     ),

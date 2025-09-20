@@ -275,7 +275,7 @@ class gtsAPIFile extends xPDOSimpleObject
             'parent' => $this->get('id'),
             'parent0'=> $this->get('parent0'),
             'class'=> $this->get('class'),
-            'trumb:!=' => ''
+            'child' => 1
         ));
 
         foreach ($thumbnails as $thumbnail) {
@@ -418,7 +418,8 @@ class gtsAPIFile extends xPDOSimpleObject
                 'parent0' => $this->get('parent'),       // parent0 = оригинальный parent
                 'file'    => $filename,
                 'trumb'   => $sizeName,                  // Записываем размер миниатюры
-                'hash'    => sha1($thumbnail)
+                'hash'    => sha1($thumbnail),
+                'child'   => 1
             )
         ));
 

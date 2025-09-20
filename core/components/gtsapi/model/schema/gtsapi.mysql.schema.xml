@@ -272,6 +272,7 @@
 
 		<field key="active" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="1" />
 		<field key="rank" dbtype="smallint" precision="3" attributes="unsigned" phptype="integer" null="false" default="0" />
+        <field key="child" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="0" />
 
 		<field key="createdon" dbtype="datetime" phptype="datetime" null="true" />
 		<field key="properties" dbtype="text" phptype="json" null="true" />
@@ -320,14 +321,14 @@
 			<column key="active" length="" collation="A" null="false" />
 		</index>
 
-		<composite alias="Children" class="UserFile" local="id" foreign="parent" cardinality="many" owner="local">
+		<composite alias="Children" class="gtsAPIFile" local="id" foreign="parent" cardinality="many" owner="local">
 			<criteria target="local"><![CDATA[
-			{"class":"gtsAPIFile"}
+			{"child":"1"}
 			]]></criteria>
 		</composite>
-		<aggregate alias="Parent" class="UserFile" local="parent" foreign="id" cardinality="one" owner="local">
+		<aggregate alias="Parent" class="gtsAPIFile" local="parent" foreign="id" cardinality="one" owner="local">
 			<criteria target="local"><![CDATA[
-			{"class":"gtsAPIFile"}
+			{"child":"1"}
 			]]></criteria>
 		</aggregate>
 
