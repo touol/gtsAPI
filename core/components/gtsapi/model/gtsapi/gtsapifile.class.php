@@ -416,6 +416,7 @@ class gtsAPIFile extends xPDOSimpleObject
                 'class'   => $this->get('class'),        // Сохраняем оригинальный класс
                 'parent'  => $this->get('id'),           // parent = ID оригинального файла
                 'parent0' => $this->get('parent'),       // parent0 = оригинальный parent
+                'rank' => $this->get('rank'),
                 'file'    => $filename,
                 'trumb'   => $sizeName,                  // Записываем размер миниатюры
                 'hash'    => sha1($thumbnail),
@@ -498,7 +499,8 @@ class gtsAPIFile extends xPDOSimpleObject
                 'parent'  => $this->get('parent'),
                 'class'   => $this->get('class'),
                 'source'  => $this->get('source'),
-                'context' => $this->get('context')
+                'context' => $this->get('context'),
+                'trumb' => $this->get('trumb'),
             ));
             $this->set('rank', $this->xpdo->getCount('gtsAPIFile', $q));
         }

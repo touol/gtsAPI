@@ -4,6 +4,17 @@
 $name_lower = strtolower($app);
 $debug = false;
 $vapi = 4;
+
+// Проверяем параметр enableSSR
+$enableSSR = !empty($enableSSR) ? (bool)$enableSSR : false;
+
+// Проверяем параметр enableCache
+if (isset($enableCache)) {
+    // Если enableCache = 0 или '0' или 'false' или false то false
+    $enableCache = !in_array($enableCache, [0, '0', 'false', false], true);
+} else {
+    $enableCache = true; // по умолчанию true
+}
 // $dev_path = 'http://'.$modx->getOption('http_host')
 //     . ':'
 //     . '3000/';
@@ -68,4 +79,76 @@ if(!$debug){
 //         '<script type="module" src="'.$dev_path.'src/main.js"></script>'
 //     );
 // }
+// SSR рендеринг если включен параметр enableSSR
+if ($enableSSR) {
+    try {
+        // Подключаем класс SSR рендерера
+        $rendererPath = $modx->getOption('core_path') . 'components/gtsapi/classes/VueNodeSSRRenderer.class.php';
+        if (file_exists($rendererPath)) {
+            require_once $rendererPath;
+            
+            // Создаем рендерер с параметром кэширования
+            $ssrRenderer = new VueNodeSSRRenderer($modx, $enableCache);
+            
+            // Подготавливаем конфигурацию для SSR
+            $ssrConfig = isset($config) && is_array($config) ? $config : [];
+            $ssrConfig['appName'] = $name_lower;
+            
+            // Рендерим компонент на сервере
+            $ssrHtml = $ssrRenderer->render($app, $ssrConfig);
+            
+            // Добавляем данные для гидратации
+            if (isset($config) && is_array($config)) {
+                $modx->regClientHTMLBlock(
+                    '<script>
+                        window.__SSR_DATA__ = ' . json_encode($config) . ';
+                    </script>'
+                );
+            }
+            
+            // Добавляем скрипт для гидратации
+            $modx->regClientHTMLBlock(
+                '<script type="module">
+                    // Ждем загрузки DOM
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Гидратация Vue приложения
+                        if (window.Vue && window.__SSR_DATA__) {
+                            const app = Vue.createApp({
+                                data() {
+                                    return window.__SSR_DATA__ || {};
+                                },
+                                mounted() {
+                                    console.log("Vue app hydrated successfully");
+                                }
+                            });
+                            app.mount("#' . $name_lower . '");
+                        }
+                    });
+                </script>'
+            );
+            
+            // Очищаем рендерер
+            $ssrRenderer->cleanup();
+            
+            return $ssrHtml;
+            
+        } else {
+            $modx->log(modX::LOG_LEVEL_ERROR, 'VueSSRRenderer class not found: ' . $rendererPath);
+        }
+        
+    } catch (Exception $e) {
+        $modx->log(modX::LOG_LEVEL_ERROR, 'SSR rendering failed: ' . $e->getMessage());
+        
+        // Для отладки - показываем ошибку в HTML комментарии
+        $errorComment = '<!-- SSR Error: ' . htmlspecialchars($e->getMessage()) . ' -->';
+        
+        // Fallback к обычному клиентскому рендерингу
+        // Если компонент использует внешние зависимости (pvtables и т.д.), 
+        // которые недоступны в Node.js, просто продолжаем с клиентским рендерингом
+        
+        // Возвращаем div с ошибкой для отладки
+        return $errorComment . '<div id="'.$name_lower.'"></div>';
+    }
+}
+
 return '<div id="'.$name_lower.'"></div>';
