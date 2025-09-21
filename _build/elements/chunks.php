@@ -9,4 +9,8 @@ return [
         'file' => 'gtsAPI.Modal.GenRules',
         'description' => '',
     ],
+    'tpl.gtsAPIGallery' => [
+        'file' => 'tpl.gtsAPIGallery',
+        'description' => 'Шаблон по умолчанию для галереи файлов gtsAPIGallery',
+    ],
 ];
