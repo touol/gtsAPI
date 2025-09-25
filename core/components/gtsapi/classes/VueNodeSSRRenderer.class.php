@@ -148,6 +148,23 @@ class VueNodeSSRRenderer {
     }
     
     /**
+     * Получение baseURL сервера
+     */
+    private function getServerBaseURL() {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443 ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
+        $port = '';
+        if (($protocol === 'http' && $_SERVER['SERVER_PORT'] != 80) || 
+            ($protocol === 'https' && $_SERVER['SERVER_PORT'] != 443)) {
+            // Проверяем, не содержит ли HTTP_HOST уже порт
+            if (strpos($host, ':') === false) {
+                $port = ':'.$_SERVER['SERVER_PORT'];
+            }
+        }
+        return $protocol.'://'.$host.$port.'/';
+    }
+
+    /**
      * Создание временных файлов для Node.js SSR
      */
     private function createTempFiles($app, $config, $componentCode) {
@@ -163,7 +180,7 @@ class VueNodeSSRRenderer {
             'type' => 'module',
             'dependencies' => [
                 'vue' => '^3.4.0',
-                '@vue/server-renderer' => '^3.4.0'
+                '@vue/server-renderer' => '^3.4.0',
             ],
             'browser' => false
         ];
@@ -173,9 +190,11 @@ class VueNodeSSRRenderer {
         $componentPath = $tempDir . '/component.js';
         file_put_contents($componentPath, $componentCode);
         
-        // Создаем данные
+        // Создаем данные с добавлением baseURL
+        $configWithBaseURL = $config;
+        $configWithBaseURL['SSR_BASE_URL'] = $this->getServerBaseURL();
         $dataPath = $tempDir . '/data.json';
-        file_put_contents($dataPath, json_encode($config));
+        file_put_contents($dataPath, json_encode($configWithBaseURL));
         
         // Создаем SSR скрипт
         $ssrScript = $this->createNodeSSRScript($app);
@@ -199,6 +218,27 @@ async function renderApp() {
         
         let html;
         
+        // Заглушка для console в SSR окружении
+        // if (typeof globalThis.console === "undefined") {
+            globalThis.console = {
+                log: () => {},
+                error: () => {},
+                warn: () => {},
+                info: () => {},
+                debug: () => {},
+                trace: () => {},
+                dir: () => {},
+                time: () => {},
+                timeEnd: () => {},
+                group: () => {},
+                groupEnd: () => {},
+                clear: () => {},
+                count: () => {},
+                assert: () => {},
+                table: () => {}
+            };
+        // }
+        
         // Пытаемся загрузить пользовательский компонент
         try {
             if (fs.existsSync("component.js")) {
@@ -209,10 +249,16 @@ async function renderApp() {
                     // Задаем глобальную переменную с конфигурацией как в mixVue.php
                     globalThis.' . strtolower($app) . 'Configs = data;
                     
+                    // Устанавливаем baseURL для API запросов в SSR
+                    if (data.SSR_BASE_URL) {
+                        globalThis.SSR_BASE_URL = data.SSR_BASE_URL;
+                        // console.log("SSR: Установлен baseURL:", data.SSR_BASE_URL);
+                    }
+                    
                     // Новый формат с функцией render
                     const result = await componentModule.render("/");
                     // Очищаем Vue фрагменты комментарии
-                    const cleanHtml = result.html.replace(/<!--\[-->|<!---->|<!--\]-->/g, "");
+                    const cleanHtml = result.html //result.html.replace(/<!--\[-->|<!---->|<!--\]-->/g, "");
                     html = `<div id="' . strtolower($app) . '">${cleanHtml}</div>`;
                 } else {
                     throw new Error("No render function found");
@@ -261,10 +307,10 @@ async function renderApp() {
             html = await renderToString(app);
         }
         
-        console.log(html);
+        process.stdout.write(html);
         
     } catch (error) {
-        console.log(`<div id="' . strtolower($app) . '">SSR Error: ${error.message}</div>`);
+        process.stdout.write(`<div id="' . strtolower($app) . '">SSR Error: ${error.message}</div>`);
     }
 }
 
@@ -389,7 +435,7 @@ renderApp();
             
             $errors[] = "DEBUG: pvtables directory создан успешно";
             
-            // Создаем директорию dist
+            // Создаем папку dist внутри pvtables
             $distDir = $pvtablesDir . '/dist';
             $errors[] = "DEBUG: Создаем dist dir: " . $distDir;
             
@@ -398,27 +444,9 @@ renderApp();
                 throw new Exception('Failed to create pvtables/dist directory: ' . $distDir . "\n" . implode("\n", $errors));
             }
             
-            $errors[] = "DEBUG: dist directory создан успешно";
-            
-            // Копируем pvtables.js
-            $sourceFile = $pvtablesSourcePath . 'pvtables.js';
-            $destFile = $distDir . '/pvtables.js';
-            
-            $errors[] = "DEBUG: Копируем файл из " . $sourceFile . " в " . $destFile;
-            
-            if (!file_exists($sourceFile)) {
-                $errors[] = "ERROR: Исходный файл pvtables.js не найден: " . $sourceFile;
-                throw new Exception('pvtables.js not found: ' . $sourceFile . "\n" . implode("\n", $errors));
-            }
-            
-            $errors[] = "DEBUG: Исходный файл найден, размер: " . filesize($sourceFile) . " байт";
-            
-            if (!copy($sourceFile, $destFile)) {
-                $errors[] = "ERROR: Не удалось скопировать файл";
-                throw new Exception('Failed to copy pvtables.js from ' . $sourceFile . ' to ' . $destFile . "\n" . implode("\n", $errors));
-            }
-            
-            $errors[] = "DEBUG: Файл скопирован успешно, размер: " . filesize($destFile) . " байт";
+            // Копируем всю папку pvtables в dist
+            $copiedFiles = $this->copyDirectoryRecursive($pvtablesSourcePath, $distDir, $errors);
+            $errors[] = "DEBUG: Скопировано файлов в dist: " . $copiedFiles;
             
             // Создаем package.json для pvtables
             $pvtablesPackage = [
@@ -500,6 +528,57 @@ export default {
             return $this->cache->cleanup();
         }
         return 0;
+    }
+    
+    /**
+     * Рекурсивное копирование директории
+     */
+    private function copyDirectoryRecursive($source, $destination, &$errors = []) {
+        $copiedFiles = 0;
+        
+        if (!is_dir($source)) {
+            $errors[] = "ERROR: Исходная директория не существует: " . $source;
+            return 0;
+        }
+        
+        // Создаем целевую директорию если она не существует
+        if (!is_dir($destination) && !mkdir($destination, 0755, true)) {
+            $errors[] = "ERROR: Не удалось создать целевую директорию: " . $destination;
+            return 0;
+        }
+        
+        $errors[] = "DEBUG: Копируем из " . $source . " в " . $destination;
+        
+        // Получаем список файлов и папок
+        $items = scandir($source);
+        
+        foreach ($items as $item) {
+            if ($item === '.' || $item === '..') {
+                continue;
+            }
+            
+            $sourcePath = $source . DIRECTORY_SEPARATOR . $item;
+            $destPath = $destination . DIRECTORY_SEPARATOR . $item;
+            
+            if (is_dir($sourcePath)) {
+                // Рекурсивно копируем поддиректорию
+                $errors[] = "DEBUG: Копируем поддиректорию: " . $item;
+                $copiedFiles += $this->copyDirectoryRecursive($sourcePath, $destPath, $errors);
+            } else {
+                // Копируем файл
+                $errors[] = "DEBUG: Копируем файл: " . $item . " (размер: " . filesize($sourcePath) . " байт)";
+                
+                if (copy($sourcePath, $destPath)) {
+                    $copiedFiles++;
+                    $errors[] = "DEBUG: Файл " . $item . " скопирован успешно";
+                } else {
+                    $errors[] = "ERROR: Не удалось скопировать файл: " . $item;
+                }
+            }
+        }
+        
+        $errors[] = "DEBUG: Завершено копирование директории " . basename($source) . ", скопировано файлов: " . $copiedFiles;
+        return $copiedFiles;
     }
     
     /**
