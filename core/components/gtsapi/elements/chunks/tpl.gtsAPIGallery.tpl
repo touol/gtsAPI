@@ -5,7 +5,7 @@
                 <div class="gtsapi-gallery-item" data-id="{$file.id}" data-type="{$file.type}">
                     <div class="gtsapi-gallery-preview">
                         {if $file.type in ['image', 'jpg', 'jpeg', 'png', 'gif', 'webp']}
-                            <img src="{$file.small ?: $file.url}" alt="{$file.name}" 
+                            <img src="{$file.medium ?: $file.url}" alt="{$file.name}" 
                                  data-large="{$file.large ?: $file.url}"
                                  class="gtsapi-gallery-image" />
                         {else}
@@ -61,7 +61,7 @@
 
 .gtsapi-gallery-items {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    {* grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); *}
     gap: 20px;
 }
 
@@ -79,7 +79,7 @@
 
 .gtsapi-gallery-preview {
     position: relative;
-    height: 150px;
+    height: 200px;
     overflow: hidden;
     background: #f5f5f5;
     display: flex;
