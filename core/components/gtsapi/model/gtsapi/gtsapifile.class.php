@@ -64,10 +64,18 @@ class gtsAPIFile extends xPDOSimpleObject
                 '[gtsAPIFile] Error remove the attachment file at: ' . $filename);
         }
 
-        // Удаляем связанные миниатюры
-        $thumbnails = $this->getMany('Children');
-        foreach ($thumbnails as $thumbnail) {
-            $thumbnail->remove();
+        // Удаляем связанные миниатюры только если это не миниатюра (child != 1)
+        if (!$this->get('child')) {
+            $thumbnails = $this->xpdo->getCollection('gtsAPIFile', array(
+                'parent' => $this->get('id'),
+                'parent0'=> $this->get('parent0'),
+                'class'=> $this->get('class'),
+                'child' => 1
+            ));
+            
+            foreach ($thumbnails as $thumbnail) {
+                $thumbnail->remove();
+            }
         }
 
         return parent::remove($ancestors);
@@ -286,7 +294,7 @@ class gtsAPIFile extends xPDOSimpleObject
                     '[gtsAPIFile] Could not remove thumbnail file: ' . $filename);
             }
 
-            // Удаляем запись из базы данных
+            // Удаляем запись из БД без вызова remove() чтобы избежать рекурсии
             if (!$thumbnail->remove()) {
                 $this->modx->log(xPDO::LOG_LEVEL_ERROR,
                     '[gtsAPIFile] Could not remove thumbnail record with ID: ' . $thumbnail->get('id'));
