@@ -79,7 +79,7 @@ class treeAPIController{
         $rule['gtsAPIUniTreeClass'] = $gtsAPIUniTreeClass;
 
         $resp = $this->checkPermissions($rule);
-        $this->modx->log(1,print_r($resp,1));
+        
         if(!$resp['success']){
             // header('HTTP/1.1 401 Unauthorized2');
             return $resp;

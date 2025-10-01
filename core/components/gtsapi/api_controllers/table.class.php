@@ -1115,7 +1115,13 @@ class tableAPIController{
             }
 
             $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old,$object,$obj);
-            $resp['data']['object'] = $obj->toArray();
+            $readRequest = ['id' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+            $readResp = $this->read($rule, $readRequest, null);
+            if($readResp['success'] && !empty($readResp['data']['rows'])){
+                $resp['data']['object'] = $readResp['data']['rows'][0];
+            } else {
+                $resp['data']['object'] = [];
+            }
             if(!empty($rule['properties']['table_tree'])){//table_tree
                 $where = [
                     $rule['class'].'.'.$rule['properties']['table_tree']['parentIdField'] => $resp['data']['object'][$rule['properties']['table_tree']['idField']]
@@ -1317,10 +1323,14 @@ class tableAPIController{
                 }
 
                 $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
-                
-                
 
-                $resp['data']['object'] = $obj->toArray();
+                $readRequest = ['id' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+                $readResp = $this->read($rule, $readRequest, null);
+                if($readResp['success'] && !empty($readResp['data']['rows'])){
+                    $resp['data']['object'] = $readResp['data']['rows'][0];
+                } else {
+                    $resp['data']['object'] = [];
+                }
                 if(!empty($rule['properties']['table_tree'])){//table_tree
                     $where = [
                         $rule['class'].'.'.$rule['properties']['table_tree']['parentIdField'] => $resp['data']['object'][$rule['properties']['table_tree']['idField']]
