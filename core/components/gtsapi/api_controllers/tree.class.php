@@ -202,6 +202,7 @@ class treeAPIController{
             'isLeafEmptyChild'=>$rule['properties']['isLeafEmptyChild']?$rule['properties']['isLeafEmptyChild']:0,
             'makeUrl'=>$rule['properties']['makeUrl']?$rule['properties']['makeUrl']:0,
             'level'=>$rule['properties']['level']?$rule['properties']['level']:0,
+            'activeField'=>$rule['properties']['activeField']?$rule['properties']['activeField']:'active',
         ];
         if(!$rule['properties']['useUniTree'] and $rule['properties']['extendedModResource']){
             $slTreeSettings['titleField'] = $rule['properties']['titleField']?$rule['properties']['titleField']:'pagetitle';
@@ -878,6 +879,7 @@ class treeAPIController{
             $row['menuindex'] = (int)$row[$slTreeSettings['menuindexField']];
             $row['class'] = $row[$slTreeSettings['classField']];
             $row['title'] = $row[$slTreeSettings['titleField']];
+            $row['active'] = $row[$slTreeSettings['activeField']];
             if(!$slTreeSettings['useUniTree']){
                 $row['target_id'] = $row['id'];
             }

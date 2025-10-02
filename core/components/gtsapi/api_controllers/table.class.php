@@ -450,6 +450,10 @@ class tableAPIController{
                         $gtsAPIFields = $this->modx->getIterator($gtsAPIFieldGroup->from_table,$c);
                         foreach($gtsAPIFields as $gtsAPIField){
                             $addFields[$gtsAPIField->name] = $gtsAPIField->toArray();
+                            if($gtsAPIFieldTable->only_text){
+                                $addFields[$gtsAPIField->name]['field_type'] = 'text';
+                                unset($addFields[$gtsAPIField->name]['list_select']);
+                            }
                             $addFields[$gtsAPIField->name]['from_table'] = $gtsAPIFieldGroup->from_table;
                             if(empty($addFields[$gtsAPIField->name]['after_field'])) $addFields[$gtsAPIField->name]['after_field'] = $gtsAPIFieldTable->after_field;
                             $addFields[$gtsAPIField->name]['gtsapi_config'] = json_decode($addFields[$gtsAPIField->name]['gtsapi_config'],1);
@@ -479,6 +483,10 @@ class tableAPIController{
                         
                         foreach($rows as $row){
                             $addFields[$row['name']] = $row;
+                            if($gtsAPIFieldTable->only_text){
+                                $addFields[$row['name']]['field_type'] = 'text';
+                                unset($addFields[$row['name']]['list_select']);
+                            }
                             $addFields[$row['name']]['from_table'] = $gtsAPIFieldGroup->from_table;
                             if(empty($row['after_field'])) $addFields[$row['name']]['after_field'] = $gtsAPIFieldTable->after_field;
                         }
