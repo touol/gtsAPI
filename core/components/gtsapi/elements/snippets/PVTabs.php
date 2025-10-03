@@ -2,7 +2,7 @@
 /** @var modX $modx */
 /** @var array $scriptProperties */
 
-$modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/style.css');
+$modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/pvtables.css');
 
     $assets_gtsapi_url = $modx->getOption('server_protocol').'://'.$modx->getOption('http_host').$modx->getOption('assets_url').'components/gtsapi/';
     $imports = [];

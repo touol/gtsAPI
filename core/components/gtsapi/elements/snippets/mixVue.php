@@ -33,7 +33,7 @@ if (isset($enableCache)) {
 if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => 'gtssapi'])) {
     $vapi = strtotime($package->installed);
 }
-$modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/style.css?v='.$vapi);
+$modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/pvtables.css?v='.$vapi);
 if(!$debug){
     
 

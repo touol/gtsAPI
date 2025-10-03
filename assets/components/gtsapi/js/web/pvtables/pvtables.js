@@ -41937,7 +41937,7 @@ function yx(t, e, n, o, i, r) {
 }
 Ma.render = yx;
 const wx = { class: "tree-container" }, kx = {
-  class: "flex flex-col gap-1",
+  class: "gap-1",
   style: { width: "100%" }
 }, Cx = { class: "tree-panel-container" }, zP = {
   __name: "UniTreePanel",
