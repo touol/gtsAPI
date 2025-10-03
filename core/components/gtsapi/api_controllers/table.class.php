@@ -688,6 +688,10 @@ class tableAPIController{
         if(isset($rule['properties']['hide_id'])){
             $options['hide_id'] = $rule['properties']['hide_id'];
         }
+        if(isset($rule['properties']['form'])){
+            $options['form'] = $rule['properties']['form'];
+        }
+        
         return $this->success('options',$options);
     }
     public function getSelects($fields){
