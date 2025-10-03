@@ -36178,6 +36178,15 @@ const r6 = { props: { template: String, parent: Object, templateProps: { type: O
       },
       deep: !0,
       immediate: !0
+    },
+    "form.tabs": {
+      handler(t) {
+        if (t && !this.activeTab) {
+          const e = Object.keys(t)[0];
+          this.activeTab = e || null;
+        }
+      },
+      immediate: !0
     }
   },
   created() {
@@ -36192,11 +36201,15 @@ const r6 = { props: { template: String, parent: Object, templateProps: { type: O
     setValue() {
       this.$emit("set-value", this.model);
     },
+    isFieldRequired(t) {
+      const e = t.required, n = t.needed;
+      return e === !0 || e === 1 || e === "1" || n === !0 || n === 1 || n === "1";
+    },
     isFieldInvalid(t) {
-      if (!t.required && !t.needed)
+      if (!this.isFieldRequired(t))
         return !1;
       const e = this.model[t.field];
-      return !!(e == null || e === "" || Array.isArray(e) && e.length === 0 || typeof e == "number" && isNaN(e));
+      return !!(e == null || e === "" || e === 0 || Array.isArray(e) && e.length === 0 || typeof e == "number" && isNaN(e));
     },
     getTabFields(t) {
       if (!t) return [];
@@ -36336,23 +36349,26 @@ function k6(t, e, n, o, i, r) {
                     class: "font-semibold w-24 pt-2"
                   }, [
                     ke($(y.label) + " ", 1),
-                    y.required || y.needed ? (d(), h("span", s6, "*")) : S("", !0)
+                    r.isFieldRequired(y) ? (d(), h("span", s6, "*")) : S("", !0)
                   ], 8, l6),
                   b("div", {
                     class: "flex-1",
                     style: en({ maxWidth: r.computedFieldWidth })
                   }, [
-                    x(s, {
-                      field: y,
-                      modelValue: r.model[y.field],
-                      "onUpdate:modelValue": (w) => r.model[y.field] = w,
-                      data: r.model,
-                      use_data: !0,
-                      autocompleteSettings: n.autocompleteSettings[y.field],
-                      selectSettings: i.selectSettings2[y.field],
-                      onSetValue: e[0] || (e[0] = (w) => r.setValue()),
+                    b("div", {
                       class: H({ "p-invalid": r.isFieldInvalid(y) })
-                    }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings", "class"]),
+                    }, [
+                      x(s, {
+                        field: y,
+                        modelValue: r.model[y.field],
+                        "onUpdate:modelValue": (w) => r.model[y.field] = w,
+                        data: r.model,
+                        use_data: !0,
+                        autocompleteSettings: n.autocompleteSettings[y.field],
+                        selectSettings: i.selectSettings2[y.field],
+                        onSetValue: e[0] || (e[0] = (w) => r.setValue())
+                      }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings"])
+                    ], 2),
                     y.desc ? (d(), h("small", c6, $(y.desc), 1)) : S("", !0),
                     r.isFieldInvalid(y) ? (d(), h("small", u6, "Поле обязательно для заполнения")) : S("", !0)
                   ], 4)
@@ -36375,23 +36391,26 @@ function k6(t, e, n, o, i, r) {
                     class: "font-semibold w-24 pt-2"
                   }, [
                     ke($(g.label) + " ", 1),
-                    g.required || g.needed ? (d(), h("span", f6, "*")) : S("", !0)
+                    r.isFieldRequired(g) ? (d(), h("span", f6, "*")) : S("", !0)
                   ], 8, p6),
                   b("div", {
                     class: "flex-1",
                     style: en({ maxWidth: r.computedFieldWidth })
                   }, [
-                    x(s, {
-                      field: g,
-                      modelValue: r.model[g.field],
-                      "onUpdate:modelValue": (v) => r.model[g.field] = v,
-                      data: r.model,
-                      use_data: !0,
-                      autocompleteSettings: n.autocompleteSettings[g.field],
-                      selectSettings: i.selectSettings2[g.field],
-                      onSetValue: e[1] || (e[1] = (v) => r.setValue()),
+                    b("div", {
                       class: H({ "p-invalid": r.isFieldInvalid(g) })
-                    }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings", "class"]),
+                    }, [
+                      x(s, {
+                        field: g,
+                        modelValue: r.model[g.field],
+                        "onUpdate:modelValue": (v) => r.model[g.field] = v,
+                        data: r.model,
+                        use_data: !0,
+                        autocompleteSettings: n.autocompleteSettings[g.field],
+                        selectSettings: i.selectSettings2[g.field],
+                        onSetValue: e[1] || (e[1] = (v) => r.setValue())
+                      }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings"])
+                    ], 2),
                     g.desc ? (d(), h("small", h6, $(g.desc), 1)) : S("", !0),
                     r.isFieldInvalid(g) ? (d(), h("small", m6, "Поле обязательно для заполнения")) : S("", !0)
                   ], 4)
@@ -36415,23 +36434,26 @@ function k6(t, e, n, o, i, r) {
         class: "font-semibold w-24 pt-2"
       }, [
         ke($(g.label) + " ", 1),
-        g.required || g.needed ? (d(), h("span", v6, "*")) : S("", !0)
+        r.isFieldRequired(g) ? (d(), h("span", v6, "*")) : S("", !0)
       ], 8, b6),
       b("div", {
         class: "flex-1",
         style: en({ maxWidth: r.computedFieldWidth })
       }, [
-        x(s, {
-          field: g,
-          modelValue: r.model[g.field],
-          "onUpdate:modelValue": (v) => r.model[g.field] = v,
-          data: r.model,
-          use_data: !0,
-          autocompleteSettings: n.autocompleteSettings[g.field],
-          selectSettings: i.selectSettings2[g.field],
-          onSetValue: e[3] || (e[3] = (v) => r.setValue()),
+        b("div", {
           class: H({ "p-invalid": r.isFieldInvalid(g) })
-        }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings", "class"]),
+        }, [
+          x(s, {
+            field: g,
+            modelValue: r.model[g.field],
+            "onUpdate:modelValue": (v) => r.model[g.field] = v,
+            data: r.model,
+            use_data: !0,
+            autocompleteSettings: n.autocompleteSettings[g.field],
+            selectSettings: i.selectSettings2[g.field],
+            onSetValue: e[3] || (e[3] = (v) => r.setValue())
+          }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings"])
+        ], 2),
         g.desc ? (d(), h("small", y6, $(g.desc), 1)) : S("", !0),
         r.isFieldInvalid(g) ? (d(), h("small", w6, "Поле обязательно для заполнения")) : S("", !0)
       ], 4)
