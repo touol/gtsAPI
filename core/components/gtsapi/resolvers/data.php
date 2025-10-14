@@ -10,7 +10,7 @@ if ($transport->xpdo) {
             $modx->addPackage($package, MODX_CORE_PATH . 'components/'.$package.'/model/');
             $run_add_fields = false;
             foreach($v as $table=>$v2){
-                $modx->log(1,"add_data_package {$table}");
+                // $modx->log(1,"add_data_package {$table}");
                 if(in_array($table,['gtsAPIFieldTable','gtsAPIFieldGroupTableLink','gtsAPIField','gtsAPIFieldGroupLink','gtsAPIFieldGroup'])) $run_add_fields = true;
 
                 if(isset($v2['type'])){
