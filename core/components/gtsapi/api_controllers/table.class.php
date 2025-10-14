@@ -1127,7 +1127,7 @@ class tableAPIController{
             }
 
             $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old,$object,$obj);
-            $readRequest = ['id' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+            $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
             $readResp = $this->read($rule, $readRequest, null);
             if($readResp['success'] && !empty($readResp['data']['rows'])){
                 $resp['data']['object'] = $readResp['data']['rows'][0];
@@ -1200,6 +1200,7 @@ class tableAPIController{
             $fields = [];
             if(!empty($rule['properties']['fields'])){
                 $fields = $this->addFields($rule,$rule['properties']['fields'],'update');
+                // $this->modx->log(1,"table".print_r($rule['properties']['fields'],1).print_r($fields,1));
                 $ext_fields = [];
                 foreach($fields as $field=>$desc){
                     if(isset($request[$field])){
@@ -1336,7 +1337,7 @@ class tableAPIController{
 
                 $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
 
-                $readRequest = ['id' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+                $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
                 $readResp = $this->read($rule, $readRequest, null);
                 if($readResp['success'] && !empty($readResp['data']['rows'])){
                     $resp['data']['object'] = $readResp['data']['rows'][0];
@@ -1421,7 +1422,7 @@ class tableAPIController{
         }
         $default['decodeJSON'] = 1;
         if(!empty($request['ids'])){
-            $default['where']["{$rule['class']}.id:IN"] = $request['ids'];
+            $default['where']["{$rule['class']}.id:IN"] = explode(',',$request['ids']);
         }
         if(isset($request['limit'])){
             $default['limit'] = $request['limit'];
