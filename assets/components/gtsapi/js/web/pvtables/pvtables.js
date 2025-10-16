@@ -21934,7 +21934,7 @@ const {
           onLazyLoad: G,
           onTab: l,
           disabled: t.disabled,
-          virtualScrollerOptions: { itemSize: 24, lazy: !0, style: { contain: "content" } },
+          virtualScrollerOptions: { itemSize: 36, lazy: !0, style: { contain: "content" } },
           panelStyle: { width: "auto" },
           overlayStyle: { width: "auto" }
         }, Et({ _: 2 }, [
