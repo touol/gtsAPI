@@ -1128,6 +1128,10 @@ class tableAPIController{
 
             $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old,$object,$obj);
             $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+            if(isset($request['filters'])){
+                if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
+                $readRequest['filters'] = $request['filters'];
+            }
             $readResp = $this->read($rule, $readRequest, null);
             if($readResp['success'] && !empty($readResp['data']['rows'])){
                 $resp['data']['object'] = $readResp['data']['rows'][0];
@@ -1338,7 +1342,12 @@ class tableAPIController{
                 $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old,$object,$obj);
 
                 $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+                if(isset($request['filters'])){
+                    if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
+                    $readRequest['filters'] = $request['filters'];
+                }
                 $readResp = $this->read($rule, $readRequest, null);
+                
                 if($readResp['success'] && !empty($readResp['data']['rows'])){
                     $resp['data']['object'] = $readResp['data']['rows'][0];
                 } else {
@@ -1904,6 +1913,7 @@ class tableAPIController{
     public function aplyFilters($rule, $filters){
         $where = [];
         //constraints
+        
         foreach($filters as $name=>$filter){
             
             if(isset($filter['constraints'])){
