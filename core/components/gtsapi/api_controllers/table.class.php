@@ -1246,32 +1246,36 @@ class tableAPIController{
                             }
                         }
                     }
-                    foreach($rule['properties']['class_link'] as $class=>$class_link){
-                        if(!isset($set_data[$class])) continue;
-                        $search = [];
-                        foreach($class_link as $field=>$v){
-                            if(isset($object[$v])){
-                                $search[$field] = $object[$v];
-                            }else if(is_numeric($v)){
-                                $search[$field] = $v;
-                            }
-                        }
-                        if($link_obj = $this->modx->getObject($class,$search)){
-                            foreach($ext_fields as $field=>$class2){
-                                if($class == $class2){
-                                    if(is_array($link_obj->{$field})){
-                                        $arr = $link_obj->{$field};
-                                    }else if(is_string($link_obj->{$field})){
-                                        $arr = json_decode($link_obj->{$field});
-                                    }
-                                    if(is_array($arr)){
-                                        $set_data[$class2][$field] = array_merge($arr,$set_data[$class2][$field]);
-                                    }
-                                    $set_data[$class2][$field] = json_encode($set_data[$class2][$field]);
-                                }
-                            }
-                        }
-                    }
+                    // foreach($rule['properties']['class_link'] as $class=>$class_link){
+                    //     if(!isset($set_data[$class])) continue;
+                    //     $search = [];
+                    //     foreach($class_link as $field=>$v){
+                    //         if(isset($object[$v])){ //$object нет переменной такой еще
+                    //             $search[$field] = $object[$v];
+                    //         }else if(is_numeric($v)){
+                    //             $search[$field] = $v;
+                    //         }
+                    //     }
+                    //     // Логируем запрос к связанной таблице
+                    //     $this->modx->log(1, 'gtsAPI update class_link getObject: class=' . $class . ', search=' . print_r($search, 1));
+                    //     $timeGetObject = microtime(true);
+                    //     if(!empty($ext_fields) and $link_obj = $this->modx->getObject($class,$search)){
+                    //         $timings['class_link_getObject_' . $class] = round((microtime(true) - $timeGetObject) * 1000, 2);
+                    //         foreach($ext_fields as $field=>$class2){
+                    //             if($class == $class2){
+                    //                 if(is_array($link_obj->{$field})){
+                    //                     $arr = $link_obj->{$field};
+                    //                 }else if(is_string($link_obj->{$field})){
+                    //                     $arr = json_decode($link_obj->{$field});
+                    //                 }
+                    //                 if(is_array($arr)){
+                    //                     $set_data[$class2][$field] = array_merge($arr,$set_data[$class2][$field]);
+                    //                 }
+                    //                 $set_data[$class2][$field] = json_encode($set_data[$class2][$field]);
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
                 foreach($ext_fields as $field=>$class){
                     if($class == $rule['class']){
@@ -1306,6 +1310,7 @@ class tableAPIController{
             }
 
             $resp = $this->run_triggers($rule, 'before', 'update', $request, $object_old,$object_new,$obj);
+            
             if(!$resp['success']) return $resp;
             
             if($obj->save()){
