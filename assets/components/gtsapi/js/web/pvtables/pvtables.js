@@ -45061,7 +45061,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
       return ge.value[I.id] && ge.value[I.id][T.field] && (ge.value[I.id][T.field].readonly == 1 && (ie = !0), ge.value[I.id][T.field].type != M && (M = ge.value[I.id][T.field].type)), T.readonly || ie ? G + M + " readonly" : G + M;
     }, Tl = (T) => T.type, vc = (T) => {
       let I = {};
-      return T.style && (I = typeof T.style == "string" ? {} : { ...T.style }), T.width && (I.width = T.width), Object.keys(I).length === 0 && T.type === "datetime" && (I.width = "120px"), I;
+      return T.style && (I = typeof T.style == "string" ? {} : { ...T.style }), T.width && (I.width = T.width), Object.keys(I).length === 0 && T.type === "datetime" && (I.width = "190px"), I;
     }, wc = (T) => {
       if (X.value[T.id] && X.value[T.id].class)
         return X.value[T.id].class;
