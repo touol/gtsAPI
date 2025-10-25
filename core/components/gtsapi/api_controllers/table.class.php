@@ -1209,11 +1209,12 @@ class tableAPIController{
                 foreach($fields as $field=>$desc){
                     if(isset($request[$field])){
                         $field_arr = explode('.',$field);
+                        $desc['field'] = $desc['field']?$desc['field']:$field;
                         if(count($field_arr) == 1){
                             if(empty($desc['class']) or $desc['class'] == $rule['class']){
-                                $set_data[$rule['class']][$field] = $request[$field];
+                                $set_data[$rule['class']][$desc['field']] = $request[$field];
                             }else{
-                                $set_data[$desc['class']][$field] = $request[$field];
+                                $set_data[$desc['class']][$desc['field']] = $request[$field];
                             }
                         }else if(count($field_arr) == 2){
                             if(empty($desc['class']) or $desc['class'] == $rule['class']){
@@ -1322,22 +1323,32 @@ class tableAPIController{
                         if(!empty($set_data[$class])){
                             $search = [];
                             foreach($class_link as $field=>$v){
-                                if(isset($object[$v])){
+                                if($field == 'fenom_tpl'){
+                                    $chunk = $this->pdoTools->getChunk("@INLINE $v",$object);
+                                    $arr = json_decode($chunk,1);
+                                    if(is_array($arr)){
+                                        $search = array_merge($search,$arr);
+                                    }
+                                    
+                                }else if(isset($object[$v])){
                                     $search[$field] = $object[$v];
                                 }else if(is_numeric($v)){
                                     $search[$field] = $v;
                                 }
                             }
-                        }
-                        if(!$link_obj = $this->modx->getObject($class,$search)){
-                            $link_obj = $this->modx->newObject($class,$search);
-                        }
-                        if($link_obj){
-                            $link_obj->fromArray($set_data[$class]);
-                            $link_obj->save();
-                            foreach($fields as $field=>$desc){
-                                if(isset($desc['class']) and $desc['class'] == $class){
-                                    $object[$field] = $link_obj->get($field);
+                            
+                            if(empty($search)) continue;
+                            if(!$link_obj = $this->modx->getObject($class,$search)){
+                                $link_obj = $this->modx->newObject($class,$search);
+                            }
+                            if($link_obj){
+                                
+                                $link_obj->fromArray($set_data[$class]);
+                                $link_obj->save();
+                                foreach($fields as $field=>$desc){
+                                    if(isset($desc['class']) and $desc['class'] == $class){
+                                        $object[$field] = $link_obj->get($field);
+                                    }
                                 }
                             }
                         }
