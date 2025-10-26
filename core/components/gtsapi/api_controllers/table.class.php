@@ -1869,7 +1869,8 @@ class tableAPIController{
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
         if(isset($filter['as']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['as']}";
         if(isset($filter['field']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['field']}";
-        
+        if(isset($filter['where']))  $field = "{$filter['where']}";
+
         if(strpos($name,'.') !== false) $field = $name;
 
         if($filter['value'] == 'true'){
