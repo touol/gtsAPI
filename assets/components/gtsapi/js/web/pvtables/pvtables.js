@@ -44901,7 +44901,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
         if (i("get-response", { table: r.table, action: "update", response: Z }), We(I, M, G), Z.success || a("error", { detail: Z.message }, !0), Z.data.refresh_table == 1 && It(!1), Z.data.customFields)
           for (let Xt in Z.data.customFields)
             ge.value[Xt] = Z.data.customFields[Xt];
-        if (Z.data.refresh_row == 1 ? W.value[Rn(Number(ie.id))] = Z.data.object : Z.data.defvalues && (W.value[Rn(Number(ie.id))] = { ...W.value[Rn(Number(ie.id))], ...Z.data.defvalues }), Z.data.row_setting)
+        if (Z.data.object ? W.value[Rn(Number(ie.id))] = Z.data.object : Z.data.defvalues && (W.value[Rn(Number(ie.id))] = { ...W.value[Rn(Number(ie.id))], ...Z.data.defvalues }), Z.data.row_setting)
           for (let Xt in Z.data.row_setting)
             X.value[Xt] = Z.data.row_setting[Xt];
         lt.value[I.id] && (I.gtsapi_children_count == 0 ? Yt(I) : Bt.value[I.id].refresh(!0));
