@@ -1868,6 +1868,7 @@ class tableAPIController{
         $field = "{$rule['class']}.$name";
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
         if(isset($filter['as']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['as']}";
+        if(isset($filter['field']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['field']}";
         
         if(strpos($name,'.') !== false) $field = $name;
 
