@@ -1869,7 +1869,7 @@ class tableAPIController{
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
         if(isset($filter['as']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['as']}";
         if(isset($filter['field']) and isset($filter['class']))  $field = "{$filter['class']}.{$filter['field']}";
-        if(isset($filter['where']))  $field = "{$filter['where']}";
+        
 
         if(strpos($name,'.') !== false) $field = $name;
 
@@ -1894,6 +1894,8 @@ class tableAPIController{
             case "equals":
                 if($name == 'parents_ids'){
                     $where["{$rule['class']}.parents_ids:LIKE"] = '%#'.$filter['value'].'#%';
+                }else if(isset($filter['where'])){
+                    $where[100] = "{$filter['where']} = '{$filter['value']}'";
                 }else{
                     $where[$field] = $filter['value'];
                 }
