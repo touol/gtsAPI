@@ -1,4 +1,4 @@
-import { renderSlot as D, createBlock as w, createCommentVNode as C, openBlock as u, Teleport as Tc, ref as R, readonly as Dc, getCurrentInstance as Ec, onMounted as qt, nextTick as Lc, watch as Tt, mergeProps as h, createElementBlock as m, createElementVNode as b, resolveDirective as ut, resolveDynamicComponent as N, Fragment as $, toDisplayString as B, normalizeProps as In, withDirectives as $e, resolveComponent as V, withCtx as O, createVNode as x, TransitionGroup as Mc, renderList as be, createTextVNode as Ie, normalizeClass as z, Transition as nn, createSlots as Et, normalizeStyle as tn, toHandlers as Qr, withModifiers as gt, withKeys as Fe, computed as Ne, mergeModels as Nt, useModel as Hn, compile as ki, watchEffect as xn, unref as A, vShow as Ko, reactive as pi, pushScopeId as on, popScopeId as rn, inject as Bc, provide as yu, defineComponent as vu, onBeforeUnmount as Fc, h as Ac, vModelText as Xn, vModelSelect as da, createStaticVNode as Vc, onErrorCaptured as $c, guardReactiveProps as zc } from "vue";
+import { renderSlot as D, createBlock as w, createCommentVNode as C, openBlock as u, Teleport as Tc, ref as T, readonly as Dc, getCurrentInstance as Ec, onMounted as qt, nextTick as Lc, watch as Tt, mergeProps as h, createElementBlock as m, createElementVNode as b, resolveDirective as ut, resolveDynamicComponent as N, Fragment as $, toDisplayString as B, normalizeProps as In, withDirectives as $e, resolveComponent as V, withCtx as O, createVNode as x, TransitionGroup as Mc, renderList as be, createTextVNode as Ie, normalizeClass as z, Transition as nn, createSlots as Et, normalizeStyle as tn, toHandlers as Qr, withModifiers as gt, withKeys as Fe, computed as Ne, mergeModels as Nt, useModel as Hn, compile as ki, watchEffect as xn, unref as A, vShow as Ko, reactive as pi, pushScopeId as on, popScopeId as rn, inject as Bc, provide as yu, defineComponent as vu, onBeforeUnmount as Fc, h as Ac, vModelText as Xn, vModelSelect as da, createStaticVNode as Vc, onErrorCaptured as $c, guardReactiveProps as zc } from "vue";
 function Fo(t, e) {
   return t ? t.classList ? t.classList.contains(e) : new RegExp("(^| )" + e + "( |$)", "gi").test(t.className) : !1;
 }
@@ -1246,7 +1246,7 @@ function Sp(t) {
 }
 var Ip = 0;
 function xp(t) {
-  var e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, n = R(!1), r = R(t), i = R(null), o = Wa() ? window.document : void 0, a = e.document, s = a === void 0 ? o : a, d = e.immediate, l = d === void 0 ? !0 : d, c = e.manual, f = c === void 0 ? !1 : c, g = e.name, p = g === void 0 ? "style_".concat(++Ip) : g, y = e.id, v = y === void 0 ? void 0 : y, k = e.media, P = k === void 0 ? void 0 : k, S = e.nonce, E = S === void 0 ? void 0 : S, L = e.first, J = L === void 0 ? !1 : L, oe = e.onMounted, W = oe === void 0 ? void 0 : oe, _ = e.onUpdated, U = _ === void 0 ? void 0 : _, q = e.onLoad, ee = q === void 0 ? void 0 : q, Me = e.props, Pe = Me === void 0 ? {} : Me, Le = function() {
+  var e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, n = T(!1), r = T(t), i = T(null), o = Wa() ? window.document : void 0, a = e.document, s = a === void 0 ? o : a, d = e.immediate, l = d === void 0 ? !0 : d, c = e.manual, f = c === void 0 ? !1 : c, g = e.name, p = g === void 0 ? "style_".concat(++Ip) : g, y = e.id, v = y === void 0 ? void 0 : y, k = e.media, P = k === void 0 ? void 0 : k, S = e.nonce, E = S === void 0 ? void 0 : S, L = e.first, J = L === void 0 ? !1 : L, oe = e.onMounted, W = oe === void 0 ? void 0 : oe, _ = e.onUpdated, U = _ === void 0 ? void 0 : _, q = e.onLoad, ee = q === void 0 ? void 0 : q, Me = e.props, Pe = Me === void 0 ? {} : Me, Le = function() {
   }, Be = function(le) {
     var se = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     if (s) {
@@ -21723,9 +21723,9 @@ const {
   }),
   emits: /* @__PURE__ */ Nt(["update:id", "set-value", "tab"], ["update:modelValue"]),
   setup(t, { emit: e }) {
-    const n = Hn(t, "modelValue"), r = R(!1), i = R(""), o = t, a = $t(o.field.table), s = e, { notify: d } = Lt(), l = (U) => {
+    const n = Hn(t, "modelValue"), r = T(!1), i = T(""), o = t, a = $t(o.field.table), s = e, { notify: d } = Lt(), l = (U) => {
       s("tab", U);
-    }, c = R(""), f = R([]), g = R({}), p = R({
+    }, c = T(""), f = T([]), g = T({}), p = T({
       offset: 0,
       limit: 10,
       loading: !1,
@@ -21771,7 +21771,7 @@ const {
       } catch (q) {
         return console.error("Ошибка компиляции шаблона:", q), d("error", { detail: `Ошибка в шаблоне: ${q.message}` }), null;
       }
-    }), k = R(""), P = async () => {
+    }), k = T(""), P = async () => {
       if (o.field.default_row)
         try {
           const U = await a.autocomplete({ query: "", ids: "" });
@@ -21979,7 +21979,7 @@ const {
   }),
   emits: /* @__PURE__ */ Nt(["update:id", "set-value"], ["update:modelValue"]),
   setup(t, { emit: e }) {
-    const n = Hn(t, "modelValue"), r = R(!1), i = R(""), o = t, a = $t(o.field.table), s = e, { notify: d } = Lt(), l = R(""), c = R([]), f = R({}), g = R({
+    const n = Hn(t, "modelValue"), r = T(!1), i = T(""), o = t, a = $t(o.field.table), s = e, { notify: d } = Lt(), l = T(""), c = T([]), f = T({}), g = T({
       offset: 0,
       limit: 10,
       loading: !1,
@@ -21988,8 +21988,8 @@ const {
       currentQuery: "",
       currentSearchFilters: {},
       allowLazyLoad: !1
-    }), p = R({}), y = R({});
-    R({});
+    }), p = T({}), y = T({});
+    T({});
     const v = (te) => {
       if (!te || typeof te != "string") return !0;
       const le = [
@@ -22028,7 +22028,7 @@ const {
       } catch (le) {
         return console.error("Ошибка компиляции шаблона:", le), d("error", { detail: `Ошибка в шаблоне: ${le.message}` }), null;
       }
-    }), P = R(""), S = Ne(() => !o.field.search || typeof o.field.search != "object" ? [] : Object.entries(o.field.search).map(([te, le]) => ({
+    }), P = T(""), S = Ne(() => !o.field.search || typeof o.field.search != "object" ? [] : Object.entries(o.field.search).map(([te, le]) => ({
       key: te,
       ...le,
       label: le.label || te
@@ -25672,7 +25672,7 @@ const fl = {
   emits: /* @__PURE__ */ Nt(["set-value"], ["update:modelValue"]),
   setup(t, { emit: e }) {
     Hn(t, "modelValue");
-    const n = t, r = e, { notify: i } = Lt(), o = $t(n.field.table), a = $t(n.field.table_link), s = R([]), d = R([]), l = R(!1), c = async () => {
+    const n = t, r = e, { notify: i } = Lt(), o = $t(n.field.table), a = $t(n.field.table_link), s = T([]), d = T([]), l = T(!1), c = async () => {
       l.value = !0;
       try {
         const p = await o.read({
@@ -27220,12 +27220,12 @@ const yw = { key: 0 }, gl = {
   }),
   emits: /* @__PURE__ */ Nt(["update:id", "set-value"], ["update:id"]),
   setup(t, { emit: e }) {
-    const n = Hn(t, "id"), r = t, i = e, o = R({});
+    const n = Hn(t, "id"), r = t, i = e, o = T({});
     xn(() => {
       const [c] = r.options.filter((f) => n.value == f.id);
       c ? o.value = c : o.value = {};
     });
-    const a = R([]), s = async ({ query: c }) => {
+    const a = T([]), s = async ({ query: c }) => {
       c && c !== 0 ? a.value = r.options.filter((f) => f.content.indexOf(c) != -1) : a.value = r.options;
     }, d = (c) => {
       a.value = [], n.value = c.value.id.toString(), i("set-value");
@@ -28894,7 +28894,7 @@ const { notify: Yn } = Lt(), io = new Io(), we = pi({
     }
   },
   setup(t) {
-    const e = t, n = new Io(), r = R(null), i = R({}), o = R({ "/": !0 }), a = R(!1), s = async (v = "/", k = null) => {
+    const e = t, n = new Io(), r = T(null), i = T({}), o = T({ "/": !0 }), a = T(!1), s = async (v = "/", k = null) => {
       try {
         if (a.value = !0, k) {
           const S = (await n.getDirectories(v, e.mediaSource)).directories.map((E) => ({
@@ -35071,7 +35071,7 @@ const xo = (t) => (on("data-v-c98426d1"), t = t(), rn(), t), fC = { class: "file
 ], KC = { key: 2 }, jC = { class: "flex items-center" }, NC = ["src", "alt"], HC = {
   __name: "FileView",
   setup(t) {
-    const e = new Io(), n = Bc("fileBrowser", null), { state: r, filteredFiles: i, actions: o } = Ft, a = Ne(() => r.loading), s = Ne(() => r.viewMode), d = Ne(() => r.sortField), l = Ne(() => r.sortOrder), c = R(r.filter), f = Ne({
+    const e = new Io(), n = Bc("fileBrowser", null), { state: r, filteredFiles: i, actions: o } = Ft, a = Ne(() => r.loading), s = Ne(() => r.viewMode), d = Ne(() => r.sortField), l = Ne(() => r.sortOrder), c = T(r.filter), f = Ne({
       get: () => r.selectedFile,
       set: (_) => o.selectFile(_)
     }), g = Ne(() => i.value.filter((_) => !_.is_dir)), p = () => {
@@ -37045,7 +37045,7 @@ const Xd = (t) => (on("data-v-ff61e4cf"), t = t(), rn(), t), Y2 = { class: "uplo
 }, cS = {
   __name: "CreateDirectoryDialog",
   setup(t) {
-    const { state: e, actions: n } = Ft, r = R(""), i = R(""), o = Ne({
+    const { state: e, actions: n } = Ft, r = T(""), i = T(""), o = Ne({
       get: () => e.dialogs.createDirectory,
       set: (l) => {
         l || n.closeDialog("createDirectory");
@@ -37127,7 +37127,7 @@ const Xd = (t) => (on("data-v-ff61e4cf"), t = t(), rn(), t), Y2 = { class: "uplo
 }, vS = {
   __name: "RenameFileDialog",
   setup(t) {
-    const { state: e, actions: n } = Ft, r = R(""), i = R(""), o = Ne(() => e.selectedFile ? e.selectedFile.name : ""), a = Ne({
+    const { state: e, actions: n } = Ft, r = T(""), i = T(""), o = Ne(() => e.selectedFile ? e.selectedFile.name : ""), a = Ne({
       get: () => e.dialogs.rename,
       set: (c) => {
         c || n.closeDialog("rename");
@@ -37219,7 +37219,7 @@ const Xd = (t) => (on("data-v-ff61e4cf"), t = t(), rn(), t), Y2 = { class: "uplo
 }, TS = {
   __name: "RemoveFileDialog",
   setup(t) {
-    const { state: e, actions: n } = Ft, r = R(""), i = Ne(() => e.selectedFile ? e.selectedFile.name : ""), o = Ne(() => e.selectedFile && e.selectedFile.is_dir), a = Ne({
+    const { state: e, actions: n } = Ft, r = T(""), i = Ne(() => e.selectedFile ? e.selectedFile.name : ""), o = Ne(() => e.selectedFile && e.selectedFile.is_dir), a = Ne({
       get: () => e.dialogs.remove,
       set: (l) => {
         l || n.closeDialog("remove");
@@ -37401,7 +37401,7 @@ const Xd = (t) => (on("data-v-ff61e4cf"), t = t(), rn(), t), Y2 = { class: "uplo
   },
   emits: ["update:modelValue", "fileSelected"],
   setup(t, { emit: e }) {
-    const n = t, r = e, i = R(n.modelValue), o = R(!1);
+    const n = t, r = e, i = T(n.modelValue), o = T(!1);
     Tt(() => n.modelValue, (d) => {
       i.value = d;
     }), Tt(i, (d) => {
@@ -37547,7 +37547,7 @@ const Xd = (t) => (on("data-v-ff61e4cf"), t = t(), rn(), t), Y2 = { class: "uplo
       } catch (S) {
         return console.error("Ошибка компиляции шаблона:", S), n("error", { detail: `Ошибка в шаблоне: ${S.message}` }), null;
       }
-    }), s = R({}), d = R({}), l = R(!1);
+    }), s = T({}), d = T({}), l = T(!1);
     xn(async () => {
       if (d.value = JSON.parse(JSON.stringify(i.selectSettings)), i.customFields.hasOwnProperty(i.field.field)) {
         let S = i.customFields[i.field.field];
@@ -37866,7 +37866,7 @@ const nI = {
   }),
   emits: /* @__PURE__ */ Nt(["set-value", "tab"], ["update:modelValue"]),
   setup(t, { emit: e }) {
-    const n = Hn(t, "modelValue"), r = t, i = R({}), o = R({}), a = Ne({
+    const n = Hn(t, "modelValue"), r = t, i = T({}), o = T({}), a = Ne({
       get() {
         if (i.value.type === "number" || i.value.type === "decimal") {
           const g = Number(n.value);
@@ -40313,7 +40313,7 @@ const au = {
   },
   emits: ["select-treenode-action"],
   setup(t, { emit: e }) {
-    const n = t, r = R([]), i = R(!1), o = e;
+    const n = t, r = T([]), i = T(!1), o = e;
     return xn(() => {
       let a = n.node;
       r.value = [];
@@ -40398,7 +40398,7 @@ const au = {
     "externaldrop"
   ],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = n, o = R(), a = R(), s = R(null), d = R(0), l = R(0), c = R(null), f = R(!1), g = R(!1), p = R({ x: 0, y: 0 }), y = R(!1), v = R([]), k = Ne(() => !r.level), P = Ne(() => {
+    const r = t, i = n, o = T(), a = T(), s = T(null), d = T(0), l = T(0), c = T(null), f = T(!1), g = T(!1), p = T({ x: 0, y: 0 }), y = T(!1), v = T([]), k = Ne(() => !r.level), P = Ne(() => {
       const K = [];
       let j = r.level - 1;
       for (r.showBranches || j++; j-- > 0; )
@@ -41359,9 +41359,9 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
   },
   emits: ["select-treenode"],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = R(!0), o = $t(r.table), { notify: a } = Lt(), s = R([]);
+    const r = t, i = T(!0), o = $t(r.table), { notify: a } = Lt(), s = T([]);
     let d = {};
-    const l = R(), c = R({}), f = R({}), g = R({}), p = R(0), y = R(!1), v = R(!0), k = R(!0);
+    const l = T(), c = T({}), f = T({}), g = T({}), p = T(0), y = T(!1), v = T(!0), k = T(!0);
     let P = new URLSearchParams(document.location.search);
     qt(async () => {
       P.get(r.table + "/id") > 0 && (p.value = P.get(r.table + "/id")), await E();
@@ -41498,7 +41498,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
       for (let F in ne)
         ne[F].field = F, ne[F].hasOwnProperty("label") || (ne[F].label = F), ne[F].hasOwnProperty("type") || (ne[F].type = "text"), ne[F].hasOwnProperty("readonly") && (ne[F].readonly === !0 || ne[F].readonly == 1 ? ne[F].readonly = !0 : ne[F].readonly = !1), ye.push(ne[F]);
       return ye;
-    }, ee = R({}), Me = R({}), Pe = (ne) => {
+    }, ee = T({}), Me = T({}), Pe = (ne) => {
       if (c.value[ne.action].tables) {
         const ye = c.value[ne.action].tables[ne.table];
         if (ye.form == "UniTree") {
@@ -41522,7 +41522,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
             }, Be.value = !0;
             break;
         }
-    }, Le = R(!1), Be = R(!1), Ye = async () => {
+    }, Le = T(!1), Be = T(!1), Ye = async () => {
       try {
         if (ee.value.form == "UniTree") {
           const ne = await o.create(ee.value, {});
@@ -41538,7 +41538,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
       } catch (ne) {
         a("error", { detail: ne.message });
       }
-    }, le = R("Создать"), se = R({
+    }, le = T("Создать"), se = T({
       enabled: !1,
       fields: [],
       table: "",
@@ -41547,7 +41547,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
     e({ refresh: (ne, ye) => {
       E();
     } });
-    const Ee = R(""), Ue = R([]), lt = R([]), rt = (ne) => {
+    const Ee = T(""), Ue = T([]), lt = T([]), rt = (ne) => {
       const ye = JSON.parse(JSON.stringify(s.value));
       if (!ne) {
         if (y.value)
@@ -41724,7 +41724,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
   },
   emits: ["action"],
   setup(t, { emit: e }) {
-    const n = t, r = e, i = R([]);
+    const n = t, r = e, i = T([]);
     return xn(() => {
       const o = n.node;
       i.value = [], o.data.is_dir ? i.value = [
@@ -41843,9 +41843,9 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
   },
   emits: ["select-file"],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = R(!0), o = new Io(), { notify: a } = Lt(), s = R([]);
+    const r = t, i = T(!0), o = new Io(), { notify: a } = Lt(), s = T([]);
     let d = {};
-    const l = R(), c = R(!1), f = R("/"), g = R([]), p = R(null);
+    const l = T(), c = T(!1), f = T("/"), g = T([]), p = T(null);
     qt(async () => {
       await y();
     });
@@ -41992,7 +41992,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
         file: F.data,
         mediaSource: F.data.sourceId
       }) : a("error", { detail: "файл не редактируется!" }, !0);
-    }, W = R(!1), _ = R(!1), U = R(!1), q = R(!1), ee = R(!1), Me = R({ node: null, newName: "" }), Pe = R({ parentNode: null, name: "", type: "" }), Le = R({ node: null, name: "", path: "" }), Be = R({ parentNode: null, files: [] }), Ye = async (F) => {
+    }, W = T(!1), _ = T(!1), U = T(!1), q = T(!1), ee = T(!1), Me = T({ node: null, newName: "" }), Pe = T({ parentNode: null, name: "", type: "" }), Le = T({ node: null, name: "", path: "" }), Be = T({ parentNode: null, files: [] }), Ye = async (F) => {
       const { type: H, node: X } = F;
       switch (H) {
         case "refresh":
@@ -42196,8 +42196,8 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
         default:
           return "pi pi-file";
       }
-    }, Bt = R([]);
-    R([]);
+    }, Bt = T([]);
+    T([]);
     const It = (F) => {
       const H = JSON.parse(JSON.stringify(s.value));
       {
@@ -42481,7 +42481,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
     }
   },
   setup(t, { expose: e }) {
-    const n = t, r = new Io(), { notify: i } = Lt(), o = R(!1), a = R(!1), s = R(null), d = R(n.content || ""), l = R(""), c = Ne(() => n.file ? n.file.path : ""), f = Ne(() => n.file ? n.file.size : null), g = Ne(() => n.file ? n.file.lastmod : null), p = async () => {
+    const n = t, r = new Io(), { notify: i } = Lt(), o = T(!1), a = T(!1), s = T(null), d = T(n.content || ""), l = T(""), c = Ne(() => n.file ? n.file.path : ""), f = Ne(() => n.file ? n.file.size : null), g = Ne(() => n.file ? n.file.lastmod : null), p = async () => {
       if (n.file)
         try {
           o.value = !0, s.value = null;
@@ -42623,9 +42623,9 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
       },
       { deep: !0 }
     );
-    const o = R({});
+    const o = T({});
     let a = {};
-    const s = R([{ field: "id", label: "id", type: "text" }]), d = R({}), l = async () => {
+    const s = T([{ field: "id", label: "id", type: "text" }]), d = T({}), l = async () => {
       try {
         r = $t(n.table);
         const y = await r.options();
@@ -42656,7 +42656,7 @@ const yo = /* @__PURE__ */ ot(d6, [["render", O6]]), P6 = { key: 0 }, R6 = {
       } catch (y) {
         i("error", { detail: y.message });
       }
-    }, p = R({
+    }, p = T({
       enabled: !1,
       fields: [],
       table: "",
@@ -44271,7 +44271,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
   },
   emits: ["refresh-table", "get-response", "select-treenode", "update-treenode-title", "select-file"],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = R(), o = R({}), a = R({}), s = (y) => {
+    const r = t, i = T(), o = T({}), a = T({}), s = (y) => {
       if (!y)
         return console.error("PVTabs: componentName is empty"), null;
       try {
@@ -44462,7 +44462,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
   },
   emits: ["pvtables-menu-action"],
   setup(t, { emit: e }) {
-    const n = t, r = R([]), i = e;
+    const n = t, r = T([]), i = e;
     for (let o in n.actions)
       r.value.push({
         label: n.actions[o].label ? n.actions[o].label : "Удалить",
@@ -44553,16 +44553,16 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
     vu({
       name: "PVTables"
     });
-    const r = t, i = n, o = $t(r.table), { notify: a } = Lt(), s = R(!1), d = () => {
-      const T = document.querySelector("html");
-      s.value = !s.value, T.classList.toggle("my-app-dark");
-    }, l = R(), c = R({}), f = () => {
-      let T = {};
+    const r = t, i = n, o = $t(r.table), { notify: a } = Lt(), s = T(!1), d = () => {
+      const R = document.querySelector("html");
+      s.value = !s.value, R.classList.toggle("my-app-dark");
+    }, l = T(), c = T({}), f = () => {
+      let R = {};
       for (let I in oe)
         if (r.filters.hasOwnProperty(I))
-          T[I] = r.filters[I];
+          R[I] = r.filters[I];
         else if (oe[I].filter)
-          T[I] = oe[I].filter;
+          R[I] = oe[I].filter;
         else
           switch (oe[I].type) {
             case "autocomplete":
@@ -44571,7 +44571,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
             case "decimal":
             case "number":
             case "view":
-              T[I] = {
+              R[I] = {
                 operator: xt.AND,
                 constraints: [
                   { value: null, matchMode: qe.EQUALS }
@@ -44579,13 +44579,13 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
               };
               break;
             case "boolean":
-              T[I] = {
+              R[I] = {
                 value: null,
                 matchMode: qe.EQUALS
               };
               break;
             case "date":
-              T[I] = {
+              R[I] = {
                 operator: xt.AND,
                 constraints: [
                   { value: null, matchMode: qe.DATE_AFTER },
@@ -44594,7 +44594,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
               };
               break;
             default:
-              T[I] = {
+              R[I] = {
                 operator: xt.AND,
                 constraints: [
                   { value: null, matchMode: qe.STARTS_WITH }
@@ -44602,38 +44602,38 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
               };
           }
       for (let I in r.filters)
-        T.hasOwnProperty(I) || (T[I] = r.filters[I]);
+        R.hasOwnProperty(I) || (R[I] = r.filters[I]);
       for (let I in Pe)
         switch (Pe[I].type) {
           default:
             const G = Pe[I].default ? Pe[I].default : null;
-            T[I] = {
+            R[I] = {
               operator: xt.AND,
               constraints: [
                 { value: G, matchMode: qe.EQUALS }
               ]
             };
         }
-      Me.value = JSON.parse(JSON.stringify(Pe)), l.value = T;
+      Me.value = JSON.parse(JSON.stringify(Pe)), l.value = R;
     };
     Tt(() => r.filters, async () => {
       f(), await Ce();
     });
-    const g = async (T) => {
-      l.value[T.field].constraints[0].value = T.default, await Ce();
-    }, p = async (T) => {
-      await Ce(T);
+    const g = async (R) => {
+      l.value[R.field].constraints[0].value = R.default, await Ce();
+    }, p = async (R) => {
+      await Ce(R);
     }, y = async () => {
       f(), await Ce();
-    }, v = R(10), k = R(), P = R(!0), S = R(0), E = R(0), L = R({}), J = R([{ field: "id", label: "ID" }]);
+    }, v = T(10), k = T(), P = T(!0), S = T(0), E = T(0), L = T({}), J = T([{ field: "id", label: "ID" }]);
     let oe = {};
-    const W = R();
-    let _ = R([]);
-    const U = R(!1), q = R([]), ee = R({}), Me = R({});
+    const W = T();
+    let _ = T([]);
+    const U = T(!1), q = T([]), ee = T({}), Me = T({});
     let Pe = {};
-    const Le = R({}), Be = R(), Ye = R(!1);
-    R([]);
-    const te = R(null), le = R(null), se = R([]), Ae = R(!1);
+    const Le = T({}), Be = T(), Ye = T(!1);
+    T([]);
+    const te = T(null), le = T(null), se = T([]), Ae = T(!1);
     qt(async () => {
       P.value = !0, L.value = {
         first: k.value.first,
@@ -44643,9 +44643,9 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
         // filters: filters.value
       };
       try {
-        const T = await o.options();
-        if (T.data.hasOwnProperty("fields")) {
-          oe = T.data.fields, T.data.limit !== !1 && (v.value = T.data.limit, L.value.rows = T.data.limit), T.data.selects && (ee.value = T.data.selects), T.data.data_fields && (se.value = T.data.data_fields), T.data.form && (ve.value = T.data.form), T.data.hide_id == 1 && (Ae.value = !0), T.data.hasOwnProperty("rowGroupMode") && (te.value = T.data.rowGroupMode, le.value = T.data.groupRowsBy);
+        const R = await o.options();
+        if (R.data.hasOwnProperty("fields")) {
+          oe = R.data.fields, R.data.limit !== !1 && (v.value = R.data.limit, L.value.rows = R.data.limit), R.data.selects && (ee.value = R.data.selects), R.data.data_fields && (se.value = R.data.data_fields), R.data.form && (ve.value = R.data.form), R.data.hide_id == 1 && (Ae.value = !0), R.data.hasOwnProperty("rowGroupMode") && (te.value = R.data.rowGroupMode, le.value = R.data.groupRowsBy);
           let I = [], G = [];
           for (let me in oe) {
             switch (oe[me].field = me, oe[me].hasOwnProperty("label") || (oe[me].label = me), Object.prototype.hasOwnProperty.call(oe[me], "type") || (me == "id" ? oe[me].type = "view" : oe[me].type = "text"), oe[me].hasOwnProperty("readonly") && (oe[me].readonly === !0 || oe[me].readonly == 1 ? oe[me].readonly = !0 : oe[me].readonly = !1), oe[me].select_data && (ee.value[me] || (ee.value[me] = {}), ee.value[me].rows = oe[me].select_data), oe[me].type) {
@@ -44666,13 +44666,13 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
             }
             G.push(oe[me]), I.push(me);
           }
-          if (T.data.hasOwnProperty("row_class_trigger") && (Le.value = T.data.row_class_trigger), T.data.hasOwnProperty("table_tree") && (Be.value = T.data.table_tree), T.data.hasOwnProperty("filters")) {
-            Pe = T.data.filters;
+          if (R.data.hasOwnProperty("row_class_trigger") && (Le.value = R.data.row_class_trigger), R.data.hasOwnProperty("table_tree") && (Be.value = R.data.table_tree), R.data.hasOwnProperty("filters")) {
+            Pe = R.data.filters;
             for (let me in Pe)
               Pe[me].field = me, Pe[me].default && (Pe[me].default = Pe[me].default.toString()), Pe[me].hasOwnProperty("label") || (Pe[me].label = me), Pe[me].rows = [], Pe[me].hasOwnProperty("type") || (Pe[me].type = "text");
           }
           q.value = I, f();
-          let M = T.data.actions;
+          let M = R.data.actions;
           if (r.actions.hasOwnProperty(r.table))
             for (let me in r.actions[r.table])
               M[me] = r.actions[r.table][me];
@@ -44777,52 +44777,52 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
           J.value = G;
         }
         await Ce();
-      } catch (T) {
-        console.log("error", T), a("error", { detail: T.message }, !0);
+      } catch (R) {
+        console.log("error", R), a("error", { detail: R.message }, !0);
       }
     });
-    const Ee = (T, I, G, M, ie) => {
-      c.value[T.action] && c.value[T.action].click && c.value[T.action].click(I, G, M, ie);
-    }, Ue = R({}), lt = R({}), rt = R({}), Bt = R({}), It = (T, I) => {
+    const Ee = (R, I, G, M, ie) => {
+      c.value[R.action] && c.value[R.action].click && c.value[R.action].click(I, G, M, ie);
+    }, Ue = T({}), lt = T({}), rt = T({}), Bt = T({}), It = (R, I) => {
       if (!I || I == r.table)
-        Ce(), T || i("refresh-table");
+        Ce(), R || i("refresh-table");
       else if (I && Bt.value)
         for (let G in Bt.value)
           Bt.value[G].refresh(!0, I);
     };
     e({ refresh: It });
-    const Yt = async (T) => {
+    const Yt = async (R) => {
       let I = { ...Ue.value };
-      if (lt.value[T.id])
-        delete lt.value[T.id], delete I[T.id], await ye(I), delete rt.value[T.id];
+      if (lt.value[R.id])
+        delete lt.value[R.id], delete I[R.id], await ye(I), delete rt.value[R.id];
       else {
         let G = {};
-        delete I[T.id], await ye(I), G[Be.value.parentIdField] = {
+        delete I[R.id], await ye(I), G[Be.value.parentIdField] = {
           operator: xt.AND,
           constraints: [
             {
-              value: T[Be.value.idField],
+              value: R[Be.value.idField],
               matchMode: qe.EQUALS
             }
           ]
-        }, dt.value[T.id] = { ...G, ...l.value }, rt.value[T.id] = {
+        }, dt.value[R.id] = { ...G, ...l.value }, rt.value[R.id] = {
           action: "subtables",
           table: r.table
-        }, I[T.id] = !0, lt.value[T.id] = !0, Ue.value = { ...I };
+        }, I[R.id] = !0, lt.value[R.id] = !0, Ue.value = { ...I };
       }
-    }, dt = R({}), ne = R({}), ye = async (T) => {
-      Ue.value = { ...T }, ne.value = {};
-    }, F = async (T, I) => {
+    }, dt = T({}), ne = T({}), ye = async (R) => {
+      Ue.value = { ...R }, ne.value = {};
+    }, F = async (R, I) => {
       let G = { ...Ue.value };
-      if (G.hasOwnProperty(T.id))
-        if (rt.value[T.id].table == I.table) {
-          delete G[T.id], await ye(G);
+      if (G.hasOwnProperty(R.id))
+        if (rt.value[R.id].table == I.table) {
+          delete G[R.id], await ye(G);
           return;
         } else
-          delete G[T.id], await ye(G), G[T.id] = !0;
+          delete G[R.id], await ye(G), G[R.id] = !0;
       else
-        G[T.id] = !0;
-      if (rt.value[T.id] = I, I.action == "subtables") {
+        G[R.id] = !0;
+      if (rt.value[R.id] = I, I.action == "subtables") {
         if (I.hasOwnProperty("where")) {
           let M = {};
           for (let ie in I.where)
@@ -44830,12 +44830,12 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
               operator: xt.AND,
               constraints: [
                 {
-                  value: T[I.where[ie]],
+                  value: R[I.where[ie]],
                   matchMode: qe.EQUALS
                 }
               ]
             };
-          dt.value[T.id] = M;
+          dt.value[R.id] = M;
         }
       } else if (I.action == "subtabs") {
         for (let M in I.tabs)
@@ -44846,19 +44846,19 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
                 operator: xt.AND,
                 constraints: [
                   {
-                    value: T[I.tabs[M].where[_e]] ? T[I.tabs[M].where[_e]] : I.tabs[M].where[_e],
+                    value: R[I.tabs[M].where[_e]] ? R[I.tabs[M].where[_e]] : I.tabs[M].where[_e],
                     matchMode: qe.EQUALS
                   }
                 ]
               };
-            dt.value.hasOwnProperty(T.id) || (dt.value[T.id] = {}), dt.value[T.id][M] = ie, ne.value = { ...T }, console.log("parent_row.value", ne.value);
+            dt.value.hasOwnProperty(R.id) || (dt.value[R.id] = {}), dt.value[R.id][M] = ie, ne.value = { ...R }, console.log("parent_row.value", ne.value);
           }
       }
       Ue.value = { ...G };
-    }, H = R({}), X = R({}), ge = R({}), ve = R({}), Ce = async (T) => {
+    }, H = T({}), X = T({}), ge = T({}), ve = T({}), Ce = async (R) => {
       P.value = !0, L.value = {
         ...L.value,
-        first: T?.first || E.value
+        first: R?.first || E.value
       };
       let I = {};
       for (let M in l.value)
@@ -44881,8 +44881,8 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
       } catch (M) {
         console.log("error", M), a("error", { detail: M.message });
       }
-    }, { cacheAction: st } = uc(), ae = async (T) => {
-      let { data: I, newValue: G, field: M } = T;
+    }, { cacheAction: st } = uc(), ae = async (R) => {
+      let { data: I, newValue: G, field: M } = R;
       if (!M || de(I, M) == G) return;
       const ie = {
         id: I.id,
@@ -44909,36 +44909,36 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
         console.log("error", Z), a("error", { detail: Z.message }, !0);
       }
     };
-    function de(T, I) {
-      return I.split(".").reduce((G, M) => G[M], T);
+    function de(R, I) {
+      return I.split(".").reduce((G, M) => G[M], R);
     }
-    function We(T, I, G) {
+    function We(R, I, G) {
       const M = I.split("."), ie = M.pop();
-      let _e = T;
+      let _e = R;
       for (let me = 0; me < M.length; me++)
         _e[M[me]] || (_e[M[me]] = {}), _e = _e[M[me]];
       _e[ie] = G;
     }
-    const Y = async (T) => {
-      L.value = T, await Ce(T);
-    }, ue = async (T) => {
-      L.value = T, await Ce(T);
-    }, xe = R({}), it = R(!1), je = R(!1), fn = R({
+    const Y = async (R) => {
+      L.value = R, await Ce(R);
+    }, ue = async (R) => {
+      L.value = R, await Ce(R);
+    }, xe = T({}), it = T(!1), je = T(!1), fn = T({
       enabled: !1,
       fields: [],
       table: "",
       action: ""
-    }), Ki = (T, I) => {
-      I.watch && (fn.value = { enabled: !0, fields: I.watch, table: r.table, action: I.action, filters: ce() }), xe.value = { ...T }, je.value = !0;
+    }), Ki = (R, I) => {
+      I.watch && (fn.value = { enabled: !0, fields: I.watch, table: r.table, action: I.action, filters: ce() }), xe.value = { ...R }, je.value = !0;
     }, _r = () => {
       je.value = !1, it.value = !1;
     }, ji = async () => {
       it.value = !0;
-      let T = {};
+      let R = {};
       for (let G in l.value)
-        l.value[G].hasOwnProperty("constraints") ? l.value[G].constraints[0].value !== null && (T[G] = l.value[G]) : l.value[G].value !== null && (T[G] = l.value[G]);
+        l.value[G].hasOwnProperty("constraints") ? l.value[G].constraints[0].value !== null && (R[G] = l.value[G]) : l.value[G].value !== null && (R[G] = l.value[G]);
       let I = {
-        filters: T,
+        filters: R,
         update_from_modal: 1
       };
       if (xe.value.id)
@@ -44955,39 +44955,39 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
         } catch (G) {
           console.log("error", G), a("error", { detail: G.message });
         }
-    }, Ni = async (T) => {
+    }, Ni = async (R) => {
       let I = {};
       for (let G in l.value)
         l.value[G].hasOwnProperty("constraints") ? l.value[G].constraints[0].value !== null && (I[G] = l.value[G]) : l.value[G].value !== null && (I[G] = l.value[G]);
       try {
-        const G = await o.action("insert_child", { [Be.value.parentIdField]: T[Be.value.idField], filters: I });
+        const G = await o.action("insert_child", { [Be.value.parentIdField]: R[Be.value.idField], filters: I });
         G.success || a("error", { detail: G.message }, !0), It(!1);
       } catch (G) {
         console.log("error", G), a("error", { detail: G.message });
       }
     }, Zt = async () => {
-      let T = {};
+      let R = {};
       for (let I in l.value)
-        l.value[I].hasOwnProperty("constraints") ? l.value[I].constraints[0].value !== null && (T[I] = l.value[I]) : l.value[I].value !== null && (T[I] = l.value[I]);
+        l.value[I].hasOwnProperty("constraints") ? l.value[I].constraints[0].value !== null && (R[I] = l.value[I]) : l.value[I].value !== null && (R[I] = l.value[I]);
       try {
-        const I = await o.action("insert", { filters: T });
+        const I = await o.action("insert", { filters: R });
         I.success || a("error", { detail: I.message }, !0), It(!1);
       } catch (I) {
         console.log("error", I), a("error", { detail: I.message });
       }
-    }, Rn = (T) => {
+    }, Rn = (R) => {
       let I = -1;
       for (let G = 0; G < W.value.length; G++)
-        if (W.value[G].id == T) {
+        if (W.value[G].id == R) {
           I = G;
           break;
         }
       return I;
-    }, K = (T) => {
-      T.watch && (fn.value = { enabled: !0, fields: T.watch, table: r.table, action: T.action, filters: ce() }), xe.value = {}, it.value = !1, je.value = !0;
-    }, j = async (T) => {
-      if (T.modal_form) {
-        Ml(T, null, "head");
+    }, K = (R) => {
+      R.watch && (fn.value = { enabled: !0, fields: R.watch, table: r.table, action: R.action, filters: ce() }), xe.value = {}, it.value = !1, je.value = !0;
+    }, j = async (R) => {
+      if (R.modal_form) {
+        Ml(R, null, "head");
         return;
       }
       let I = {};
@@ -44996,43 +44996,43 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
       let G = { filters: I };
       se.value && se.value.length > 0 && Qe.value && Qe.value.length > 0 && (G.data_fields_values = Qe.value.map((M) => re(M))), Qe.value && Qe.value.length > 0 && (G.ids = Qe.value.map((M) => M.id).join(","));
       try {
-        const M = await o.action(T.action, G);
+        const M = await o.action(R.action, G);
         M.success || a("error", { detail: M.message }), It(!1);
       } catch (M) {
         console.log("error", M), a("error", { detail: M.message });
       }
     }, ce = () => {
-      let T = {};
+      let R = {};
       for (let I in l.value)
-        l.value[I].hasOwnProperty("constraints") ? l.value[I].constraints[0].value !== null && (T[I] = l.value[I]) : l.value[I].value !== null && (T[I] = l.value[I]);
-      return T;
-    }, re = (T) => {
+        l.value[I].hasOwnProperty("constraints") ? l.value[I].constraints[0].value !== null && (R[I] = l.value[I]) : l.value[I].value !== null && (R[I] = l.value[I]);
+      return R;
+    }, re = (R) => {
       if (!se.value || se.value.length === 0)
         return {};
       let I = {};
       return se.value.forEach((G) => {
-        T.hasOwnProperty(G) && (I[G] = T[G]);
+        R.hasOwnProperty(G) && (I[G] = R[G]);
       }), I;
-    }, Te = async (T, I) => {
+    }, Te = async (R, I) => {
       if (I.modal_form) {
-        Ml(I, T, "row");
+        Ml(I, R, "row");
         return;
       }
-      let G = ce(), M = { ...T, filters: G };
-      se.value && se.value.length > 0 && (M.data_fields_values = [re(T)]);
+      let G = ce(), M = { ...R, filters: G };
+      se.value && se.value.length > 0 && (M.data_fields_values = [re(R)]);
       try {
         const ie = await o.action(I.action, M);
         i("get-response", { table: r.table, action: I.action, response: ie }), ie.success || a("error", { detail: ie.message }), It(!1);
       } catch (ie) {
         console.log("error", ie), a("error", { detail: ie.message });
       }
-    }, Se = R(!1), et = R(!1), tt = (T) => {
-      xe.value = T, Se.value = !0;
+    }, Se = T(!1), et = T(!1), tt = (R) => {
+      xe.value = R, Se.value = !0;
     }, Rt = async () => {
-      let T = { ids: xe.value.id };
-      se.value && se.value.length > 0 && (T.data_fields_values = [re(xe.value)]);
+      let R = { ids: xe.value.id };
+      se.value && se.value.length > 0 && (R.data_fields_values = [re(xe.value)]);
       try {
-        await o.delete(T), W.value = W.value.filter(
+        await o.delete(R), W.value = W.value.filter(
           (I) => I.id !== xe.value.id
         ), Se.value = !1, xe.value = {};
       } catch (I) {
@@ -45050,69 +45050,69 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
       } catch (G) {
         console.log("error", G), a("error", { detail: G.message });
       }
-    }, Qe = R(), Tn = R(!1), Gr = (T) => {
-      Tn.value = T.checked, Tn.value ? (Tn.value = !0, Qe.value = W.value) : (Tn.value = !1, Qe.value = []);
+    }, Qe = T(), Tn = T(!1), Gr = (R) => {
+      Tn.value = R.checked, Tn.value ? (Tn.value = !0, Qe.value = W.value) : (Tn.value = !1, Qe.value = []);
     }, Wr = () => {
       Tn.value = Qe.value.length === S.value;
     }, qr = () => {
       Tn.value = !1;
-    }, Oo = (T, I) => {
-      let G = "td-body ", M = T.type, ie = !1;
-      return ge.value[I.id] && ge.value[I.id][T.field] && (ge.value[I.id][T.field].readonly == 1 && (ie = !0), ge.value[I.id][T.field].type != M && (M = ge.value[I.id][T.field].type)), T.readonly || ie ? G + M + " readonly" : G + M;
-    }, Tl = (T) => T.type, vc = (T) => {
+    }, Oo = (R, I) => {
+      let G = "td-body ", M = R.type, ie = !1;
+      return ge.value[I.id] && ge.value[I.id][R.field] && (ge.value[I.id][R.field].readonly == 1 && (ie = !0), ge.value[I.id][R.field].type != M && (M = ge.value[I.id][R.field].type)), R.readonly || ie ? G + M + " readonly" : G + M;
+    }, Tl = (R) => R.type, vc = (R) => {
       let I = {};
-      return T.style && (I = typeof T.style == "string" ? {} : { ...T.style }), T.width && (I.width = T.width), Object.keys(I).length === 0 && T.type === "datetime" && (I["min-width"] = "190px"), I;
-    }, wc = (T) => {
-      if (X.value[T.id] && X.value[T.id].class)
-        return X.value[T.id].class;
-      if (Le.value.field && T[Le.value.field])
+      return R.style && (I = typeof R.style == "string" ? {} : { ...R.style }), R.width && (I.width = R.width), R["min-width"] && (I["min-width"] = R["min-width"]), Object.keys(I).length === 0 && R.type === "datetime" && (I["min-width"] = "190px"), I;
+    }, wc = (R) => {
+      if (X.value[R.id] && X.value[R.id].class)
+        return X.value[R.id].class;
+      if (Le.value.field && R[Le.value.field])
         return Le.value.class;
-    }, kc = (T) => X.value[T.id] && X.value[T.id].style ? X.value[T.id].style : {}, Dl = R(), Cc = (T) => {
-      Hi.value = J.value.filter((I) => I.modal_only != !0), Dl.value.toggle(T);
-    }, Hi = R(), Sc = (T) => {
+    }, kc = (R) => X.value[R.id] && X.value[R.id].style ? X.value[R.id].style : {}, Dl = T(), Cc = (R) => {
+      Hi.value = J.value.filter((I) => I.modal_only != !0), Dl.value.toggle(R);
+    }, Hi = T(), Sc = (R) => {
       J.value.forEach((I) => {
-        T.includes(I) ? I.modal_only = !1 : I.modal_only = !0;
+        R.includes(I) ? I.modal_only = !1 : I.modal_only = !0;
       }), Hi.value = J.value.filter((I) => I.modal_only != !0);
-    }, El = (T) => {
-      i("get-response", T);
-    }, Ic = (T) => {
-      if (T) {
-        for (var I = T; I && I.tagName !== "TD"; )
+    }, El = (R) => {
+      i("get-response", R);
+    }, Ic = (R) => {
+      if (R) {
+        for (var I = R; I && I.tagName !== "TD"; )
           I = I.parentElement;
         return I;
       } else
         return null;
-    }, Yr = (T) => {
-      if (!T) return null;
-      var I = T.nextElementSibling;
+    }, Yr = (R) => {
+      if (!R) return null;
+      var I = R.nextElementSibling;
       if (!I) {
-        var G = T.parentElement.nextElementSibling;
+        var G = R.parentElement.nextElementSibling;
         G && (I = G.firstElementChild);
       }
       return I ? I.tagName === "TD" && !I.firstElementChild.classList.contains("readonly") && I.firstElementChild.classList.contains("td-body") && !I.firstElementChild.classList.contains("view") && !I.firstElementChild.classList.contains("html") ? I : Yr(I) : null;
-    }, Ll = (T) => {
-      if (!T) return null;
-      var I = T.previousElementSibling;
+    }, Ll = (R) => {
+      if (!R) return null;
+      var I = R.previousElementSibling;
       if (!I) {
-        var G = T.parentElement.previousElementSibling;
+        var G = R.parentElement.previousElementSibling;
         G && (I = G.lastElementChild);
       }
       return I ? I.tagName === "TD" && !I.firstElementChild.classList.contains("readonly") && I.firstElementChild.classList.contains("td-body") && !I.firstElementChild.classList.contains("view") && !I.firstElementChild.classList.contains("html") ? I : Ll(I) : null;
     };
-    async function Zr(T, I, G) {
-      return T[I].apply(T, G);
+    async function Zr(R, I, G) {
+      return R[I].apply(R, G);
     }
-    const xc = (T) => {
-      Ui(T);
-    }, Ui = async (T) => {
-      if (T.key == "Enter" || T.key == "Tab") {
-        if (T.key == "Enter" && T.target.tagName == "TEXTAREA")
+    const xc = (R) => {
+      Ui(R);
+    }, Ui = async (R) => {
+      if (R.key == "Enter" || R.key == "Tab") {
+        if (R.key == "Enter" && R.target.tagName == "TEXTAREA")
           return;
-        T.preventDefault(), T.stopPropagation();
-        var I = Ic(T.target), G = T.shiftKey ? Ll(I) : Yr(I);
-        Oc(T, G);
+        R.preventDefault(), R.stopPropagation();
+        var I = Ic(R.target), G = R.shiftKey ? Ll(I) : Yr(I);
+        Oc(R, G);
       }
-    }, Oc = async (T, I) => {
+    }, Oc = async (R, I) => {
       if (I)
         if (I.firstElementChild.classList.contains("readonly") && (I = Yr(I)), I.firstElementChild.classList.contains("boolean") && (I = Yr(I)), I.firstElementChild.classList.contains("autocomplete") && (I.firstElementChild.firstElementChild.tagName == "SPAN" && await Zr(I, "click"), I = I.firstElementChild.firstElementChild, I.select()), (I.firstElementChild.classList.contains("date") || I.firstElementChild.classList.contains("datetime")) && (I = I.firstElementChild.firstElementChild.firstElementChild, I.focus()), I.firstElementChild.classList.contains("select"))
           I.firstElementChild.firstElementChild.tagName == "SPAN" && await Zr(I, "click"), I = I.firstElementChild.firstElementChild.nextElementSibling, Zr(I, "click");
@@ -45121,10 +45121,10 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
           const G = I.querySelector("input, textarea");
           G && (G.focus(), G.select());
         }
-    }, Jr = R(!1), Wn = R({}), An = R(null), Po = R(null), _i = R(""), Xr = R([]), Ml = (T, I, G) => {
-      if (An.value = T, Po.value = I, _i.value = G, Wn.value = {}, Xr.value = [], T.modal_form && T.modal_form.fields)
-        for (let M in T.modal_form.fields) {
-          let ie = { ...T.modal_form.fields[M] };
+    }, Jr = T(!1), Wn = T({}), An = T(null), Po = T(null), _i = T(""), Xr = T([]), Ml = (R, I, G) => {
+      if (An.value = R, Po.value = I, _i.value = G, Wn.value = {}, Xr.value = [], R.modal_form && R.modal_form.fields)
+        for (let M in R.modal_form.fields) {
+          let ie = { ...R.modal_form.fields[M] };
           ie.field = M, ie.label || (ie.label = M), ie.type || (ie.type = "text"), Xr.value.push(ie), ie.default !== void 0 ? Wn.value[M] = ie.default : I && I[M] !== void 0 && (Wn.value[M] = I[M]);
         }
       Jr.value = !0;
@@ -45132,7 +45132,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
       Jr.value = !1, An.value = null, Po.value = null, Wn.value = {}, Xr.value = [];
     }, Pc = async () => {
       if (!An.value) return;
-      let T = ce(), I = { ...Wn.value, filters: T };
+      let R = ce(), I = { ...Wn.value, filters: R };
       _i.value === "row" && Po.value ? (I = { ...Po.value, ...I }, se.value && se.value.length > 0 && (I.data_fields_values = [re(Po.value)])) : _i.value === "head" && (se.value && se.value.length > 0 && Qe.value && Qe.value.length > 0 ? I.data_fields_values = Qe.value.map((G) => re(G)) : Qe.value && Qe.value.length > 0 && (I.ids = Qe.value.map((G) => G.id).join(",")));
       try {
         const G = await o.action(An.value.action, I);
@@ -45140,7 +45140,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
       } catch (G) {
         console.log("error", G), a("error", { detail: G.message });
       }
-    }, Rc = async (T) => {
+    }, Rc = async (R) => {
       try {
         let I = ce();
         const G = new URLSearchParams({
@@ -45152,7 +45152,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
         console.log("error", I), a("error", { detail: I.message });
       }
     };
-    return (T, I) => {
+    return (R, I) => {
       const G = V("PVTables", !0);
       return u(), m($, null, [
         b("div", u7, [
@@ -45599,7 +45599,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
   __name: "PVTab",
   setup(t) {
     console.log("PVTabsConfigs", PVTabsConfigs);
-    const e = R(PVTabsConfigs), n = R(!1);
+    const e = T(PVTabsConfigs), n = T(!1);
     return n.value = !!e, (r, i) => (u(), m($, null, [
       n.value ? (u(), m("div", y7, [
         x(Dr, {
@@ -46138,7 +46138,7 @@ const wi = (function() {
   }),
   emits: /* @__PURE__ */ Nt(["update:id", "set-value"], ["update:id"]),
   setup(t, { emit: e }) {
-    const n = Hn(t, "id"), r = t, i = $t(r.table), o = e, { notify: a } = Lt(), s = R({});
+    const n = Hn(t, "id"), r = t, i = $t(r.table), o = e, { notify: a } = Lt(), s = T({});
     xn(async () => {
       if (Number(n.value) == 0 && Number(r.options.default) > 0 && (n.value = r.options.default), r.options && Array.isArray(r.options.rows) && r.options.rows.length) {
         const [y] = r.options.rows.filter((v) => n.value == v.id);
@@ -46155,7 +46155,7 @@ const wi = (function() {
           a("error", { detail: y.message });
         }
     });
-    const d = R(""), l = R([]), c = async ({ query: y }) => {
+    const d = T(""), l = T([]), c = async ({ query: y }) => {
       try {
         const v = await i.autocomplete({ query: y, parent: r.parent });
         l.value = v.data.rows;
@@ -46218,7 +46218,7 @@ const wi = (function() {
 }, gO = { key: 0 }, bO = { key: 1 }, yO = {
   __name: "PVTable",
   setup(t) {
-    const e = R(PVTableConfigTable), n = R(!1);
+    const e = T(PVTableConfigTable), n = T(!1);
     return n.value = !!PVTableConfigTable, (r, i) => (u(), m($, null, [
       n.value ? (u(), m("div", gO, [
         (u(), w(vi, {
@@ -46275,10 +46275,10 @@ const wi = (function() {
   }),
   emits: ["update:modelValue"],
   setup(t) {
-    const e = Hn(t, "modelValue"), n = t, { notify: r } = Lt(), i = R(!1), o = () => {
+    const e = Hn(t, "modelValue"), n = t, { notify: r } = Lt(), i = T(!1), o = () => {
       const ae = document.querySelector("html");
       i.value = !i.value, ae.classList.toggle("my-app-dark");
-    }, a = R(), s = () => {
+    }, a = T(), s = () => {
       let ae = {};
       for (let de in n.fields)
         if (n.filters.hasOwnProperty(de))
@@ -46338,11 +46338,11 @@ const wi = (function() {
       a.value[ae.field].constraints[0].value = ae.default;
     }, l = async () => {
       s();
-    }, c = R(), f = R(!0), g = R(0);
-    R(0);
-    const p = R({}), y = R([{ field: "id", label: "ID" }]);
-    let v = R([]);
-    const k = R(!1), P = R([]), S = R({}), E = R({});
+    }, c = T(), f = T(!0), g = T(0);
+    T(0);
+    const p = T({}), y = T([{ field: "id", label: "ID" }]);
+    let v = T([]);
+    const k = T(!1), P = T([]), S = T({}), E = T({});
     let L = {};
     qt(() => {
       f.value = !0, p.value = {
@@ -46397,7 +46397,7 @@ const wi = (function() {
         r("error", { detail: ae.message }, !0);
       }
     });
-    const J = R({}), oe = R({}), W = R({}), _ = R({}), U = async (ae) => {
+    const J = T({}), oe = T({}), W = T({}), _ = T({}), U = async (ae) => {
       J.value = { ...ae };
     }, q = async (ae, de) => {
       let We = { ...J.value };
@@ -46442,12 +46442,12 @@ const wi = (function() {
           }
       }
       J.value = { ...We };
-    }, ee = R({}), Me = R({});
+    }, ee = T({}), Me = T({});
     uc();
     const Pe = async (ae) => {
       let { data: de, newValue: We, field: Y } = ae;
       de[Y] = We;
-    }, Le = R({}), Be = R(!1), Ye = R(!1), te = (ae) => {
+    }, Le = T({}), Be = T(!1), Ye = T(!1), te = (ae) => {
       Le.value = { ...ae }, Ye.value = !0;
     }, le = () => {
       Ye.value = !1, Be.value = !1;
@@ -46477,7 +46477,7 @@ const wi = (function() {
       return de;
     }, Ee = () => {
       Le.value = {}, Be.value = !1, Ye.value = !0;
-    }, Ue = R(!1), lt = R(!1), rt = (ae) => {
+    }, Ue = T(!1), lt = T(!1), rt = (ae) => {
       Le.value = ae, Ue.value = !0;
     }, Bt = async () => {
       try {
@@ -46497,7 +46497,7 @@ const wi = (function() {
       } catch (ae) {
         r("error", { detail: ae.message });
       }
-    }, dt = R(), ne = R(!1), ye = (ae) => {
+    }, dt = T(), ne = T(!1), ye = (ae) => {
       ne.value = ae.checked, ne.value ? (ne.value = !0, dt.value = e.value) : (ne.value = !1, dt.value = []);
     }, F = () => {
       ne.value = dt.value.length === g.value;
@@ -46506,7 +46506,7 @@ const wi = (function() {
     }, X = (ae) => {
       if (Me.value[ae.id] && Me.value[ae.id].class)
         return Me.value[ae.id].class;
-    }, ge = (ae) => ae.type, ve = R({}), Ce = (ae, de) => !!(ve.value[ae.id] && ve.value[ae.id][de] && ve.value[ae.id][de].readonly == 1), st = (ae, de) => {
+    }, ge = (ae) => ae.type, ve = T({}), Ce = (ae, de) => !!(ve.value[ae.id] && ve.value[ae.id][de] && ve.value[ae.id][de].readonly == 1), st = (ae, de) => {
       let We = "td-body " + ae.type, Y = !1;
       return ve.value[de.id] && ve.value[de.id][ae.field] && ve.value[de.id][ae.field].readonly == 1 && (Y = !0), ae.readonly || Y ? We + " readonly" : We;
     };
@@ -47307,7 +47307,7 @@ const _O = { class: "tree-container" }, GO = {
     }
   },
   setup(t) {
-    const e = R(), n = R(), r = R(20), i = R({}), o = R(""), a = R(""), s = R(""), d = R({}), l = (g) => {
+    const e = T(), n = T(), r = T(20), i = T({}), o = T(""), a = T(""), s = T(""), d = T({}), l = (g) => {
       i.value = g.tabs, o.value = g.node.data.target_id ? g.node.data.target_id : g.node.data.id, a.value = g.node.data.class, s.value = "", g.label && (s.value = g.label + ": "), s.value += g.node.title, d.value = g.subfilters;
     }, c = (g) => {
       e.value.refresh(!0, g.uniTreeTable);
@@ -48541,7 +48541,7 @@ const d9 = { key: 0 }, c9 = ["innerHTML"], p9 = { class: "ml-2" }, f9 = {
   },
   emits: ["menu-click"],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = R(!0), o = $t(r.table), { notify: a } = Lt(), s = R([]), d = R({});
+    const r = t, i = T(!0), o = $t(r.table), { notify: a } = Lt(), s = T([]), d = T({});
     qt(async () => {
       await l();
     });
@@ -54033,7 +54033,7 @@ function eR() {
   }), uo = [];
 }
 function tR(t, e) {
-  var n = R(!1), r = function() {
+  var n = T(!1), r = function() {
     if (!at.isStyleNameLoaded("common")) {
       var l, c, f = ((l = Oe.getCommonTheme) === null || l === void 0 ? void 0 : l.call(Oe)) || {}, g = f.primitive, p = f.semantic, y = {
         nonce: (c = e.config) === null || c === void 0 || (c = c.csp) === null || c === void 0 ? void 0 : c.nonce
