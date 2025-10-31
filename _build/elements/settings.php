@@ -193,10 +193,7 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id",
-                        "edit":{
-                          "type":"view"
-                        }
+                        "label": "id"
                       },
                       "table_id": {
                         "label": "Дерево АПИ",
@@ -283,9 +280,7 @@ return [
               "autosave": 1,
               "row": {
                 "id": {
-                  "edit":{
-                    "type":"view"
-                  }
+                  "label":"ID"
                 },
                 "package_id": {
                   "label": "Пакет",
@@ -379,9 +374,7 @@ return [
               "autosave": 1,
               "row": {
                 "id": {
-                  "edit":{
-                    "type":"view"
-                  }
+                  "label":"ID"
                 },
                 "name": {
                   "label": "Имя",
@@ -414,9 +407,7 @@ return [
               "autosave": 1,
               "row": {
                 "id": {
-                  "edit":{
-                    "type":"view"
-                  }
+                  "label":"ID"
                 },
                 "field": {
                   "label": "Имя поля",
@@ -473,10 +464,7 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id",
-                        "edit":{
-                          "type":"view"
-                        }
+                        "label": "id"
                       },
                       "table_field_id": {
                         "type": "hidden"
@@ -500,9 +488,7 @@ return [
               "autosave": 1,
               "row": {
                 "id": {
-                  "edit":{
-                    "type":"view"
-                  }
+                  "label":"ID"
                 },
                 "name_table": {
                   "label": "Имя таблицы добавить допполя",
@@ -584,10 +570,7 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id",
-                        "edit":{
-                          "type":"view"
-                        }
+                        "label": "id"
                       },
                       "group_field_id": {
                         "type": "hidden"
@@ -621,10 +604,7 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id",
-                        "edit":{
-                          "type":"view"
-                        }
+                        "label": "id"
                       },
                       "group_field_id": {
                         "type": "hidden"
@@ -648,9 +628,7 @@ return [
               "autosave": 1,
               "row": {
                 "id": {
-                  "edit":{
-                    "type":"view"
-                  }
+                  "label":"ID"
                 },
                 "name": {
                   "label": "Имя группы допполей",
@@ -727,9 +705,7 @@ return [
               "autosave": 1,
               "row": {
                 "id": {
-                  "edit":{
-                    "type":"view"
-                  }
+                  "label":"ID"
                 },
                 "title": {
                   "label": "Название",
@@ -854,10 +830,7 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id",
-                        "edit":{
-                          "type":"view"
-                        }
+                        "label": "id"
                       },
                       "rule_id": {
                         "label": "Правило АПИ",
@@ -947,9 +920,7 @@ return [
               "autosave": 1,
               "row": {
                 "id": {
-                  "edit":{
-                    "type":"view"
-                  }
+                  "label":"ID"
                 },
                 "point": {
                   "label": "Точка монтирования",
