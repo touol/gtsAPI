@@ -193,7 +193,10 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id"
+                        "label": "id",
+                        "edit":{
+                          "type":"view"
+                        }
                       },
                       "table_id": {
                         "label": "Дерево АПИ",
@@ -279,7 +282,11 @@ return [
               "checkbox": 1,
               "autosave": 1,
               "row": {
-                "id": {},
+                "id": {
+                  "edit":{
+                    "type":"view"
+                  }
+                },
                 "package_id": {
                   "label": "Пакет",
                   "edit": {
@@ -371,7 +378,11 @@ return [
               "checkbox": 1,
               "autosave": 1,
               "row": {
-                "id": {},
+                "id": {
+                  "edit":{
+                    "type":"view"
+                  }
+                },
                 "name": {
                   "label": "Имя",
                   "filter": 1
@@ -402,7 +413,11 @@ return [
               "checkbox": 1,
               "autosave": 1,
               "row": {
-                "id": {},
+                "id": {
+                  "edit":{
+                    "type":"view"
+                  }
+                },
                 "field": {
                   "label": "Имя поля",
                   "filter": 1
@@ -458,7 +473,10 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id"
+                        "label": "id",
+                        "edit":{
+                          "type":"view"
+                        }
                       },
                       "table_field_id": {
                         "type": "hidden"
@@ -481,7 +499,11 @@ return [
               "checkbox": 1,
               "autosave": 1,
               "row": {
-                "id": {},
+                "id": {
+                  "edit":{
+                    "type":"view"
+                  }
+                },
                 "name_table": {
                   "label": "Имя таблицы добавить допполя",
                   "filter": 1
@@ -562,7 +584,10 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id"
+                        "label": "id",
+                        "edit":{
+                          "type":"view"
+                        }
                       },
                       "group_field_id": {
                         "type": "hidden"
@@ -596,7 +621,10 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id"
+                        "label": "id",
+                        "edit":{
+                          "type":"view"
+                        }
                       },
                       "group_field_id": {
                         "type": "hidden"
@@ -619,7 +647,11 @@ return [
               "checkbox": 1,
               "autosave": 1,
               "row": {
-                "id": {},
+                "id": {
+                  "edit":{
+                    "type":"view"
+                  }
+                },
                 "name": {
                   "label": "Имя группы допполей",
                   "filter": 1
@@ -694,7 +726,11 @@ return [
               "checkbox": 0,
               "autosave": 1,
               "row": {
-                "id": [],
+                "id": {
+                  "edit":{
+                    "type":"view"
+                  }
+                },
                 "title": {
                   "label": "Название",
                   "filter": 1
@@ -818,7 +854,10 @@ return [
                   "row": {
                     "cols": {
                       "id": {
-                        "label": "id"
+                        "label": "id",
+                        "edit":{
+                          "type":"view"
+                        }
                       },
                       "rule_id": {
                         "label": "Правило АПИ",
@@ -907,7 +946,11 @@ return [
               "checkbox": 1,
               "autosave": 1,
               "row": {
-                "id": {},
+                "id": {
+                  "edit":{
+                    "type":"view"
+                  }
+                },
                 "point": {
                   "label": "Точка монтирования",
                   "filter": 1
