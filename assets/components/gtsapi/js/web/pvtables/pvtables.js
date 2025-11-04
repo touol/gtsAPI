@@ -21896,7 +21896,7 @@ const {
         }
     };
     return (U, q) => t.styleShow ? (u(), m("span", a0, [
-      r.value ? (u(), m("span", l0, B(i.value), 1)) : (u(), m("span", s0, B(n.value), 1)),
+      r.value ? (u(), m("span", l0, B(i.value), 1)) : t.field.hide_id ? C("", !0) : (u(), m("span", s0, B(n.value), 1)),
       Ie(" " + B(g.value.content), 1)
     ])) : (u(), w(A(Co), {
       key: 1,
@@ -21912,7 +21912,7 @@ const {
           onKeydown: Fe(oe, ["enter"]),
           class: "gts-ac__id-field pv_show_id",
           disabled: t.disabled
-        }, null, 8, ["modelValue", "disabled"])) : (u(), w(A(ct), {
+        }, null, 8, ["modelValue", "disabled"])) : t.field.hide_id ? C("", !0) : (u(), w(A(ct), {
           key: 1,
           modelValue: n.value,
           "onUpdate:modelValue": q[1] || (q[1] = (ee) => n.value = ee),
@@ -44874,7 +44874,7 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
       };
       try {
         const M = await o.read(G);
-        if (W.value = s7(M.data.rows, oe), !M.success && M.message && a("error", { detail: M.message }), M.data.autocomplete)
+        if (W.value = [...s7(M.data.rows, oe)], !M.success && M.message && a("error", { detail: M.message }), M.data.autocomplete)
           for (let ie in M.data.autocomplete)
             H.value[ie] = M.data.autocomplete[ie];
         M.data.row_setting && (X.value = M.data.row_setting), M.data.customFields && (ge.value = M.data.customFields), S.value = M.data.total, P.value = !1;
