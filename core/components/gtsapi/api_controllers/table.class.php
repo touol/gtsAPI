@@ -1132,7 +1132,7 @@ class tableAPIController{
                 if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
                 $readRequest['filters'] = $request['filters'];
             }
-            $readResp = $this->read($rule, $readRequest, null);
+            $readResp = $this->read($rule, $readRequest, null, [], 'create');
             if($readResp['success'] && !empty($readResp['data']['rows'])){
                 $resp['data']['object'] = $readResp['data']['rows'][0];
             } else {
@@ -1362,7 +1362,7 @@ class tableAPIController{
                     if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
                     $readRequest['filters'] = $request['filters'];
                 }
-                $readResp = $this->read($rule, $readRequest, null);
+                $readResp = $this->read($rule, $readRequest, null, [], 'update');
                 
                 if($readResp['success'] && !empty($readResp['data']['rows'])){
                     $resp['data']['object'] = $readResp['data']['rows'][0];
@@ -1385,7 +1385,7 @@ class tableAPIController{
         }
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
-    public function read($rule,$request,$action, $where = []){
+    public function read($rule,$request,$action, $where = [], $internal_action = ''){
         if(isset($rule['properties']['actions']['read']['custom'])){
             $custom_action = explode('/',$rule['properties']['actions']['read']['custom']);
             if(count($custom_action) == 2 and isset($this->models[strtolower($custom_action[0])])){
@@ -1396,7 +1396,7 @@ class tableAPIController{
                 }
             }
         }
-        $resp = $this->run_triggers($rule, 'before', 'read', $request);
+        $resp = $this->run_triggers($rule, 'before', 'read', $request, [], [], null, $internal_action);
         if(!$resp['success']) return $resp;
         
         $parents = 0;
@@ -1604,7 +1604,7 @@ class tableAPIController{
         if(!empty($rule['properties']['slTree'])){
             $out['slTree'] = $this->getslTree($rule['properties']['slTree'],$rows0,$parents);
         }
-        $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
+        $resp = $this->run_triggers($rule, 'after', 'read', $request, $out, [], null, $internal_action);
         
         if(!$resp['success']) return $resp;
         
@@ -2031,7 +2031,7 @@ class tableAPIController{
         // $this->modx->log(1,"getService $package "."test2!".print_r(array_keys($this->models),1));
         return $this->success();
     }
-    public function run_triggers($rule, $type, $method, $fields, $object_old = [], &$object_new =[], $object = null)
+    public function run_triggers($rule, $type, $method, $fields, $object_old = [], &$object_new =[], $object = null, $internal_action = '')
     {
         $class = $rule['class'];
         if(empty($class)) return $this->success('Выполнено успешно');
@@ -2046,6 +2046,7 @@ class tableAPIController{
             'object_old'=>$object_old,
             'object_new'=>$object_new,
             'object'=>$object,
+            'internal_action'=>$internal_action,
         ]);
         if (is_array($gtsAPIRunTriggers)) {
             $canSave = false;
@@ -2078,6 +2079,7 @@ class tableAPIController{
                         'object_new'=>&$object_new,
                         'object'=>&$object,
                         'trigger'=>'gtsapifunc',
+                        'internal_action'=>$internal_action,
                     ];
                     // $this->modx->log(1,'gtsAPI run '.$triggers[$class]['gtsapifunc']);
                     return  $service->{$triggers[$class]['gtsapifunc']}($params);
