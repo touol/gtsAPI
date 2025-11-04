@@ -1396,7 +1396,9 @@ class tableAPIController{
                 }
             }
         }
-        $resp = $this->run_triggers($rule, 'before', 'read', $request, [], [], null, $internal_action);
+        $object_new =[];
+        $resp = $this->run_triggers($rule, 'before', 'read', $request, [], $object_new, null, $internal_action);
+        // public function run_triggers($rule, $type, $method, $fields, $object_old = [], &$object_new =[], $object = null, $internal_action = '')
         if(!$resp['success']) return $resp;
         
         $parents = 0;
@@ -1604,7 +1606,7 @@ class tableAPIController{
         if(!empty($rule['properties']['slTree'])){
             $out['slTree'] = $this->getslTree($rule['properties']['slTree'],$rows0,$parents);
         }
-        $resp = $this->run_triggers($rule, 'after', 'read', $request, $out, [], null, $internal_action);
+        $resp = $this->run_triggers($rule, 'after', 'read', $request, $out, $object_new, null, $internal_action);
         
         if(!$resp['success']) return $resp;
         
