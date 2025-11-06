@@ -1087,11 +1087,15 @@ class tableAPIController{
 
         if($obj->save()){
             $object = $obj->toArray();
-            //class link Редактирование 2 таблиц одновременно
-            if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
-                if(isset($request['filters']['insert_menu_id'])){
+                //class link Редактирование 2 таблиц одновременно
+                if(isset($request['filters'])){
+                    if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
+                }
+                if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
+                    // $this->modx->log(1, 'gtsAPI create class_link: ' . print_r($rule['properties']['class_link'], 1));
+                    if(isset($request['filters']['insert_menu_id'])){
                     $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
-                    unset($request['filters']['insert_menu_id']);
+                    // unset($request['filters']['insert_menu_id']);
                     foreach($rule['properties']['class_link'] as $class=>$class_link){
                         foreach($class_link as $field=>$v){
                             if($v == 'insert_menu_id'){
@@ -1100,6 +1104,7 @@ class tableAPIController{
                         }
                     }
                 }
+                // $this->modx->log(1, 'gtsAPI create class_link2: ' . print_r($rule['properties']['class_link'], 1));
                 foreach($rule['properties']['class_link'] as $class=>$class_link){
                     if(!empty($set_data[$class])){
                         $search = [];
@@ -1128,10 +1133,7 @@ class tableAPIController{
 
             $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old,$object,$obj);
             $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
-            if(isset($request['filters'])){
-                if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
-                $readRequest['filters'] = $request['filters'];
-            }
+            $readRequest['filters'] = $request['filters'];
             $readResp = $this->read($rule, $readRequest, null, [], 'create');
             if($readResp['success'] && !empty($readResp['data']['rows'])){
                 $resp['data']['object'] = $readResp['data']['rows'][0];
@@ -1235,49 +1237,8 @@ class tableAPIController{
                         }
                     }
                 }
-                if(!empty($rule['properties']['class_link'])){
-                    if(isset($request['filters']['insert_menu_id'])){
-                        $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
-                        unset($request['filters']['insert_menu_id']);
-                        foreach($rule['properties']['class_link'] as $class=>$class_link){
-                            foreach($class_link as $field=>$v){
-                                if($v == 'insert_menu_id'){
-                                    $rule['properties']['class_link'][$class][$field] = $insert_menu_id;
-                                }
-                            }
-                        }
-                    }
-                    // foreach($rule['properties']['class_link'] as $class=>$class_link){
-                    //     if(!isset($set_data[$class])) continue;
-                    //     $search = [];
-                    //     foreach($class_link as $field=>$v){
-                    //         if(isset($object[$v])){ //$object нет переменной такой еще
-                    //             $search[$field] = $object[$v];
-                    //         }else if(is_numeric($v)){
-                    //             $search[$field] = $v;
-                    //         }
-                    //     }
-                    //     // Логируем запрос к связанной таблице
-                    //     $this->modx->log(1, 'gtsAPI update class_link getObject: class=' . $class . ', search=' . print_r($search, 1));
-                    //     $timeGetObject = microtime(true);
-                    //     if(!empty($ext_fields) and $link_obj = $this->modx->getObject($class,$search)){
-                    //         $timings['class_link_getObject_' . $class] = round((microtime(true) - $timeGetObject) * 1000, 2);
-                    //         foreach($ext_fields as $field=>$class2){
-                    //             if($class == $class2){
-                    //                 if(is_array($link_obj->{$field})){
-                    //                     $arr = $link_obj->{$field};
-                    //                 }else if(is_string($link_obj->{$field})){
-                    //                     $arr = json_decode($link_obj->{$field});
-                    //                 }
-                    //                 if(is_array($arr)){
-                    //                     $set_data[$class2][$field] = array_merge($arr,$set_data[$class2][$field]);
-                    //                 }
-                    //                 $set_data[$class2][$field] = json_encode($set_data[$class2][$field]);
-                    //             }
-                    //         }
-                    //     }
-                    // }
-                }
+                
+                
                 foreach($ext_fields as $field=>$class){
                     if($class == $rule['class']){
                         if(is_array($object_old[$field])){
@@ -1298,7 +1259,23 @@ class tableAPIController{
             // $this->modx->log(1,"table".print_r($set_data[$rule['class']],1));
             $object = $obj->fromArray($set_data[$rule['class']]);
             $object_new = $obj->toArray();
-            
+            if(isset($request['filters'])){
+                if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
+            }
+            if(!empty($rule['properties']['class_link'])){
+                // $this->modx->log(1, 'gtsAPI create class_link1: !'.print_r($request['filters'],1).'!' . print_r($rule['properties']['class_link'], 1));
+                if(isset($request['filters']['insert_menu_id'])){
+                    // $this->modx->log(1, 'gtsAPI create class_link: ' . print_r($rule['properties']['class_link'], 1));
+                    $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
+                    foreach($rule['properties']['class_link'] as $class=>$class_link){
+                        foreach($class_link as $field=>$v){
+                            if($v == 'insert_menu_id'){
+                                $rule['properties']['class_link'][$class][$field] = $insert_menu_id;
+                            }
+                        }
+                    }
+                }
+            }
             //class link Редактирование 2 таблиц одновременно
             if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
                 foreach($rule['properties']['class_link'] as $class=>$class_link){
@@ -1319,6 +1296,7 @@ class tableAPIController{
                 
                 //class link Редактирование 2 таблиц одновременно
                 if(!empty($rule['properties']['fields']) and !empty($rule['properties']['class_link'])){
+                    // $this->modx->log(1, 'gtsAPI create class_link2: ' . print_r($rule['properties']['class_link'], 1));
                     foreach($rule['properties']['class_link'] as $class=>$class_link){
                         if(!empty($set_data[$class])){
                             $search = [];
@@ -1336,7 +1314,7 @@ class tableAPIController{
                                     $search[$field] = $v;
                                 }
                             }
-                            
+                            // $this->modx->log(1, 'gtsAPI create search: ' . print_r($search, 1).print_r($set_data[$class],1));
                             if(empty($search)) continue;
                             if(!$link_obj = $this->modx->getObject($class,$search)){
                                 $link_obj = $this->modx->newObject($class,$search);
@@ -1359,7 +1337,6 @@ class tableAPIController{
 
                 $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
                 if(isset($request['filters'])){
-                    if(is_string($request['filters'])) $request['filters'] = json_decode($request['filters'],1);
                     $readRequest['filters'] = $request['filters'];
                 }
                 $readResp = $this->read($rule, $readRequest, null, [], 'update');
