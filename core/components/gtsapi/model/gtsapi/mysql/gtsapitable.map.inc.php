@@ -11,6 +11,7 @@ $xpdo_meta_map['gtsAPITable']= array (
   'fields' => 
   array (
     'package_id' => 0,
+    'install_package' => '',
     'table' => NULL,
     'class' => '',
     'tree' => 0,
@@ -33,6 +34,14 @@ $xpdo_meta_map['gtsAPITable']= array (
       'phptype' => 'integer',
       'null' => true,
       'default' => 0,
+    ),
+    'install_package' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '161',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
     ),
     'table' => 
     array (
@@ -132,6 +141,22 @@ $xpdo_meta_map['gtsAPITable']= array (
       'columns' => 
       array (
         'package_id' => 
+        array (
+          'length' => '',
+          'collation' => 'A',
+          'null' => false,
+        ),
+      ),
+    ),
+    'install_package' => 
+    array (
+      'alias' => 'install_package',
+      'primary' => false,
+      'unique' => false,
+      'type' => 'BTREE',
+      'columns' => 
+      array (
+        'install_package' => 
         array (
           'length' => '',
           'collation' => 'A',

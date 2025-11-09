@@ -228,7 +228,7 @@ return [
                     "tabs": {
                       "main": {
                         "label": "main",
-                        "fields": "id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
+                        "fields": "id,package_id,install_package,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
                       },
                       "properties": {
                         "label": "properties",
@@ -242,7 +242,7 @@ return [
                     "tabs": {
                       "main": {
                         "label": "main",
-                        "fields": "id,package_id,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
+                        "fields": "id,package_id,install_package,table,class,autocomplete_field,authenticated,groups,permitions,version,active"
                       },
                       "properties": {
                         "label": "properties",
@@ -287,6 +287,13 @@ return [
                   "edit": {
                     "type": "select",
                     "select": "gtsAPIPackage"
+                  },
+                  "filter": 1
+                },
+                "install_package": {
+                  "label": "Пакет установки",
+                  "edit": {
+                    "type": "text"
                   },
                   "filter": 1
                 },

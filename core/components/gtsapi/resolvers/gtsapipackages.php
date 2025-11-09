@@ -31,6 +31,7 @@ if ($transport->xpdo) {
                                             $gtsAPITable->fromArray(array_merge([
                                             ], $table), '', true, true);
                                             $gtsAPITable->package_id = $gtsAPIPackage->id;
+                                            $gtsAPITable->install_package = $options['namespace'];
                                             $gtsAPITable->save();
                                         }
                                     }else{
@@ -38,6 +39,7 @@ if ($transport->xpdo) {
                                             $gtsAPITable->fromArray(array_merge([
                                             ], $table), '', true, true);
                                             $gtsAPITable->package_id = $gtsAPIPackage->id;
+                                            $gtsAPITable->install_package = $options['namespace'];
                                             $gtsAPITable->save();
                                         }
                                     }

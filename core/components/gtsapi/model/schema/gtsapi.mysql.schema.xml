@@ -78,6 +78,7 @@
     </object>
     <object class="gtsAPITable" table="gtsapi_tables" extends="xPDOSimpleObject">
         <field key="package_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+        <field key="install_package" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
         
         <field key="table" dbtype="varchar" precision="161" phptype="string" null="false"/>
         <field key="class" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
@@ -96,6 +97,9 @@
 
         <index alias="package_id" name="package_id" primary="false" unique="false" type="BTREE">
             <column key="package_id" length="" collation="A" null="false"/>
+        </index>
+        <index alias="install_package" name="install_package" primary="false" unique="false" type="BTREE">
+            <column key="install_package" length="" collation="A" null="false"/>
         </index>
         <index alias="table" name="table" primary="false" unique="true" type="BTREE">
             <column key="table" length="" collation="A" null="false"/>
