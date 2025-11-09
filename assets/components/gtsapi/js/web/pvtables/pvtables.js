@@ -44412,8 +44412,9 @@ const sc = /* @__PURE__ */ ot(Dx, [["render", i7], ["__scopeId", "data-v-b8be86b
                   }, null, 8, ["title", "parent-id", "parent-class", "list-name"])) : k.type == "component" ? (u(), w(N(s(k.name_component)), {
                     key: 5,
                     parent_row: t.parent_row,
-                    "parent-id": t.current_id
-                  }, null, 8, ["parent_row", "parent-id"])) : k.type == "tables" ? (u(!0), m($, { key: 6 }, be(k.tables, (P) => (u(), w(vi, {
+                    "parent-id": t.current_id,
+                    filters: t.filters[k.key]
+                  }, null, 8, ["parent_row", "parent-id", "filters"])) : k.type == "tables" ? (u(!0), m($, { key: 6 }, be(k.tables, (P) => (u(), w(vi, {
                     table: P.table,
                     actions: t.actions,
                     filters: t.filters[P.key],
