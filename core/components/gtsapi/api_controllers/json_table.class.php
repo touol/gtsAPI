@@ -326,7 +326,7 @@ class jsonTableAPIController extends tableAPIController{
         if(empty($request['filters'])) return $this->error('empty filters');
         $where = [];
         foreach($json_path['where'] as $k=>$v){
-            if(empty($request['filters'][$v])) continue;
+            if(!isset($request['filters'][$v])) continue;
             if(isset($request['filters'][$v]['constraints'])){
                 $where[$k] = $request['filters'][$v]['constraints'][0]['value'];
             }else if(isset($request['filters'][$v]['value'])){
