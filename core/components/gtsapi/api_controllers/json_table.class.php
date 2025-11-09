@@ -20,7 +20,8 @@ class jsonTableAPIController extends tableAPIController{
             $rows0 = $rows2 = $resp['data']['where']['json'];
             $keys = [];
             if(!empty($rule['properties']['json_path']['key'])){
-                $keys = explode('.',$rule['properties']['json_path']['key']);
+                $key_path = $this->replaceKeyPlaceholders($rule['properties']['json_path']['key'], $request);
+                $keys = explode('.', $key_path);
                 foreach($keys as $key){
                     if(isset($rows0[$key]) and !empty($rows0[$key])){
                         $rows0 = $rows0[$key];
@@ -73,7 +74,8 @@ class jsonTableAPIController extends tableAPIController{
         $rows0 = $rows2 = $resp['data']['json'];
         $keys = [];
         if(!empty($rule['properties']['json_path']['key'])){
-            $keys = explode('.',$rule['properties']['json_path']['key']);
+            $key_path = $this->replaceKeyPlaceholders($rule['properties']['json_path']['key'], $request);
+            $keys = explode('.', $key_path);
             foreach($keys as $key){
                 if(isset($rows0[$key]) and !empty($rows0[$key])){
                     $rows0 = $rows0[$key];
@@ -155,7 +157,8 @@ class jsonTableAPIController extends tableAPIController{
         $rows0 = $rows2 = $resp['data']['json'];
         $keys = [];
         if(!empty($rule['properties']['json_path']['key'])){
-            $keys = explode('.',$rule['properties']['json_path']['key']);
+            $key_path = $this->replaceKeyPlaceholders($rule['properties']['json_path']['key'], $request);
+            $keys = explode('.', $key_path);
             foreach($keys as $key){
                 if(isset($rows0[$key]) and !empty($rows0[$key])){
                     $rows0 = $rows0[$key];
@@ -226,7 +229,7 @@ class jsonTableAPIController extends tableAPIController{
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
     
-    public function read($rule,$request,$action, $where = []){
+    public function read($rule,$request,$action, $where = [], $internal_action = ''){
         $resp = $this->run_triggers($rule, 'before', 'read', $request);
         if(!$resp['success']) return $resp;
         $resp = $this->getJSON($rule,$request);
@@ -240,7 +243,8 @@ class jsonTableAPIController extends tableAPIController{
 
         $rows0 = $resp['data']['json'];
         if(!empty($rule['properties']['json_path']['key'])){
-            $keys = explode('.',$rule['properties']['json_path']['key']);
+            $key_path = $this->replaceKeyPlaceholders($rule['properties']['json_path']['key'], $request);
+            $keys = explode('.', $key_path);
             foreach($keys as $key){
                 if(isset($rows0[$key]) and !empty($rows0[$key])){
                     $rows0 = $rows0[$key];
@@ -334,21 +338,58 @@ class jsonTableAPIController extends tableAPIController{
     }
     public function getJSON($rule,$request){
         $resp = $this->getJSONWhere($rule,$request);
+        // $this->modx->log(modX::LOG_LEVEL_ERROR, '[jsonTableAPIController::getJSON] Response error: ' . print_r($resp, true));
         if(!$resp['success']) return $resp;
+        
         if(!$obj = $this->modx->getObject($rule['class'],$resp['data'])){
             // return $this->error('not found object',$resp['data']);
             $obj = $this->modx->newObject($rule['class'],$resp['data']);
         }
         $json = $obj->get($rule['properties']['json_path']['field']);
+        // $this->modx->log(modX::LOG_LEVEL_ERROR, '[jsonTableAPIController::getJSON] $json ' . print_r($json, true));
         if(empty($json)){
             return $this->success('',['obj'=>$obj,'json'=>[]]);
         }else{
-            $json = json_decode($json,1);
+            if(!is_array($json)) $json = json_decode($json,1);
             if(!is_array($json)) return $this->success('',['obj'=>$obj,'json'=>[],'where'=>$resp['data']]);
             return $this->success('',['obj'=>$obj,'json'=>$json,'where'=>$resp['data']]);
         }
         return $this->error('not found object');
     }
+    /**
+     * Заменяет плейсхолдеры в формате {field_name} на значения из фильтров
+     * @param string $key_path Путь с плейсхолдерами, например 'reiki.{shina}'
+     * @param array $request Запрос с фильтрами
+     * @return string Путь с замененными значениями
+     */
+    protected function replaceKeyPlaceholders($key_path, $request){
+        if(empty($request['filters'])) return $key_path;
+        
+        // Находим все плейсхолдеры в формате {field_name}
+        preg_match_all('/\{([^}]+)\}/', $key_path, $matches);
+        
+        if(!empty($matches[1])){
+            foreach($matches[1] as $placeholder){
+                // Получаем значение из фильтров
+                $value = null;
+                if(isset($request['filters'][$placeholder])){
+                    if(isset($request['filters'][$placeholder]['constraints'])){
+                        $value = $request['filters'][$placeholder]['constraints'][0]['value'];
+                    }else if(isset($request['filters'][$placeholder]['value'])){
+                        $value = $request['filters'][$placeholder]['value'];
+                    }
+                }
+                
+                // Заменяем плейсхолдер на значение
+                if($value !== null){
+                    $key_path = str_replace('{'.$placeholder.'}', $value, $key_path);
+                }
+            }
+        }
+        
+        return $key_path;
+    }
+    
     public function php_filter_array_like_modx($row,$where){
         // $check = true;
         foreach($row as $fieldr=>$vr){
