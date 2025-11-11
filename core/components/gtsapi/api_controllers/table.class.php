@@ -133,6 +133,18 @@ class tableAPIController{
             }
         }
         
+        // Добавляем действие print если оно не отключено
+        if (!isset($rule['properties']['actions']['print']) || $rule['properties']['actions']['print'] !== false) {
+            if (!isset($rule['properties']['actions']['print'])) {
+                $rule['properties']['actions']['print'] = [
+                    'head' => true,
+                    'icon' => 'pi pi-print',
+                    'class' => 'p-button-rounded p-button-info',
+                    'label' => 'Печать'
+                ];
+            }
+        }
+        
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         $action = explode('/',$request['api_action']);
         if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
@@ -200,6 +212,9 @@ class tableAPIController{
             break;
             case 'excel_export':
                 return $this->excel_export($rule,$request);
+            break;
+            case 'print':
+                return $this->print($rule,$request);
             break;
             default:
                 $action = explode('/',$request['api_action']);
@@ -2426,6 +2441,235 @@ class tableAPIController{
         } catch (Exception $e) {
             return $this->error('Excel export error: ' . $e->getMessage());
         }
+    }
+
+    public function print($rule, $request) {
+        // Проверяем, включено ли действие print
+        if (isset($rule['properties']['actions']['print']) && $rule['properties']['actions']['print'] === false) {
+            return $this->error('Print is disabled');
+        }
+
+        try {
+            // Получаем поля
+            $fields = [];
+            if (!empty($rule['properties']['fields'])) {
+                $fields = $this->addFields($rule, $rule['properties']['fields'], 'read');
+            } else {
+                if ($rule['type'] == 1) $fields = $this->gen_fields($rule);
+            }
+
+            // Подготавливаем заголовки столбцов
+            $headers = [];
+            foreach ($fields as $fieldName => $fieldConfig) {
+                if (isset($fieldConfig['table_only']) && $fieldConfig['table_only']) continue;
+                
+                $label = $fieldConfig['label'] ?? $fieldName;
+                
+                // Обработка autocomplete полей
+                if (isset($fieldConfig['type']) && $fieldConfig['type'] === 'autocomplete') {
+                    $headers[] = [
+                        'field' => $fieldName,
+                        'label' => $label,
+                        'type' => 'autocomplete',
+                        'config' => $fieldConfig
+                    ];
+                } 
+                // Обработка multiautocomplete полей
+                else if (isset($fieldConfig['type']) && $fieldConfig['type'] === 'multiautocomplete') {
+                    if (isset($fieldConfig['search'])) {
+                        foreach ($fieldConfig['search'] as $searchField => $searchConfig) {
+                            $searchLabel = $searchConfig['label'] ?? $searchField;
+                            $headers[] = [
+                                'field' => $fieldName . '_' . $searchField,
+                                'label' => $label . ' - ' . $searchLabel,
+                                'type' => 'multiautocomplete',
+                                'config' => $searchConfig,
+                                'parent_field' => $fieldName,
+                                'search_field' => $searchField
+                            ];
+                        }
+                    }
+                } else {
+                    $headers[] = [
+                        'field' => $fieldName,
+                        'label' => $label,
+                        'type' => $fieldConfig['type'] ?? 'text'
+                    ];
+                }
+            }
+
+            // Получаем данные с limit = 0
+            $printRequest = $request;
+            $printRequest['limit'] = 0;
+            $printRequest['setTotal'] = true;
+            
+            $dataResponse = $this->read($rule, $printRequest, null);
+            if (!$dataResponse['success']) {
+                return $dataResponse;
+            }
+
+            $rows = $dataResponse['data']['rows'];
+            $autocompletes = $dataResponse['data']['autocomplete'] ?? [];
+
+            // Генерируем HTML
+            $html = $this->generatePrintHTML($rule, $headers, $rows, $autocompletes, $request);
+
+            // Проверяем is_virtual
+            $isVirtual = isset($request['is_virtual']) ? (int)$request['is_virtual'] : 0;
+
+            if ($isVirtual === 1) {
+                // Возвращаем HTML в браузер для генерации PDF
+                return $this->success('print', ['html' => $html]);
+            } else {
+                // Печатаем через PVPrint
+                $PVPrint = $this->modx->getService('PVPrint', 'PVPrint', 
+                    MODX_CORE_PATH . 'components/pvprint/model/'
+                );
+
+                if (!$PVPrint) {
+                    return $this->error('Ошибка загрузки PVPrint');
+                }
+
+                $printerId = isset($request['printer_id']) ? (int)$request['printer_id'] : null;
+                if (!$printerId) {
+                    return $this->error('Не указан принтер');
+                }
+
+                $printOptions = isset($request['printOptions']) ? $request['printOptions'] : [];
+
+                $result = $PVPrint->printHTML($html, $printerId, $printOptions);
+
+                if ($result['success']) {
+                    return $this->success('print', $result['data']);
+                } else {
+                    return $this->error($result['message']);
+                }
+            }
+            
+        } catch (Exception $e) {
+            return $this->error('Print error: ' . $e->getMessage());
+        }
+    }
+
+    private function generatePrintHTML($rule, $headers, $rows, $autocompletes, $request) {
+        $html = '<html><head><meta charset="UTF-8"><style>';
+        $html .= 'body { font-family: Arial, sans-serif; font-size: 12px; }';
+        $html .= 'table { width: 100%; border-collapse: collapse; margin-top: 20px; }';
+        $html .= 'th, td { border: 1px solid #000; padding: 5px; text-align: left; }';
+        $html .= 'th { background-color: #f0f0f0; font-weight: bold; }';
+        $html .= 'h1 { text-align: center; }';
+        $html .= '</style></head><body>';
+        
+        // Заголовок документа
+        $title = $rule['name'] ?? $rule['table'];
+        $html .= '<h1>' . htmlspecialchars($title) . '</h1>';
+        
+        // Если есть form.fields в настройках print, добавляем данные формы
+        if (isset($rule['properties']['actions']['print']['form']['fields']) && !empty($request['filters'])) {
+            $formFields = $rule['properties']['actions']['print']['form']['fields'];
+            $html .= '<div style="margin-bottom: 20px;">';
+            
+            foreach ($formFields as $fieldName => $fieldConfig) {
+                $filterFieldName = $fieldName;
+                if (isset($fieldConfig['class']) && isset($fieldConfig['as'])) {
+                    $filterFieldName = $fieldConfig['class'] . '.' . $fieldConfig['as'];
+                }
+                
+                if (isset($request['filters'][$filterFieldName])) {
+                    if (isset($request['filters'][$filterFieldName]['constraints']) && is_array($request['filters'][$filterFieldName]['constraints'])) {
+                        $value = $request['filters'][$filterFieldName]['constraints'][0]['value'] ?? '';
+                    } else {
+                        $value = $request['filters'][$filterFieldName]['value'] ?? $request['filters'][$filterFieldName];
+                    }
+                    
+                    // Обработка autocomplete полей
+                    if (isset($fieldConfig['type']) && $fieldConfig['type'] === 'autocomplete' && isset($fieldConfig['table'])) {
+                        if ($gtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $fieldConfig['table'], 'active' => 1])) {
+                            $properties = json_decode($gtsAPITable->properties, 1);
+                            if (is_array($properties) && isset($properties['autocomplete'])) {
+                                $this->addPackages($gtsAPITable->package_id);
+                                $class = $gtsAPITable->class ? $gtsAPITable->class : $fieldConfig['table'];
+                                if ($obj = $this->modx->getObject($class, $value)) {
+                                    if (!empty($properties['autocomplete']['tpl'])) {
+                                        $value = $this->pdoTools->getChunk("@INLINE " . $properties['autocomplete']['tpl'], $obj->toArray());
+                                    } else {
+                                        $displayField = 'name';
+                                        $value = $obj->get($displayField);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    $label = $fieldConfig['label'] ?? $fieldName;
+                    $html .= '<p><strong>' . htmlspecialchars($label) . ':</strong> ' . htmlspecialchars($value) . '</p>';
+                }
+            }
+            
+            $html .= '</div>';
+        }
+        
+        // Таблица с данными
+        $html .= '<table>';
+        $html .= '<thead><tr>';
+        
+        foreach ($headers as $header) {
+            $html .= '<th>' . htmlspecialchars($header['label']) . '</th>';
+        }
+        
+        $html .= '</tr></thead><tbody>';
+        
+        foreach ($rows as $row) {
+            $html .= '<tr>';
+            
+            foreach ($headers as $header) {
+                $value = '';
+                
+                switch ($header['type']) {
+                    case 'autocomplete':
+                        $fieldName = $header['field'];
+                        $fieldValue = $row[$fieldName] ?? '';
+                        
+                        if (!empty($fieldValue) && isset($autocompletes[$fieldName])) {
+                            foreach ($autocompletes[$fieldName]['rows'] as $autocompleteRow) {
+                                if ($autocompleteRow['id'] == $fieldValue) {
+                                    $value = $autocompleteRow['content'] ?? $autocompleteRow['name'] ?? $autocompleteRow['title'] ?? $fieldValue;
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                        
+                    case 'multiautocomplete':
+                        $searchField = $header['search_field'];
+                        $parentField = $header['parent_field'];
+                        $value = $row[$searchField] ?? '';
+                        
+                        if (!empty($value) && isset($autocompletes[$parentField]['searchFields'][$searchField])) {
+                            foreach ($autocompletes[$parentField]['searchFields'][$searchField]['rows'] as $autocompleteRow) {
+                                if ($autocompleteRow['id'] == $value) {
+                                    $value = $autocompleteRow['content'] ?? $autocompleteRow['name'] ?? $autocompleteRow['title'] ?? $value;
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                        
+                    default:
+                        $value = $row[$header['field']] ?? '';
+                        break;
+                }
+                
+                $html .= '<td>' . htmlspecialchars($value) . '</td>';
+            }
+            
+            $html .= '</tr>';
+        }
+        
+        $html .= '</tbody></table>';
+        $html .= '</body></html>';
+        
+        return $html;
     }
 
     /**
