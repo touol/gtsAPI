@@ -151,6 +151,14 @@ class gtsAPI
             return $resp;
         }
         $point = $uri[2];
+        
+        if($point == 'get_assets_path'){
+            $assetsUrl = $this->modx->getOption('assets_url') . 'components/';
+            return $this->success('Путь получен', [
+                'assets_path' => $assetsUrl
+            ]);
+        }
+
         if($gtsAPITable = $this->modx->getObject('gtsAPITable',['table:LIKE'=>$point,'active'=>1])){
             switch($gtsAPITable->type){
                 case 1:

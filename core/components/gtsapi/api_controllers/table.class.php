@@ -2274,7 +2274,7 @@ class tableAPIController{
             $startRow = isset($formData['startRow']) ? $formData['startRow'] : 1;
 
             foreach ($fields as $fieldName => $fieldConfig) {
-                if (isset($fieldConfig['table_only']) && $fieldConfig['table_only']) continue;
+                if (isset($fieldConfig['modal_only']) && $fieldConfig['modal_only']) continue;
                 
                 $label = $fieldConfig['label'] ?? $fieldName;
                 
@@ -2461,8 +2461,11 @@ class tableAPIController{
             // Подготавливаем заголовки столбцов
             $headers = [];
             foreach ($fields as $fieldName => $fieldConfig) {
-                if (isset($fieldConfig['table_only']) && $fieldConfig['table_only']) continue;
-                
+                if (isset($fieldConfig['modal_only']) && $fieldConfig['modal_only']) continue;
+                if($fieldName == 'id' and isset($rule['properties']['hide_id'])) continue;
+                if (isset($fieldConfig['type']) && $fieldConfig['type'] == 'hidden') continue;
+                if (isset($fieldConfig['no_print'])) continue;
+
                 $label = $fieldConfig['label'] ?? $fieldName;
                 
                 // Обработка autocomplete полей
