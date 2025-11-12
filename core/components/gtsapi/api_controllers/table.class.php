@@ -25,7 +25,10 @@ class tableAPIController{
     }
     public function route($gtsAPITable, $uri, $method, $request){
         $req = json_decode(file_get_contents('php://input'), true);
-        if(is_array($req)) $request = array_merge($request,$req);    
+        // $this->modx->log(1, 'gtsAPI route $req: ' . print_r($req, 1));
+        if(isset($req['filters']) and isset($request['filters'])) $req['filters'] = array_merge($req['filters'],$request['filters']);
+        if(is_array($req)) $request = array_merge($request,$req);
+          
         switch($method){
             case 'GET':
                 // if($id and empty($request['ids'])) $request['ids'] = [$id];
@@ -2555,18 +2558,21 @@ class tableAPIController{
     }
 
     private function generatePrintHTML($rule, $headers, $rows, $autocompletes, $request) {
-        $html = '<html><head><meta charset="UTF-8"><style>';
-        $html .= 'body { font-family: Arial, sans-serif; font-size: 12px; }';
-        $html .= 'table { width: 100%; border-collapse: collapse; margin-top: 20px; }';
-        $html .= 'th, td { border: 1px solid #000; padding: 5px; text-align: left; }';
-        $html .= 'th { background-color: #f0f0f0; font-weight: bold; }';
-        $html .= 'h1 { text-align: center; }';
-        $html .= '</style></head><body>';
-        
-        // Заголовок документа
-        $title = $rule['name'] ?? $rule['table'];
-        $html .= '<h1>' . htmlspecialchars($title) . '</h1>';
-        
+        if(isset($request['no_html_tag'])){
+            $html = '';
+        }else{
+            $html = '<html><head><meta charset="UTF-8"><style>';
+            $html .= 'body { font-family: Arial, sans-serif; font-size: 12px; }';
+            $html .= 'table { width: 100%; border-collapse: collapse; margin-top: 20px; }';
+            $html .= 'th, td { border: 1px solid #000; padding: 5px; text-align: left; }';
+            $html .= 'th { background-color: #f0f0f0; font-weight: bold; }';
+            $html .= 'h1 { text-align: center; }';
+            $html .= '</style></head><body>';
+            
+            // Заголовок документа
+            $title = $rule['name'] ?? $rule['table'];
+            $html .= '<h1>' . htmlspecialchars($title) . '</h1>';
+        }
         // Если есть form.fields в настройках print, добавляем данные формы
         if (isset($rule['properties']['actions']['print']['form']['fields']) && !empty($request['filters'])) {
             $formFields = $rule['properties']['actions']['print']['form']['fields'];
@@ -2670,7 +2676,7 @@ class tableAPIController{
         }
         
         $html .= '</tbody></table>';
-        $html .= '</body></html>';
+        if(!isset($request['no_html_tag'])) $html .= '</body></html>';
         
         return $html;
     }

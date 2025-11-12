@@ -338,7 +338,7 @@ class jsonTableAPIController extends tableAPIController{
     }
     public function getJSON($rule,$request){
         $resp = $this->getJSONWhere($rule,$request);
-        // $this->modx->log(modX::LOG_LEVEL_ERROR, '[jsonTableAPIController::getJSON] Response error: ' . print_r($resp, true));
+        // $this->modx->log(modX::LOG_LEVEL_ERROR, '[jsonTableAPIController::getJSON] Response error: '. print_r($request, true)  . print_r($resp, true));
         if(!$resp['success']) return $resp;
         
         if(!$obj = $this->modx->getObject($rule['class'],$resp['data'])){
