@@ -212,6 +212,66 @@ class packageAPIController{
     }
 
     /**
+     * Add plugins
+     */
+    protected function plugins($plugins)
+    {
+        /** @noinspection PhpIncludeInspection */
+        if (!is_array($plugins)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in Plugins');
+
+            return;
+        }
+        $this->category_attributes[xPDOTransport::RELATED_OBJECT_ATTRIBUTES]['Plugins'] = [
+            xPDOTransport::UNIQUE_KEY => 'name',
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => !empty($this->config['update']['plugins']),
+            xPDOTransport::RELATED_OBJECTS => true,
+            xPDOTransport::RELATED_OBJECT_ATTRIBUTES => [
+                'PluginEvents' => [
+                    xPDOTransport::PRESERVE_KEYS => true,
+                    xPDOTransport::UPDATE_OBJECT => true,
+                    xPDOTransport::UNIQUE_KEY => ['pluginid', 'event'],
+                ],
+            ],
+        ];
+        $objects = [];
+        foreach ($plugins as $name => $data) {
+            /** @var modPlugin $plugin */
+            $plugin = $this->modx->newObject('modPlugin');
+            $plugin->fromArray(array_merge([
+                'name' => $name,
+                'category' => 0,
+                'description' => @$data['description'],
+                'plugincode' => $this::_getContent($this->config['core'] . 'elements/plugins/' . $data['file'] . '.php'),
+                'static' => !empty($this->config['static']['plugins']),
+                'source' => 1,
+                'static_file' => 'core/components/' . $this->config['name_lower'] . '/elements/plugins/' . $data['file'] . '.php',
+            ], $data), '', true, true);
+
+            $events = [];
+            if (!empty($data['events'])) {
+                foreach ($data['events'] as $event_name => $event_data) {
+                    /** @var modPluginEvent $event */
+                    $event = $this->modx->newObject('modPluginEvent');
+                    $event->fromArray(array_merge([
+                        'event' => $event_name,
+                        'priority' => 0,
+                        'propertyset' => 0,
+                    ], $event_data), '', true, true);
+                    $events[] = $event;
+                }
+            }
+            if (!empty($events)) {
+                $plugin->addMany($events);
+            }
+            $objects[] = $plugin;
+        }
+        $this->category->addMany($objects);
+        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($objects) . ' Plugins');
+    }
+
+    /**
      * Add snippets
      */
     protected function snippets($snippets)
@@ -458,6 +518,14 @@ class packageAPIController{
                 }
                 if(count($snippets) > 0){
                     $this->snippets($snippets);
+                }
+            }
+        }
+        if(isset($request['plugins'])){
+            $plugins = json_decode($request['plugins'],1);
+            if(is_array($plugins) and count($plugins) > 0){
+                if(count($plugins) > 0){
+                    $this->plugins($plugins);
                 }
             }
         }
