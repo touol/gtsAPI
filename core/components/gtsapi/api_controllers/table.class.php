@@ -102,6 +102,33 @@ class tableAPIController{
         }
 
         //добавь здесь вызов триггера при помощи которого можно заменить $rule
+        //Добавь вызов плагина с которым можно заменить $rule на событие gtsAPIRunTriggers с параметром gtsapi_rule
+        
+        // Вызов события для плагинов - позволяет изменить $rule
+        $gtsAPIRunTriggersRule = $this->modx->invokeEvent('gtsAPIRunTriggers', [
+            'class'=>$rule['class'],
+            'rule'=>&$rule,
+            'request'=>$request,
+            'trigger'=>'gtsapi_rule',
+        ]);
+        if (is_array($gtsAPIRunTriggersRule)) {
+            $canSave = '';
+            foreach ($gtsAPIRunTriggersRule as $msg) {
+                if (!empty($msg)) {
+                    $canSave .= $msg."\n";
+                }
+            }
+        } else {
+            $canSave = $gtsAPIRunTriggersRule;
+        }
+        if(!empty($canSave)) return $this->error($canSave);
+        
+        // Проверяем, был ли изменен $rule через returnedValues
+        if(isset($this->modx->event->returnedValues['rule'])){
+            $rule = $this->modx->event->returnedValues['rule'];
+        }
+        
+        // Внутренний механизм триггеров через сервисы
         try {
             $class = $rule['class'];
             $triggers = $this->triggers;
@@ -2042,6 +2069,7 @@ class tableAPIController{
             'fields'=>$fields,
             'object_old'=>$object_old,
             'object_new'=>$object_new,
+            'trigger'=>'gtsapifunc',
             'object'=>$object,
             'internal_action'=>$internal_action,
         ]);
