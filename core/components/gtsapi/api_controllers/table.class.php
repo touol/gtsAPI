@@ -1485,15 +1485,25 @@ class tableAPIController{
         if($request['setTotal']){
             $default['setTotal'] = true;
         }
+        
+        // Получаем список полей из select для проверки сортировки
+        $selectFields = $this->getSelectFieldsList($default, $rule);
+        
         if($request['sortField']){
-            $default['sortby'] = [
-                "{$request['sortField']}" => $request['sortOrder'] == 1 ?'ASC':'DESC',
-            ];
+            // Проверяем наличие поля в select
+            if(in_array($request['sortField'], $selectFields)){
+                $default['sortby'] = [
+                    "{$request['sortField']}" => $request['sortOrder'] == 1 ?'ASC':'DESC',
+                ];
+            }
         }
         if($request['multiSortMeta']){
             $default['sortby'] = [];
             foreach($request['multiSortMeta'] as $sort){
-                $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
+                // Проверяем наличие поля в select
+                if(in_array($sort['field'], $selectFields)){
+                    $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
+                }
             }
         }
         if(isset($rule['properties']['group'])){
@@ -1614,12 +1624,45 @@ class tableAPIController{
                 $rows0[$k]['id'] = $request['offset'] + $k + 1;
             }
         }
+        $filter_list = [];
+        
+        // Составляем список уникальных значений для каждого поля
+        if(!empty($rule['properties']['fields']) && !empty($rows0)){
+            foreach($rule['properties']['fields'] as $fieldName => $fieldConfig){
+                // Пропускаем поля, которые не нужно фильтровать
+                if(isset($fieldConfig['modal_only']) && $fieldConfig['modal_only']) continue;
+                if(isset($fieldConfig['no_filter']) && $fieldConfig['no_filter']) continue;
+                
+                // Собираем уникальные значения для поля
+                $uniqueValues = [];
+                foreach($rows0 as $row){
+                    if(isset($row[$fieldName])){
+                        $value = $row[$fieldName];
+                        // Преобразуем null и пустые строки в ''
+                        if($value === null || $value === ''){
+                            $value = '';
+                        }
+                        // Используем значение как ключ для автоматической уникальности
+                        $uniqueValues[$value] = $value;
+                    }
+                }
+                
+                // Если есть уникальные значения, добавляем их в filter_list
+                if(!empty($uniqueValues)){
+                    // Сортируем значения
+                    ksort($uniqueValues);
+                    $filter_list[$fieldName] = array_values($uniqueValues);
+                }
+            }
+        }
+        
         $out = [
             'rows'=>$rows0,
             'total'=>$total,
             // 'autocomplete'=>$autocompletes,
             'row_setting'=>$row_setting,
-            'log'=>$this->pdo->getTime()
+            'log'=>$this->pdo->getTime(),
+            'filter_list'=>$filter_list
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
         // $this->modx->log(1,"read".$this->pdo->getTime());
@@ -1883,6 +1926,60 @@ class tableAPIController{
         
         $where = [];
         if($filter['value'] == null) return $where;
+        
+        // Проверяем, есть ли поле в select запроса
+        $fieldExistsInSelect = false;
+        $selectFields = [];
+        
+        if(isset($rule['properties']['query']['select']) && !empty($rule['properties']['query']['select'])){
+            // Есть настроенный select
+            foreach($rule['properties']['query']['select'] as $class => $fields){
+                if($fields == '*'){
+                    // Получаем все поля класса через MODX
+                    if($this->modx->loadClass($class) && isset($this->modx->map[$class])){
+                        foreach($this->modx->map[$class]['fieldMeta'] as $fieldName => $meta){
+                            $selectFields[] = $fieldName;
+                        }
+                    }
+                } else {
+                    // Парсим строку select
+                    $fieldsArray = array_map('trim', explode(',', $fields));
+                    foreach($fieldsArray as $fieldStr){
+                        // Убираем обратные кавычки
+                        $fieldStr = str_replace('`', '', $fieldStr);
+                        // Убираем класс с точкой (с кавычками и без)
+                        $fieldStr = preg_replace('/^' . preg_quote($class, '/') . '\./', '', $fieldStr);
+                        // Проверяем на AS
+                        if(stripos($fieldStr, ' AS ') !== false){
+                            $parts = preg_split('/\s+AS\s+/i', $fieldStr);
+                            if(isset($parts[1])){
+                                $selectFields[] = trim($parts[1]);
+                            }
+                        } else {
+                            $selectFields[] = $fieldStr;
+                        }
+                    }
+                }
+            }
+        } else {
+            // Нет настроенного select - получаем поля основного класса
+            if($this->modx->loadClass($rule['class']) && isset($this->modx->map[$rule['class']])){
+                foreach($this->modx->map[$rule['class']]['fieldMeta'] as $fieldName => $meta){
+                    $selectFields[] = $fieldName;
+                }
+            }
+        }
+        
+        // Проверяем наличие поля в списке
+        if(in_array($name, $selectFields)){
+            $fieldExistsInSelect = true;
+        }
+        
+        // Если поля нет в select, пропускаем фильтр
+        if(!$fieldExistsInSelect){
+            return $where;
+        }
+        
         if(isset($rule['properties']['filters'][$name]) and is_array($rule['properties']['filters'][$name])){
             $filter = array_merge($rule['properties']['filters'][$name],$filter);
         }
@@ -2709,6 +2806,57 @@ class tableAPIController{
         return $html;
     }
 
+    /**
+     * Получает список полей из select запроса
+     * @param array $config Конфигурация запроса
+     * @param array $rule Правило таблицы
+     * @return array Список полей
+     */
+    private function getSelectFieldsList($config, $rule) {
+        $selectFields = [];
+        
+        if(isset($config['select']) && !empty($config['select'])){
+            // Есть настроенный select
+            foreach($config['select'] as $class => $fields){
+                if($fields == '*'){
+                    // Получаем все поля класса через MODX
+                    if($this->modx->loadClass($class) && isset($this->modx->map[$class])){
+                        foreach($this->modx->map[$class]['fieldMeta'] as $fieldName => $meta){
+                            $selectFields[] = $fieldName;
+                        }
+                    }
+                } else {
+                    // Парсим строку select
+                    $fieldsArray = array_map('trim', explode(',', $fields));
+                    foreach($fieldsArray as $fieldStr){
+                        // Убираем обратные кавычки
+                        $fieldStr = str_replace('`', '', $fieldStr);
+                        // Убираем класс с точкой (с кавычками и без)
+                        $fieldStr = preg_replace('/^' . preg_quote($class, '/') . '\./', '', $fieldStr);
+                        // Проверяем на AS
+                        if(stripos($fieldStr, ' AS ') !== false){
+                            $parts = preg_split('/\s+AS\s+/i', $fieldStr);
+                            if(isset($parts[1])){
+                                $selectFields[] = trim($parts[1]);
+                            }
+                        } else {
+                            $selectFields[] = $fieldStr;
+                        }
+                    }
+                }
+            }
+        } else {
+            // Нет настроенного select - получаем поля основного класса
+            if($this->modx->loadClass($rule['class']) && isset($this->modx->map[$rule['class']])){
+                foreach($this->modx->map[$rule['class']]['fieldMeta'] as $fieldName => $meta){
+                    $selectFields[] = $fieldName;
+                }
+            }
+        }
+        
+        return $selectFields;
+    }
+    
     /**
      * Рекурсивно заменяет все строковые значения, содержащие 'insert_menu_id', на значение $insert_menu_id
      *
