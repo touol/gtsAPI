@@ -1968,8 +1968,9 @@ class tableAPIController{
                     $selectFields[] = $fieldName;
                 }
             }
+            
         }
-        
+        $selectFields[] = 'id';
         // Проверяем наличие поля в списке
         if(in_array($name, $selectFields)){
             $fieldExistsInSelect = true;
@@ -2853,7 +2854,7 @@ class tableAPIController{
                 }
             }
         }
-        
+        $selectFields[] = 'id';
         return $selectFields;
     }
     
