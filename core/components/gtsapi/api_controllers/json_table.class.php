@@ -253,6 +253,9 @@ class jsonTableAPIController extends tableAPIController{
                 }
             }
         }
+        //лог $rows0 и $keys
+        // $this->modx->log(modX::LOG_LEVEL_ERROR, '[jsonTableAPIController::read] $rows0: ' . print_r($rows0, true));
+        // $this->modx->log(modX::LOG_LEVEL_ERROR, '[jsonTableAPIController::read] $keys: ' . print_r($keys, true));
         
         if(isset($rule['properties']['fields'])){
             $get_html = false;
