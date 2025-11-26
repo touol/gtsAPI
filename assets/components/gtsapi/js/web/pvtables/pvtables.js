@@ -45458,8 +45458,8 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
                 class: "p-button p-component",
                 onClick: d
               }, [
-                b("i", {
-                  class: z(["pi", { "pi-moon": s.value, "pi-sun": !s.value }])
+                b("span", {
+                  class: z(["p-button-icon  pi", { "pi-moon": s.value, "pi-sun": !s.value }])
                 }, null, 2),
                 RO
               ]),
