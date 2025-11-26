@@ -40441,7 +40441,7 @@ const su = {
           switch (s) {
             case "delete":
               if (n.node.data.class != "root") {
-                let d = n.actions[s].cls ? n.actions[s].cls : "p-button-rounded p-button-info", l = null;
+                let d = n.actions[s].cls ? n.actions[s].cls : " p-button-info", l = null;
                 r.value.push({
                   label: n.actions[s].label ? n.actions[s].label : "Удалить",
                   icon: n.actions[s].icon ? n.actions[s].icon : "pi pi-trash",
@@ -44922,21 +44922,21 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
             let G = { ...L[se] }, mt = !0;
             switch (se) {
               case "update":
-                G.action = se, G.hasOwnProperty("row") || (G.row = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-pencil"), G.hasOwnProperty("class") || (G.class = "p-button-rounded p-button-success"), G.hasOwnProperty("click") || (G.click = (lt) => lo(lt, G));
+                G.action = se, G.hasOwnProperty("row") || (G.row = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-pencil"), G.hasOwnProperty("class") || (G.class = " p-button-success"), G.hasOwnProperty("click") || (G.click = (lt) => lo(lt, G));
                 break;
               case "delete":
-                G.hasOwnProperty("row") || (G.row = !0), G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-trash"), G.hasOwnProperty("class") || (G.class = "p-button-rounded p-button-danger"), G.hasOwnProperty("click") || (G.click = (lt) => Hi(lt)), G.hasOwnProperty("head_click") || (G.head_click = () => Yr()), G.hasOwnProperty("label") || (G.label = "Удалить");
+                G.hasOwnProperty("row") || (G.row = !0), G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-trash"), G.hasOwnProperty("class") || (G.class = " p-button-danger"), G.hasOwnProperty("click") || (G.click = (lt) => Hi(lt)), G.hasOwnProperty("head_click") || (G.head_click = () => Yr()), G.hasOwnProperty("label") || (G.label = "Удалить");
                 break;
               case "create":
-                G.action = se, G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-plus"), G.hasOwnProperty("class") || (G.class = "p-button-rounded p-button-success"), G.hasOwnProperty("head_click") || (G.head_click = () => Se(G)), G.hasOwnProperty("label") || (G.label = "Создать");
+                G.action = se, G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-plus"), G.hasOwnProperty("class") || (G.class = " p-button-success"), G.hasOwnProperty("head_click") || (G.head_click = () => Se(G)), G.hasOwnProperty("label") || (G.label = "Создать");
                 break;
               case "insert":
-                G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-plus"), G.hasOwnProperty("class") || (G.class = "p-button-rounded p-button-success"), G.hasOwnProperty("head_click") || (G.head_click = () => re()), G.hasOwnProperty("label") || (G.label = "Вставить"), document.addEventListener("keyup", function(lt) {
+                G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-plus"), G.hasOwnProperty("class") || (G.class = " p-button-success"), G.hasOwnProperty("head_click") || (G.head_click = () => re()), G.hasOwnProperty("label") || (G.label = "Вставить"), document.addEventListener("keyup", function(lt) {
                   lt.ctrlKey && lt.shiftKey && lt.code == "KeyZ" && re();
                 }, !0);
                 break;
               case "insert_child":
-                G.hasOwnProperty("row") || (G.row = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-plus"), G.hasOwnProperty("class") || (G.class = "p-button-rounded p-button-success"), G.hasOwnProperty("head_click") || (G.click = (lt) => de(lt)), G.hasOwnProperty("label") || (G.label = "Вставить"), document.addEventListener("keyup", function(lt) {
+                G.hasOwnProperty("row") || (G.row = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-plus"), G.hasOwnProperty("class") || (G.class = " p-button-success"), G.hasOwnProperty("head_click") || (G.click = (lt) => de(lt)), G.hasOwnProperty("label") || (G.label = "Вставить"), document.addEventListener("keyup", function(lt) {
                   lt.ctrlKey && lt.shiftKey && lt.code == "KeyZ" && re();
                 }, !0);
                 break;
@@ -44944,26 +44944,26 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
                 mt = !1;
                 for (let lt in L[se]) {
                   let wt = { action: se, ...L[se][lt] };
-                  wt.table = lt, wt.hasOwnProperty("row") || (wt.row = !0), wt.hasOwnProperty("icon") || (wt.icon = "pi pi-angle-right"), wt.hasOwnProperty("class") || (wt.class = "p-button-rounded p-button-success"), wt.hasOwnProperty("click") || (wt.click = (Wi) => be(Wi, wt)), Le.value = !0, ie.value.push(wt);
+                  wt.table = lt, wt.hasOwnProperty("row") || (wt.row = !0), wt.hasOwnProperty("icon") || (wt.icon = "pi pi-angle-right"), wt.hasOwnProperty("class") || (wt.class = " p-button-success"), wt.hasOwnProperty("click") || (wt.click = (Wi) => be(Wi, wt)), Le.value = !0, ie.value.push(wt);
                 }
                 break;
               case "subtabs":
                 mt = !1;
                 for (let lt in L[se]) {
                   let wt = { action: se, tabs: { ...L[se][lt] } };
-                  wt.table = lt, wt.hasOwnProperty("row") || (wt.row = !0), wt.hasOwnProperty("icon") || (wt.icon = "pi pi-angle-right"), wt.hasOwnProperty("class") || (wt.class = "p-button-rounded p-button-success"), wt.hasOwnProperty("click") || (wt.click = (Wi) => be(Wi, wt)), Le.value = !0, ie.value.push(wt);
+                  wt.table = lt, wt.hasOwnProperty("row") || (wt.row = !0), wt.hasOwnProperty("icon") || (wt.icon = "pi pi-angle-right"), wt.hasOwnProperty("class") || (wt.class = " p-button-success"), wt.hasOwnProperty("click") || (wt.click = (Wi) => be(Wi, wt)), Le.value = !0, ie.value.push(wt);
                 }
                 break;
               case "read":
                 break;
               case "excel_export":
-                G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-file-excel"), G.hasOwnProperty("class") || (G.class = "p-button-rounded p-button-success"), G.hasOwnProperty("head_click") || (G.head_click = () => Fc(G)), G.hasOwnProperty("label") || (G.label = "Excel");
+                G.hasOwnProperty("head") || (G.head = !0), G.hasOwnProperty("icon") || (G.icon = "pi pi-file-excel"), G.hasOwnProperty("class") || (G.class = " p-button-success"), G.hasOwnProperty("head_click") || (G.head_click = () => Fc(G)), G.hasOwnProperty("label") || (G.label = "Excel");
                 break;
               case "print":
                 mt = !1;
                 break;
               default:
-                G.hasOwnProperty("class") || (G.class = "p-button-rounded p-button-success"), G.head_click || G.click || (G.head && (G.head_click = () => it(G)), G.row && (G.click = (lt) => Ht(lt, G)));
+                G.hasOwnProperty("class") || (G.class = " p-button-success"), G.head_click || G.click || (G.head && (G.head_click = () => it(G)), G.row && (G.click = (lt) => Ht(lt, G)));
             }
             G.action || (G.action = se), G.hasOwnProperty("menu") && G.menu == 1 && (pe.value = !0, c.value[se] = G), G.template_row && (G.compiledTemplate = Ae(G.template_row)), mt && (G.hasOwnProperty("row") && (Le.value = !0), ie.value.push(G));
           }
@@ -45452,7 +45452,7 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
             ]),
             end: O(() => [
               b("button", {
-                class: "p-button p-component p-button-rounded",
+                class: "p-button p-component",
                 onClick: d
               }, [
                 b("i", {
@@ -45461,7 +45461,7 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
               ]),
               x(A(fe), {
                 icon: "pi pi-refresh",
-                class: "p-button-rounded p-button-success",
+                class: "p-button-success",
                 onClick: I[0] || (I[0] = (L) => J(!1))
               }),
               x(A(fe), {
@@ -46616,26 +46616,26 @@ const Ci = (function() {
           let le = { ...qe[q] }, Me = !0;
           switch (le.action = q, q) {
             case "update":
-              le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-pencil"), le.hasOwnProperty("class") || (le.class = "p-button-rounded p-button-success"), le.hasOwnProperty("click") || (le.click = (at) => ee(at));
+              le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-pencil"), le.hasOwnProperty("class") || (le.class = " p-button-success"), le.hasOwnProperty("click") || (le.click = (at) => ee(at));
               break;
             case "delete":
-              le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("head") || (le.head = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-trash"), le.hasOwnProperty("class") || (le.class = "p-button-rounded p-button-danger"), le.hasOwnProperty("click") || (le.click = (at) => St(at)), le.hasOwnProperty("head_click") || (le.head_click = () => Yt()), le.hasOwnProperty("label") || (le.label = "Удалить");
+              le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("head") || (le.head = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-trash"), le.hasOwnProperty("class") || (le.class = " p-button-danger"), le.hasOwnProperty("click") || (le.click = (at) => St(at)), le.hasOwnProperty("head_click") || (le.head_click = () => Yt()), le.hasOwnProperty("label") || (le.label = "Удалить");
               break;
             case "create":
-              le.hasOwnProperty("head") || (le.head = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-plus"), le.hasOwnProperty("class") || (le.class = "p-button-rounded p-button-success"), le.hasOwnProperty("head_click") || (le.head_click = () => Te()), le.hasOwnProperty("label") || (le.label = "Создать");
+              le.hasOwnProperty("head") || (le.head = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-plus"), le.hasOwnProperty("class") || (le.class = " p-button-success"), le.hasOwnProperty("head_click") || (le.head_click = () => Te()), le.hasOwnProperty("label") || (le.label = "Создать");
               break;
             case "subtables":
               Me = !1;
               for (let at in qe[q]) {
                 let Ye = { action: q, ...qe[q][at] };
-                Ye.table = at, Ye.hasOwnProperty("row") || (Ye.row = !0), Ye.hasOwnProperty("icon") || (Ye.icon = "pi pi-angle-right"), Ye.hasOwnProperty("class") || (Ye.class = "p-button-rounded p-button-success"), Ye.hasOwnProperty("click") || (Ye.click = (Tn) => _(Tn, Ye)), k.value = !0, v.value.push(Ye);
+                Ye.table = at, Ye.hasOwnProperty("row") || (Ye.row = !0), Ye.hasOwnProperty("icon") || (Ye.icon = "pi pi-angle-right"), Ye.hasOwnProperty("class") || (Ye.class = " p-button-success"), Ye.hasOwnProperty("click") || (Ye.click = (Tn) => _(Tn, Ye)), k.value = !0, v.value.push(Ye);
               }
               break;
             case "subtabs":
               Me = !1;
               for (let at in qe[q]) {
                 let Ye = { action: q, tabs: { ...qe[q][at] } };
-                Ye.table = at, Ye.hasOwnProperty("row") || (Ye.row = !0), Ye.hasOwnProperty("icon") || (Ye.icon = "pi pi-angle-right"), Ye.hasOwnProperty("class") || (Ye.class = "p-button-rounded p-button-success"), Ye.hasOwnProperty("click") || (Ye.click = (Tn) => _(Tn, Ye)), k.value = !0, v.value.push(Ye);
+                Ye.table = at, Ye.hasOwnProperty("row") || (Ye.row = !0), Ye.hasOwnProperty("icon") || (Ye.icon = "pi pi-angle-right"), Ye.hasOwnProperty("class") || (Ye.class = " p-button-success"), Ye.hasOwnProperty("click") || (Ye.click = (Tn) => _(Tn, Ye)), k.value = !0, v.value.push(Ye);
               }
               break;
           }
@@ -46788,7 +46788,7 @@ const Ci = (function() {
             ]),
             end: O(() => [
               b("button", {
-                class: "p-button p-component p-button-rounded",
+                class: "p-button p-component",
                 onClick: o
               }, [
                 b("i", {
