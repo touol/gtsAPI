@@ -45455,7 +45455,7 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
             ]),
             end: O(() => [
               b("button", {
-                class: "p-button p-component",
+                class: "p-button p-component p-button-icon-only",
                 onClick: d
               }, [
                 b("span", {
