@@ -21714,22 +21714,22 @@ xt.getAdapter = Rd.getAdapter;
 xt.HttpStatusCode = La;
 xt.default = xt;
 const {
-  Axios: fT,
-  AxiosError: hT,
-  CanceledError: mT,
-  isCancel: gT,
-  CancelToken: bT,
-  VERSION: yT,
-  all: vT,
-  Cancel: wT,
-  isAxiosError: kT,
-  spread: CT,
-  toFormData: ST,
-  AxiosHeaders: IT,
-  HttpStatusCode: xT,
-  formToJSON: OT,
-  getAdapter: PT,
-  mergeConfig: RT
+  Axios: hT,
+  AxiosError: mT,
+  CanceledError: gT,
+  isCancel: bT,
+  CancelToken: yT,
+  VERSION: vT,
+  all: wT,
+  Cancel: kT,
+  isAxiosError: CT,
+  spread: ST,
+  toFormData: IT,
+  AxiosHeaders: xT,
+  HttpStatusCode: OT,
+  formToJSON: PT,
+  getAdapter: RT,
+  mergeConfig: TT
 } = xt, Dt = (t, e = 6e4) => {
   const r = {
     baseURL: `/api/${t}`,
@@ -44689,19 +44689,22 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
       }
     n.push(r);
   }), n;
-}, PO = { class: "card" }, RO = {
+}, PO = { class: "card" }, RO = /* @__PURE__ */ b("span", {
+  class: "p-button-label",
+  "data-pc-section": "label"
+}, " ", -1), TO = {
   key: 0,
   class: "p-3"
-}, TO = {
+}, DO = {
   key: 1,
   class: "p-3"
-}, DO = { class: "confirmation-content" }, EO = /* @__PURE__ */ b("i", {
+}, EO = { class: "confirmation-content" }, LO = /* @__PURE__ */ b("i", {
   class: "pi pi-exclamation-triangle p-mr-3",
   style: { "font-size": "2rem" }
-}, null, -1), LO = { key: 0 }, MO = { class: "confirmation-content" }, BO = /* @__PURE__ */ b("i", {
+}, null, -1), MO = { key: 0 }, BO = { class: "confirmation-content" }, FO = /* @__PURE__ */ b("i", {
   class: "pi pi-exclamation-triangle p-mr-3",
   style: { "font-size": "2rem" }
-}, null, -1), FO = { key: 0 }, ki = {
+}, null, -1), AO = { key: 0 }, ki = {
   __name: "PVTables",
   props: {
     table: {
@@ -45457,7 +45460,8 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
               }, [
                 b("i", {
                   class: z(["pi", { "pi-moon": s.value, "pi-sun": !s.value }])
-                }, null, 2)
+                }, null, 2),
+                RO
               ]),
               x(A(fe), {
                 icon: "pi pi-refresh",
@@ -45522,7 +45526,7 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
             groupRowsBy: Te.value
           }, {
             expansion: O((L) => [
-              Bt.value[L.data.id].action == "subtables" ? (u(), m("div", RO, [
+              Bt.value[L.data.id].action == "subtables" ? (u(), m("div", TO, [
                 x(W, {
                   table: Bt.value[L.data.id].table,
                   actions: t.actions,
@@ -45535,7 +45539,7 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
                   onGetResponse: I[3] || (I[3] = (ne) => Ml(ne))
                 }, null, 8, ["table", "actions", "filters"])
               ])) : C("", !0),
-              Bt.value[L.data.id].action == "subtabs" ? (u(), m("div", TO, [
+              Bt.value[L.data.id].action == "subtabs" ? (u(), m("div", DO, [
                 x(Mr, {
                   tabs: Bt.value[L.data.id].tabs,
                   actions: t.actions,
@@ -45773,9 +45777,9 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
               })
             ]),
             default: O(() => [
-              b("div", DO, [
-                EO,
-                pt.value ? (u(), m("span", LO, "Вы хотите удалить эту запись?")) : C("", !0)
+              b("div", EO, [
+                LO,
+                pt.value ? (u(), m("span", MO, "Вы хотите удалить эту запись?")) : C("", !0)
               ])
             ]),
             _: 1
@@ -45801,9 +45805,9 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
               })
             ]),
             default: O(() => [
-              b("div", MO, [
-                BO,
-                pt.value ? (u(), m("span", FO, "Вы хотите удалить отмеченные записи?")) : C("", !0)
+              b("div", BO, [
+                FO,
+                pt.value ? (u(), m("span", AO, "Вы хотите удалить отмеченные записи?")) : C("", !0)
               ])
             ]),
             _: 1
@@ -45844,34 +45848,34 @@ const cc = /* @__PURE__ */ nt(Ux, [["render", wO], ["__scopeId", "data-v-b8be86b
       ], 64);
     };
   }
-}, AO = { key: 0 }, VO = { key: 1 }, $O = {
+}, VO = { key: 0 }, $O = { key: 1 }, zO = {
   __name: "PVTab",
   setup(t) {
     console.log("PVTabsConfigs", PVTabsConfigs);
     const e = T(PVTabsConfigs), n = T(!1);
     return n.value = !!e, (r, i) => (u(), m($, null, [
-      n.value ? (u(), m("div", AO, [
+      n.value ? (u(), m("div", VO, [
         x(Mr, {
           tabs: e.value,
           actions: {},
           filters: {}
         }, null, 8, ["tabs"])
-      ])) : (u(), m("p", VO, "Табы не заданы!")),
+      ])) : (u(), m("p", $O, "Табы не заданы!")),
       x(A(kn))
     ], 64));
   }
-}, zO = /"(?:_|\\u0{2}5[Ff]){2}(?:p|\\u0{2}70)(?:r|\\u0{2}72)(?:o|\\u0{2}6[Ff])(?:t|\\u0{2}74)(?:o|\\u0{2}6[Ff])(?:_|\\u0{2}5[Ff]){2}"\s*:/, KO = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/, jO = /^\s*["[{]|^\s*-?\d{1,16}(\.\d{1,17})?([Ee][+-]?\d+)?\s*$/;
-function NO(t, e) {
+}, KO = /"(?:_|\\u0{2}5[Ff]){2}(?:p|\\u0{2}70)(?:r|\\u0{2}72)(?:o|\\u0{2}6[Ff])(?:t|\\u0{2}74)(?:o|\\u0{2}6[Ff])(?:_|\\u0{2}5[Ff]){2}"\s*:/, jO = /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/, NO = /^\s*["[{]|^\s*-?\d{1,16}(\.\d{1,17})?([Ee][+-]?\d+)?\s*$/;
+function HO(t, e) {
   if (t === "__proto__" || t === "constructor" && e && typeof e == "object" && "prototype" in e) {
-    HO(t);
+    _O(t);
     return;
   }
   return e;
 }
-function HO(t) {
+function _O(t) {
   console.warn(`[destr] Dropping "${t}" key to prevent prototype pollution.`);
 }
-function _O(t, e = {}) {
+function UO(t, e = {}) {
   if (typeof t != "string")
     return t;
   if (t[0] === '"' && t[t.length - 1] === '"' && t.indexOf("\\") === -1)
@@ -45894,16 +45898,16 @@ function _O(t, e = {}) {
       case "-infinity":
         return Number.NEGATIVE_INFINITY;
     }
-  if (!jO.test(t)) {
+  if (!NO.test(t)) {
     if (e.strict)
       throw new SyntaxError("[destr] Invalid JSON");
     return t;
   }
   try {
-    if (zO.test(t) || KO.test(t)) {
+    if (KO.test(t) || jO.test(t)) {
       if (e.strict)
         throw new Error("[destr] Possible prototype pollution");
-      return JSON.parse(t, NO);
+      return JSON.parse(t, HO);
     }
     return JSON.parse(t);
   } catch (r) {
@@ -45912,15 +45916,15 @@ function _O(t, e = {}) {
     return t;
   }
 }
-const UO = /#/g, GO = /&/g, WO = /\//g, qO = /=/g, Tl = /\+/g, YO = /%5e/gi, ZO = /%60/gi, JO = /%7c/gi, XO = /%20/gi;
-function QO(t) {
-  return encodeURI("" + t).replace(JO, "|");
+const GO = /#/g, WO = /&/g, qO = /\//g, YO = /=/g, Tl = /\+/g, ZO = /%5e/gi, JO = /%60/gi, XO = /%7c/gi, QO = /%20/gi;
+function e7(t) {
+  return encodeURI("" + t).replace(XO, "|");
 }
 function ja(t) {
-  return QO(typeof t == "string" ? t : JSON.stringify(t)).replace(Tl, "%2B").replace(XO, "+").replace(UO, "%23").replace(GO, "%26").replace(ZO, "`").replace(YO, "^").replace(WO, "%2F");
+  return e7(typeof t == "string" ? t : JSON.stringify(t)).replace(Tl, "%2B").replace(QO, "+").replace(GO, "%23").replace(WO, "%26").replace(JO, "`").replace(ZO, "^").replace(qO, "%2F");
 }
 function sa(t) {
-  return ja(t).replace(qO, "%3D");
+  return ja(t).replace(YO, "%3D");
 }
 function fc(t = "") {
   try {
@@ -45929,76 +45933,76 @@ function fc(t = "") {
     return "" + t;
   }
 }
-function e7(t) {
-  return fc(t.replace(Tl, " "));
-}
 function t7(t) {
   return fc(t.replace(Tl, " "));
 }
-function n7(t = "") {
+function n7(t) {
+  return fc(t.replace(Tl, " "));
+}
+function o7(t = "") {
   const e = /* @__PURE__ */ Object.create(null);
   t[0] === "?" && (t = t.slice(1));
   for (const n of t.split("&")) {
     const r = n.match(/([^=]+)=?(.*)/) || [];
     if (r.length < 2)
       continue;
-    const i = e7(r[1]);
+    const i = t7(r[1]);
     if (i === "__proto__" || i === "constructor")
       continue;
-    const o = t7(r[2] || "");
+    const o = n7(r[2] || "");
     e[i] === void 0 ? e[i] = o : Array.isArray(e[i]) ? e[i].push(o) : e[i] = [e[i], o];
   }
   return e;
 }
-function o7(t, e) {
+function r7(t, e) {
   return (typeof e == "number" || typeof e == "boolean") && (e = String(e)), e ? Array.isArray(e) ? e.map(
     (n) => `${sa(t)}=${ja(n)}`
   ).join("&") : `${sa(t)}=${ja(e)}` : sa(t);
 }
-function r7(t) {
-  return Object.keys(t).filter((e) => t[e] !== void 0).map((e) => o7(e, t[e])).filter(Boolean).join("&");
+function i7(t) {
+  return Object.keys(t).filter((e) => t[e] !== void 0).map((e) => r7(e, t[e])).filter(Boolean).join("&");
 }
-const i7 = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/, a7 = /^[\s\w\0+.-]{2,}:([/\\]{2})?/, l7 = /^([/\\]\s*){2,}[^/\\]/, s7 = /^\.?\//;
+const a7 = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/, l7 = /^[\s\w\0+.-]{2,}:([/\\]{2})?/, s7 = /^([/\\]\s*){2,}[^/\\]/, u7 = /^\.?\//;
 function hc(t, e = {}) {
-  return typeof e == "boolean" && (e = { acceptRelative: e }), e.strict ? i7.test(t) : a7.test(t) || (e.acceptRelative ? l7.test(t) : !1);
-}
-function u7(t = "", e) {
-  return t.endsWith("/");
+  return typeof e == "boolean" && (e = { acceptRelative: e }), e.strict ? a7.test(t) : l7.test(t) || (e.acceptRelative ? s7.test(t) : !1);
 }
 function d7(t = "", e) {
-  return (u7(t) ? t.slice(0, -1) : t) || "/";
+  return t.endsWith("/");
 }
 function c7(t = "", e) {
+  return (d7(t) ? t.slice(0, -1) : t) || "/";
+}
+function p7(t = "", e) {
   return t.endsWith("/") ? t : t + "/";
 }
-function p7(t, e) {
-  if (h7(e) || hc(t))
-    return t;
-  const n = d7(e);
-  return t.startsWith(n) ? t : g7(n, t);
-}
 function f7(t, e) {
-  const n = b7(t), r = { ...n7(n.search), ...e };
-  return n.search = r7(r), y7(n);
+  if (m7(e) || hc(t))
+    return t;
+  const n = c7(e);
+  return t.startsWith(n) ? t : b7(n, t);
 }
-function h7(t) {
-  return !t || t === "/";
+function h7(t, e) {
+  const n = y7(t), r = { ...o7(n.search), ...e };
+  return n.search = i7(r), v7(n);
 }
 function m7(t) {
+  return !t || t === "/";
+}
+function g7(t) {
   return t && t !== "/";
 }
-function g7(t, ...e) {
+function b7(t, ...e) {
   let n = t || "";
-  for (const r of e.filter((i) => m7(i)))
+  for (const r of e.filter((i) => g7(i)))
     if (n) {
-      const i = r.replace(s7, "");
-      n = c7(n) + i;
+      const i = r.replace(u7, "");
+      n = p7(n) + i;
     } else
       n = r;
   return n;
 }
 const mc = Symbol.for("ufo:protocolRelative");
-function b7(t = "", e) {
+function y7(t = "", e) {
   const n = t.match(
     /^[\s\0]*(blob:|data:|javascript:|vbscript:)(.*)/i
   );
@@ -46038,17 +46042,17 @@ function du(t = "") {
     hash: r
   };
 }
-function y7(t) {
+function v7(t) {
   const e = t.pathname || "", n = t.search ? (t.search.startsWith("?") ? "" : "?") + t.search : "", r = t.hash || "", i = t.auth ? t.auth + "@" : "", o = t.host || "";
   return (t.protocol || t[mc] ? (t.protocol || "") + "//" : "") + i + o + e + n + r;
 }
-class v7 extends Error {
+class w7 extends Error {
   constructor(e, n) {
     super(e, n), this.name = "FetchError", n?.cause && !this.cause && (this.cause = n.cause);
   }
 }
-function w7(t) {
-  const e = t.error?.message || t.error?.toString() || "", n = t.request?.method || t.options?.method || "GET", r = t.request?.url || String(t.request) || "/", i = `[${n}] ${JSON.stringify(r)}`, o = t.response ? `${t.response.status} ${t.response.statusText}` : "<no response>", a = `${i}: ${o}${e ? ` ${e}` : ""}`, s = new v7(
+function k7(t) {
+  const e = t.error?.message || t.error?.toString() || "", n = t.request?.method || t.options?.method || "GET", r = t.request?.url || String(t.request) || "/", i = `[${n}] ${JSON.stringify(r)}`, o = t.response ? `${t.response.status} ${t.response.statusText}` : "<no response>", a = `${i}: ${o}${e ? ` ${e}` : ""}`, s = new w7(
     a,
     t.error ? { cause: t.error } : void 0
   );
@@ -46072,32 +46076,32 @@ function w7(t) {
     });
   return s;
 }
-const k7 = new Set(
+const C7 = new Set(
   Object.freeze(["PATCH", "POST", "PUT", "DELETE"])
 );
 function cu(t = "GET") {
-  return k7.has(t.toUpperCase());
+  return C7.has(t.toUpperCase());
 }
-function C7(t) {
+function S7(t) {
   if (t === void 0)
     return !1;
   const e = typeof t;
   return e === "string" || e === "number" || e === "boolean" || e === null ? !0 : e !== "object" ? !1 : Array.isArray(t) ? !0 : t.buffer ? !1 : t.constructor && t.constructor.name === "Object" || typeof t.toJSON == "function";
 }
-const S7 = /* @__PURE__ */ new Set([
+const I7 = /* @__PURE__ */ new Set([
   "image/svg",
   "application/xml",
   "application/xhtml",
   "application/html"
-]), I7 = /^application\/(?:[\w!#$%&*.^`~-]*\+)?json(;.+)?$/i;
-function x7(t = "") {
+]), x7 = /^application\/(?:[\w!#$%&*.^`~-]*\+)?json(;.+)?$/i;
+function O7(t = "") {
   if (!t)
     return "json";
   const e = t.split(";").shift() || "";
-  return I7.test(e) ? "json" : S7.has(e) || e.startsWith("text/") ? "text" : "blob";
+  return x7.test(e) ? "json" : I7.has(e) || e.startsWith("text/") ? "text" : "blob";
 }
-function O7(t, e, n, r) {
-  const i = P7(
+function P7(t, e, n, r) {
+  const i = R7(
     e?.headers ?? t?.headers,
     n?.headers,
     r
@@ -46116,7 +46120,7 @@ function O7(t, e, n, r) {
     headers: i
   };
 }
-function P7(t, e, n) {
+function R7(t, e, n) {
   if (!e)
     return new n(t);
   const r = new n(e);
@@ -46133,7 +46137,7 @@ async function si(t, e) {
     else
       await e(t);
 }
-const R7 = /* @__PURE__ */ new Set([
+const T7 = /* @__PURE__ */ new Set([
   408,
   // Request Timeout
   409,
@@ -46150,7 +46154,7 @@ const R7 = /* @__PURE__ */ new Set([
   // Service Unavailable
   504
   // Gateway Timeout
-]), T7 = /* @__PURE__ */ new Set([101, 204, 205, 304]);
+]), D7 = /* @__PURE__ */ new Set([101, 204, 205, 304]);
 function gc(t = {}) {
   const {
     fetch: e = globalThis.fetch,
@@ -46163,7 +46167,7 @@ function gc(t = {}) {
       let c;
       typeof s.options.retry == "number" ? c = s.options.retry : c = cu(s.options.method) ? 0 : 1;
       const f = s.response && s.response.status || 500;
-      if (c > 0 && (Array.isArray(s.options.retryStatusCodes) ? s.options.retryStatusCodes.includes(f) : R7.has(f))) {
+      if (c > 0 && (Array.isArray(s.options.retryStatusCodes) ? s.options.retryStatusCodes.includes(f) : T7.has(f))) {
         const g = typeof s.options.retryDelay == "function" ? s.options.retryDelay(s) : s.options.retryDelay || 0;
         return g > 0 && await new Promise((p) => setTimeout(p, g)), o(s.request, {
           ...s.options,
@@ -46171,13 +46175,13 @@ function gc(t = {}) {
         });
       }
     }
-    const l = w7(s);
+    const l = k7(s);
     throw Error.captureStackTrace && Error.captureStackTrace(l, o), l;
   }
   const o = async function(d, l = {}) {
     const c = {
       request: d,
-      options: O7(
+      options: P7(
         d,
         l,
         t.defaults,
@@ -46186,7 +46190,7 @@ function gc(t = {}) {
       response: void 0,
       error: void 0
     };
-    c.options.method && (c.options.method = c.options.method.toUpperCase()), c.options.onRequest && await si(c, c.options.onRequest), typeof c.request == "string" && (c.options.baseURL && (c.request = p7(c.request, c.options.baseURL)), c.options.query && (c.request = f7(c.request, c.options.query), delete c.options.query), "query" in c.options && delete c.options.query, "params" in c.options && delete c.options.params), c.options.body && cu(c.options.method) && (C7(c.options.body) ? (c.options.body = typeof c.options.body == "string" ? c.options.body : JSON.stringify(c.options.body), c.options.headers = new n(c.options.headers || {}), c.options.headers.has("content-type") || c.options.headers.set("content-type", "application/json"), c.options.headers.has("accept") || c.options.headers.set("accept", "application/json")) : (
+    c.options.method && (c.options.method = c.options.method.toUpperCase()), c.options.onRequest && await si(c, c.options.onRequest), typeof c.request == "string" && (c.options.baseURL && (c.request = f7(c.request, c.options.baseURL)), c.options.query && (c.request = h7(c.request, c.options.query), delete c.options.query), "query" in c.options && delete c.options.query, "params" in c.options && delete c.options.params), c.options.body && cu(c.options.method) && (S7(c.options.body) ? (c.options.body = typeof c.options.body == "string" ? c.options.body : JSON.stringify(c.options.body), c.options.headers = new n(c.options.headers || {}), c.options.headers.has("content-type") || c.options.headers.set("content-type", "application/json"), c.options.headers.has("accept") || c.options.headers.set("accept", "application/json")) : (
       // ReadableStream Body
       ("pipeTo" in c.options.body && typeof c.options.body.pipeTo == "function" || // Node.js Stream Body
       typeof c.options.body.pipe == "function") && ("duplex" in c.options || (c.options.duplex = "half"))
@@ -46217,11 +46221,11 @@ function gc(t = {}) {
     if ((c.response.body || // https://github.com/unjs/ofetch/issues/324
     // https://github.com/unjs/ofetch/issues/294
     // https://github.com/JakeChampion/fetch/issues/1454
-    c.response._bodyInit) && !T7.has(c.response.status) && c.options.method !== "HEAD") {
-      const p = (c.options.parseResponse ? "json" : c.options.responseType) || x7(c.response.headers.get("content-type") || "");
+    c.response._bodyInit) && !D7.has(c.response.status) && c.options.method !== "HEAD") {
+      const p = (c.options.parseResponse ? "json" : c.options.responseType) || O7(c.response.headers.get("content-type") || "");
       switch (p) {
         case "json": {
-          const y = await c.response.text(), v = c.options.parseResponse || _O;
+          const y = await c.response.text(), v = c.options.parseResponse || UO;
           c.response._data = v(y);
           break;
         }
@@ -46263,10 +46267,10 @@ const Ci = (function() {
   if (typeof global < "u")
     return global;
   throw new Error("unable to locate global object");
-})(), D7 = Ci.fetch ? (...t) => Ci.fetch(...t) : () => Promise.reject(new Error("[ofetch] global.fetch is not supported!")), E7 = Ci.Headers, L7 = Ci.AbortController, M7 = gc({ fetch: D7, Headers: E7, AbortController: L7 }), B7 = (t, e = 6e4) => {
+})(), E7 = Ci.fetch ? (...t) => Ci.fetch(...t) : () => Promise.reject(new Error("[ofetch] global.fetch is not supported!")), L7 = Ci.Headers, M7 = Ci.AbortController, B7 = gc({ fetch: E7, Headers: L7, AbortController: M7 }), F7 = (t, e = 6e4) => {
   let n = "/";
   typeof window > "u" && (typeof globalThis.SSR_BASE_URL < "u" ? n = globalThis.SSR_BASE_URL : n = "http://localhost/");
-  const r = `${n}api/${t}`, { notify: i } = Lt(), o = M7.create({
+  const r = `${n}api/${t}`, { notify: i } = Lt(), o = B7.create({
     baseURL: r,
     timeout: e,
     retry: 1,
@@ -46464,12 +46468,12 @@ const Ci = (function() {
       _: 1
     }));
   }
-}, F7 = { key: 0 }, A7 = { key: 1 }, V7 = {
+}, A7 = { key: 0 }, V7 = { key: 1 }, $7 = {
   __name: "PVTable",
   setup(t) {
     const e = T(PVTableConfigTable), n = T(!1);
     return n.value = !!PVTableConfigTable, (r, i) => (u(), m($, null, [
-      n.value ? (u(), m("div", F7, [
+      n.value ? (u(), m("div", A7, [
         (u(), w(ki, {
           table: e.value,
           actions: {},
@@ -46477,23 +46481,23 @@ const Ci = (function() {
           reload: !1,
           key: e.value
         }, null, 8, ["table"]))
-      ])) : (u(), m("p", A7, "Таблица не задана!")),
+      ])) : (u(), m("p", V7, "Таблица не задана!")),
       x(A(kn))
     ], 64));
   }
-}, $7 = { class: "card" }, z7 = {
+}, z7 = { class: "card" }, K7 = {
   key: 0,
   class: "p-3"
-}, K7 = {
+}, j7 = {
   key: 1,
   class: "p-3"
-}, j7 = { class: "confirmation-content" }, N7 = /* @__PURE__ */ b("i", {
+}, N7 = { class: "confirmation-content" }, H7 = /* @__PURE__ */ b("i", {
   class: "pi pi-exclamation-triangle p-mr-3",
   style: { "font-size": "2rem" }
-}, null, -1), H7 = { key: 0 }, _7 = { class: "confirmation-content" }, U7 = /* @__PURE__ */ b("i", {
+}, null, -1), _7 = { key: 0 }, U7 = { class: "confirmation-content" }, G7 = /* @__PURE__ */ b("i", {
   class: "pi pi-exclamation-triangle p-mr-3",
   style: { "font-size": "2rem" }
-}, null, -1), G7 = { key: 0 }, W7 = {
+}, null, -1), W7 = { key: 0 }, q7 = {
   __name: "PVTableModel",
   props: /* @__PURE__ */ Ut({
     table: {
@@ -46762,7 +46766,7 @@ const Ci = (function() {
     return (X, ue) => {
       const qe = V("PVTables");
       return u(), m($, null, [
-        b("div", $7, [
+        b("div", z7, [
           x(A(Bi), { class: "p-mb-4" }, {
             start: O(() => [
               (u(!0), m($, null, ge(A(v).filter((q) => q.head), (q) => (u(), w(A(fe), {
@@ -46831,7 +46835,7 @@ const Ci = (function() {
             rowClass: te
           }, {
             expansion: O((q) => [
-              ce.value[q.data.id].action == "subtables" ? (u(), m("div", z7, [
+              ce.value[q.data.id].action == "subtables" ? (u(), m("div", K7, [
                 x(qe, {
                   table: ce.value[q.data.id].table,
                   actions: t.actions,
@@ -46841,7 +46845,7 @@ const Ci = (function() {
                   }
                 }, null, 8, ["table", "actions", "filters"])
               ])) : C("", !0),
-              ce.value[q.data.id].action == "subtabs" ? (u(), m("div", K7, [
+              ce.value[q.data.id].action == "subtabs" ? (u(), m("div", j7, [
                 x(Mr, {
                   tabs: ce.value[q.data.id].tabs,
                   actions: t.actions,
@@ -47022,9 +47026,9 @@ const Ci = (function() {
               })
             ]),
             default: O(() => [
-              b("div", j7, [
-                N7,
-                Oe.value ? (u(), m("span", H7, "Вы хотите удалить эту запись?")) : C("", !0)
+              b("div", N7, [
+                H7,
+                Oe.value ? (u(), m("span", _7, "Вы хотите удалить эту запись?")) : C("", !0)
               ])
             ]),
             _: 1
@@ -47050,9 +47054,9 @@ const Ci = (function() {
               })
             ]),
             default: O(() => [
-              b("div", _7, [
-                U7,
-                Oe.value ? (u(), m("span", G7, "Вы хотите удалить отмеченные записи?")) : C("", !0)
+              b("div", U7, [
+                G7,
+                Oe.value ? (u(), m("span", W7, "Вы хотите удалить отмеченные записи?")) : C("", !0)
               ])
             ]),
             _: 1
@@ -47063,7 +47067,7 @@ const Ci = (function() {
     };
   }
 };
-var q7 = function(e) {
+var Y7 = function(e) {
   var n = e.dt;
   return `
 .p-splitter {
@@ -47144,14 +47148,14 @@ var q7 = function(e) {
     border: 0 none;
 }
 `);
-}, Y7 = {
+}, Z7 = {
   root: function(e) {
     var n = e.props;
     return ["p-splitter p-component", "p-splitter-" + n.layout];
   },
   gutter: "p-splitter-gutter",
   gutterHandle: "p-splitter-gutter-handle"
-}, Z7 = {
+}, J7 = {
   root: function(e) {
     var n = e.props;
     return [{
@@ -47161,12 +47165,12 @@ var q7 = function(e) {
       "flex-direction": "column"
     } : ""];
   }
-}, J7 = xe.extend({
+}, X7 = xe.extend({
   name: "splitter",
-  theme: q7,
-  classes: Y7,
-  inlineStyles: Z7
-}), X7 = {
+  theme: Y7,
+  classes: Z7,
+  inlineStyles: J7
+}), Q7 = {
   name: "BaseSplitter",
   extends: me,
   props: {
@@ -47191,7 +47195,7 @@ var q7 = function(e) {
       default: 5
     }
   },
-  style: J7,
+  style: X7,
   provide: function() {
     return {
       $pcSplitter: this,
@@ -47200,23 +47204,23 @@ var q7 = function(e) {
   }
 };
 function pu(t) {
-  return n9(t) || t9(t) || e9(t) || Q7();
+  return o9(t) || n9(t) || t9(t) || e9();
 }
-function Q7() {
+function e9() {
   throw new TypeError(`Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
 }
-function e9(t, e) {
+function t9(t, e) {
   if (t) {
     if (typeof t == "string") return Na(t, e);
     var n = {}.toString.call(t).slice(8, -1);
     return n === "Object" && t.constructor && (n = t.constructor.name), n === "Map" || n === "Set" ? Array.from(t) : n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? Na(t, e) : void 0;
   }
 }
-function t9(t) {
+function n9(t) {
   if (typeof Symbol < "u" && t[Symbol.iterator] != null || t["@@iterator"] != null) return Array.from(t);
 }
-function n9(t) {
+function o9(t) {
   if (Array.isArray(t)) return Na(t);
 }
 function Na(t, e) {
@@ -47226,7 +47230,7 @@ function Na(t, e) {
 }
 var yc = {
   name: "Splitter",
-  extends: X7,
+  extends: Q7,
   inheritAttrs: !1,
   emits: ["resizestart", "resizeend", "resize"],
   dragging: !1,
@@ -47430,8 +47434,8 @@ var yc = {
       };
     }
   }
-}, o9 = ["onMousedown", "onTouchstart", "onTouchmove", "onTouchend"], r9 = ["aria-orientation", "aria-valuenow", "onKeydown"];
-function i9(t, e, n, r, i, o) {
+}, r9 = ["onMousedown", "onTouchstart", "onTouchmove", "onTouchend"], i9 = ["aria-orientation", "aria-valuenow", "onKeydown"];
+function a9(t, e, n, r, i, o) {
   return u(), m("div", h({
     class: t.cx("root"),
     style: t.sx("root"),
@@ -47474,21 +47478,21 @@ function i9(t, e, n, r, i, o) {
         return o.onGutterKeyDown(l, s);
       },
       ref_for: !0
-    }, t.ptm("gutterHandle")), null, 16, r9)], 16, o9)) : C("", !0)], 64);
+    }, t.ptm("gutterHandle")), null, 16, i9)], 16, r9)) : C("", !0)], 64);
   }), 128))], 16);
 }
-yc.render = i9;
-var a9 = {
+yc.render = a9;
+var l9 = {
   root: function(e) {
     var n = e.instance;
     return ["p-splitterpanel", {
       "p-splitterpanel-nested": n.isNested
     }];
   }
-}, l9 = xe.extend({
+}, s9 = xe.extend({
   name: "splitterpanel",
-  classes: a9
-}), s9 = {
+  classes: l9
+}), u9 = {
   name: "BaseSplitterPanel",
   extends: me,
   props: {
@@ -47501,7 +47505,7 @@ var a9 = {
       default: null
     }
   },
-  style: l9,
+  style: s9,
   provide: function() {
     return {
       $pcSplitterPanel: this,
@@ -47510,7 +47514,7 @@ var a9 = {
   }
 }, Ha = {
   name: "SplitterPanel",
-  extends: s9,
+  extends: u9,
   inheritAttrs: !1,
   data: function() {
     return {
@@ -47533,17 +47537,17 @@ var a9 = {
     }
   }
 };
-function u9(t, e, n, r, i, o) {
+function d9(t, e, n, r, i, o) {
   return u(), m("div", h({
     ref: "container",
     class: t.cx("root")
   }, t.ptmi("root", o.getPTOptions)), [E(t.$slots, "default")], 16);
 }
-Ha.render = u9;
-const d9 = { class: "tree-outer-container" }, c9 = { class: "tree-container" }, p9 = {
+Ha.render = d9;
+const c9 = { class: "tree-outer-container" }, p9 = { class: "tree-container" }, f9 = {
   class: "gap-1",
   style: { width: "100%" }
-}, f9 = { class: "tree-panel-container" }, TT = {
+}, h9 = { class: "tree-panel-container" }, DT = {
   __name: "UniTreePanel",
   props: {
     treetabs: {
@@ -47573,7 +47577,7 @@ const d9 = { class: "tree-outer-container" }, c9 = { class: "tree-container" }, 
       }, s.value = g.file.path, o.value = 0, d.value = {};
     };
     return (g, p) => (u(), m($, null, [
-      b("div", d9, [
+      b("div", c9, [
         x(A(yc), null, {
           default: O(() => [
             x(A(Ha), {
@@ -47581,7 +47585,7 @@ const d9 = { class: "tree-outer-container" }, c9 = { class: "tree-container" }, 
               size: r.value
             }, {
               default: O(() => [
-                b("div", c9, [
+                b("div", p9, [
                   x(Mr, {
                     tabs: t.treetabs,
                     actions: {},
@@ -47600,9 +47604,9 @@ const d9 = { class: "tree-outer-container" }, c9 = { class: "tree-container" }, 
               size: 100 - r.value
             }, {
               default: O(() => [
-                b("div", p9, [
+                b("div", f9, [
                   b("h1", null, F(s.value) + " " + F(o.value), 1),
-                  b("div", f9, [
+                  b("div", h9, [
                     x(Mr, {
                       tabs: i.value,
                       actions: {},
@@ -47626,7 +47630,7 @@ const d9 = { class: "tree-outer-container" }, c9 = { class: "tree-container" }, 
     ], 64));
   }
 };
-var h9 = function(e) {
+var m9 = function(e) {
   var n = e.dt;
   return `
 .p-menubar {
@@ -47874,14 +47878,14 @@ var h9 = function(e) {
     padding-left: `).concat(n("menubar.submenu.mobile.indent"), `;
 }
 `);
-}, m9 = {
+}, g9 = {
   submenu: function(e) {
     var n = e.instance, r = e.processedItem;
     return {
       display: n.isItemActive(r) ? "flex" : "none"
     };
   }
-}, g9 = {
+}, b9 = {
   root: function(e) {
     var n = e.instance;
     return ["p-menubar p-component", {
@@ -47908,12 +47912,12 @@ var h9 = function(e) {
   submenu: "p-menubar-submenu",
   separator: "p-menubar-separator",
   end: "p-menubar-end"
-}, b9 = xe.extend({
+}, y9 = xe.extend({
   name: "menubar",
-  theme: h9,
-  classes: g9,
-  inlineStyles: m9
-}), y9 = {
+  theme: m9,
+  classes: b9,
+  inlineStyles: g9
+}), v9 = {
   name: "BaseMenubar",
   extends: me,
   props: {
@@ -47938,7 +47942,7 @@ var h9 = function(e) {
       default: null
     }
   },
-  style: b9,
+  style: y9,
   provide: function() {
     return {
       $pcMenubar: this,
@@ -48094,8 +48098,8 @@ var h9 = function(e) {
   directives: {
     ripple: ht
   }
-}, v9 = ["id", "aria-label", "aria-disabled", "aria-expanded", "aria-haspopup", "aria-level", "aria-setsize", "aria-posinset", "data-p-active", "data-p-focused", "data-p-disabled"], w9 = ["onClick", "onMouseenter", "onMousemove"], k9 = ["href", "target"], C9 = ["id"], S9 = ["id"];
-function I9(t, e, n, r, i, o) {
+}, w9 = ["id", "aria-label", "aria-disabled", "aria-expanded", "aria-haspopup", "aria-level", "aria-setsize", "aria-posinset", "data-p-active", "data-p-focused", "data-p-disabled"], k9 = ["onClick", "onMouseenter", "onMousemove"], C9 = ["href", "target"], S9 = ["id"], I9 = ["id"];
+function x9(t, e, n, r, i, o) {
   var a = V("MenubarSub", !0), s = st("ripple");
   return u(), m("ul", h({
     class: n.level === 0 ? t.cx("rootList") : t.cx("submenu")
@@ -48161,7 +48165,7 @@ function I9(t, e, n, r, i, o) {
       id: o.getItemLabelId(d),
       class: t.cx("itemLabel"),
       ref_for: !0
-    }, o.getPTOptions(d, l, "itemLabel")), F(o.getItemLabel(d)), 17, C9), o.getItemProp(d, "items") ? (u(), m($, {
+    }, o.getPTOptions(d, l, "itemLabel")), F(o.getItemLabel(d)), 17, S9), o.getItemProp(d, "items") ? (u(), m($, {
       key: 2
     }, [n.templates.submenuicon ? (u(), w(H(n.templates.submenuicon), {
       key: 0,
@@ -48172,7 +48176,7 @@ function I9(t, e, n, r, i, o) {
       key: 1,
       class: t.cx("submenuIcon"),
       ref_for: !0
-    }, o.getPTOptions(d, l, "submenuIcon")), null, 16, ["class"]))], 64)) : C("", !0)], 16, k9)), [[s]])], 16, w9), o.isItemVisible(d) && o.isItemGroup(d) ? (u(), w(a, {
+    }, o.getPTOptions(d, l, "submenuIcon")), null, 16, ["class"]))], 64)) : C("", !0)], 16, C9)), [[s]])], 16, k9), o.isItemVisible(d) && o.isItemGroup(d) ? (u(), w(a, {
       key: 0,
       id: o.getItemId(d) + "_list",
       menuId: n.menuId,
@@ -48198,20 +48202,20 @@ function I9(t, e, n, r, i, o) {
       onItemMousemove: e[2] || (e[2] = function(c) {
         return t.$emit("item-mousemove", c);
       })
-    }, null, 8, ["id", "menuId", "style", "focusedItemId", "items", "mobileActive", "activeItemPath", "templates", "level", "aria-labelledby", "pt", "unstyled"])) : C("", !0)], 16, v9)) : C("", !0), o.isItemVisible(d) && o.getItemProp(d, "separator") ? (u(), m("li", h({
+    }, null, 8, ["id", "menuId", "style", "focusedItemId", "items", "mobileActive", "activeItemPath", "templates", "level", "aria-labelledby", "pt", "unstyled"])) : C("", !0)], 16, w9)) : C("", !0), o.isItemVisible(d) && o.getItemProp(d, "separator") ? (u(), m("li", h({
       key: 1,
       id: o.getItemId(d),
       class: [t.cx("separator"), o.getItemProp(d, "class")],
       style: o.getItemProp(d, "style"),
       role: "separator",
       ref_for: !0
-    }, t.ptm("separator")), null, 16, S9)) : C("", !0)], 64);
+    }, t.ptm("separator")), null, 16, I9)) : C("", !0)], 64);
   }), 128))], 16);
 }
-vc.render = I9;
+vc.render = x9;
 var wc = {
   name: "Menubar",
-  extends: y9,
+  extends: v9,
   inheritAttrs: !1,
   emits: ["focus", "blur"],
   matchMediaListener: null,
@@ -48689,21 +48693,21 @@ function hu(t) {
   for (var e = 1; e < arguments.length; e++) {
     var n = arguments[e] != null ? arguments[e] : {};
     e % 2 ? fu(Object(n), !0).forEach(function(r) {
-      x9(t, r, n[r]);
+      O9(t, r, n[r]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n)) : fu(Object(n)).forEach(function(r) {
       Object.defineProperty(t, r, Object.getOwnPropertyDescriptor(n, r));
     });
   }
   return t;
 }
-function x9(t, e, n) {
-  return (e = O9(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+function O9(t, e, n) {
+  return (e = P9(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function O9(t) {
-  var e = P9(t, "string");
+function P9(t) {
+  var e = R9(t, "string");
   return Br(e) == "symbol" ? e : e + "";
 }
-function P9(t, e) {
+function R9(t, e) {
   if (Br(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -48713,8 +48717,8 @@ function P9(t, e) {
   }
   return (e === "string" ? String : Number)(t);
 }
-var R9 = ["aria-haspopup", "aria-expanded", "aria-controls", "aria-label"];
-function T9(t, e, n, r, i, o) {
+var T9 = ["aria-haspopup", "aria-expanded", "aria-controls", "aria-label"];
+function D9(t, e, n, r, i, o) {
   var a = V("BarsIcon"), s = V("MenubarSub");
   return u(), m("div", h({
     ref: o.containerRef,
@@ -48748,7 +48752,7 @@ function T9(t, e, n, r, i, o) {
       })
     }, hu(hu({}, t.buttonProps), t.ptm("button"))), [E(t.$slots, t.$slots.buttonicon ? "buttonicon" : "menubuttonicon", {}, function() {
       return [x(a, xn(Gc(t.ptm("buttonicon"))), null, 16)];
-    })], 16, R9)) : C("", !0)];
+    })], 16, T9)) : C("", !0)];
   }), x(s, {
     ref: o.menubarRef,
     id: i.id + "_list",
@@ -48778,11 +48782,11 @@ function T9(t, e, n, r, i, o) {
     class: t.cx("end")
   }, t.ptm("end")), [E(t.$slots, "end")], 16)) : C("", !0)], 16);
 }
-wc.render = T9;
-const D9 = { key: 0 }, E9 = ["innerHTML"], L9 = { class: "ml-2" }, M9 = {
+wc.render = D9;
+const E9 = { key: 0 }, L9 = ["innerHTML"], M9 = { class: "ml-2" }, B9 = {
   key: 2,
   class: "pi pi-angle-down ml-auto"
-}, B9 = {
+}, F9 = {
   __name: "PVMenu",
   props: {
     table: {
@@ -48819,7 +48823,7 @@ const D9 = { key: 0 }, E9 = ["innerHTML"], L9 = { class: "ml-2" }, M9 = {
     }, g = n;
     return e({ refresh: () => {
       l();
-    } }), (y, v) => i.value ? (u(), m("span", D9, "Загрузка")) : (u(), w(A(wc), {
+    } }), (y, v) => i.value ? (u(), m("span", E9, "Загрузка")) : (u(), w(A(wc), {
       key: 1,
       model: s.value,
       class: "pv-menu"
@@ -48830,18 +48834,18 @@ const D9 = { key: 0 }, E9 = ["innerHTML"], L9 = { class: "ml-2" }, M9 = {
             key: 0,
             class: "menu-icon",
             innerHTML: k.iconSvg
-          }, null, 8, E9)) : k.icon ? (u(), m("i", {
+          }, null, 8, L9)) : k.icon ? (u(), m("i", {
             key: 1,
             class: z(k.icon)
           }, null, 2)) : C("", !0),
-          b("span", L9, F(k.label), 1),
-          S ? (u(), m("i", M9)) : C("", !0)
+          b("span", M9, F(k.label), 1),
+          S ? (u(), m("i", B9)) : C("", !0)
         ], 16)
       ]),
       _: 1
     }, 8, ["model"]));
   }
-}, DT = /* @__PURE__ */ nt(B9, [["__scopeId", "data-v-dda83037"]]), kc = {
+}, ET = /* @__PURE__ */ nt(F9, [["__scopeId", "data-v-dda83037"]]), kc = {
   apiEndpoint: "/api/file-gallery",
   allowedExtensions: ["jpg", "jpeg", "png", "gif", "webp", "pdf", "doc", "docx", "xls", "xlsx", "txt", "zip", "rar"],
   maxFileSize: 10485760,
@@ -48851,7 +48855,7 @@ const D9 = { key: 0 }, E9 = ["innerHTML"], L9 = { class: "ml-2" }, M9 = {
   allowEdit: !0,
   allowDelete: !0,
   showFilters: !0
-}, ET = {
+}, LT = {
   /**
    * Форматирование размера файла
    */
@@ -48916,7 +48920,7 @@ const D9 = { key: 0 }, E9 = ["innerHTML"], L9 = { class: "ml-2" }, M9 = {
     };
   }
 };
-class LT {
+class MT {
   constructor(e = kc.apiEndpoint) {
     this.endpoint = e;
   }
@@ -49173,7 +49177,7 @@ class Cc {
     await Promise.allSettled(n);
   }
 }
-var F9 = {
+var A9 = {
   loader: {
     mask: {
       background: "{content.background}",
@@ -49183,7 +49187,7 @@ var F9 = {
       size: "2rem"
     }
   }
-}, A9 = {
+}, V9 = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -49247,7 +49251,7 @@ var F9 = {
       }
     }
   }
-}, V9 = {
+}, $9 = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -49343,7 +49347,7 @@ var F9 = {
       }
     }
   }
-}, $9 = {
+}, z9 = {
   root: {
     width: "2rem",
     height: "2rem",
@@ -49365,7 +49369,7 @@ var F9 = {
     height: "4rem",
     fontSize: "2rem"
   }
-}, z9 = {
+}, K9 = {
   root: {
     borderRadius: "{border.radius.md}",
     padding: "0 0.5rem",
@@ -49454,11 +49458,11 @@ var F9 = {
       }
     }
   }
-}, K9 = {
+}, j9 = {
   root: {
     borderRadius: "{content.border.radius}"
   }
-}, j9 = {
+}, N9 = {
   root: {
     padding: "1.25rem",
     background: "{content.background}",
@@ -49485,7 +49489,7 @@ var F9 = {
   separator: {
     color: "{navigation.item.icon.color}"
   }
-}, N9 = {
+}, H9 = {
   root: {
     borderRadius: "{form.field.border.radius}",
     roundedBorderRadius: "2rem",
@@ -49971,7 +49975,7 @@ var F9 = {
       }
     }
   }
-}, H9 = {
+}, _9 = {
   root: {
     background: "{content.background}",
     borderRadius: "{border.radius.lg}",
@@ -49992,7 +49996,7 @@ var F9 = {
   subtitle: {
     color: "{text.muted.color}"
   }
-}, _9 = {
+}, U9 = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -50031,7 +50035,7 @@ var F9 = {
       }
     }
   }
-}, U9 = {
+}, G9 = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -50088,7 +50092,7 @@ var F9 = {
       size: "0.875rem"
     }
   }
-}, G9 = {
+}, W9 = {
   root: {
     borderRadius: "{border.radius.sm}",
     width: "1.5rem",
@@ -50123,7 +50127,7 @@ var F9 = {
     checkedHoverColor: "{primary.contrast.color}",
     disabledColor: "{form.field.disabled.color}"
   }
-}, W9 = {
+}, q9 = {
   root: {
     borderRadius: "16px",
     paddingX: "0.875rem",
@@ -50174,7 +50178,7 @@ var F9 = {
       }
     }
   }
-}, q9 = {
+}, Y9 = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -50214,7 +50218,7 @@ var F9 = {
       }
     }
   }
-}, Y9 = {
+}, Z9 = {
   icon: {
     size: "2rem",
     color: "{overlay.modal.color}"
@@ -50222,7 +50226,7 @@ var F9 = {
   content: {
     gap: "1rem"
   }
-}, Z9 = {
+}, J9 = {
   root: {
     background: "{overlay.popover.background}",
     borderColor: "{overlay.popover.border.color}",
@@ -50244,7 +50248,7 @@ var F9 = {
     gap: "0.5rem",
     padding: "0 {overlay.popover.padding} {overlay.popover.padding} {overlay.popover.padding}"
   }
-}, J9 = {
+}, X9 = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -50287,7 +50291,7 @@ var F9 = {
   separator: {
     borderColor: "{content.border.color}"
   }
-}, X9 = {
+}, Q9 = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -50480,7 +50484,7 @@ var F9 = {
       }
     }
   }
-}, Q9 = {
+}, eP = {
   root: {
     borderColor: "{content.border.color}",
     borderWidth: "1px",
@@ -50531,7 +50535,7 @@ var F9 = {
       }
     }
   }
-}, eP = {
+}, tP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -50668,7 +50672,7 @@ var F9 = {
       }
     }
   }
-}, tP = {
+}, nP = {
   root: {
     background: "{overlay.modal.background}",
     borderColor: "{overlay.modal.border.color}",
@@ -50691,7 +50695,7 @@ var F9 = {
     padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}",
     gap: "0.5rem"
   }
-}, nP = {
+}, oP = {
   root: {
     borderColor: "{content.border.color}"
   },
@@ -50713,7 +50717,7 @@ var F9 = {
       padding: "0.625rem 0"
     }
   }
-}, oP = {
+}, rP = {
   root: {
     background: "rgba(255, 255, 255, 0.1)",
     borderColor: "rgba(255, 255, 255, 0.2)",
@@ -50732,7 +50736,7 @@ var F9 = {
       shadow: "{focus.ring.shadow}"
     }
   }
-}, rP = {
+}, iP = {
   root: {
     background: "{overlay.modal.background}",
     borderColor: "{overlay.modal.border.color}",
@@ -50750,7 +50754,7 @@ var F9 = {
   content: {
     padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}"
   }
-}, iP = {
+}, aP = {
   toolbar: {
     borderColor: "{content.border.color}",
     borderRadius: "{content.border.radius}"
@@ -50793,7 +50797,7 @@ var F9 = {
       }
     }
   }
-}, aP = {
+}, lP = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -50842,7 +50846,7 @@ var F9 = {
       }
     }
   }
-}, lP = {
+}, sP = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -50889,14 +50893,14 @@ var F9 = {
       }
     }
   }
-}, sP = {
+}, uP = {
   root: {
     color: "{form.field.float.label.color}",
     focusColor: "{form.field.float.label.focus.color}",
     invalidColor: "{form.field.float.label.invalid.color}",
     transitionDuration: "0.2s"
   }
-}, uP = {
+}, dP = {
   root: {
     borderWidth: "1px",
     borderColor: "{content.border.color}",
@@ -51028,11 +51032,11 @@ var F9 = {
       }
     }
   }
-}, dP = {
+}, cP = {
   icon: {
     color: "{form.field.icon.color}"
   }
-}, cP = {
+}, pP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -51075,7 +51079,7 @@ var F9 = {
       shadow: "{focus.ring.shadow}"
     }
   }
-}, pP = {
+}, fP = {
   root: {
     padding: "{form.field.padding.y} {form.field.padding.x}",
     borderRadius: "{content.border.radius}",
@@ -51165,7 +51169,7 @@ var F9 = {
       }
     }
   }
-}, fP = {
+}, hP = {
   root: {
     padding: "{form.field.padding.y} {form.field.padding.x}",
     borderRadius: "{content.border.radius}",
@@ -51182,7 +51186,7 @@ var F9 = {
     hoverBackground: "{content.hover.background}",
     hoverColor: "{content.hover.color}"
   }
-}, hP = {
+}, mP = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -51225,7 +51229,7 @@ var F9 = {
       }
     }
   }
-}, mP = {
+}, gP = {
   addon: {
     borderRadius: "{form.field.border.radius}"
   },
@@ -51245,7 +51249,7 @@ var F9 = {
       }
     }
   }
-}, gP = {
+}, bP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -51282,7 +51286,7 @@ var F9 = {
       }
     }
   }
-}, bP = {
+}, yP = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -51318,7 +51322,7 @@ var F9 = {
       paddingY: "0.75rem"
     }
   }
-}, yP = {
+}, vP = {
   root: {
     transitionDuration: "{transition.duration}",
     focusRing: {
@@ -51338,7 +51342,7 @@ var F9 = {
   text: {
     color: "{text.muted.color}"
   }
-}, vP = {
+}, wP = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -51403,7 +51407,7 @@ var F9 = {
       }
     }
   }
-}, wP = {
+}, kP = {
   root: {
     borderColor: "transparent",
     borderRadius: "{content.border.radius}",
@@ -51491,7 +51495,7 @@ var F9 = {
       }
     }
   }
-}, kP = {
+}, CP = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -51525,7 +51529,7 @@ var F9 = {
   separator: {
     borderColor: "{content.border.color}"
   }
-}, CP = {
+}, SP = {
   root: {
     borderColor: "transparent",
     borderRadius: "{content.border.radius}",
@@ -51597,7 +51601,7 @@ var F9 = {
       }
     }
   }
-}, SP = {
+}, IP = {
   root: {
     borderRadius: "{content.border.radius}",
     borderWidth: "1px",
@@ -51789,7 +51793,7 @@ var F9 = {
       }
     }
   }
-}, IP = {
+}, xP = {
   root: {
     borderRadius: "{content.border.radius}",
     gap: "1rem"
@@ -51821,13 +51825,13 @@ function Fr(t) {
   }, Fr(t);
 }
 function ui(t, e, n) {
-  return (e = xP(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+  return (e = OP(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function xP(t) {
-  var e = OP(t, "string");
+function OP(t) {
+  var e = PP(t, "string");
   return Fr(e) == "symbol" ? e : e + "";
 }
-function OP(t, e) {
+function PP(t, e) {
   if (Fr(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -51837,7 +51841,7 @@ function OP(t, e) {
   }
   return (e === "string" ? String : Number)(t);
 }
-var PP = {
+var RP = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -51903,14 +51907,14 @@ var PP = {
   emptyMessage: {
     padding: "{list.option.padding}"
   }
-}, RP = {
+}, TP = {
   root: {
     gap: "1.125rem"
   },
   controls: {
     gap: "0.5rem"
   }
-}, TP = {
+}, DP = {
   root: {
     gutter: "0.75rem",
     transitionDuration: "{transition.duration}"
@@ -51948,14 +51952,14 @@ var PP = {
     borderRadius: "{content.border.radius}",
     height: "24px"
   }
-}, DP = {
+}, EP = {
   root: {
     outline: {
       width: "2px",
       color: "{content.background}"
     }
   }
-}, EP = {
+}, LP = {
   root: {
     padding: "0.5rem 1rem",
     gap: "0.25rem",
@@ -51988,7 +51992,7 @@ var PP = {
   jumpToPageInput: {
     maxWidth: "2.5rem"
   }
-}, LP = {
+}, MP = {
   root: {
     borderColor: "{content.border.color}",
     borderRadius: "{content.border.radius}"
@@ -52025,7 +52029,7 @@ var PP = {
       }
     }
   }
-}, MP = {
+}, BP = {
   root: {
     gap: "0",
     transitionDuration: "{transition.duration}"
@@ -52065,7 +52069,7 @@ var PP = {
     color: "{navigation.submenu.icon.color}",
     focusColor: "{navigation.submenu.icon.focus.color}"
   }
-}, BP = {
+}, FP = {
   meter: {
     background: "{content.border.color}",
     borderRadius: "{content.border.radius}",
@@ -52101,14 +52105,14 @@ var PP = {
       }
     }
   }
-}, FP = {
+}, AP = {
   root: {
     gap: "1.125rem"
   },
   controls: {
     gap: "0.5rem"
   }
-}, AP = {
+}, VP = {
   root: {
     background: "{overlay.popover.background}",
     borderColor: "{overlay.popover.border.color}",
@@ -52121,7 +52125,7 @@ var PP = {
   content: {
     padding: "{overlay.popover.padding}"
   }
-}, VP = {
+}, $P = {
   root: {
     background: "{content.border.color}",
     borderRadius: "{content.border.radius}",
@@ -52135,7 +52139,7 @@ var PP = {
     fontSize: "0.875rem",
     fontWeight: "600"
   }
-}, $P = {
+}, zP = {
   colorScheme: {
     light: {
       root: {
@@ -52154,7 +52158,7 @@ var PP = {
       }
     }
   }
-}, zP = {
+}, KP = {
   root: {
     width: "1.5rem",
     height: "1.5rem",
@@ -52187,7 +52191,7 @@ var PP = {
     checkedHoverColor: "{primary.contrast.color}",
     disabledColor: "{form.field.disabled.color}"
   }
-}, KP = {
+}, jP = {
   root: {
     gap: "0.25rem",
     transitionDuration: "{transition.duration}"
@@ -52198,7 +52202,7 @@ var PP = {
     hoverColor: "{primary.color}",
     activeColor: "{primary.color}"
   }
-}, jP = {
+}, NP = {
   colorScheme: {
     light: {
       root: {
@@ -52211,7 +52215,7 @@ var PP = {
       }
     }
   }
-}, NP = {
+}, HP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -52238,7 +52242,7 @@ var PP = {
       }
     }
   }
-}, HP = {
+}, _P = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -52307,7 +52311,7 @@ var PP = {
   emptyMessage: {
     padding: "{list.option.padding}"
   }
-}, _P = {
+}, UP = {
   root: {
     borderRadius: "{form.field.border.radius}"
   },
@@ -52323,7 +52327,7 @@ var PP = {
       }
     }
   }
-}, UP = {
+}, GP = {
   root: {
     borderRadius: "{content.border.radius}"
   },
@@ -52341,7 +52345,7 @@ var PP = {
       }
     }
   }
-}, GP = {
+}, WP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -52386,18 +52390,18 @@ var PP = {
       }
     }
   }
-}, WP = {
+}, qP = {
   root: {
     gap: "0.5rem",
     transitionDuration: "{transition.duration}"
   }
-}, qP = {
+}, YP = {
   root: {
     borderRadius: "{form.field.border.radius}",
     roundedBorderRadius: "2rem",
     raisedShadow: "0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12)"
   }
-}, YP = {
+}, ZP = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -52430,7 +52434,7 @@ var PP = {
       }
     }
   }
-}, ZP = {
+}, JP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -52482,7 +52486,7 @@ var PP = {
     color: "{content.color}",
     padding: "0 0 0 1rem"
   }
-}, JP = {
+}, XP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -52518,7 +52522,7 @@ var PP = {
     borderRadius: "50%",
     shadow: "none"
   }
-}, XP = {
+}, QP = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -52573,7 +52577,7 @@ var PP = {
       }
     }
   }
-}, QP = {
+}, eR = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -52653,7 +52657,7 @@ var PP = {
       }
     }
   }
-}, eR = {
+}, tR = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -52689,7 +52693,7 @@ var PP = {
       }
     }
   }
-}, tR = {
+}, nR = {
   root: {
     fontSize: "0.875rem",
     fontWeight: "700",
@@ -52763,7 +52767,7 @@ var PP = {
       }
     }
   }
-}, nR = {
+}, oR = {
   root: {
     background: "{form.field.background}",
     borderColor: "{form.field.border.color}",
@@ -52778,7 +52782,7 @@ var PP = {
   commandResponse: {
     margin: "2px 0"
   }
-}, oR = {
+}, rR = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -52804,7 +52808,7 @@ var PP = {
     },
     transitionDuration: "{form.field.transition.duration}"
   }
-}, rR = {
+}, iR = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -52841,7 +52845,7 @@ var PP = {
   separator: {
     borderColor: "{content.border.color}"
   }
-}, iR = {
+}, aR = {
   event: {
     minHeight: "5rem"
   },
@@ -52872,7 +52876,7 @@ var PP = {
     color: "{content.border.color}",
     size: "2px"
   }
-}, aR = {
+}, lR = {
   root: {
     width: "25rem",
     borderRadius: "{content.border.radius}",
@@ -53086,7 +53090,7 @@ var PP = {
       }
     }
   }
-}, lR = {
+}, sR = {
   root: {
     padding: "0.625rem 1rem",
     borderRadius: "{content.border.radius}",
@@ -53136,7 +53140,7 @@ var PP = {
       }
     }
   }
-}, sR = {
+}, uR = {
   root: {
     width: "3rem",
     height: "1.75rem",
@@ -53195,7 +53199,7 @@ var PP = {
       }
     }
   }
-}, uR = {
+}, dR = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -53218,7 +53222,7 @@ var PP = {
       }
     }
   }
-}, dR = {
+}, cR = {
   root: {
     maxWidth: "12.5rem",
     gutter: "0.25rem",
@@ -53240,7 +53244,7 @@ var PP = {
       }
     }
   }
-}, cR = {
+}, pR = {
   root: {
     background: "{content.background}",
     color: "{content.color}",
@@ -53290,7 +53294,7 @@ var PP = {
   loadingIcon: {
     size: "2rem"
   }
-}, pR = {
+}, fR = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -53336,7 +53340,7 @@ var PP = {
   chip: {
     borderRadius: "{border.radius.sm}"
   }
-}, fR = {
+}, hR = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -54129,93 +54133,93 @@ var PP = {
     }
   },
   components: {
-    accordion: A9,
-    autocomplete: V9,
-    avatar: $9,
-    badge: z9,
-    blockui: K9,
-    breadcrumb: j9,
-    button: N9,
-    datepicker: eP,
-    card: H9,
-    carousel: _9,
-    cascadeselect: U9,
-    checkbox: G9,
-    chip: W9,
-    colorpicker: q9,
-    confirmdialog: Y9,
-    confirmpopup: Z9,
-    contextmenu: J9,
-    dataview: Q9,
-    datatable: X9,
-    dialog: tP,
-    divider: nP,
-    dock: oP,
-    drawer: rP,
-    editor: iP,
-    fieldset: aP,
-    fileupload: lP,
-    floatlabel: sP,
-    galleria: uP,
-    iconfield: dP,
-    image: cP,
-    inlinemessage: pP,
-    inplace: fP,
-    inputchips: hP,
-    inputgroup: mP,
-    inputnumber: gP,
-    inputtext: bP,
-    knob: yP,
-    listbox: vP,
-    megamenu: wP,
-    menu: kP,
-    menubar: CP,
-    message: SP,
-    metergroup: IP,
-    multiselect: PP,
-    orderlist: RP,
-    organizationchart: TP,
-    overlaybadge: DP,
-    popover: AP,
-    paginator: EP,
-    password: BP,
-    panel: LP,
-    panelmenu: MP,
-    picklist: FP,
-    progressbar: VP,
-    progressspinner: $P,
-    radiobutton: zP,
-    rating: KP,
-    scrollpanel: NP,
-    select: HP,
-    selectbutton: _P,
-    skeleton: UP,
-    slider: GP,
-    speeddial: WP,
-    splitter: YP,
-    splitbutton: qP,
-    stepper: ZP,
-    steps: JP,
-    tabmenu: XP,
-    tabs: QP,
-    tabview: eR,
-    textarea: oR,
-    tieredmenu: rR,
-    tag: tR,
-    terminal: nR,
-    timeline: iR,
-    togglebutton: lR,
-    toggleswitch: sR,
-    tree: cR,
-    treeselect: pR,
-    treetable: fR,
-    toast: aR,
-    toolbar: uR,
-    virtualscroller: F9
+    accordion: V9,
+    autocomplete: $9,
+    avatar: z9,
+    badge: K9,
+    blockui: j9,
+    breadcrumb: N9,
+    button: H9,
+    datepicker: tP,
+    card: _9,
+    carousel: U9,
+    cascadeselect: G9,
+    checkbox: W9,
+    chip: q9,
+    colorpicker: Y9,
+    confirmdialog: Z9,
+    confirmpopup: J9,
+    contextmenu: X9,
+    dataview: eP,
+    datatable: Q9,
+    dialog: nP,
+    divider: oP,
+    dock: rP,
+    drawer: iP,
+    editor: aP,
+    fieldset: lP,
+    fileupload: sP,
+    floatlabel: uP,
+    galleria: dP,
+    iconfield: cP,
+    image: pP,
+    inlinemessage: fP,
+    inplace: hP,
+    inputchips: mP,
+    inputgroup: gP,
+    inputnumber: bP,
+    inputtext: yP,
+    knob: vP,
+    listbox: wP,
+    megamenu: kP,
+    menu: CP,
+    menubar: SP,
+    message: IP,
+    metergroup: xP,
+    multiselect: RP,
+    orderlist: TP,
+    organizationchart: DP,
+    overlaybadge: EP,
+    popover: VP,
+    paginator: LP,
+    password: FP,
+    panel: MP,
+    panelmenu: BP,
+    picklist: AP,
+    progressbar: $P,
+    progressspinner: zP,
+    radiobutton: KP,
+    rating: jP,
+    scrollpanel: HP,
+    select: _P,
+    selectbutton: UP,
+    skeleton: GP,
+    slider: WP,
+    speeddial: qP,
+    splitter: ZP,
+    splitbutton: YP,
+    stepper: JP,
+    steps: XP,
+    tabmenu: QP,
+    tabs: eR,
+    tabview: tR,
+    textarea: rR,
+    tieredmenu: iR,
+    tag: nR,
+    terminal: oR,
+    timeline: aR,
+    togglebutton: sR,
+    toggleswitch: uR,
+    tree: pR,
+    treeselect: fR,
+    treetable: hR,
+    toast: lR,
+    toolbar: dR,
+    virtualscroller: A9
   },
   directives: {
-    tooltip: dR,
-    ripple: jP
+    tooltip: cR,
+    ripple: NP
   }
 };
 function Ar(t) {
@@ -54240,21 +54244,21 @@ function No(t) {
   for (var e = 1; e < arguments.length; e++) {
     var n = arguments[e] != null ? arguments[e] : {};
     e % 2 ? gu(Object(n), !0).forEach(function(r) {
-      hR(t, r, n[r]);
+      mR(t, r, n[r]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n)) : gu(Object(n)).forEach(function(r) {
       Object.defineProperty(t, r, Object.getOwnPropertyDescriptor(n, r));
     });
   }
   return t;
 }
-function hR(t, e, n) {
-  return (e = mR(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+function mR(t, e, n) {
+  return (e = gR(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function mR(t) {
-  var e = gR(t, "string");
+function gR(t) {
+  var e = bR(t, "string");
   return Ar(e) == "symbol" ? e : e + "";
 }
-function gR(t, e) {
+function bR(t, e) {
   if (Ar(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -54264,7 +54268,7 @@ function gR(t, e) {
   }
   return (e === "string" ? String : Number)(t);
 }
-var bR = {
+var yR = {
   ripple: !1,
   inputStyle: null,
   inputVariant: null,
@@ -54410,20 +54414,20 @@ var bR = {
   csp: {
     nonce: void 0
   }
-}, yR = Symbol();
-function vR(t, e) {
+}, vR = Symbol();
+function wR(t, e) {
   var n = {
     config: hi(e)
   };
-  return t.config.globalProperties.$primevue = n, t.provide(yR, n), wR(), kR(t, n), n;
+  return t.config.globalProperties.$primevue = n, t.provide(vR, n), kR(), CR(t, n), n;
 }
 var fo = [];
-function wR() {
+function kR() {
   gn.clear(), fo.forEach(function(t) {
     return t?.();
   }), fo = [];
 }
-function kR(t, e) {
+function CR(t, e) {
   var n = T(!1), r = function() {
     if (!rt.isStyleNameLoaded("common")) {
       var l, c, f = ((l = xe.getCommonTheme) === null || l === void 0 ? void 0 : l.call(xe)) || {}, g = f.primitive, p = f.semantic, y = {
@@ -54482,16 +54486,16 @@ function kR(t, e) {
   });
   fo.push(i), fo.push(o), fo.push(a), fo.push(s);
 }
-var CR = {
+var SR = {
   install: function(e, n) {
-    var r = No(No({}, bR), n);
-    vR(e, r);
+    var r = No(No({}, yR), n);
+    wR(e, r);
   }
 };
-const SR = { startsWith: "Начинается с", contains: "Содержит", notContains: "Не содержит", endsWith: "Заканчивается", equals: "Равно", notEquals: "Не равно", noFilter: "Нет фильтра", filter: "Фильтр", lt: "Меньше чем", lte: "Меньше чем или равно", gt: "Более чем", gte: "Более чем или равно", dateIs: "Дата равна", dateIsNot: "Дата не равна", dateBefore: "Дата до", dateAfter: "Дата после", custom: "Пользовательский", clear: "Очистить", apply: "Принять", matchAll: "Сопоставить все", matchAny: "Совпадение с любым", addRule: "Добавить правило", removeRule: "Удалить правило", accept: "Да", reject: "Нет", choose: "Выбрать", upload: "Загрузить", cancel: "Отмена", completed: "Завершено", pending: "В ожидании", fileSizeTypes: ["Б", "Кб", "Мб", "Гб", "Тб", "Пб", "Эб", "Зб", "Йб"], dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"], dayNamesShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт"], dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"], monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"], monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"], chooseYear: "Выбрать год", chooseMonth: "Выбрать месяц", chooseDate: "Выбрать дату", prevDecade: "Предыдущее десятилетие", nextDecade: "Следующее десятилетие", prevYear: "Предыдущий год", nextYear: "Следующий год", prevMonth: "Предыдущий месяц", nextMonth: "Следующий месяц", prevHour: "Предыдущий час", nextHour: "Следующий час", prevMinute: "Предыдущая минута", nextMinute: "Следующая минута", prevSecond: "Предыдущая секунда", nextSecond: "Следующая секунда", am: "до полудня", pm: "после полудня", today: "Сегодня", now: "Сейчас", weekHeader: "Нед.", firstDayOfWeek: 1, showMonthAfterYear: !1, dateFormat: "dd.mm.yy", weak: "Простой", medium: "Нормальный", strong: "Хороший", passwordPrompt: "Введите пароль", emptyFilterMessage: "Результатов не найдено", searchMessage: "{0} результатов доступно", selectionMessage: "{0} элементов выбрано", emptySelectionMessage: "Нет выбранного элемента", emptySearchMessage: "Результатов не найдено", emptyMessage: "Нет доступных вариантов", aria: { trueLabel: "Верно", falseLabel: "Неверно", nullLabel: "Не выбран", star: "1 звезда", stars: "{star} звёзд", selectAll: "Выбраны все элементы", unselectAll: "Все элементы не выбраны", close: "Закрыть", previous: "Предыдущий", next: "Следующий", navigation: "Навигация", scrollTop: "Прокрутить в начало", moveTop: "Переместить в начало", moveUp: "Переместить вверх", moveDown: "Переместить вниз", moveBottom: "Переместить в конец", moveToTarget: "Переместить в приёмник", moveToSource: "Переместить в источник", moveAllToTarget: "Переместить всё в приёмник", moveAllToSource: "Переместить всё в источник", pageLabel: "{page}", firstPageLabel: "Первая страница", lastPageLabel: "Последняя страница", nextPageLabel: "Следующая страница", previousPageLabel: "Предыдущая страница", rowsPerPageLabel: "Строк на странице", jumpToPageDropdownLabel: "Перейти к раскрывающемуся списку страниц", jumpToPageInputLabel: "Перейти к вводу страницы", selectRow: "Выбрана строка", unselectRow: "Строка не выбрана", expandRow: "Строка развёрнута", collapseRow: "Строка свёрнута", showFilterMenu: "Показать меню фильтра", hideFilterMenu: "Скрыть меню фильтра", filterOperator: "Оператор фильтра", filterConstraint: "Ограничение фильтра", editRow: "Редактирование строки", saveEdit: "Сохранить правку", cancelEdit: "Отменить правку", listView: "В виде списка", gridView: "В виде сетки", slide: "Слайд", slideNumber: "{slideNumber}", zoomImage: "Увеличить изображение", zoomIn: "Увеличить", zoomOut: "Уменьшить", rotateRight: "Повернуть вправо", rotateLeft: "Повернуть влево" } }, IR = {
-  ru: SR
+const IR = { startsWith: "Начинается с", contains: "Содержит", notContains: "Не содержит", endsWith: "Заканчивается", equals: "Равно", notEquals: "Не равно", noFilter: "Нет фильтра", filter: "Фильтр", lt: "Меньше чем", lte: "Меньше чем или равно", gt: "Более чем", gte: "Более чем или равно", dateIs: "Дата равна", dateIsNot: "Дата не равна", dateBefore: "Дата до", dateAfter: "Дата после", custom: "Пользовательский", clear: "Очистить", apply: "Принять", matchAll: "Сопоставить все", matchAny: "Совпадение с любым", addRule: "Добавить правило", removeRule: "Удалить правило", accept: "Да", reject: "Нет", choose: "Выбрать", upload: "Загрузить", cancel: "Отмена", completed: "Завершено", pending: "В ожидании", fileSizeTypes: ["Б", "Кб", "Мб", "Гб", "Тб", "Пб", "Эб", "Зб", "Йб"], dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"], dayNamesShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт"], dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"], monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"], monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"], chooseYear: "Выбрать год", chooseMonth: "Выбрать месяц", chooseDate: "Выбрать дату", prevDecade: "Предыдущее десятилетие", nextDecade: "Следующее десятилетие", prevYear: "Предыдущий год", nextYear: "Следующий год", prevMonth: "Предыдущий месяц", nextMonth: "Следующий месяц", prevHour: "Предыдущий час", nextHour: "Следующий час", prevMinute: "Предыдущая минута", nextMinute: "Следующая минута", prevSecond: "Предыдущая секунда", nextSecond: "Следующая секунда", am: "до полудня", pm: "после полудня", today: "Сегодня", now: "Сейчас", weekHeader: "Нед.", firstDayOfWeek: 1, showMonthAfterYear: !1, dateFormat: "dd.mm.yy", weak: "Простой", medium: "Нормальный", strong: "Хороший", passwordPrompt: "Введите пароль", emptyFilterMessage: "Результатов не найдено", searchMessage: "{0} результатов доступно", selectionMessage: "{0} элементов выбрано", emptySelectionMessage: "Нет выбранного элемента", emptySearchMessage: "Результатов не найдено", emptyMessage: "Нет доступных вариантов", aria: { trueLabel: "Верно", falseLabel: "Неверно", nullLabel: "Не выбран", star: "1 звезда", stars: "{star} звёзд", selectAll: "Выбраны все элементы", unselectAll: "Все элементы не выбраны", close: "Закрыть", previous: "Предыдущий", next: "Следующий", navigation: "Навигация", scrollTop: "Прокрутить в начало", moveTop: "Переместить в начало", moveUp: "Переместить вверх", moveDown: "Переместить вниз", moveBottom: "Переместить в конец", moveToTarget: "Переместить в приёмник", moveToSource: "Переместить в источник", moveAllToTarget: "Переместить всё в приёмник", moveAllToSource: "Переместить всё в источник", pageLabel: "{page}", firstPageLabel: "Первая страница", lastPageLabel: "Последняя страница", nextPageLabel: "Следующая страница", previousPageLabel: "Предыдущая страница", rowsPerPageLabel: "Строк на странице", jumpToPageDropdownLabel: "Перейти к раскрывающемуся списку страниц", jumpToPageInputLabel: "Перейти к вводу страницы", selectRow: "Выбрана строка", unselectRow: "Строка не выбрана", expandRow: "Строка развёрнута", collapseRow: "Строка свёрнута", showFilterMenu: "Показать меню фильтра", hideFilterMenu: "Скрыть меню фильтра", filterOperator: "Оператор фильтра", filterConstraint: "Ограничение фильтра", editRow: "Редактирование строки", saveEdit: "Сохранить правку", cancelEdit: "Отменить правку", listView: "В виде списка", gridView: "В виде сетки", slide: "Слайд", slideNumber: "{slideNumber}", zoomImage: "Увеличить изображение", zoomIn: "Увеличить", zoomOut: "Уменьшить", rotateRight: "Повернуть вправо", rotateLeft: "Повернуть влево" } }, xR = {
+  ru: IR
 };
-var xR = function(e) {
+var OR = function(e) {
   var n = e.dt;
   return `
 .p-drawer {
@@ -54607,7 +54611,7 @@ var xR = function(e) {
     display: flex;
 }
 `);
-}, OR = {
+}, PR = {
   mask: function(e) {
     var n = e.position;
     return {
@@ -54621,7 +54625,7 @@ var xR = function(e) {
       alignItems: n === "top" ? "flex-start" : n === "bottom" ? "flex-end" : "center"
     };
   }
-}, PR = {
+}, RR = {
   mask: function(e) {
     var n = e.instance, r = e.props, i = ["left", "right", "top", "bottom"], o = i.find(function(a) {
       return a === r.position;
@@ -54643,12 +54647,12 @@ var xR = function(e) {
   pcCloseButton: "p-drawer-close-button",
   content: "p-drawer-content",
   footer: "p-drawer-footer"
-}, RR = xe.extend({
+}, TR = xe.extend({
   name: "drawer",
-  theme: xR,
-  classes: PR,
-  inlineStyles: OR
-}), TR = {
+  theme: OR,
+  classes: RR,
+  inlineStyles: PR
+}), DR = {
   name: "BaseDrawer",
   extends: me,
   props: {
@@ -54703,7 +54707,7 @@ var xR = function(e) {
       default: !1
     }
   },
-  style: RR,
+  style: TR,
   provide: function() {
     return {
       $pcDrawer: this,
@@ -54715,9 +54719,9 @@ var xR = function(e) {
       e ? this.bindOutsideClickListener() : this.unbindOutsideClickListener();
     }
   }
-}, DR = {
+}, ER = {
   name: "Drawer",
-  extends: TR,
+  extends: DR,
   inheritAttrs: !1,
   emits: ["update:visible", "show", "hide", "after-hide"],
   data: function() {
@@ -54829,8 +54833,8 @@ var xR = function(e) {
     Portal: ln,
     TimesIcon: wn
   }
-}, ER = ["aria-modal"];
-function LR(t, e, n, r, i, o) {
+}, LR = ["aria-modal"];
+function MR(t, e, n, r, i, o) {
   var a = V("Button"), s = V("Portal"), d = st("focustrap");
   return u(), w(s, null, {
     default: O(function() {
@@ -54901,7 +54905,7 @@ function LR(t, e, n, r, i, o) {
           }, t.ptm("content")), [E(t.$slots, "default")], 16), b("div", h({
             ref: o.footerContainerRef,
             class: t.cx("footer")
-          }, t.ptm("footer")), [E(t.$slots, "footer")], 16)], 64))], 16, ER)), [[d]]) : C("", !0)];
+          }, t.ptm("footer")), [E(t.$slots, "footer")], 16)], 64))], 16, LR)), [[d]]) : C("", !0)];
         }),
         _: 3
       }, 16, ["onEnter", "onAfterEnter", "onBeforeLeave", "onLeave", "onAfterLeave"])], 16)) : C("", !0)];
@@ -54909,8 +54913,8 @@ function LR(t, e, n, r, i, o) {
     _: 3
   });
 }
-DR.render = LR;
-var MR = function(e) {
+ER.render = MR;
+var BR = function(e) {
   var n = e.dt;
   return `
 .p-tooltip {
@@ -54974,25 +54978,25 @@ var MR = function(e) {
     border-bottom-color: `).concat(n("tooltip.background"), `;
 }
 `);
-}, BR = {
+}, FR = {
   root: "p-tooltip p-component",
   arrow: "p-tooltip-arrow",
   text: "p-tooltip-text"
-}, FR = xe.extend({
+}, AR = xe.extend({
   name: "tooltip-directive",
-  theme: MR,
-  classes: BR
-}), AR = We.extend({
-  style: FR
+  theme: BR,
+  classes: FR
+}), VR = We.extend({
+  style: AR
 });
-function VR(t, e) {
-  return jR(t) || KR(t, e) || zR(t, e) || $R();
+function $R(t, e) {
+  return NR(t) || jR(t, e) || KR(t, e) || zR();
 }
-function $R() {
+function zR() {
   throw new TypeError(`Invalid attempt to destructure non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
 }
-function zR(t, e) {
+function KR(t, e) {
   if (t) {
     if (typeof t == "string") return bu(t, e);
     var n = {}.toString.call(t).slice(8, -1);
@@ -55004,7 +55008,7 @@ function bu(t, e) {
   for (var n = 0, r = Array(e); n < e; n++) r[n] = t[n];
   return r;
 }
-function KR(t, e) {
+function jR(t, e) {
   var n = t == null ? null : typeof Symbol < "u" && t[Symbol.iterator] || t["@@iterator"];
   if (n != null) {
     var r, i, o, a, s = [], d = !0, l = !1;
@@ -55022,17 +55026,17 @@ function KR(t, e) {
     return s;
   }
 }
-function jR(t) {
+function NR(t) {
   if (Array.isArray(t)) return t;
 }
 function yu(t, e, n) {
-  return (e = NR(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+  return (e = HR(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function NR(t) {
-  var e = HR(t, "string");
+function HR(t) {
+  var e = _R(t, "string");
   return Nn(e) == "symbol" ? e : e + "";
 }
-function HR(t, e) {
+function _R(t, e) {
   if (Nn(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -55050,7 +55054,7 @@ function Nn(t) {
     return e && typeof Symbol == "function" && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
   }, Nn(t);
 }
-var _R = AR.extend("tooltip", {
+var UR = VR.extend("tooltip", {
   beforeMount: function(e, n) {
     var r, i = this.getTarget(e);
     if (i.$_ptooltipModifiers = this.getModifiers(n), n.value) {
@@ -55241,7 +55245,7 @@ var _R = AR.extend("tooltip", {
     },
     getModifiers: function(e) {
       return e.modifiers && Object.keys(e.modifiers).length ? e.modifiers : e.arg && Nn(e.arg) === "object" ? Object.entries(e.arg).reduce(function(n, r) {
-        var i = VR(r, 2), o = i[0], a = i[1];
+        var i = $R(r, 2), o = i[0], a = i[1];
         return (o === "event" || o === "position") && (n[a] = !0), n;
       }, {}) : {};
     }
@@ -55256,13 +55260,13 @@ function Vr(t) {
   }, Vr(t);
 }
 function ua(t, e, n) {
-  return (e = UR(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+  return (e = GR(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function UR(t) {
-  var e = GR(t, "string");
+function GR(t) {
+  var e = WR(t, "string");
   return Vr(e) == "symbol" ? e : e + "";
 }
-function GR(t, e) {
+function WR(t, e) {
   if (Vr(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -55272,7 +55276,7 @@ function GR(t, e) {
   }
   return (e === "string" ? String : Number)(t);
 }
-var WR = function(e) {
+var qR = function(e) {
   var n = e.dt;
   return `
 .p-speeddial {
@@ -55349,7 +55353,7 @@ var WR = function(e) {
     transform: rotate(45deg);
 }
 `);
-}, qR = {
+}, YR = {
   root: function(e) {
     var n = e.props;
     return {
@@ -55364,7 +55368,7 @@ var WR = function(e) {
       flexDirection: n.direction === "up" ? "column-reverse" : n.direction === "down" ? "column" : n.direction === "left" ? "row-reverse" : n.direction === "right" ? "row" : null
     };
   }
-}, YR = {
+}, ZR = {
   root: function(e) {
     var n = e.instance, r = e.props;
     return ["p-speeddial p-component p-speeddial-".concat(r.type), ua(ua(ua({}, "p-speeddial-direction-".concat(r.direction), r.type !== "circle"), "p-speeddial-open", n.d_visible), "p-disabled", r.disabled)];
@@ -55385,12 +55389,12 @@ var WR = function(e) {
       "p-speeddial-mask-visible": n.d_visible
     }];
   }
-}, ZR = xe.extend({
+}, JR = xe.extend({
   name: "speeddial",
-  theme: WR,
-  classes: YR,
-  inlineStyles: qR
-}), JR = {
+  theme: qR,
+  classes: ZR,
+  inlineStyles: YR
+}), XR = {
   name: "BaseSpeedDial",
   extends: me,
   props: {
@@ -55472,7 +55476,7 @@ var WR = function(e) {
       default: null
     }
   },
-  style: ZR,
+  style: JR,
   provide: function() {
     return {
       $pcSpeedDial: this,
@@ -55498,25 +55502,25 @@ function vu(t, e) {
   }
   return n;
 }
-function XR(t) {
+function QR(t) {
   for (var e = 1; e < arguments.length; e++) {
     var n = arguments[e] != null ? arguments[e] : {};
     e % 2 ? vu(Object(n), !0).forEach(function(r) {
-      QR(t, r, n[r]);
+      eT(t, r, n[r]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n)) : vu(Object(n)).forEach(function(r) {
       Object.defineProperty(t, r, Object.getOwnPropertyDescriptor(n, r));
     });
   }
   return t;
 }
-function QR(t, e, n) {
-  return (e = eT(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+function eT(t, e, n) {
+  return (e = tT(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function eT(t) {
-  var e = tT(t, "string");
+function tT(t) {
+  var e = nT(t, "string");
   return $r(e) == "symbol" ? e : e + "";
 }
-function tT(t, e) {
+function nT(t, e) {
   if ($r(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -55527,23 +55531,23 @@ function tT(t, e) {
   return (e === "string" ? String : Number)(t);
 }
 function di(t) {
-  return iT(t) || rT(t) || oT(t) || nT();
+  return aT(t) || iT(t) || rT(t) || oT();
 }
-function nT() {
+function oT() {
   throw new TypeError(`Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
 }
-function oT(t, e) {
+function rT(t, e) {
   if (t) {
     if (typeof t == "string") return _a(t, e);
     var n = {}.toString.call(t).slice(8, -1);
     return n === "Object" && t.constructor && (n = t.constructor.name), n === "Map" || n === "Set" ? Array.from(t) : n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? _a(t, e) : void 0;
   }
 }
-function rT(t) {
+function iT(t) {
   if (typeof Symbol < "u" && t[Symbol.iterator] != null || t["@@iterator"] != null) return Array.from(t);
 }
-function iT(t) {
+function aT(t) {
   if (Array.isArray(t)) return _a(t);
 }
 function _a(t, e) {
@@ -55551,9 +55555,9 @@ function _a(t, e) {
   for (var n = 0, r = Array(e); n < e; n++) r[n] = t[n];
   return r;
 }
-var da = 3.14159265358979, aT = {
+var da = 3.14159265358979, lT = {
   name: "SpeedDial",
-  extends: JR,
+  extends: XR,
   inheritAttrs: !1,
   emits: ["click", "show", "hide", "focus", "blur"],
   documentClickListener: null,
@@ -55799,7 +55803,7 @@ var da = 3.14159265358979, aT = {
     },
     getItemStyle: function(e) {
       var n = this.calculateTransitionDelay(e), r = this.calculatePointStyle(e);
-      return XR({
+      return QR({
         transitionDelay: "".concat(n, "ms")
       }, r);
     },
@@ -55842,10 +55846,10 @@ var da = 3.14159265358979, aT = {
   },
   directives: {
     ripple: ht,
-    tooltip: _R
+    tooltip: UR
   }
-}, lT = ["id"], sT = ["id", "aria-controls", "data-p-active"];
-function uT(t, e, n, r, i, o) {
+}, sT = ["id"], uT = ["id", "aria-controls", "data-p-active"];
+function dT(t, e, n, r, i, o) {
   var a = V("Button"), s = st("tooltip");
   return u(), m($, null, [b("div", h({
     ref: o.containerRef,
@@ -55959,21 +55963,21 @@ function uT(t, e, n, r, i, o) {
     } : void 0]), 1040, ["class", "aria-label", "disabled", "unstyled", "onClick", "pt"])), [[s, {
       value: d.label,
       disabled: !t.tooltipOptions
-    }, t.tooltipOptions]])], 16, sT)) : C("", !0)], 64);
-  }), 128))], 16, lT)], 16), t.mask ? (u(), m("div", h({
+    }, t.tooltipOptions]])], 16, uT)) : C("", !0)], 64);
+  }), 128))], 16, sT)], 16), t.mask ? (u(), m("div", h({
     key: 0,
     class: [t.cx("mask"), t.maskClass],
     style: t.maskStyle
   }, t.ptm("mask")), null, 16)) : C("", !0)], 64);
 }
-aT.render = uT;
+lT.render = dT;
 window.PVTablesAPI || (window.PVTablesAPI = {
   useNotifications: Lt,
   apiCtor: Dt,
-  apiFetch: B7,
+  apiFetch: F7,
   ComponentLoader: Cc
 });
-const MT = {
+const BT = {
   install: (t, e) => {
     if (window.componentLoader)
       t.provide("componentLoader", window.componentLoader);
@@ -55981,7 +55985,7 @@ const MT = {
       const n = new Cc(t);
       t.provide("componentLoader", n), window.componentLoader = n;
     }
-    t.use(CR, {
+    t.use(SR, {
       theme: {
         preset: mu,
         pt: mu,
@@ -55993,8 +55997,8 @@ const MT = {
           }
         }
       },
-      locale: IR.ru
-    }), t.component("gtsAutoComplete", bc), t.component("PVAutoComplete", Ki), t.component("PVTables", ki), t.component("PVTab", $O), t.component("apiCtor", Dt), t.component("gtsDate", hl), t.component("PVDateTime", ml), t.component("gtsSelect", bl), t.component("PVTable", V7), t.component("PVForm", ko), t.component("PVTableModel", W7), t.component("EditField", to), t.component("FileGallery", cc), t.component("FileUploadDialog", sc), t.component("FileEditDialog", uc), t.component("FileViewDialog", dc);
+      locale: xR.ru
+    }), t.component("gtsAutoComplete", bc), t.component("PVAutoComplete", Ki), t.component("PVTables", ki), t.component("PVTab", zO), t.component("apiCtor", Dt), t.component("gtsDate", hl), t.component("PVDateTime", ml), t.component("gtsSelect", bl), t.component("PVTable", $7), t.component("PVForm", ko), t.component("PVTableModel", q7), t.component("EditField", to), t.component("FileGallery", cc), t.component("FileUploadDialog", sc), t.component("FileEditDialog", uc), t.component("FileViewDialog", dc);
   }
 };
 export {
@@ -56003,11 +56007,11 @@ export {
   Cc as ComponentLoader,
   My as DataTable,
   Tt as Dialog,
-  DR as Drawer,
+  ER as Drawer,
   to as EditField,
   uc as FileEditDialog,
   cc as FileGallery,
-  LT as FileGalleryAPI,
+  MT as FileGalleryAPI,
   oc as FileSelector,
   ec as FileUpload,
   sc as FileUploadDialog,
@@ -56020,15 +56024,15 @@ export {
   Ki as PVAutoComplete,
   ml as PVDateTime,
   ko as PVForm,
-  DT as PVMenu,
-  $O as PVTab,
-  V7 as PVTable,
-  W7 as PVTableModel,
+  ET as PVMenu,
+  zO as PVTab,
+  $7 as PVTable,
+  q7 as PVTableModel,
   ki as PVTables,
   Mr as PVTabs,
   ud as Popover,
   jr as Select,
-  aT as SpeedDial,
+  lT as SpeedDial,
   yc as Splitter,
   Ha as SplitterPanel,
   Il as Tab,
@@ -56042,12 +56046,12 @@ export {
   Bi as Toolbar,
   zd as Tree,
   W6 as UniTree,
-  TT as UniTreePanel,
+  DT as UniTreePanel,
   su as UniTreeSplitButton,
   Dt as apiCtor,
-  B7 as apiFetch,
-  MT as default,
-  ET as fileUtils,
+  F7 as apiFetch,
+  BT as default,
+  LT as fileUtils,
   bc as gtsAutoComplete,
   hl as gtsDate,
   Lt as useNotifications
