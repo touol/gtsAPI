@@ -4456,6 +4456,10 @@ function Fh(t, e, n, r) {
     parent_row: u,
     childComponentRefs: s,
     toogleExpandRow: async (v) => {
+      if (!t || !t.value) {
+        console.error("table_tree is not defined");
+        return;
+      }
       let w = { ...i.value };
       if (o.value[v.id])
         delete o.value[v.id], delete w[v.id], await h(w), delete a.value[v.id];
@@ -4469,7 +4473,9 @@ function Fh(t, e, n, r) {
               matchMode: Ne.EQUALS
             }
           ]
-        }, l.value[v.id] = { ...x, ...e.value }, a.value[v.id] = {
+        };
+        const C = typeof e == "function" && e() ? e().value : {};
+        l.value[v.id] = { ...x, ...C }, a.value[v.id] = {
           action: "subtables",
           table: r
         }, w[v.id] = !0, o.value[v.id] = !0, i.value = { ...w };
@@ -47034,7 +47040,7 @@ const z7 = { class: "card" }, K7 = { style: { padding: "1rem" } }, j7 = { style:
       childComponentRefs: eo,
       toogleExpandRow: Al,
       setExpandedRow: Dc
-    } = Fh(W, E, Xe, i.table), Ui = D(!1), _i = D({}), Wr = D(null), Ec = D(null), Lc = D(""), Vl = D([]), qr = Mh({
+    } = Fh(W, () => E, Xe, i.table), Ui = D(!1), _i = D({}), Wr = D(null), Ec = D(null), Lc = D(""), Vl = D([]), qr = Mh({
       api: a,
       props: i,
       prepFilters: () => ve(),
