@@ -1925,6 +1925,12 @@ class tableAPIController{
                 $autocomplete['rows'][$k]['content'] = $this->pdoTools->getChunk("@INLINE ".$autocomplete['tpl'],$row);
             }
         }
+        $default = '';
+        if(isset($autocomplete['default_row']) and is_array($autocomplete['default_row'])){
+            if($obj = $this->modx->getObject($rule['class'],$autocomplete['default_row'])){
+                $autocomplete['default_value'] = $obj->id;
+            }
+        }
         $autocomplete['log'] = $this->pdo->getTime();
         $autocomplete['total'] = (int)$this->modx->getPlaceholder('total');
         return $autocomplete;

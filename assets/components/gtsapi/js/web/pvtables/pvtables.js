@@ -23492,18 +23492,21 @@ const {
         return console.error("Ошибка компиляции шаблона:", A), u("error", { detail: `Ошибка в шаблоне: ${A.message}` }), null;
       }
     }), w = D(""), x = async () => {
-      if (o.field.default_row)
-        try {
-          const z = await a.autocomplete({ query: "", ids: "" });
-          f.value = z.data.rows, z.data.default && (n.value = z.data.default);
-        } catch (z) {
-          u("error", { detail: z.message });
-        }
+      if (n.value == 0 && o.field.default_row)
+        if (Number(o.options.default_value) > 0)
+          n.value = o.options.default_value;
+        else
+          try {
+            const z = await a.autocomplete({ query: "", ids: "" });
+            f.value = z.data.rows, z.data.default && (n.value = z.data.default);
+          } catch (z) {
+            u("error", { detail: z.message });
+          }
     };
     At(() => {
       x();
     }), yn(async () => {
-      if (o.options && Number(n.value) == 0 && (Number(o.options.default) > 0 && (n.value = o.options.default), o.field.defaultname))
+      if (o.options && Number(n.value) == 0 && (Number(o.options.default) > 0 && (n.value = o.options.default), n.value == 0 && o.field.defaultname))
         try {
           o.field.ids || (o.field.ids = "");
           const z = await a.autocomplete({ query: o.field.defaultname, parent: o.field.parent, ids: o.field.ids });
