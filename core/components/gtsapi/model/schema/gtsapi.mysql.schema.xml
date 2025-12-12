@@ -91,6 +91,7 @@
         <field key="properties" dbtype="text" phptype="string" null="false" default=""/>
 
         <field key="autocomplete_field" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+        <field key="fields_style" dbtype="text" phptype="string" null="true"/>
 
         <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
         <field key="version" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>

@@ -177,7 +177,7 @@ class tableAPIController{
         
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         $action = explode('/',$request['api_action']);
-        if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete']) and isset($rule['properties']['actions'])){
+        if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete','save_fields_style','reset_fields_style']) and isset($rule['properties']['actions'])){
             $api_action = $request['api_action'];
             if($api_action == 'watch_form') $api_action = $request['watch_action'];
 
@@ -245,6 +245,12 @@ class tableAPIController{
             break;
             case 'print':
                 return $this->print($rule,$request);
+            break;
+            case 'save_fields_style':
+                return $this->save_fields_style($rule,$request);
+            break;
+            case 'reset_fields_style':
+                return $this->reset_fields_style($rule,$request);
             break;
             default:
                 $action = explode('/',$request['api_action']);
@@ -722,6 +728,7 @@ class tableAPIController{
             'row_class_trigger'=>$row_class_trigger,
             'table_tree'=>$table_tree,
             'limit'=>$limit,
+            'fields_style'=>json_decode($rule['fields_style'],1),
         ];
         if(isset($rule['properties']['rowGroupMode'])){
             $options['rowGroupMode'] = $rule['properties']['rowGroupMode'];
@@ -2881,5 +2888,62 @@ class tableAPIController{
         }
         
         return $array;
+    }
+    /**
+     * Сохранение стилей колонок на сервере
+     * Доступно только для группы Administrator
+     */
+    public function save_fields_style($rule, $request) {
+        // Проверка прав доступа - только Administrator
+        if (!$this->modx->user->isMember('Administrator')) {
+            return $this->error('Доступ запрещен. Требуются права администратора.');
+        }
+        
+        if (empty($request['fields_style'])) {
+            return $this->error('Не переданы стили полей');
+        }
+        
+        // Получаем объект таблицы
+        if (!$gtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $rule['table'], 'active' => 1])) {
+            return $this->error('Таблица не найдена');
+        }
+        
+        // Сохраняем стили как JSON
+        $gtsAPITable->set('fields_style', json_encode($request['fields_style']));
+        
+        if ($gtsAPITable->save()) {
+            return $this->success('Стили полей сохранены', [
+                'fields_style' => $request['fields_style']
+            ]);
+        }
+        
+        return $this->error('Ошибка сохранения стилей');
+    }
+
+    /**
+     * Сброс стилей колонок на сервере
+     * Доступно только для группы Administrator
+     */
+    public function reset_fields_style($rule, $request) {
+        // Проверка прав доступа - только Administrator
+        if (!$this->modx->user->isMember('Administrator')) {
+            return $this->error('Доступ запрещен. Требуются права администратора.');
+        }
+        
+        // Получаем объект таблицы
+        if (!$gtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $rule['table'], 'active' => 1])) {
+            return $this->error('Таблица не найдена');
+        }
+        
+        // Очищаем стили
+        $gtsAPITable->set('fields_style', null);
+        
+        if ($gtsAPITable->save()) {
+            return $this->success('Стили полей сброшены', [
+                'fields_style' => null
+            ]);
+        }
+        
+        return $this->error('Ошибка сброса стилей');
     }
 }
