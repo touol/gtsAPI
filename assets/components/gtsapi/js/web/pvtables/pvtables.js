@@ -46144,7 +46144,7 @@ const cc = /* @__PURE__ */ rt(x8, [["render", e7], ["__scopeId", "data-v-b8be86b
   return { undo: r, redo: i, cacheAction: n, cache: t };
 };
 function g7({ columns: t, lineItems: e, dt: n, storageKey: r }) {
-  const i = D(!0), o = D(50), a = D(50), s = D(null), u = () => {
+  const i = D(!1), o = D(50), a = D(50), s = D(null), u = () => {
     try {
       const w = localStorage.getItem(r);
       if (w) {
