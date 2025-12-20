@@ -1070,7 +1070,7 @@ class tableAPIController{
         $request = $this->request_array_to_json($request);
         if(!$obj = $this->modx->newObject($rule['class'],$data)) return $this->error('Ошибка. Возможно таблица не существует!',$request);
         
-        // $this->modx->log(1,"create {$rule['class']} ".print_r($data,1));
+        // $this->modx->log(1,"create {$rule['class']} ".print_r($data,1).print_r($request,1));
         //class link Редактирование 2 таблиц одновременно
         $set_data[$rule['class']] = [];
         $fields = [];

@@ -4452,7 +4452,7 @@ function Fh(t, e, n, r) {
           ]
         };
         const C = typeof e == "function" && e() ? e().value : {};
-        l.value[v.id] = { ...x, ...C }, a.value[v.id] = {
+        l.value[v.id] = { ...C, ...x }, a.value[v.id] = {
           action: "subtables",
           table: r
         }, w[v.id] = !0, o.value[v.id] = !0, i.value = { ...w };
