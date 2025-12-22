@@ -22428,6 +22428,11 @@ const p0 = {
     severity: "error",
     summary: "Ошибка",
     life: 3e3
+  },
+  info: {
+    severity: "info",
+    summary: "Инфо",
+    life: 3e3
   }
 }, f0 = {
   success: "info",
