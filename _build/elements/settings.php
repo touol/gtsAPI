@@ -210,7 +210,7 @@ return [
                         "label": "Класс таблицы",
                         "filter": 1
                       },
-                      "exdended_modresource": {
+                      "extended_modresource": {
                         "label": "Таблица расширение modResource",
                         "edit": {
                           "type": "checkbox"
