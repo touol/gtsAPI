@@ -1274,7 +1274,10 @@ class treeAPIController{
                     $parent = $parentObj->target_id;
                     if(!$slTreeSettings['useUniTree']) $parent = $parentObj->id;
                 }
-                if($rule['gtsAPIUniTreeClass'][$request['table']]['exdended_modresource'] == 1){
+                if($rule['gtsAPIUniTreeClass'][$request['table']]['extended_modresource'] == 1){
+                    if(!empty($request['parent_id']) and $parentObj = $this->modx->getObject('modResource', (int)$request['parent_id'])){
+                        $parent = $parentObj->id;
+                    }
                     $res = [
                         'pagetitle'=>$request['title'],
                         'parent'=>$parent,
@@ -1605,7 +1608,6 @@ class treeAPIController{
                 $set_data[$rule['class']] = $request;
             }
             
-
             $object = $obj->fromArray($set_data[$rule['class']]);
             $object_new = $obj->toArray();
             

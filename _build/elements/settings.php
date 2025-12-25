@@ -202,6 +202,10 @@ return [
                           "type": "hidden"
                         }
                       },
+                      "table": {
+                        "label": "Таблица",
+                        "filter": 1
+                      },
                       "class": {
                         "label": "Класс таблицы",
                         "filter": 1
@@ -213,8 +217,15 @@ return [
                         },
                         "filter": 1
                       },
-                      "title_template": {
-                        "label": "Шаблон заголовка(fenom)",
+                      "title_field": {
+                        "label": "Поле заголовк",
+                        "filter": 1
+                      },
+                      "svg": {
+                        "label": "svg",
+                        "edit": {
+                          "type": "textarea"
+                        },
                         "filter": 1
                       }
                     }

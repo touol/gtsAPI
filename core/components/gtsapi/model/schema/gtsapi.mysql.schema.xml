@@ -122,7 +122,7 @@
         <field key="table_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
         <field key="table" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
         <field key="class" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
-        <field key="exdended_modresource" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
+        <field key="extended_modresource" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
         <field key="title_field" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
         <field key="svg" dbtype="text" phptype="string" null="false" default=""/>
 
