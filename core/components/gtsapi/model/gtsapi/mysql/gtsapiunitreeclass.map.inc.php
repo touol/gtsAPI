@@ -102,15 +102,15 @@ $xpdo_meta_map['gtsAPIUniTreeClass']= array (
         ),
       ),
     ),
-    'exdended_modresource' => 
+    'extended_modresource' => 
     array (
-      'alias' => 'exdended_modresource',
+      'alias' => 'extended_modresource',
       'primary' => false,
       'unique' => false,
       'type' => 'BTREE',
       'columns' => 
       array (
-        'exdended_modresource' => 
+        'extended_modresource' => 
         array (
           'length' => '',
           'collation' => 'A',

@@ -132,8 +132,8 @@
         <index alias="table" name="table" primary="false" unique="false" type="BTREE">
             <column key="table" length="" collation="A" null="false"/>
         </index>
-        <index alias="exdended_modresource" name="exdended_modresource" primary="false" unique="false" type="BTREE">
-            <column key="exdended_modresource" length="" collation="A" null="false"/>
+        <index alias="extended_modresource" name="extended_modresource" primary="false" unique="false" type="BTREE">
+            <column key="extended_modresource" length="" collation="A" null="false"/>
         </index>
 
         <aggregate alias="gtsAPITable" class="gtsAPITable" local="table_id" foreign="id" cardinality="one" owner="foreign"/>
