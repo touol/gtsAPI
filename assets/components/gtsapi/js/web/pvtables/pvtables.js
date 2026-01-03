@@ -49488,13 +49488,8 @@ const WP = { class: "tree-container" }, qP = {
   setup(t) {
     const e = E(), n = E(), r = E(null), i = E(20), o = E({}), a = E(""), l = E(""), u = E(""), s = E({}), c = () => {
       if (r.value) {
-        const b = r.value.getBoundingClientRect(), v = b.top, w = window.innerHeight - v - 20;
-        console.log("updateContainerHeight:", {
-          topOffset: v,
-          windowHeight: window.innerHeight,
-          newHeight: w,
-          rect: b
-        }), r.value.style.height = `${w}px`;
+        const v = r.value.getBoundingClientRect().top, w = window.innerHeight - v - 20;
+        r.value.style.height = `${w}px`;
       }
     };
     Tt(() => {
