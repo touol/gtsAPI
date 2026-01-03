@@ -4451,8 +4451,8 @@ function Nh(t, e, n, r) {
             }
           ]
         };
-        const S = typeof e == "function" && e() ? e().value : {};
-        l.value[v.id] = { ...S, ...R }, a.value[v.id] = {
+        const S = typeof e == "function" && e() ? e().value : {}, { id: x, ...O } = S;
+        l.value[v.id] = { ...O, ...R }, a.value[v.id] = {
           action: "subtables",
           table: r
         }, w[v.id] = !0, o.value[v.id] = !0, i.value = { ...w };

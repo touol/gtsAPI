@@ -348,6 +348,7 @@ class jsonTableAPIController extends tableAPIController{
             // return $this->error('not found object',$resp['data']);
             $obj = $this->modx->newObject($rule['class'],$resp['data']);
         }
+        if(!$obj) return $this->error("Объект {$rule['class']} ".print_r($resp['data'],1)." не найден");
         $json = $obj->get($rule['properties']['json_path']['field']);
         // $this->modx->log(modX::LOG_LEVEL_ERROR, '[jsonTableAPIController::getJSON] $json ' . print_r($json, true));
         if(empty($json)){
