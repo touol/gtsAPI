@@ -1976,7 +1976,17 @@ class tableAPIController{
             }
         } else {
             // Нет настроенного select - получаем поля основного класса
-            if($this->modx->loadClass($rule['class']) && isset($this->modx->map[$rule['class']])){
+            
+            // Исключения для системных классов MODX с неполной fieldMeta
+            $systemClassFields = [
+                'modAccessResourceGroup' => ['id', 'target', 'principal_class', 'principal', 'authority', 'policy', 'context_key'],
+                'modAccessContext' => ['id', 'target', 'principal_class', 'principal', 'authority', 'policy'],
+                'modAccessCategory' => ['id', 'target', 'principal_class', 'principal', 'authority', 'policy', 'context_key'],
+            ];
+            
+            if(isset($systemClassFields[$rule['class']])){
+                $selectFields = $systemClassFields[$rule['class']];
+            } elseif($this->modx->loadClass($rule['class']) && isset($this->modx->map[$rule['class']])){
                 foreach($this->modx->map[$rule['class']]['fieldMeta'] as $fieldName => $meta){
                     $selectFields[] = $fieldName;
                 }
