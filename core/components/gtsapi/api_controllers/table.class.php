@@ -642,7 +642,7 @@ class tableAPIController{
                 $resp = $this->checkPermissions($rule['properties']['actions'][$action]);
 
                 if($resp['success']){
-                    $actions[$action] = $v;
+                    if(!$v['hide']) $actions[$action] = $v;
                 }
             }
         }
