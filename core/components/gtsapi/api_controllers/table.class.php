@@ -27,6 +27,7 @@ class tableAPIController{
         $req = json_decode(file_get_contents('php://input'), true);
         // $this->modx->log(1, 'gtsAPI route $req: ' . print_r($req, 1));
         if(isset($req['filters']) and isset($request['filters'])) $req['filters'] = array_merge($req['filters'],$request['filters']);
+        if(isset($request['is_virtual'])) $req['is_virtual'] = $request['is_virtual'];
         if(is_array($req)) $request = array_merge($request,$req);
           
         switch($method){
@@ -2670,6 +2671,7 @@ class tableAPIController{
             $html = $this->generatePrintHTML($rule, $headers, $rows, $autocompletes, $request);
 
             // Проверяем is_virtual
+            // $this->modx->log(1, 'gtsAPI print $request: ' . print_r($request, 1));
             $isVirtual = isset($request['is_virtual']) ? (int)$request['is_virtual'] : 0;
 
             if ($isVirtual === 1) {
