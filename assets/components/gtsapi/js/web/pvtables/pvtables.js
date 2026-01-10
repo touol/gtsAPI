@@ -4534,11 +4534,11 @@ function Yh(t, e, n, r) {
         return;
       }
       let w = { ...i.value };
-      if (o.value[v.id])
-        delete o.value[v.id], delete w[v.id], await h(w), delete a.value[v.id];
+      if (o.value[v._rowKey])
+        delete o.value[v._rowKey], delete w[v._rowKey], await h(w), delete a.value[v._rowKey];
       else {
         let T = {};
-        delete w[v.id], await h(w), T[t.value.parentIdField] = {
+        delete w[v._rowKey], await h(w), T[t.value.parentIdField] = {
           operator: Ct.AND,
           constraints: [
             {
@@ -4548,23 +4548,23 @@ function Yh(t, e, n, r) {
           ]
         };
         const S = typeof e == "function" && e() ? e().value : {}, { id: x, ...O } = S;
-        l.value[v.id] = { ...O, ...T }, a.value[v.id] = {
+        l.value[v._rowKey] = { ...O, ...T }, a.value[v._rowKey] = {
           action: "subtables",
           table: r
-        }, w[v.id] = !0, o.value[v.id] = !0, i.value = { ...w };
+        }, w[v._rowKey] = !0, o.value[v._rowKey] = !0, i.value = { ...w };
       }
     },
     setExpandedRow: async (v, w) => {
       let T = { ...i.value };
-      if (T.hasOwnProperty(v.id))
-        if (a.value[v.id].table == w.table) {
-          delete T[v.id], await h(T);
+      if (T.hasOwnProperty(v._rowKey))
+        if (a.value[v._rowKey].table == w.table) {
+          delete T[v._rowKey], await h(T);
           return;
         } else
-          delete T[v.id], await h(T), T[v.id] = !0;
+          delete T[v._rowKey], await h(T), T[v._rowKey] = !0;
       else
-        T[v.id] = !0;
-      if (a.value[v.id] = w, w.action == "subtables") {
+        T[v._rowKey] = !0;
+      if (a.value[v._rowKey] = w, w.action == "subtables") {
         if (w.hasOwnProperty("where")) {
           let S = {};
           for (let x in w.where) {
@@ -4579,7 +4579,7 @@ function Yh(t, e, n, r) {
               ]
             };
           }
-          l.value[v.id] = S;
+          l.value[v._rowKey] = S;
         }
       } else if (w.action == "subtabs") {
         for (let S in w.tabs)
@@ -4597,7 +4597,7 @@ function Yh(t, e, n, r) {
                 ]
               };
             }
-            l.value.hasOwnProperty(v.id) || (l.value[v.id] = {}), l.value[v.id][S] = x, u.value = { ...v };
+            l.value.hasOwnProperty(v._rowKey) || (l.value[v._rowKey] = {}), l.value[v._rowKey][S] = x, u.value = { ...v };
           }
       }
       i.value = { ...T };
@@ -47638,29 +47638,29 @@ const e9 = { class: "card pvtables" }, t9 = { style: { padding: "1rem" } }, n9 =
             }
           }, {
             expansion: R((re) => [
-              I(Yr)[re.data.id].action == "subtables" ? (d(), g("div", y9, [
+              I(Yr)[re.data._rowKey].action == "subtables" ? (d(), g("div", y9, [
                 P(In, {
-                  table: I(Yr)[re.data.id].table,
+                  table: I(Yr)[re.data._rowKey].table,
                   actions: t.actions,
-                  filters: I(jl)[re.data.id],
+                  filters: I(jl)[re.data._rowKey],
                   onRefreshTable: Se[11] || (Se[11] = (Me) => ye(!1)),
                   child: !0,
                   ref: (Me) => {
-                    Me && (I(Qn)[re.data.id] = Me);
+                    Me && (I(Qn)[re.data._rowKey] = Me);
                   },
                   onGetResponse: Se[12] || (Se[12] = (Me) => _l(Me))
                 }, null, 8, ["table", "actions", "filters"])
               ])) : C("", !0),
-              I(Yr)[re.data.id].action == "subtabs" ? (d(), g("div", v9, [
+              I(Yr)[re.data._rowKey].action == "subtabs" ? (d(), g("div", v9, [
                 P(Rr, {
-                  tabs: I(Yr)[re.data.id].tabs,
+                  tabs: I(Yr)[re.data._rowKey].tabs,
                   actions: t.actions,
                   parent_row: I(jc),
-                  filters: I(jl)[re.data.id],
+                  filters: I(jl)[re.data._rowKey],
                   onRefreshTable: Se[13] || (Se[13] = (Me) => ye(!1)),
                   child: !0,
                   ref: (Me) => {
-                    Me && (I(Qn)[re.data.id] = Me);
+                    Me && (I(Qn)[re.data._rowKey] = Me);
                   },
                   onGetResponse: Se[14] || (Se[14] = (Me) => _l(Me))
                 }, null, 8, ["tabs", "actions", "parent_row", "filters"])
@@ -47673,7 +47673,7 @@ const e9 = { class: "card pvtables" }, t9 = { style: { padding: "1rem" } }, n9 =
               }, {
                 body: R(({ data: re }) => [
                   re.gtsapi_children_count > 0 ? (d(), g(N, { key: 0 }, [
-                    I(Kl)[re.id] ? (d(), k(I(pe), {
+                    I(Kl)[re._rowKey] ? (d(), k(I(pe), {
                       key: 0,
                       icon: "pi pi-angle-down",
                       class: "p-button-text",
@@ -47713,7 +47713,7 @@ const e9 = { class: "card pvtables" }, t9 = { style: { padding: "1rem" } }, n9 =
                         autocompleteSettings: I(T)[Dt],
                         selectSettings: Le.value[Dt],
                         onSetValue: (je) => I(Ul)({ data: Me, field: Dt, newValue: je }),
-                        customFields: I(x)[Me.id]
+                        customFields: I(x)[Me._rowKey]
                       }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])
                     ], 2)
                   ]),
@@ -47742,7 +47742,7 @@ const e9 = { class: "card pvtables" }, t9 = { style: { padding: "1rem" } }, n9 =
                         use_data: !0,
                         autocompleteSettings: I(T)[Dt],
                         selectSettings: Le.value[Dt],
-                        customFields: I(x)[Me.id],
+                        customFields: I(x)[Me._rowKey],
                         onTab: I(ln)
                       }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings", "customFields", "onTab"]))
                     ]),
@@ -47812,7 +47812,7 @@ const e9 = { class: "card pvtables" }, t9 = { style: { padding: "1rem" } }, n9 =
                 columns: me.value,
                 autocompleteSettings: I(T),
                 selectSettings: Le.value,
-                customFields: I(x)[I(eo).id],
+                customFields: I(x)[I(eo)._rowKey],
                 mywatch: I(Yc),
                 form: ke.value
               }, null, 8, ["modelValue", "columns", "autocompleteSettings", "selectSettings", "customFields", "mywatch", "form"])
