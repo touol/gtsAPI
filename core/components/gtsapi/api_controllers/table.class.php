@@ -1939,6 +1939,15 @@ class tableAPIController{
     public function aplyFilter($rule, $name, $filter){
         
         $where = [];
+        
+        // Если $filter не массив или это простое значение без структуры, преобразуем его
+        if (!is_array($filter)) {
+            $filter = ['value' => $filter, 'matchMode' => 'equals'];
+        } elseif (!isset($filter['value']) && !isset($filter['matchMode'])) {
+            // Если это массив, но без ключей value/matchMode, считаем его простым значением
+            $filter = ['value' => $filter, 'matchMode' => 'equals'];
+        }
+        
         if($filter['value'] == null) return $where;
         
         // Проверяем, есть ли поле в select запроса
@@ -2006,10 +2015,14 @@ class tableAPIController{
         }
         
         if(isset($rule['properties']['filters'][$name]) and is_array($rule['properties']['filters'][$name])){
-            $filter = array_merge($rule['properties']['filters'][$name],$filter);
+            if(is_array($filter)) {
+                $filter = array_merge($rule['properties']['filters'][$name],$filter);
+            }
         }
         if(isset($rule['properties']['fields'][$name]) and is_array($rule['properties']['fields'][$name])){
-            $filter = array_merge($rule['properties']['fields'][$name],$filter);
+            if(is_array($filter)) {
+                $filter = array_merge($rule['properties']['fields'][$name],$filter);
+            }
         }
         $field = "{$rule['class']}.$name";
         if(isset($filter['class']))  $field = "{$filter['class']}.$name";
