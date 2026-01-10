@@ -47713,7 +47713,7 @@ const e9 = { class: "card pvtables" }, t9 = { style: { padding: "1rem" } }, n9 =
                         autocompleteSettings: I(T)[Dt],
                         selectSettings: Le.value[Dt],
                         onSetValue: (je) => I(Ul)({ data: Me, field: Dt, newValue: je }),
-                        customFields: I(x)[Me._rowKey]
+                        customFields: I(x)[Me.id]
                       }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])
                     ], 2)
                   ]),
@@ -47742,7 +47742,7 @@ const e9 = { class: "card pvtables" }, t9 = { style: { padding: "1rem" } }, n9 =
                         use_data: !0,
                         autocompleteSettings: I(T)[Dt],
                         selectSettings: Le.value[Dt],
-                        customFields: I(x)[Me._rowKey],
+                        customFields: I(x)[Me.id],
                         onTab: I(ln)
                       }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings", "customFields", "onTab"]))
                     ]),
