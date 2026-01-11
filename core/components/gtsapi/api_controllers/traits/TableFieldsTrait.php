@@ -108,6 +108,7 @@ trait TableFieldsTrait
                 'type' => $addField['field_type'] ? $addField['field_type'] : 'text',
             ];
             if (!empty($addField['default'])) $field['default'] = $addField['default'];
+            if (!empty($addField['class'])) $field['class'] = $addField['class'];
             if (!empty($addField['modal_only'])) $field['modal_only'] = $addField['modal_only'];
             if (!empty($addField['table_only'])) $field['table_only'] = $addField['table_only'];
             if (!empty($addField['gtsapi_config'])) $field = array_merge($field, $addField['gtsapi_config']);
