@@ -36,7 +36,7 @@ trait TableExportTrait
             // Получаем поля
             $fields = [];
             if (!empty($rule['properties']['fields'])) {
-                $fields = $this->addFields($rule, $rule['properties']['fields'], 'read');
+                $fields = $rule['properties']['fields'];
             } else {
                 if ($rule['type'] == 1) $fields = $this->gen_fields($rule);
             }
@@ -355,7 +355,7 @@ trait TableExportTrait
             // Получаем поля
             $fields = [];
             if (!empty($rule['properties']['fields'])) {
-                $fields = $this->addFields($rule, $rule['properties']['fields'], 'read');
+                $fields = $rule['properties']['fields'];
             } else {
                 if ($rule['type'] == 1) $fields = $this->gen_fields($rule);
             }

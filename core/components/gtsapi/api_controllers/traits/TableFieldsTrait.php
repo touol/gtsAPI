@@ -9,10 +9,18 @@ trait TableFieldsTrait
     /**
      * Добавление динамических полей к таблице
      */
-    public function addFields($rule, $fields, $action)
+    public function addFields($rule, $fields = null, $action = null)
     {
+        // Если fields не передан, берем из rule['properties']['fields']
+        if ($fields === null) {
+            $fields = isset($rule['properties']['fields']) ? $rule['properties']['fields'] : [];
+        }
+        
         $gtsAPIFieldTableCount = $this->modx->getCount('gtsAPIFieldTable', ['name_table' => $rule['table'], 'add_table' => 1]);
-        if ($gtsAPIFieldTableCount == 0) return $fields;
+        if ($gtsAPIFieldTableCount == 0) {
+            $rule['properties']['fields'] = $fields;
+            return $rule;
+        }
 
         if (is_dir($this->modx->getOption('core_path') . 'components/gtsshop/model/')) {
             $this->modx->addPackage('gtsshop', $this->modx->getOption('core_path') . 'components/gtsshop/model/');
@@ -20,9 +28,11 @@ trait TableFieldsTrait
 
         $gtsAPIFieldTables = $this->modx->getIterator('gtsAPIFieldTable', ['name_table' => $rule['table'], 'add_table' => 1]);
         $addFields = [];
+        $addFieldsToSelect = []; // Массив для хранения полей, которые нужно добавить в select
         foreach ($gtsAPIFieldTables as $gtsAPIFieldTable) {
             $gtsAPIFieldGroupTableLinks = $this->modx->getIterator('gtsAPIFieldGroupTableLink', ['table_field_id' => $gtsAPIFieldTable->id]);
             foreach ($gtsAPIFieldGroupTableLinks as $gtsAPIFieldGroupTableLink) {
+                $fieldClass = $gtsAPIFieldGroupTableLink->get('field_class');
                 $gtsAPIFieldGroups = $this->modx->getIterator('gtsAPIFieldGroup', ['id' => $gtsAPIFieldGroupTableLink->group_field_id]);
                 foreach ($gtsAPIFieldGroups as $gtsAPIFieldGroup) {
                     if ($gtsAPIFieldGroup->all) {
@@ -38,6 +48,13 @@ trait TableFieldsTrait
                             $addFields[$gtsAPIField->name]['from_table'] = $gtsAPIFieldGroup->from_table;
                             if (empty($addFields[$gtsAPIField->name]['after_field'])) $addFields[$gtsAPIField->name]['after_field'] = $gtsAPIFieldTable->after_field;
                             $addFields[$gtsAPIField->name]['gtsapi_config'] = json_decode($addFields[$gtsAPIField->name]['gtsapi_config'], 1);
+                            
+                            // Устанавливаем класс из field_class если он задан
+                            if (!empty($fieldClass)) {
+                                $addFields[$gtsAPIField->name]['class'] = $fieldClass;
+                                // Добавляем поле в список для добавления в select
+                                $addFieldsToSelect[$fieldClass][] = $gtsAPIField->name;
+                            }
                         }
                     } else {
                         $this->pdo->setConfig([
@@ -70,6 +87,13 @@ trait TableFieldsTrait
                             }
                             $addFields[$row['name']]['from_table'] = $gtsAPIFieldGroup->from_table;
                             if (empty($row['after_field'])) $addFields[$row['name']]['after_field'] = $gtsAPIFieldTable->after_field;
+                            
+                            // Устанавливаем класс из field_class если он задан
+                            if (!empty($fieldClass)) {
+                                $addFields[$row['name']]['class'] = $fieldClass;
+                                // Добавляем поле в список для добавления в select
+                                $addFieldsToSelect[$fieldClass][] = $row['name'];
+                            }
                         }
                     }
                 }
@@ -117,6 +141,29 @@ trait TableFieldsTrait
             $fields = $this->insertToArray($fields, [$k => $field], $keys[$addField['after_field']]);
             $keys[$addField['after_field']] = $addField['name'];
         }
+        
+        // Добавляем дополнительные поля в select если есть query и select
+        if (!empty($addFieldsToSelect) && isset($rule['properties']['query']['select']) && is_array($rule['properties']['query']['select'])) {
+            foreach ($addFieldsToSelect as $class => $fieldNames) {
+                // Проверяем, есть ли этот класс в select
+                if (isset($rule['properties']['query']['select'][$class])) {
+                    $currentSelect = $rule['properties']['query']['select'][$class];
+                    
+                    // Если select = '*', ничего не делаем, все поля уже включены
+                    if ($currentSelect !== '*') {
+                        // Добавляем поля к существующему select
+                        foreach ($fieldNames as $fieldName) {
+                            // Проверяем, не добавлено ли уже это поле
+                            if (strpos($currentSelect, $fieldName) === false) {
+                                $rule['properties']['query']['select'][$class] .= ',' . $class . '.' . $fieldName;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //Здесь если есть $rule['properties']['query'] и есть $rule['properties']['query']['select']
+        
         try {
             $class = $rule['class'];
             $triggers = $this->triggers;
@@ -137,7 +184,9 @@ trait TableFieldsTrait
         } catch (Error $e) {
             $this->modx->log(1, 'gtsAPI Ошибка триггера ' . $e->getMessage());
         }
-        return $fields;
+        
+        $rule['properties']['fields'] = $fields;
+        return $rule;
     }
 
     /**
@@ -158,7 +207,8 @@ trait TableFieldsTrait
         } else {
             $fields = $rule['properties']['fields'];
         }
-        $fields = $this->addFields($rule, $fields, 'options');
+        $rule = $this->addFields($rule, $fields, 'options');
+        $fields = $rule['properties']['fields'];
         foreach ($fields as $k => $field) {
             if (empty($field['type'])) {
                 if ($k == 'id') {

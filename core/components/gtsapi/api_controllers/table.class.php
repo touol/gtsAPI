@@ -139,6 +139,8 @@ class tableAPIController
                 }
             }
         }
+        
+        $rule = $this->addFields($rule);
 
         // Вызов события для плагинов - позволяет изменить $rule
         $gtsAPIRunTriggersRule = $this->modx->invokeEvent('gtsAPIRunTriggers', [

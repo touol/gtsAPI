@@ -19,7 +19,7 @@ trait TableCrudTrait
         $set_data[$rule['class']] = [];
         $fields = [];
         if (!empty($rule['properties']['fields'])) {
-            $fields = $this->addFields($rule, $rule['properties']['fields'], 'create');
+            $fields = $rule['properties']['fields'];
             $ext_fields = [];
             foreach ($fields as $field => $desc) {
                 if (isset($request[$field])) {
@@ -405,7 +405,7 @@ trait TableCrudTrait
             'filter_list' => $filter_list
         ];
         if ($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
-        $out['autocomplete'] = $this->autocompletes($this->addFields($rule, $rule['properties']['fields'], 'autocomplete'), $rows0, $request['offset']);
+        $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'], $rows0, $request['offset']);
         
         if (!empty($rule['properties']['slTree'])) {
             $out['slTree'] = $this->getslTree($rule['properties']['slTree'], $rows0, $parents);
@@ -443,7 +443,7 @@ trait TableCrudTrait
             $set_data[$rule['class']] = [];
             $fields = [];
             if (!empty($rule['properties']['fields'])) {
-                $fields = $this->addFields($rule, $rule['properties']['fields'], 'update');
+                $fields = $rule['properties']['fields'];
                 $ext_fields = [];
                 foreach ($fields as $field => $desc) {
                     if (isset($request[$field])) {
