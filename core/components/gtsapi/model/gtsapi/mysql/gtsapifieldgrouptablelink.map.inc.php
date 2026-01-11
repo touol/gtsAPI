@@ -12,6 +12,7 @@ $xpdo_meta_map['gtsAPIFieldGroupTableLink']= array (
   array (
     'group_field_id' => 0,
     'table_field_id' => 0,
+    'field_class' => '',
   ),
   'fieldMeta' => 
   array (
@@ -32,6 +33,14 @@ $xpdo_meta_map['gtsAPIFieldGroupTableLink']= array (
       'phptype' => 'integer',
       'null' => true,
       'default' => 0,
+    ),
+    'field_class' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '191',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => '',
     ),
   ),
   'indexes' => 

@@ -494,6 +494,9 @@ return [
                           "type": "select",
                           "select": "group_field"
                         }
+                      },
+                      "field_class":{
+                        "label":"Класс таблицы в селект"
                       }
                     }
                   }
