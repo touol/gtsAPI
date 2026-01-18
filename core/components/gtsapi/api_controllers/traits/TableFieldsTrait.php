@@ -325,6 +325,9 @@ trait TableFieldsTrait
         if (isset($rule['properties']['form'])) {
             $options['form'] = $rule['properties']['form'];
         }
+        if (isset($rule['properties']['actions_frozen'])) {
+            $options['actions_frozen'] = $rule['properties']['actions_frozen'];
+        }
         
         return $this->success('options', $options);
     }
