@@ -57,7 +57,7 @@ if(!$debug){
     }
     $v = 0;
     if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => $name_lower])) {
-        $v = strtotime($package->installed);
+        $v = strtotime($package->updated);
     }
     $assets_url = $modx->getOption('assets_url').'components/'
         .$name_lower.'/';

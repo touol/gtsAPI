@@ -31,7 +31,7 @@ if (isset($enableCache)) {
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/primeflex.min.css');
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/css/web/primeicons/primeicons.min.css');
 if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => 'gtssapi'])) {
-    $vapi = strtotime($package->installed);
+    $vapi = strtotime($package->updated);
 }
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/pvtables.css?v='.$vapi);
 if(!$debug){
