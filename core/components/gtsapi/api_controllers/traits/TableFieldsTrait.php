@@ -328,6 +328,9 @@ trait TableFieldsTrait
         if (isset($rule['properties']['actions_frozen'])) {
             $options['actions_frozen'] = $rule['properties']['actions_frozen'];
         }
+        if (isset($rule['properties']['enable_virt_scroll'])) {
+            $options['enable_virt_scroll'] = $rule['properties']['enable_virt_scroll'];
+        }
         
         return $this->success('options', $options);
     }
