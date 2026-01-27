@@ -941,10 +941,10 @@ var un = {
     const { preset: s, options: c } = e;
     let f, h, p, y;
     if (Ie(s)) {
-      const { primitive: v, semantic: k } = s, D = k || {}, { colorScheme: S } = D, x = Eo(D, ["colorScheme"]), O = S || {}, { dark: T } = O, A = Eo(O, ["dark"]), V = Ie(v) ? this._toVariables({ primitive: v }, c) : {}, z = Ie(x) ? this._toVariables({ semantic: x }, c) : {}, te = Ie(A) ? this._toVariables({ light: A }, c) : {}, $ = Ie(T) ? this._toVariables({ dark: T }, c) : {}, [Q, X] = [(o = V.declarations) != null ? o : "", V.tokens], [Z, ne] = [(a = z.declarations) != null ? a : "", z.tokens || []], [de, he] = [(l = te.declarations) != null ? l : "", te.tokens || []], [Ze, at] = [(u = $.declarations) != null ? u : "", $.tokens || []];
+      const { primitive: v, semantic: k } = s, D = k || {}, { colorScheme: S } = D, x = Eo(D, ["colorScheme"]), O = S || {}, { dark: T } = O, A = Eo(O, ["dark"]), V = Ie(v) ? this._toVariables({ primitive: v }, c) : {}, z = Ie(x) ? this._toVariables({ semantic: x }, c) : {}, te = Ie(A) ? this._toVariables({ light: A }, c) : {}, $ = Ie(T) ? this._toVariables({ dark: T }, c) : {}, [Q, X] = [(o = V.declarations) != null ? o : "", V.tokens], [Z, ne] = [(a = z.declarations) != null ? a : "", z.tokens || []], [ce, de] = [(l = te.declarations) != null ? l : "", te.tokens || []], [Ze, at] = [(u = $.declarations) != null ? u : "", $.tokens || []];
       f = this.transformCSS(t, Q, "light", "variable", c, r, i), h = X;
-      const ie = this.transformCSS(t, `${Z}${de}color-scheme:light`, "light", "variable", c, r, i), se = this.transformCSS(t, `${Ze}color-scheme:dark`, "dark", "variable", c, r, i);
-      p = `${ie}${se}`, y = [.../* @__PURE__ */ new Set([...ne, ...he, ...at])];
+      const ie = this.transformCSS(t, `${Z}${ce}color-scheme:light`, "light", "variable", c, r, i), se = this.transformCSS(t, `${Ze}color-scheme:dark`, "dark", "variable", c, r, i);
+      p = `${ie}${se}`, y = [.../* @__PURE__ */ new Set([...ne, ...de, ...at])];
     }
     return {
       primitive: {
@@ -1247,7 +1247,7 @@ function mf(t) {
 var gf = 0;
 function bf(t) {
   var e = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {}, n = E(!1), r = E(t), i = E(null), o = al() ? window.document : void 0, a = e.document, l = a === void 0 ? o : a, u = e.immediate, s = u === void 0 ? !0 : u, c = e.manual, f = c === void 0 ? !1 : c, h = e.name, p = h === void 0 ? "style_".concat(++gf) : h, y = e.id, v = y === void 0 ? void 0 : y, k = e.media, D = k === void 0 ? void 0 : k, S = e.nonce, x = S === void 0 ? void 0 : S, O = e.first, T = O === void 0 ? !1 : O, A = e.onMounted, V = A === void 0 ? void 0 : A, z = e.onUpdated, te = z === void 0 ? void 0 : z, $ = e.onLoad, Q = $ === void 0 ? void 0 : $, X = e.props, Z = X === void 0 ? {} : X, ne = function() {
-  }, de = function(at) {
+  }, ce = function(at) {
     var ie = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     if (l) {
       var se = rs(rs({}, Z), ie), re = se.name || p, Ee = se.id || v, Me = se.nonce || x;
@@ -1266,16 +1266,16 @@ function bf(t) {
         immediate: !0
       }), n.value = !0);
     }
-  }, he = function() {
+  }, de = function() {
     !l || !n.value || (ne(), zu(i.value) && l.head.removeChild(i.value), n.value = !1);
   };
-  return s && !f && mf(de), {
+  return s && !f && mf(ce), {
     id: v,
     name: p,
     el: i,
     css: r,
-    unload: he,
-    load: de,
+    unload: de,
+    load: ce,
     isLoaded: kp(n)
   };
 }
@@ -3804,9 +3804,11 @@ function em(t = 0) {
       filters: A()
     };
     try {
-      const Z = await x.read(X), ne = Qh(Z.data.rows, O);
-      if (ne.forEach((de) => {
-        de._rowKey || (de._rowKey = `row_${++si}`);
+      const Z = await x.read(X), ne = Qh(Z.data.rows, O), ce = /* @__PURE__ */ new Map();
+      if (i.value.forEach((de) => {
+        de.id && de._rowKey && ce.set(de.id, de._rowKey);
+      }), ne.forEach((de) => {
+        de.id && ce.has(de.id) ? de._rowKey = ce.get(de.id) : de._rowKey || (de._rowKey = `row_${++si}`);
       }), i.value = [...ne], c.value.count > 0 && (c.value.rows.length === 0 && (c.value.rows = f(O)), i.value = [...i.value, ...c.value.rows]), !Z.success && Z.message && V("error", { detail: Z.message }), Z.data.autocomplete)
         for (let de in Z.data.autocomplete)
           a.value[de] = Z.data.autocomplete[de];
@@ -3969,12 +3971,12 @@ function tm(t, e, n, r, i, o, a, l, u, s, c, f, h, p = {}, y = null) {
     onCellEditComplete: async (J) => {
       let { data: xe, newValue: Qe, field: Be } = J;
       if (!Be) return;
-      const oe = (j, W) => W.split(".").reduce((ce, fe) => ce[fe], j), ye = (j, W, ce) => {
-        const fe = W.split("."), ge = fe.pop();
+      const oe = (j, W) => W.split(".").reduce((pe, he) => pe[he], j), ye = (j, W, pe) => {
+        const he = W.split("."), ge = he.pop();
         let je = j;
-        for (let M = 0; M < fe.length; M++)
-          je[fe[M]] || (je[fe[M]] = {}), je = je[fe[M]];
-        je[ge] = ce;
+        for (let M = 0; M < he.length; M++)
+          je[he[M]] || (je[he[M]] = {}), je = je[he[M]];
+        je[ge] = pe;
       };
       if (k && k(xe.id)) {
         if (!D || !D(xe._rowKey)) {
@@ -3984,8 +3986,8 @@ function tm(t, e, n, r, i, o, a, l, u, s, c, f, h, p = {}, y = null) {
         ye(xe, Be, Qe);
         try {
           const j = {};
-          for (let ce in xe)
-            ce !== "id" && xe[ce] !== null && xe[ce] !== void 0 && xe[ce] !== "" && (j[ce] = xe[ce]);
+          for (let pe in xe)
+            pe !== "id" && xe[pe] !== null && xe[pe] !== void 0 && xe[pe] !== "" && (j[pe] = xe[pe]);
           j[Be] = Qe, j.filters = e();
           const W = await t.action("insert", j);
           if (i("get-response", {
@@ -3997,12 +3999,12 @@ function tm(t, e, n, r, i, o, a, l, u, s, c, f, h, p = {}, y = null) {
             return;
           }
           if (W.data && W.data.object && W.data.object.id) {
-            const ce = xe.id, fe = W.data.object;
+            const pe = xe.id, he = W.data.object;
             if (v) {
               const ge = {};
-              for (let je in fe)
+              for (let je in he)
                 ge[je] = null;
-              await v(ce, fe, ge);
+              await v(pe, he, ge);
             } else
               console.error("updateEmptyRow function is not available");
             if (W.data.customFields)
@@ -4034,14 +4036,14 @@ function tm(t, e, n, r, i, o, a, l, u, s, c, f, h, p = {}, y = null) {
           for (let W in j.data.customFields)
             u.value[W] = j.data.customFields[W];
         if (j.data.object) {
-          const W = l(Number(F.id)), ce = a.value[W]?._rowKey;
-          !j.data.object._rowKey && ce && (j.data.object._rowKey = ce), a.value[W] = j.data.object;
+          const W = l(Number(F.id)), pe = a.value[W]?._rowKey;
+          !j.data.object._rowKey && pe && (j.data.object._rowKey = pe), a.value[W] = j.data.object;
         } else if (j.data.defvalues) {
-          const W = l(Number(F.id)), fe = {
+          const W = l(Number(F.id)), he = {
             ...a.value[W],
             ...j.data.defvalues
           };
-          a.value[W] = fe;
+          a.value[W] = he;
         }
         if (j.data.row_setting)
           for (let W in j.data.row_setting)
@@ -4118,13 +4120,13 @@ function nm({
         render: Z,
         props: ["data", "columns", "table", "filters", "action"],
         emits: ["action-click"],
-        setup(ne, { emit: de }) {
+        setup(ne, { emit: ce }) {
           return {
             // Предоставляем доступ к emit под безопасным именем
-            emitEvent: de,
+            emitEvent: ce,
             // Добавляем другие методы, которые могут понадобиться в шаблоне
             executeAction: () => {
-              de("action-click");
+              ce("action-click");
             }
           };
         }
@@ -4134,8 +4136,8 @@ function nm({
     }
   }, S = (X, Z, ne) => {
     const {
-      editLineItem: de,
-      confirmDeleteLineItem: he,
+      editLineItem: ce,
+      confirmDeleteLineItem: de,
       confirmDeleteSelected: Ze,
       openNew: at,
       setExpandedRow: ie
@@ -4148,10 +4150,10 @@ function nm({
       let J = { ...X[Ne] }, xe = !0;
       switch (Ne) {
         case "update":
-          J.action = Ne, J.hasOwnProperty("row") || (J.row = !0), J.hasOwnProperty("icon") || (J.icon = "pi pi-pencil"), J.hasOwnProperty("class") || (J.class = " p-button-success"), J.hasOwnProperty("click") || (J.click = (Qe) => de(Qe, J));
+          J.action = Ne, J.hasOwnProperty("row") || (J.row = !0), J.hasOwnProperty("icon") || (J.icon = "pi pi-pencil"), J.hasOwnProperty("class") || (J.class = " p-button-success"), J.hasOwnProperty("click") || (J.click = (Qe) => ce(Qe, J));
           break;
         case "delete":
-          J.hasOwnProperty("row") || (J.row = !0), J.hasOwnProperty("head") || (J.head = !0), J.hasOwnProperty("icon") || (J.icon = "pi pi-trash"), J.hasOwnProperty("class") || (J.class = " p-button-danger"), J.hasOwnProperty("click") || (J.click = (Qe) => he(Qe)), J.hasOwnProperty("head_click") || (J.head_click = () => Ze()), J.hasOwnProperty("label") || (J.label = "Удалить");
+          J.hasOwnProperty("row") || (J.row = !0), J.hasOwnProperty("head") || (J.head = !0), J.hasOwnProperty("icon") || (J.icon = "pi pi-trash"), J.hasOwnProperty("class") || (J.class = " p-button-danger"), J.hasOwnProperty("click") || (J.click = (Qe) => de(Qe)), J.hasOwnProperty("head_click") || (J.head_click = () => Ze()), J.hasOwnProperty("label") || (J.label = "Удалить");
           break;
         case "create":
           J.action = Ne, J.hasOwnProperty("head") || (J.head = !0), J.hasOwnProperty("icon") || (J.icon = "pi pi-plus"), J.hasOwnProperty("class") || (J.class = " p-button-success"), J.hasOwnProperty("head_click") || (J.head_click = () => at(J)), J.hasOwnProperty("label") || (J.label = "Создать");
@@ -4206,9 +4208,9 @@ function nm({
     }), Z;
   }, O = (X, Z, ne) => {
     if (h.value = X, p.value = Z, y.value = ne, f.value = {}, v.value = [], X.modal_form && X.modal_form.fields)
-      for (let de in X.modal_form.fields) {
-        let he = { ...X.modal_form.fields[de] };
-        he.field = de, he.label || (he.label = de), he.type || (he.type = "text"), v.value.push(he), he.default !== void 0 ? f.value[de] = he.default : Z && Z[de] !== void 0 && (f.value[de] = Z[de]);
+      for (let ce in X.modal_form.fields) {
+        let de = { ...X.modal_form.fields[ce] };
+        de.field = ce, de.label || (de.label = ce), de.type || (de.type = "text"), v.value.push(de), de.default !== void 0 ? f.value[ce] = de.default : Z && Z[ce] !== void 0 && (f.value[ce] = Z[ce]);
       }
     c.value = !0;
   }, T = () => {
@@ -4241,13 +4243,13 @@ function nm({
       O(Z, X, "row");
       return;
     }
-    let ne = n(), de = { ...X, filters: ne };
-    a.value && a.value.length > 0 && (de.data_fields_values = [x(X)]);
+    let ne = n(), ce = { ...X, filters: ne };
+    a.value && a.value.length > 0 && (ce.data_fields_values = [x(X)]);
     try {
-      const he = await t.action(Z.action, de);
-      o("get-response", { table: e.table, action: Z.action, response: he }), he.success || i("error", { detail: he.message }), r(!1);
-    } catch (he) {
-      console.log("error", he), i("error", { detail: he.message });
+      const de = await t.action(Z.action, ce);
+      o("get-response", { table: e.table, action: Z.action, response: de }), de.success || i("error", { detail: de.message }), r(!1);
+    } catch (de) {
+      console.log("error", de), i("error", { detail: de.message });
     }
   }, te = async (X) => {
     try {
@@ -4255,8 +4257,8 @@ function nm({
       const ne = new URLSearchParams({
         api_action: "excel_export",
         filters: JSON.stringify(Z)
-      }), de = `/api/${e.table}?${ne.toString()}`, he = document.createElement("a");
-      he.href = de, he.style.display = "none", document.body.appendChild(he), he.click(), document.body.removeChild(he), i("success", { detail: "Экспорт в Excel начат" });
+      }), ce = `/api/${e.table}?${ne.toString()}`, de = document.createElement("a");
+      de.href = ce, de.style.display = "none", document.body.appendChild(de), de.click(), document.body.removeChild(de), i("success", { detail: "Экспорт в Excel начат" });
     } catch (Z) {
       console.log("error", Z), i("error", { detail: Z.message });
     }
@@ -4627,9 +4629,9 @@ function im(t, e, n) {
     const V = x.querySelector(".td-body");
     if (V) {
       let Z = 0;
-      for (let de = 0; de < v; de++)
-        if (S[de].querySelector(".td-body")) {
-          const Ze = window.getComputedStyle(S[de]);
+      for (let ce = 0; ce < v; ce++)
+        if (S[ce].querySelector(".td-body")) {
+          const Ze = window.getComputedStyle(S[ce]);
           Ze.display !== "none" && Ze.visibility !== "hidden" && Z++;
         }
       const ne = T[Z];
@@ -4814,11 +4816,11 @@ function lm(t, e, n, r, i = null, o = "", a = null, l = null, u = null, s = null
       M.includes(Re) ? Re.modal_only = !1 : Re.modal_only = !0;
     }), f.value = G.value.filter((Re) => Re.modal_only != !0);
   };
-  let de = null;
-  const he = () => {
-    de || (de = document.createElement("style"), de.type = "text/css", de.id = `pvtables-column-widths-${o}`, document.head.appendChild(de));
+  let ce = null;
+  const de = () => {
+    ce || (ce = document.createElement("style"), ce.type = "text/css", ce.id = `pvtables-column-widths-${o}`, document.head.appendChild(ce));
   }, Ze = () => {
-    de && (document.head.removeChild(de), de = null);
+    ce && (document.head.removeChild(ce), ce = null);
   }, at = (M, G = null) => {
     if (!o) return;
     const Re = localStorage.getItem(`pvtables-${o}-column-widths`);
@@ -4848,7 +4850,7 @@ function lm(t, e, n, r, i = null, o = "", a = null, l = null, u = null, s = null
       ie(Te, G, ee);
     }, 100);
   }, ie = (M, G, Re = null) => {
-    Ze(), he();
+    Ze(), de();
     let U = "";
     const ee = G ? `[data-pc-name="datatable"][${G}] > [data-pc-section="tablecontainer"] > table[data-pc-section="table"]` : '[data-pc-name="datatable"] > [data-pc-section="tablecontainer"] > table[data-pc-section="table"]';
     Re && (U += `
@@ -4865,7 +4867,7 @@ function lm(t, e, n, r, i = null, o = "", a = null, l = null, u = null, s = null
           ${Ae}
         }
       `;
-    }), de.innerHTML = U;
+    }), ce.innerHTML = U;
   }, se = (M, G) => {
     if (!o || !M || !G.value) return;
     const Re = M.querySelectorAll("thead th"), U = {}, ee = {};
@@ -4997,17 +4999,17 @@ function lm(t, e, n, r, i = null, o = "", a = null, l = null, u = null, s = null
     `;
     ye.innerHTML = Re;
   };
-  let ce = null;
-  const fe = () => {
-    ce || (ce = document.createElement("style"), ce.type = "text/css", ce.id = `pvtables-vscroll-${o}`, document.head.appendChild(ce)), u && u.value && u.value.$el && u.value.$el.classList.add(`pvtables-vscroll-${o}`);
+  let pe = null;
+  const he = () => {
+    pe || (pe = document.createElement("style"), pe.type = "text/css", pe.id = `pvtables-vscroll-${o}`, document.head.appendChild(pe)), u && u.value && u.value.$el && u.value.$el.classList.add(`pvtables-vscroll-${o}`);
   }, ge = () => {
-    ce && (document.head.removeChild(ce), ce = null), u && u.value && u.value.$el && u.value.$el.classList.remove(`pvtables-vscroll-${o}`);
+    pe && (document.head.removeChild(pe), pe = null), u && u.value && u.value.$el && u.value.$el.classList.remove(`pvtables-vscroll-${o}`);
   }, je = () => {
     if (!O.value) {
       ge();
       return;
     }
-    fe();
+    he();
     const M = `pvtables-vscroll-${o}`, G = `
       /* Убираем ограничения по высоте для wrapper */
       .${M} .p-datatable-wrapper {
@@ -5022,7 +5024,7 @@ function lm(t, e, n, r, i = null, o = "", a = null, l = null, u = null, s = null
         max-height: none !important;
       }
     `;
-    ce.innerHTML = G;
+    pe.innerHTML = G;
   };
   return l && (ft(() => l.scrollHeight, (M) => {
     !v.value && !O.value && (y.value = M);
@@ -6210,13 +6212,13 @@ var Jn = {
         return Q ? Q > X ? Q - X : Q : 0;
       }, u = function(Q, X) {
         return Math.floor(Q / (X || Q));
-      }, s = function(Q, X, Z, ne, de, he) {
-        return Q <= de ? de : he ? Z - ne - de : X + de - 1;
-      }, c = function(Q, X, Z, ne, de, he, Ze) {
-        return Q <= he ? 0 : Math.max(0, Ze ? Q < X ? Z : Q - he : Q > X ? Z : Q - 2 * he);
-      }, f = function(Q, X, Z, ne, de, he) {
-        var Ze = X + ne + 2 * de;
-        return Q >= de && (Ze += de + 1), n.getLast(Ze, he);
+      }, s = function(Q, X, Z, ne, ce, de) {
+        return Q <= ce ? ce : de ? Z - ne - ce : X + ce - 1;
+      }, c = function(Q, X, Z, ne, ce, de, Ze) {
+        return Q <= de ? 0 : Math.max(0, Ze ? Q < X ? Z : Q - de : Q > X ? Z : Q - 2 * de);
+      }, f = function(Q, X, Z, ne, ce, de) {
+        var Ze = X + ne + 2 * ce;
+        return Q >= ce && (Ze += ce + 1), n.getLast(Ze, de);
       }, h = l(r.scrollTop, a.top), p = l(r.scrollLeft, a.left), y = i ? {
         rows: 0,
         cols: 0
@@ -11841,7 +11843,7 @@ var $b = function(e) {
       $parentInstance: this
     };
   }
-}, pe = {
+}, fe = {
   name: "Button",
   extends: jb,
   inheritAttrs: !1,
@@ -11937,7 +11939,7 @@ function Nb(t, e, n, r, i, o) {
     _: 3
   }, 16, ["class"])), [[u]]);
 }
-pe.render = Nb;
+fe.render = Nb;
 var zi = {
   name: "MinusIcon",
   extends: nt
@@ -13018,7 +13020,7 @@ const gy = /* @__PURE__ */ it(hy, [["render", my]]), by = {
   components: {
     DTRadioButton: gy,
     DTCheckbox: ay,
-    Button: pe,
+    Button: fe,
     ChevronDownIcon: ln,
     ChevronRightIcon: Nn,
     BarsIcon: $i,
@@ -14921,7 +14923,7 @@ const rv = {
   },
   components: {
     Select: jr,
-    Button: pe,
+    Button: fe,
     Portal: en,
     FilterSlashIcon: ml,
     FilterIcon: hl,
@@ -16394,7 +16396,7 @@ const yd = /* @__PURE__ */ it(Gv, [["render", Wv]]), qv = {
   },
   components: {
     Badge: Nr,
-    Button: pe,
+    Button: fe,
     Popover: Oi,
     Slider: bd,
     DTHeaderCheckbox: yd,
@@ -19115,7 +19117,7 @@ var x1 = function(e) {
     focustrap: Hr
   },
   components: {
-    Button: pe,
+    Button: fe,
     Portal: en,
     WindowMinimizeIcon: wd,
     WindowMaximizeIcon: vd,
@@ -24657,7 +24659,7 @@ const {
         }
       if (o.field.show_id && (r.value = !0), o.options && Array.isArray(o.options.rows) && o.options.rows.length) {
         const [ie] = o.options.rows.filter((se) => n.value == se.id);
-        ie && (f.value = ie, o.field.show_id && (ie[o.field.show_id] > 0 ? i.value = ie[o.field.show_id] : i.value = n.value), await de(ie));
+        ie && (f.value = ie, o.field.show_id && (ie[o.field.show_id] > 0 ? i.value = ie[o.field.show_id] : i.value = n.value), await ce(ie));
       } else if (Number(n.value) > 0)
         try {
           const ie = await Z(n.value);
@@ -24665,7 +24667,7 @@ const {
             u("error", { detail: "Отсутствует такой ID" });
             return;
           }
-          f.value = ie, o.field.show_id && (ie[o.field.show_id] > 0 ? i.value = ie[o.field.show_id] : i.value = n.value), await de(ie);
+          f.value = ie, o.field.show_id && (ie[o.field.show_id] > 0 ? i.value = ie[o.field.show_id] : i.value = n.value), await ce(ie);
         } catch (ie) {
           u("error", { detail: ie.message });
         }
@@ -24679,7 +24681,7 @@ const {
       const re = ie.trim().toLowerCase();
       return se.find((Ee) => Ee.content ? String(Ee.content).trim().toLowerCase() === re : !1);
     }, $ = (ie) => {
-      ie && (f.value = ie, n.value = ie.id, o.field.show_id && (ie[o.field.show_id] && ie[o.field.show_id] > 0 ? i.value = ie[o.field.show_id] : i.value = n.value), de(ie), l("set-value"));
+      ie && (f.value = ie, n.value = ie.id, o.field.show_id && (ie[o.field.show_id] && ie[o.field.show_id] > 0 ? i.value = ie[o.field.show_id] : i.value = n.value), ce(ie), l("set-value"));
     }, Q = async ({ query: ie }) => {
       try {
         h.value.offset = 0, h.value.hasMore = !0, h.value.currentQuery = ie, h.value.allowLazyLoad = !1, o.field.ids || (o.field.ids = "");
@@ -24740,7 +24742,7 @@ const {
       };
       return o.field.where && (se.where = o.field.where), (await a.autocomplete(se)).data.rows[0] || null;
     }
-    const de = async (ie) => {
+    const ce = async (ie) => {
       for (const se of S.value) {
         const re = se.key;
         if (ie[re] && ie[re] !== null && ie[re] !== "")
@@ -24756,7 +24758,7 @@ const {
             console.error(`Ошибка загрузки данных для поля ${re}:`, Ee);
           }
       }
-    }, he = async (ie) => {
+    }, de = async (ie) => {
       const se = ie.target.value;
       if (se === "" || se === "0") {
         n.value = se, f.value = {};
@@ -24811,8 +24813,8 @@ const {
             key: 1,
             modelValue: n.value,
             "onUpdate:modelValue": se[1] || (se[1] = (re) => n.value = re),
-            onBlur: he,
-            onKeydown: Ue(he, ["enter"]),
+            onBlur: de,
+            onKeydown: Ue(de, ["enter"]),
             onFocus: se[2] || (se[2] = (re) => s.value = n.value),
             class: "gts-ac__id-field",
             disabled: t.disabled
@@ -26555,8 +26557,8 @@ var Sl = {
         }
         case "End": {
           i.tabIndex = "-1";
-          var de = o.parentElement, he = de.children[de.children.length - 1].children[0];
-          $e(he, "data-p-disabled") ? this.navigateToMonth(e, !1, r) : (he.tabIndex = "0", he.focus()), e.preventDefault();
+          var ce = o.parentElement, de = ce.children[ce.children.length - 1].children[0];
+          $e(de, "data-p-disabled") ? this.navigateToMonth(e, !1, r) : (de.tabIndex = "0", de.focus()), e.preventDefault();
           break;
         }
         case "PageUp": {
@@ -27030,7 +27032,7 @@ var Sl = {
   },
   components: {
     InputText: ut,
-    Button: pe,
+    Button: fe,
     Portal: en,
     CalendarIcon: Ud,
     ChevronLeftIcon: Cl,
@@ -32154,7 +32156,7 @@ var ec = {
   components: {
     DTRadioButton: Qd,
     DTCheckbox: Xd,
-    Button: pe,
+    Button: fe,
     ChevronDownIcon: ln,
     ChevronRightIcon: Nn,
     BarsIcon: $i,
@@ -34285,7 +34287,7 @@ var Rl = {
   },
   components: {
     Select: jr,
-    Button: pe,
+    Button: fe,
     Portal: en,
     FilterSlashIcon: ml,
     FilterIcon: hl,
@@ -37437,7 +37439,7 @@ const Io = (t) => (Wt("data-v-c98426d1"), t = t(), qt(), t), QS = { class: "file
             ]),
             b("div", o2, [
               r2,
-              P(I(pe), {
+              P(I(fe), {
                 class: H([{ "p-button-outlined": u.value !== "name" }, "mr-2"]),
                 onClick: te[1] || (te[1] = ($) => y("name"))
               }, {
@@ -37450,7 +37452,7 @@ const Io = (t) => (Wt("data-v-c98426d1"), t = t(), qt(), t), QS = { class: "file
                 ]),
                 _: 1
               }, 8, ["class"]),
-              P(I(pe), {
+              P(I(fe), {
                 class: H([{ "p-button-outlined": u.value !== "size" }, "mr-2"]),
                 onClick: te[2] || (te[2] = ($) => y("size"))
               }, {
@@ -37463,7 +37465,7 @@ const Io = (t) => (Wt("data-v-c98426d1"), t = t(), qt(), t), QS = { class: "file
                 ]),
                 _: 1
               }, 8, ["class"]),
-              P(I(pe), {
+              P(I(fe), {
                 class: H([{ "p-button-outlined": u.value !== "lastmod" }, "mr-2"]),
                 onClick: te[3] || (te[3] = ($) => y("lastmod"))
               }, {
@@ -37481,12 +37483,12 @@ const Io = (t) => (Wt("data-v-c98426d1"), t = t(), qt(), t), QS = { class: "file
         ]),
         end: R(() => [
           b("div", i2, [
-            P(I(pe), {
+            P(I(fe), {
               icon: "pi pi-th-large",
               class: H([{ "p-button-outlined": l.value !== "grid" }, "mr-2"]),
               onClick: te[4] || (te[4] = ($) => v("grid"))
             }, null, 8, ["class"]),
-            P(I(pe), {
+            P(I(fe), {
               icon: "pi pi-list",
               class: H({ "p-button-outlined": l.value !== "list" }),
               onClick: te[5] || (te[5] = ($) => v("list"))
@@ -37695,19 +37697,19 @@ const Io = (t) => (Wt("data-v-c98426d1"), t = t(), qt(), t), QS = { class: "file
           ])) : C("", !0)
         ]),
         b("div", tI, [
-          P(I(pe), {
+          P(I(fe), {
             label: "Скачать",
             icon: "pi pi-download",
             onClick: s,
             class: "mr-2"
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Переименовать",
             icon: "pi pi-pencil",
             onClick: c,
             class: "mr-2"
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Удалить",
             icon: "pi pi-trash",
             class: "p-button-danger",
@@ -38594,7 +38596,7 @@ var CI = function(e) {
     }
   },
   components: {
-    Button: pe,
+    Button: fe,
     Badge: Nr,
     TimesIcon: fn
   }
@@ -38975,7 +38977,7 @@ var pc = {
     }
   },
   components: {
-    Button: pe,
+    Button: fe,
     ProgressBar: uc,
     Message: sc,
     FileContent: dc,
@@ -39254,7 +39256,7 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
       dismissableMask: !0
     }, {
       footer: R(() => [
-        P(I(pe), {
+        P(I(fe), {
           label: "Закрыть",
           icon: "pi pi-times",
           onClick: l,
@@ -39276,7 +39278,7 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
             header: R(({ chooseCallback: c, uploadCallback: f, clearCallback: h, files: p }) => [
               b("div", AI, [
                 b("div", VI, [
-                  P(I(pe), {
+                  P(I(fe), {
                     onClick: (y) => c(),
                     icon: "pi pi-images",
                     rounded: "",
@@ -39284,7 +39286,7 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
                     severity: "help",
                     label: "Выбрать"
                   }, null, 8, ["onClick"]),
-                  P(I(pe), {
+                  P(I(fe), {
                     onClick: (y) => f(),
                     icon: "pi pi-cloud-upload",
                     rounded: "",
@@ -39294,7 +39296,7 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
                     disabled: !p || p.length === 0
                   }, null, 8, ["onClick", "disabled"])
                 ]),
-                P(I(pe), {
+                P(I(fe), {
                   onClick: (y) => h(),
                   icon: "pi pi-times",
                   rounded: "",
@@ -39320,7 +39322,7 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
                   ]),
                   b("div", HI, [
                     b("span", null, B(o(y.size)), 1),
-                    P(I(pe), {
+                    P(I(fe), {
                       onClick: (k) => p(v),
                       icon: "pi pi-times",
                       rounded: "",
@@ -39386,13 +39388,13 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
       dismissableMask: !0
     }, {
       footer: R(() => [
-        P(I(pe), {
+        P(I(fe), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: u,
           class: "p-button-text"
         }),
-        P(I(pe), {
+        P(I(fe), {
           label: "Создать",
           icon: "pi pi-check",
           onClick: l,
@@ -39472,13 +39474,13 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
       dismissableMask: !0
     }, {
       footer: R(() => [
-        P(I(pe), {
+        P(I(fe), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: s,
           class: "p-button-text"
         }),
-        P(I(pe), {
+        P(I(fe), {
           label: "Переименовать",
           icon: "pi pi-check",
           onClick: u,
@@ -39550,13 +39552,13 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
       dismissableMask: !0
     }, {
       footer: R(() => [
-        P(I(pe), {
+        P(I(fe), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: u,
           class: "p-button-text"
         }),
-        P(I(pe), {
+        P(I(fe), {
           label: "Удалить",
           icon: "pi pi-trash",
           class: "p-button-danger",
@@ -39628,26 +39630,26 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
               b("div", S6, B(a.value), 1)
             ]),
             b("div", I6, [
-              P(I(pe), {
+              P(I(fe), {
                 icon: "pi pi-upload",
                 label: "Загрузить",
                 class: "mr-2",
                 onClick: l
               }),
-              P(I(pe), {
+              P(I(fe), {
                 icon: "pi pi-folder",
                 label: "Создать директорию",
                 class: "mr-2",
                 onClick: u
               }),
-              P(I(pe), {
+              P(I(fe), {
                 icon: "pi pi-trash",
                 label: "Удалить директорию",
                 class: "mr-2 p-button-danger",
                 onClick: s,
                 disabled: !I(i).selectedFile || !I(i).selectedFile.is_dir
               }, null, 8, ["disabled"]),
-              t.selectionMode ? (d(), w(I(pe), {
+              t.selectionMode ? (d(), w(I(fe), {
                 key: 0,
                 icon: "pi pi-check",
                 label: "Выбрать файл",
@@ -39725,7 +39727,7 @@ const fc = (t) => (Wt("data-v-ff61e4cf"), t = t(), qt(), t), FI = { class: "uplo
             disabled: t.disabled,
             class: "w-full"
           }, null, 8, ["modelValue", "placeholder", "disabled"]),
-          P(I(pe), {
+          P(I(fe), {
             icon: "pi pi-folder-open",
             onClick: a,
             disabled: t.disabled
@@ -42492,7 +42494,7 @@ var B5 = function(e) {
     }
   },
   components: {
-    PVSButton: pe,
+    PVSButton: fe,
     PVSMenu: bc,
     ChevronDownIcon: ln
   }
@@ -42721,9 +42723,9 @@ const Cu = {
       return r.parentInd === null ? [] : (ue = (me = (q = (_ = M()) == null ? void 0 : _.currentNodes) == null ? void 0 : q.value) == null ? void 0 : me[r.parentInd]) == null ? void 0 : ue.children;
     }), T = _e(() => ee().length);
     _e(() => ze().length), Tt(() => {
-      k.value && document.addEventListener("mouseup", ce);
+      k.value && document.addEventListener("mouseup", pe);
     }), Vr(() => {
-      document.removeEventListener("mouseup", ce);
+      document.removeEventListener("mouseup", pe);
     }), Cn(() => {
       v.value = r.modelValue;
     });
@@ -42782,9 +42784,9 @@ const Cu = {
       G().emit("drop", _, q, me);
     }, ne = (_, q) => {
       G().emit("toggle", _, q);
-    }, de = (_, q) => {
+    }, ce = (_, q) => {
       G().emit("nodeclick", _, q);
-    }, he = (_, q) => {
+    }, de = (_, q) => {
       G().emit("nodedblclick", _, q);
     }, Ze = (_, q) => {
       G().emit("nodecontextmenu", _, q);
@@ -42902,9 +42904,9 @@ const Cu = {
       }, 20));
     }, W = () => {
       clearInterval(u.value), u.value = 0, s.value = 0;
-    }, ce = (_) => {
-      h.value && fe(_);
-    }, fe = (_, q = null) => {
+    }, pe = (_) => {
+      h.value && he(_);
+    }, he = (_, q = null) => {
       if (_.button !== 0)
         return;
       if (!k.value) {
@@ -43013,7 +43015,7 @@ const Cu = {
       emit: i,
       ref: a,
       onNodeMousedownHandler: F,
-      onNodeMouseupHandler: fe,
+      onNodeMouseupHandler: he,
       onMousemoveHandler: re,
       getCursorPositionFromCoords: Ee,
       updateNode: U,
@@ -43061,10 +43063,10 @@ const Cu = {
                 "sl-vue-tree-next-node-is-folder": !ue.isLeaf
               }]),
               onMousedown: (Pe) => F(Pe, ue),
-              onMouseup: (Pe) => fe(Pe, ue),
+              onMouseup: (Pe) => he(Pe, ue),
               onContextmenu: (Pe) => Ze(ue, Pe),
-              onDblclick: (Pe) => he(ue, Pe),
-              onClick: (Pe) => de(ue, Pe),
+              onDblclick: (Pe) => de(ue, Pe),
+              onClick: (Pe) => ce(ue, Pe),
               onDragover: (Pe) => at(ue, Pe),
               onDrop: (Pe) => ie(ue, Pe),
               path: ue.pathStr
@@ -43703,12 +43705,12 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         }
         W.push({ id: oe[ge].data.id, parent_id: oe[ge].data.parent_id, menuindex: oe[ge].data.menuindex });
       }
-      const ce = {
+      const pe = {
         placement: ye.placement,
         node: { id: ye.node.data.id, parent_id: ye.node.data.parent_id, menuindex: ye.node.data.menuindex }
-      }, fe = F && F.ctrlKey && k.value;
+      }, he = F && F.ctrlKey && k.value;
       try {
-        const ge = await o.nodedrop({ nodes1: W, position1: ce, copy: fe });
+        const ge = await o.nodedrop({ nodes1: W, position1: pe, copy: he });
         x();
       } catch (ge) {
         a("error", { detail: ge.message }, !0);
@@ -43721,47 +43723,47 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           if (f.value.classes[oe.data.class].label && (j = f.value.classes[oe.data.class].label), f.value.classes[oe.data.class].tabs)
             F = f.value.classes[oe.data.class].tabs;
           else if (f.value.classes[oe.data.class].table) {
-            const ce = xt(f.value.classes[oe.data.class].table);
+            const pe = xt(f.value.classes[oe.data.class].table);
             try {
-              const fe = await ce.get(ye);
+              const he = await pe.get(ye);
               for (let ge in f.value.classes[oe.data.class])
                 if (ge != "table" && f.value.classes[oe.data.class][ge].if) {
                   let je = !0;
                   for (let M in f.value.classes[oe.data.class][ge].if)
-                    fe[M] != f.value.classes[oe.data.class][ge].if[M] && (je = !1);
+                    he[M] != f.value.classes[oe.data.class][ge].if[M] && (je = !1);
                   je && (F = f.value.classes[oe.data.class][ge].tabs);
                 }
-            } catch (fe) {
-              a("error", { detail: fe.message }, !0);
+            } catch (he) {
+              a("error", { detail: he.message }, !0);
             }
           }
         } else if (f.value.classes.default) {
           if (f.value.classes.default.label && (j = f.value.classes.default.label), f.value.classes.default.tabs)
             F = f.value.classes.default.tabs;
           else if (f.value.classes.default.table) {
-            const ce = xt(f.value.classes.default.table);
+            const pe = xt(f.value.classes.default.table);
             try {
-              const fe = await ce.get(ye);
+              const he = await pe.get(ye);
               for (let ge in f.value.classes.default)
                 if (ge != "table" && f.value.classes.default[ge].if) {
                   let je = !0;
                   for (let M in f.value.classes.default[ge].if)
-                    fe[M] != f.value.classes.default[ge].if[M] && (je = !1);
+                    he[M] != f.value.classes.default[ge].if[M] && (je = !1);
                   je && (F = f.value.classes.default[ge].tabs);
                 }
-            } catch (fe) {
-              a("error", { detail: fe.message }, !0);
+            } catch (he) {
+              a("error", { detail: he.message }, !0);
             }
           }
         }
         oe.data.id > 0 && (p.value = oe.data.id, D.set(r.table + "/id", p.value), window.history.replaceState({}, "", `${location.pathname}?${D}`));
         let W = {};
-        for (let ce in F) {
-          if (F[ce].hasOwnProperty("where")) {
-            let fe = {};
-            for (let ge in F[ce].where) {
-              let je = F[ce].where[ge];
-              je == "current_id" && (je = ye), je == "tree_id" && (je = oe.data.id), fe[ge] = {
+        for (let pe in F) {
+          if (F[pe].hasOwnProperty("where")) {
+            let he = {};
+            for (let ge in F[pe].where) {
+              let je = F[pe].where[ge];
+              je == "current_id" && (je = ye), je == "tree_id" && (je = oe.data.id), he[ge] = {
                 operator: "and",
                 constraints: [
                   {
@@ -43771,13 +43773,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
                 ]
               };
             }
-            W[ce] = fe;
+            W[pe] = he;
           }
-          if (F[ce].hasOwnProperty("tables"))
-            for (let fe in F[ce].tables) {
+          if (F[pe].hasOwnProperty("tables"))
+            for (let he in F[pe].tables) {
               let ge = {};
-              for (let je in F[ce].tables[fe].where) {
-                let M = F[ce].tables[fe].where[je];
+              for (let je in F[pe].tables[he].where) {
+                let M = F[pe].tables[he].where[je];
                 M == "current_id" && (M = ye), M == "tree_id" && (M = oe.data.id), ge[je] = {
                   operator: "and",
                   constraints: [
@@ -43788,15 +43790,15 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
                   ]
                 };
               }
-              W[fe] = ge;
+              W[he] = ge;
             }
         }
         if (F) {
-          const ce = (fe) => {
-            for (let ge in fe)
-              typeof fe[ge] == "string" && fe[ge].includes("insert_menu_id") ? fe[ge] = fe[ge].replace(/insert_menu_id/g, ye) : typeof fe[ge] == "object" && fe[ge] !== null && ce(fe[ge]);
+          const pe = (he) => {
+            for (let ge in he)
+              typeof he[ge] == "string" && he[ge].includes("insert_menu_id") ? he[ge] = he[ge].replace(/insert_menu_id/g, ye) : typeof he[ge] == "object" && he[ge] !== null && pe(he[ge]);
           };
-          ce(F);
+          pe(F);
         }
         A("select-treenode", { tabs: F, label: j, node: oe, subfilters: W });
       }
@@ -43826,10 +43828,10 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           case "delete":
             Q.value = {
               ids: oe.node.data.id
-            }, de.value = !0;
+            }, ce.value = !0;
             break;
         }
-    }, ne = E(!1), de = E(!1), he = async () => {
+    }, ne = E(!1), ce = E(!1), de = async () => {
       try {
         if (Q.value.form == "UniTree") {
           const oe = await o.create(Q.value, {});
@@ -43841,7 +43843,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
     }, Ze = async () => {
       try {
         const oe = await o.delete(Q.value);
-        oe.success || a("error", { detail: oe.message }, !0), Q.value = {}, de.value = !1, await x();
+        oe.success || a("error", { detail: oe.message }, !0), Q.value = {}, ce.value = !1, await x();
       } catch (oe) {
         a("error", { detail: oe.message });
       }
@@ -43862,7 +43864,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
             O();
           }, 0);
         else {
-          const j = (W) => W.filter((ce) => ce.data && ce.data.active == 0 ? !1 : (ce.children && ce.children.length && (ce.children = j(ce.children)), !0));
+          const j = (W) => W.filter((pe) => pe.data && pe.data.active == 0 ? !1 : (pe.children && pe.children.length && (pe.children = j(pe.children)), !0));
           Ee.value = j(ye), setTimeout(() => {
             O();
           }, 0);
@@ -43873,11 +43875,11 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
       const F = (j) => j.filter((W) => {
         if (!y.value && W.data && W.data.active === 0)
           return !1;
-        const ce = W.title.toLowerCase().includes(oe);
-        let fe = [];
-        return W.children && W.children.length && (fe = F(W.children)), ce || fe.length > 0 ? ({ ...W }, Me.value.push(W.data.id), fe.length > 0, !0) : !1;
+        const pe = W.title.toLowerCase().includes(oe);
+        let he = [];
+        return W.children && W.children.length && (he = F(W.children)), pe || he.length > 0 ? ({ ...W }, Me.value.push(W.data.id), he.length > 0, !0) : !1;
       });
-      Ee.value = F(ye), s.value.traverse((j, W, ce) => {
+      Ee.value = F(ye), s.value.traverse((j, W, pe) => {
         Me.value.includes(j.data.id) && (u[j.pathStr] = j.path);
       }), setTimeout(() => {
         O();
@@ -43912,7 +43914,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
               onKeydown: Ue(Be, ["enter"]),
               placeholder: "Поиск..."
             }, null, 8, ["modelValue"]),
-            P(I(pe), {
+            P(I(fe), {
               icon: "pi pi-refresh",
               class: "p-button-text",
               onClick: x
@@ -43970,17 +43972,17 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         modal: ""
       }, {
         footer: R(() => [
-          P(I(pe), {
+          P(I(fe), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: ye[7] || (ye[7] = (F) => ne.value = !1)
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
-            onClick: he
+            onClick: de
           })
         ]),
         default: R(() => [
@@ -43994,19 +43996,19 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         _: 1
       }, 8, ["visible", "header"]),
       P(I(It), {
-        visible: de.value,
-        "onUpdate:visible": ye[10] || (ye[10] = (F) => de.value = F),
+        visible: ce.value,
+        "onUpdate:visible": ye[10] || (ye[10] = (F) => ce.value = F),
         header: "Подтвердите",
         modal: ""
       }, {
         footer: R(() => [
-          P(I(pe), {
+          P(I(fe), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
-            onClick: ye[9] || (ye[9] = (F) => de.value = !1)
+            onClick: ye[9] || (ye[9] = (F) => ce.value = !1)
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44196,10 +44198,10 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           return;
         }
         if (F === "/") {
-          const ce = l.value.findIndex((fe) => fe.data.sourceId === j);
-          if (ce !== -1) {
-            const fe = D(W.files, W.directories, F, j);
-            l.value[ce].children = fe, l.value[ce].isExpanded = !0;
+          const pe = l.value.findIndex((he) => he.data.sourceId === j);
+          if (pe !== -1) {
+            const he = D(W.files, W.directories, F, j);
+            l.value[pe].children = he, l.value[pe].isExpanded = !0;
           }
         } else
           l.value = D(W.files, W.directories, F, j);
@@ -44209,11 +44211,11 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
       } catch (W) {
         a("error", { detail: W.message }, !0), i.value = !1;
       }
-    }, D = (F, j, W, ce = null) => {
-      const fe = [];
+    }, D = (F, j, W, pe = null) => {
+      const he = [];
       return j.forEach((ge) => {
         const je = ge.name.startsWith(".");
-        fe.push({
+        he.push({
           title: ge.name,
           isLeaf: !1,
           isExpanded: !1,
@@ -44225,13 +44227,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
             type: "directory",
             size: ge.size,
             lastmod: ge.lastmod,
-            sourceId: ce
+            sourceId: pe
           },
           children: []
         });
       }), F.forEach((ge) => {
         const je = ge.name.startsWith("."), M = ge.name.split(".").pop().toLowerCase();
-        fe.push({
+        he.push({
           title: ge.name,
           isLeaf: !0,
           data: {
@@ -44244,10 +44246,10 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
             size: ge.size,
             lastmod: ge.lastmod,
             editable: ge.editable,
-            sourceId: ce
+            sourceId: pe
           }
         });
-      }), fe;
+      }), he;
     }, S = async (F) => {
       if (F.data.type === "source" && (!F.children || F.children.length === 0))
         try {
@@ -44286,8 +44288,8 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
       if (s.value)
         for (let F in u)
           for (let j in u[F]) {
-            const W = u[F].slice(0, parseInt(j) + 1), ce = s.value.getNode(W);
-            ce && ((!ce.children || ce.children.length === 0) && await S(ce), s.value.updateNode({
+            const W = u[F].slice(0, parseInt(j) + 1), pe = s.value.getNode(W);
+            pe && ((!pe.children || pe.children.length === 0) && await S(pe), s.value.updateNode({
               path: W,
               patch: { isExpanded: !0 }
             }));
@@ -44299,7 +44301,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         file: F.data,
         mediaSource: F.data.sourceId
       }) : a("error", { detail: "файл не редактируется!" }, !0);
-    }, V = E(!1), z = E(!1), te = E(!1), $ = E(!1), Q = E(!1), X = E({ node: null, newName: "" }), Z = E({ parentNode: null, name: "", type: "" }), ne = E({ node: null, name: "", path: "" }), de = E({ parentNode: null, files: [] }), he = async (F) => {
+    }, V = E(!1), z = E(!1), te = E(!1), $ = E(!1), Q = E(!1), X = E({ node: null, newName: "" }), Z = E({ parentNode: null, name: "", type: "" }), ne = E({ node: null, name: "", path: "" }), ce = E({ parentNode: null, files: [] }), de = async (F) => {
       const { type: j, node: W } = F;
       switch (j) {
         case "refresh":
@@ -44333,7 +44335,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           }, te.value = !0;
           break;
         case "upload":
-          de.value = {
+          ce.value = {
             parentNode: W,
             files: []
           }, Q.value = !0;
@@ -44344,8 +44346,8 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         case "copy-path":
           navigator.clipboard.writeText(W.data.path).then(() => {
             a("success", { detail: "Путь скопирован в буфер обмена" }, !0);
-          }).catch((ce) => {
-            a("error", { detail: "Не удалось скопировать путь: " + ce.message }, !0);
+          }).catch((pe) => {
+            a("error", { detail: "Не удалось скопировать путь: " + pe.message }, !0);
           });
           break;
       }
@@ -44356,8 +44358,8 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           a("error", { detail: j.message || "Ошибка при скачивании файла" }, !0);
           return;
         }
-        const W = j.data, ce = window.URL.createObjectURL(W), fe = document.createElement("a");
-        fe.href = ce, fe.download = F.title, document.body.appendChild(fe), fe.click(), window.URL.revokeObjectURL(ce), document.body.removeChild(fe);
+        const W = j.data, pe = window.URL.createObjectURL(W), he = document.createElement("a");
+        he.href = pe, he.download = F.title, document.body.appendChild(he), he.click(), window.URL.revokeObjectURL(pe), document.body.removeChild(he);
       } catch (j) {
         a("error", { detail: j.message }, !0);
       }
@@ -44386,14 +44388,14 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         }
         let F = Z.value.parentNode.data.path;
         F.endsWith("/") || (F = F + "/");
-        const j = `${F}${Z.value.name}`, W = Z.value.parentNode.data.sourceId, ce = await o.createFile(
+        const j = `${F}${Z.value.name}`, W = Z.value.parentNode.data.sourceId, pe = await o.createFile(
           F,
           Z.value.name,
           "",
           // Пустое содержимое
           W
         );
-        ce.success === 1 ? (a("success", { detail: "Файл успешно создан" }, !0), p.value ? await k(f.value, p.value) : await k()) : a("error", { detail: ce.message || "Ошибка при создании файла" }, !0), z.value = !1;
+        pe.success === 1 ? (a("success", { detail: "Файл успешно создан" }, !0), p.value ? await k(f.value, p.value) : await k()) : a("error", { detail: pe.message || "Ошибка при создании файла" }, !0), z.value = !1;
       } catch (F) {
         a("error", { detail: F.message }, !0);
       }
@@ -44405,12 +44407,12 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         }
         let F = Z.value.parentNode.data.path;
         F.endsWith("/") || (F = F + "/");
-        const j = Z.value.name, W = Z.value.parentNode.data.sourceId, ce = await o.createDirectory(
+        const j = Z.value.name, W = Z.value.parentNode.data.sourceId, pe = await o.createDirectory(
           F,
           j,
           W
         );
-        ce.success === 1 ? (a("success", { detail: "Директория успешно создана" }, !0), p.value ? await k(f.value, p.value) : await k()) : a("error", { detail: ce.message || "Ошибка при создании директории" }, !0), te.value = !1;
+        pe.success === 1 ? (a("success", { detail: "Директория успешно создана" }, !0), p.value ? await k(f.value, p.value) : await k()) : a("error", { detail: pe.message || "Ошибка при создании директории" }, !0), te.value = !1;
       } catch (F) {
         a("error", { detail: F.message }, !0);
       }
@@ -44427,25 +44429,25 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         a("error", { detail: F.message }, !0);
       }
     }, Ee = (F) => {
-      de.value.files = F.target.files;
+      ce.value.files = F.target.files;
     }, Me = async () => {
       try {
-        if (!de.value.files || de.value.files.length === 0) {
+        if (!ce.value.files || ce.value.files.length === 0) {
           a("error", { detail: "Не выбраны файлы для загрузки" }, !0);
           return;
         }
-        let F = de.value.parentNode.data.path;
+        let F = ce.value.parentNode.data.path;
         F.endsWith("/") || (F = F + "/");
-        const j = de.value.parentNode.data.sourceId;
-        for (let W = 0; W < de.value.files.length; W++) {
-          const ce = de.value.files[W], fe = new FormData();
-          fe.append("file", ce), fe.append("path", F);
+        const j = ce.value.parentNode.data.sourceId;
+        for (let W = 0; W < ce.value.files.length; W++) {
+          const pe = ce.value.files[W], he = new FormData();
+          he.append("file", pe), he.append("path", F);
           const ge = await o.uploadFile(
-            ce,
+            pe,
             F,
             j
           );
-          ge.success !== 1 && a("error", { detail: `Ошибка при загрузке файла ${ce.name}: ${ge.message}` }, !0);
+          ge.success !== 1 && a("error", { detail: `Ошибка при загрузке файла ${pe.name}: ${ge.message}` }, !0);
         }
         a("success", { detail: "Файлы успешно загружены" }, !0), p.value ? await k(f.value, p.value) : await k(), Q.value = !1;
       } catch (F) {
@@ -44513,7 +44515,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
             x();
           }, 0);
         else {
-          const W = (ce) => ce.filter((fe) => fe.data && fe.data.hidden ? !1 : (fe.children && fe.children.length && (fe.children = W(fe.children)), !0));
+          const W = (pe) => pe.filter((he) => he.data && he.data.hidden ? !1 : (he.children && he.children.length && (he.children = W(he.children)), !0));
           J.value = W(j), setTimeout(() => {
             x();
           }, 0);
@@ -44537,7 +44539,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
     } }), (F, j) => (d(), g(N, null, [
       i.value ? (d(), g("span", k3, "Загрузка")) : (d(), g("div", C3, [
         b("div", S3, [
-          P(I(pe), {
+          P(I(fe), {
             icon: "pi pi-refresh",
             class: "p-button-text",
             onClick: j[0] || (j[0] = (W) => k("/"))
@@ -44562,7 +44564,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           sidebar: R(({ node: W }) => [
             P(w3, {
               node: W,
-              onAction: he
+              onAction: de
             }, null, 8, ["node"])
           ]),
           title: R(({ node: W }) => [
@@ -44587,13 +44589,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         modal: ""
       }, {
         footer: R(() => [
-          P(I(pe), {
+          P(I(fe), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[4] || (j[4] = (W) => V.value = !1)
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44623,13 +44625,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         modal: ""
       }, {
         footer: R(() => [
-          P(I(pe), {
+          P(I(fe), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[7] || (j[7] = (W) => z.value = !1)
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Создать",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44659,13 +44661,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         modal: ""
       }, {
         footer: R(() => [
-          P(I(pe), {
+          P(I(fe), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[10] || (j[10] = (W) => te.value = !1)
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Создать",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44695,13 +44697,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         modal: ""
       }, {
         footer: R(() => [
-          P(I(pe), {
+          P(I(fe), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[12] || (j[12] = (W) => $.value = !1)
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text p-button-danger",
@@ -44724,13 +44726,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
         modal: ""
       }, {
         footer: R(() => [
-          P(I(pe), {
+          P(I(fe), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[14] || (j[14] = (W) => Q.value = !1)
           }),
-          P(I(pe), {
+          P(I(fe), {
             label: "Загрузить",
             icon: "pi pi-upload",
             class: "p-button-text",
@@ -44860,13 +44862,13 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           b("div", J3, [
             b("h2", X3, B(c.value), 1),
             b("div", Q3, [
-              P(I(pe), {
+              P(I(fe), {
                 icon: "pi pi-download",
                 class: "p-button-text",
                 onClick: y,
                 tooltip: "Скачать файл"
               }),
-              P(I(pe), {
+              P(I(fe), {
                 icon: "pi pi-copy",
                 class: "p-button-text",
                 onClick: v,
@@ -44883,7 +44885,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           b("div", rx, [
             b("div", ix, [
               b("div", null, [
-                P(I(pe), {
+                P(I(fe), {
                   icon: "pi pi-save",
                   label: "Сохранить",
                   class: "p-button-sm mr-2",
@@ -44978,7 +44980,7 @@ const go = /* @__PURE__ */ it(Z5, [["render", f3]]), h3 = { key: 0 }, m3 = {
           mywatch: p.value,
           form: u.value
         }, null, 8, ["modelValue", "columns", "mywatch", "form"]),
-        P(I(pe), {
+        P(I(fe), {
           label: "Сохранить",
           icon: "pi pi-check",
           class: "p-button-text",
@@ -46591,7 +46593,7 @@ const Sc = /* @__PURE__ */ it(bO, [["render", G7], ["__scopeId", "data-v-b8be86b
       try {
         const O = window.innerHeight, T = u.value.$el || u.value;
         if (!T) return "400px";
-        const V = T.getBoundingClientRect().top, z = 0, te = 50, $ = 50, Q = 50, X = x > 1 ? 0 * (x - 1) : 0, he = (O - V - z - 0 - X) / x - te - $ - Q, Ze = Math.max(200, he);
+        const V = T.getBoundingClientRect().top, z = 0, te = 50, $ = 50, Q = 50, X = x > 1 ? 0 * (x - 1) : 0, de = (O - V - z - 0 - X) / x - te - $ - Q, Ze = Math.max(200, de);
         return `${Math.floor(Ze)}px`;
       } catch (O) {
         return console.error("Error calculating table scroll height:", O), "400px";
@@ -46996,7 +46998,7 @@ const Sc = /* @__PURE__ */ it(bO, [["render", G7], ["__scopeId", "data-v-b8be86b
           b("strong", null, B(s(l.value)), 1)
         ])) : C("", !0)
       ]),
-      P(I(pe), {
+      P(I(fe), {
         icon: "pi pi-copy",
         label: "Копировать",
         size: "small",
@@ -47076,8 +47078,8 @@ function u9({ columns: t, lineItems: e, dt: n, storageKey: r, enableVirtScroll: 
         const Q = String($).length;
         let X = Math.ceil(Q / V);
         X = Math.min(X, 3);
-        const de = 20 + 20 * X;
-        S = Math.max(S, de);
+        const ce = 20 + 20 * X;
+        S = Math.max(S, ce);
       }
     }), Math.ceil(S) + 10;
   }, p = () => {
@@ -47272,8 +47274,8 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
       updateEmptyRow: $,
       isEmptyRow: Q,
       isEditableEmptyRow: X
-    } = em(i.emptyRowsCount), Z = E(10), ne = E(), de = E([{ field: "id", label: "ID" }]);
-    let he = {}, Ze = E([]);
+    } = em(i.emptyRowsCount), Z = E(10), ne = E(), ce = E([{ field: "id", label: "ID" }]);
+    let de = {}, Ze = E([]);
     const at = E(!1), ie = E([]), se = E({});
     let re = {};
     const Ee = E({}), Me = E(), Ne = E(!1);
@@ -47290,29 +47292,29 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
       try {
         const Le = await a.options();
         if (Le.data.hasOwnProperty("fields")) {
-          if (he = Le.data.fields, Le.data.limit !== !1 && (Z.value = Le.data.limit, k.value.rows = Le.data.limit), Le.data.selects && typeof Le.data.selects == "object")
+          if (de = Le.data.fields, Le.data.limit !== !1 && (Z.value = Le.data.limit, k.value.rows = Le.data.limit), Le.data.selects && typeof Le.data.selects == "object")
             for (let He in Le.data.selects)
               typeof Le.data.selects[He] == "object" && Le.data.selects[He] !== null && (se.value[He] = Le.data.selects[He]);
           Le.data.data_fields && (Qe.value = Le.data.data_fields), Le.data.form && (j.value = Le.data.form), Le.data.hide_id == 1 && (Be.value = !0), Le.data.hasOwnProperty("rowGroupMode") && (J.value = Le.data.rowGroupMode, xe.value = Le.data.groupRowsBy), Le.data.hasOwnProperty("actions_frozen") && (oe.value = Le.data.actions_frozen), Le.data.hasOwnProperty("enable_virt_scroll") && (ye.value = Le.data.enable_virt_scroll);
           let we = [], On = [];
-          for (let He in he) {
-            switch (he[He].field = He, he[He].hasOwnProperty("label") || (he[He].label = He), Object.prototype.hasOwnProperty.call(he[He], "type") || (He == "id" ? he[He].type = "view" : he[He].type = "text"), he[He].hasOwnProperty("readonly") && (he[He].readonly === !0 || he[He].readonly == 1 ? he[He].readonly = !0 : he[He].readonly = !1), se.value[He] || (se.value[He] = {}), he[He].select_data && (se.value[He].rows = he[He].select_data), he[He].type) {
+          for (let He in de) {
+            switch (de[He].field = He, de[He].hasOwnProperty("label") || (de[He].label = He), Object.prototype.hasOwnProperty.call(de[He], "type") || (He == "id" ? de[He].type = "view" : de[He].type = "text"), de[He].hasOwnProperty("readonly") && (de[He].readonly === !0 || de[He].readonly == 1 ? de[He].readonly = !0 : de[He].readonly = !1), se.value[He] || (se.value[He] = {}), de[He].select_data && (se.value[He].rows = de[He].select_data), de[He].type) {
               case "view":
               case "number":
               case "decimal":
               case "autocomplete":
-                he[He].dataType = "numeric";
+                de[He].dataType = "numeric";
                 break;
               case "date":
-                he[He].dataType = "date";
+                de[He].dataType = "date";
                 break;
               case "boolean":
-                he[He].dataType = "boolean";
+                de[He].dataType = "boolean";
                 break;
               default:
-                he[He].dataType = "text";
+                de[He].dataType = "text";
             }
-            On.push(he[He]), we.push(He);
+            On.push(de[He]), we.push(He);
           }
           if (Le.data.hasOwnProperty("row_class_trigger") && (Ee.value = Le.data.row_class_trigger), Le.data.hasOwnProperty("table_tree") && (Me.value = Le.data.table_tree), Le.data.hasOwnProperty("filters")) {
             re = Le.data.filters;
@@ -47323,14 +47325,14 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
           let ae = null;
           const De = sm(
             i,
-            he,
+            de,
             re,
             (...He) => ae?.(...He),
             // Используем прокси-функцию
             ne,
             k
           );
-          je = De.filters, M = De.topFilters, G = De.initFilters, Re = De.onSetTopFilter, U = De.prepFilters, ee = De.onFilter, Te = De.clearFilter, W = T(a, he, je, () => U(), l, () => i.sorting), ae = W, ce = A(W), fe = V(W), G(), s.value = Le.data.actions;
+          je = De.filters, M = De.topFilters, G = De.initFilters, Re = De.onSetTopFilter, U = De.prepFilters, ee = De.onFilter, Te = De.clearFilter, W = T(a, de, je, () => U(), l, () => i.sorting), ae = W, pe = A(W), he = V(W), G(), s.value = Le.data.actions;
           const Dt = na.processActions(
             Le.data.actions,
             i.actions,
@@ -47342,8 +47344,8 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
               setExpandedRow: Jc
             }
           );
-          Ze.value = Dt.cur_actions, u.value = Dt.nemu_actions, at.value = Dt.actions_row, Ne.value = Dt.SpeedDialEnabled, de.value = On, Ac(Le.data), await W(), setTimeout(() => {
-            ne.value && ne.value.attributeSelector && xo(de, ne.value.attributeSelector), Oo.value && (Jr(), window.addEventListener("resize", Jr)), Xr.value && Kc(), Qr.value && Nc();
+          Ze.value = Dt.cur_actions, u.value = Dt.nemu_actions, at.value = Dt.actions_row, Ne.value = Dt.SpeedDialEnabled, ce.value = On, Ac(Le.data), await W(), setTimeout(() => {
+            ne.value && ne.value.attributeSelector && xo(ce, ne.value.attributeSelector), Oo.value && (Jr(), window.addEventListener("resize", Jr)), Xr.value && Kc(), Qr.value && Nc();
           }, 200);
         } else
           console.error("Fields not received from server", Le.data), l("error", { detail: "Ошибка: поля таблицы не получены с сервера" }, !0), h.value = !1;
@@ -47357,7 +47359,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
     const F = (Le, we, On, ae, De) => {
       u.value[Le.action] && u.value[Le.action].click && u.value[Le.action].click(we, On, ae, De);
     }, j = E({});
-    let W, ce, fe;
+    let W, pe, he;
     const ge = (Le, we) => {
       if (!we || we == i.table)
         W && W(), Le || o("refresh-table");
@@ -47379,7 +47381,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
       getVirtualScrollRowStyle: Qn,
       resetSettings: _
     } = u9({
-      columns: de,
+      columns: ce,
       lineItems: v,
       dt: ne,
       storageKey: `pvtables-virtual-scroll-${i.table}`,
@@ -47420,9 +47422,9 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
       onDisableVerticalScrollToggle: jc,
       applyVerticalScrollStyles: Nc
     } = ue, Hc = (Le) => {
-      ue.toggleSettings(Le, de);
+      ue.toggleSettings(Le, ce);
     }, Uc = (Le) => {
-      ue.onToggleColomns(Le, de);
+      ue.onToggleColomns(Le, ce);
     }, {
       cellSelectionMode: Po,
       selectedCells: Xi,
@@ -47433,7 +47435,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
       onCellMouseUp: jl,
       handleCellCopy: Yc,
       handleKeyDown: Nl
-    } = im(de, v, Be), {
+    } = im(ce, v, Be), {
       expandedRows: Qi,
       expandedTableTreeRows: Hl,
       subs: ei,
@@ -47507,7 +47509,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
       const we = v.value[Le];
       return !we || !we.id || !we._rowKey || !Q(we.id) ? !1 : !X(we._rowKey);
     }, bp = (Le) => {
-      !ne.value || !ne.value.$refs.table || (Wr(ne.value.$refs.table, de), ne.value.attributeSelector && xo(de, ne.value.attributeSelector));
+      !ne.value || !ne.value.$refs.table || (Wr(ne.value.$refs.table, ce), ne.value.attributeSelector && xo(ce, ne.value.attributeSelector));
     }, yp = Qn(Zi), ql = (Le) => {
       o("get-response", Le);
     };
@@ -47526,7 +47528,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
               b("div", c9, [
                 P(I(bl), {
                   modelValue: I(Pe),
-                  options: de.value,
+                  options: ce.value,
                   optionLabel: "label",
                   "onUpdate:modelValue": we[0] || (we[0] = (ae) => Uc(ae)),
                   placeholder: "Выберете столбцы",
@@ -47587,21 +47589,21 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                   S9
                 ]),
                 b("div", I9, [
-                  P(I(pe), {
+                  P(I(fe), {
                     label: "Сбросить локальные стили",
                     icon: "pi pi-refresh",
                     onClick: we[6] || (we[6] = () => I(Yr)(ge)),
                     size: "small",
                     severity: "secondary"
                   }),
-                  P(I(pe), {
+                  P(I(fe), {
                     label: "Сбросить стили на сервере",
                     icon: "pi pi-server",
                     onClick: we[7] || (we[7] = () => I(Fc)(ge)),
                     size: "small",
                     severity: "warning"
                   }),
-                  P(I(pe), {
+                  P(I(fe), {
                     label: "Сохранить стили на сервере",
                     icon: "pi pi-save",
                     onClick: I(qr),
@@ -47643,14 +47645,14 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                   b("small", D9, "Автоопределенная: " + B(I(Nt)) + "px", 1)
                 ]),
                 b("div", L9, [
-                  P(I(pe), {
+                  P(I(fe), {
                     label: "Пересчитать",
                     icon: "pi pi-refresh",
                     onClick: I(sn),
                     size: "small",
                     disabled: !I(ze)
                   }, null, 8, ["onClick", "disabled"]),
-                  Ke(P(I(pe), {
+                  Ke(P(I(fe), {
                     label: "Сбросить",
                     icon: "pi pi-undo",
                     onClick: I(_),
@@ -47671,7 +47673,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
           }, 512),
           P(I(Ki), { class: "p-mb-4" }, {
             start: R(() => [
-              (d(!0), g(N, null, ke(I(Ze).filter((ae) => ae.head), (ae) => (d(), w(I(pe), {
+              (d(!0), g(N, null, ke(I(Ze).filter((ae) => ae.head), (ae) => (d(), w(I(fe), {
                 icon: ae.icon,
                 label: ae.label,
                 class: H(ae.class),
@@ -47709,7 +47711,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
               ], 64))), 128))
             ]),
             end: R(() => [
-              Ke(P(I(pe), {
+              Ke(P(I(fe), {
                 icon: I(Po) ? "pi pi-check-square" : "pi pi-table",
                 class: H(I(Po) ? "p-button-success" : ""),
                 onClick: I(Gc)
@@ -47721,7 +47723,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                   { bottom: !0 }
                 ]
               ]),
-              Ke(P(I(pe), {
+              Ke(P(I(fe), {
                 icon: I(st) ? "pi pi-moon" : "pi pi-sun",
                 onClick: I(ot)
               }, null, 8, ["icon", "onClick"]), [
@@ -47732,7 +47734,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                   { bottom: !0 }
                 ]
               ]),
-              Ke(P(I(pe), {
+              Ke(P(I(fe), {
                 icon: "pi pi-refresh",
                 class: "p-button-success",
                 onClick: we[10] || (we[10] = (ae) => ge(!1))
@@ -47744,7 +47746,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                   { bottom: !0 }
                 ]
               ]),
-              Ke(P(I(pe), {
+              Ke(P(I(fe), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: we[11] || (we[11] = (ae) => I(Te)())
@@ -47756,10 +47758,10 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                   { bottom: !0 }
                 ]
               ]),
-              Ke(P(I(pe), {
+              Ke(P(I(fe), {
                 type: "button",
                 icon: "pi pi-cog",
-                onClick: we[12] || (we[12] = (ae) => Hc(ae, de.value))
+                onClick: we[12] || (we[12] = (ae) => Hc(ae, ce.value))
               }, null, 512), [
                 [
                   I(r),
@@ -47768,7 +47770,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                   { bottom: !0 }
                 ]
               ]),
-              Ke(P(I(pe), {
+              Ke(P(I(fe), {
                 type: "button",
                 icon: I(ze) ? "pi pi-bolt" : "pi pi-forward",
                 class: H(I(ze) ? "p-button-warning" : ""),
@@ -47804,8 +47806,8 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
             dataKey: "_rowKey",
             totalRecords: I(p),
             loading: I(h),
-            onPage: we[17] || (we[17] = (ae) => I(ce)(ae)),
-            onSort: we[18] || (we[18] = (ae) => I(fe)(ae)),
+            onPage: we[17] || (we[17] = (ae) => I(pe)(ae)),
+            onSort: we[18] || (we[18] = (ae) => I(he)(ae)),
             sortMode: "multiple",
             editMode: "cell",
             onCellEditComplete: I(Wl),
@@ -47879,12 +47881,12 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
               }, {
                 body: R(({ data: ae }) => [
                   ae.gtsapi_children_count > 0 ? (d(), g(N, { key: 0 }, [
-                    I(Hl)[ae._rowKey] ? (d(), w(I(pe), {
+                    I(Hl)[ae._rowKey] ? (d(), w(I(fe), {
                       key: 0,
                       icon: "pi pi-angle-down",
                       class: "p-button-text",
                       onClick: (De) => I(_l)(ae)
-                    }, null, 8, ["onClick"])) : (d(), w(I(pe), {
+                    }, null, 8, ["onClick"])) : (d(), w(I(fe), {
                       key: 1,
                       icon: "pi pi-angle-right",
                       class: "p-button-text",
@@ -47899,7 +47901,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                 headerStyle: "width: 3rem"
               }),
               b("template", null, [
-                (d(!0), g(N, null, ke(de.value.filter((ae) => ae.modal_only != !0 && ae.type != "hidden" && !(Be.value && ae.field == "id")), (ae) => (d(), w(I(vn), {
+                (d(!0), g(N, null, ke(ce.value.filter((ae) => ae.modal_only != !0 && ae.type != "hidden" && !(Be.value && ae.field == "id")), (ae) => (d(), w(I(vn), {
                   field: ae.field,
                   header: ae.label,
                   sortable: "",
@@ -47972,22 +47974,22 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
                     De.compiledTemplate ? (d(), w(Y(De.compiledTemplate), {
                       key: 0,
                       data: ae.data,
-                      columns: de.value,
+                      columns: ce.value,
                       table: t.table,
                       filters: I(je),
                       action: De,
-                      onActionClick: (Dt) => De.click(ae.data, de.value, t.table, I(je))
-                    }, null, 40, ["data", "columns", "table", "filters", "action", "onActionClick"])) : (d(), w(I(pe), {
+                      onActionClick: (Dt) => De.click(ae.data, ce.value, t.table, I(je))
+                    }, null, 40, ["data", "columns", "table", "filters", "action", "onActionClick"])) : (d(), w(I(fe), {
                       key: 1,
                       icon: De.icon,
                       class: H(De.class),
-                      onClick: (Dt) => De.click(ae.data, de.value, t.table, I(je))
+                      onClick: (Dt) => De.click(ae.data, ce.value, t.table, I(je))
                     }, null, 8, ["icon", "class", "onClick"]))
                   ], 64))), 128)),
                   Ne.value ? (d(), w(q7, {
                     key: 0,
                     actions: u.value,
-                    onPvtablesMenuAction: (De) => F(De, ae.data, de.value, t.table, I(je))
+                    onPvtablesMenuAction: (De) => F(De, ae.data, ce.value, t.table, I(je))
                   }, null, 8, ["actions", "onPvtablesMenuAction"])) : C("", !0)
                 ]),
                 _: 1
@@ -48002,13 +48004,13 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
             modal: ""
           }, {
             footer: R(() => [
-              P(I(pe), {
+              P(I(fe), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: I(lp)
               }, null, 8, ["onClick"]),
-              P(I(pe), {
+              P(I(fe), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -48019,7 +48021,7 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
               P(go, {
                 modelValue: I(to),
                 "onUpdate:modelValue": we[23] || (we[23] = (ae) => Zt(to) ? to.value = ae : null),
-                columns: de.value,
+                columns: ce.value,
                 autocompleteSettings: I(D),
                 selectSettings: se.value,
                 customFields: I(x)[I(to)._rowKey],
@@ -48036,13 +48038,13 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
             modal: ""
           }, {
             footer: R(() => [
-              P(I(pe), {
+              P(I(fe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: we[25] || (we[25] = (ae) => ni.value = !1)
               }),
-              P(I(pe), {
+              P(I(fe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -48064,13 +48066,13 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
             modal: ""
           }, {
             footer: R(() => [
-              P(I(pe), {
+              P(I(fe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: we[27] || (we[27] = (ae) => oi.value = !1)
               }),
-              P(I(pe), {
+              P(I(fe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -48092,13 +48094,13 @@ const d9 = { class: "card pvtables" }, c9 = { style: { padding: "1rem" } }, p9 =
             modal: ""
           }, {
             footer: R(() => [
-              P(I(pe), {
+              P(I(fe), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: I(ep)
               }, null, 8, ["onClick"]),
-              P(I(pe), {
+              P(I(fe), {
                 label: ti.value?.modal_form?.buttons?.submit?.label || "Выполнить",
                 icon: ti.value?.modal_form?.buttons?.submit?.icon || "pi pi-check",
                 class: "p-button-text",
@@ -48973,14 +48975,14 @@ const Ri = (function() {
     const Z = async (M) => {
       let { data: G, newValue: Re, field: U } = M;
       G[U] = Re;
-    }, ne = E({}), de = E(!1), he = E(!1), Ze = (M) => {
-      ne.value = { ...M }, he.value = !0;
+    }, ne = E({}), ce = E(!1), de = E(!1), Ze = (M) => {
+      ne.value = { ...M }, de.value = !0;
     }, at = () => {
-      he.value = !1, de.value = !1;
+      de.value = !1, ce.value = !1;
     }, ie = async () => {
-      if (de.value = !0, ne.value.id)
+      if (ce.value = !0, ne.value.id)
         try {
-          e.value[se(Number(ne.value.id))] = ne.value, he.value = !1, ne.value = {};
+          e.value[se(Number(ne.value.id))] = ne.value, de.value = !1, ne.value = {};
         } catch (M) {
           r("error", { detail: M.message });
         }
@@ -48989,7 +48991,7 @@ const Ri = (function() {
           let M = 0;
           e.value.forEach(function(G) {
             G.id > M && (M = G.id);
-          }), ne.value.id = M + 1, e.value.push(ne.value), he.value = !1, ne.value = {};
+          }), ne.value.id = M + 1, e.value.push(ne.value), de.value = !1, ne.value = {};
         } catch (M) {
           r("error", { detail: M.message });
         }
@@ -49002,7 +49004,7 @@ const Ri = (function() {
         }
       return G;
     }, re = () => {
-      ne.value = {}, de.value = !1, he.value = !0;
+      ne.value = {}, ce.value = !1, de.value = !0;
     }, Ee = E(!1), Me = E(!1), Ne = (M) => {
       ne.value = M, Ee.value = !0;
     }, J = async () => {
@@ -49032,9 +49034,9 @@ const Ri = (function() {
     }, W = (M) => {
       if (X.value[M.id] && X.value[M.id].class)
         return X.value[M.id].class;
-    }, ce = (M) => M.type, fe = E({}), ge = (M, G) => !!(fe.value[M.id] && fe.value[M.id][G] && fe.value[M.id][G].readonly == 1), je = (M, G) => {
+    }, pe = (M) => M.type, he = E({}), ge = (M, G) => !!(he.value[M.id] && he.value[M.id][G] && he.value[M.id][G].readonly == 1), je = (M, G) => {
       let Re = "td-body " + M.type, U = !1;
-      return fe.value[G.id] && fe.value[G.id][M.field] && fe.value[G.id][M.field].readonly == 1 && (U = !0), M.readonly || U ? Re + " readonly" : Re;
+      return he.value[G.id] && he.value[G.id][M.field] && he.value[G.id][M.field].readonly == 1 && (U = !0), M.readonly || U ? Re + " readonly" : Re;
     };
     return (M, G) => {
       const Re = K("PVTables");
@@ -49042,7 +49044,7 @@ const Ri = (function() {
         b("div", HP, [
           P(I(Ki), { class: "p-mb-4" }, {
             start: R(() => [
-              (d(!0), g(N, null, ke(I(v).filter((U) => U.head), (U) => (d(), w(I(pe), {
+              (d(!0), g(N, null, ke(I(v).filter((U) => U.head), (U) => (d(), w(I(fe), {
                 icon: U.icon,
                 label: U.label,
                 class: H(U.class),
@@ -49072,7 +49074,7 @@ const Ri = (function() {
                   class: H(["pi", { "pi-moon": i.value, "pi-sun": !i.value }])
                 }, null, 2)
               ]),
-              P(I(pe), {
+              P(I(fe), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: G[0] || (G[0] = (U) => s())
@@ -49139,7 +49141,7 @@ const Ri = (function() {
                 header: U.label,
                 sortable: "",
                 dataType: U.dataType,
-                class: H(ce(U))
+                class: H(pe(U))
               }, Ft({
                 body: R(({ data: ee, field: Te }) => [
                   b("div", {
@@ -49152,7 +49154,7 @@ const Ri = (function() {
                       autocompleteSettings: Q.value[Te],
                       selectSettings: S.value[Te],
                       onSetValue: (ze) => Z({ data: ee, field: Te, newValue: ze }),
-                      customFields: fe.value[ee.id]
+                      customFields: he.value[ee.id]
                     }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])
                   ], 2)
                 ]),
@@ -49193,7 +49195,7 @@ const Ri = (function() {
                 !["autocomplete", "select", "boolean", "date", "datetime", "html", "view"].includes(U.type) && !U.readonly ? {
                   name: "editor",
                   fn: R(({ data: ee, field: Te }) => [
-                    fe.value[ee.id] && fe.value[ee.id][Te] && ["autocomplete", "select", "boolean", "date", "datetime", "html", "view"].includes(fe.value[ee.id][Te].type) ? (d(), w(yi, {
+                    he.value[ee.id] && he.value[ee.id][Te] && ["autocomplete", "select", "boolean", "date", "datetime", "html", "view"].includes(he.value[ee.id][Te].type) ? (d(), w(yi, {
                       key: 0,
                       field: U,
                       data: ee[Te],
@@ -49201,7 +49203,7 @@ const Ri = (function() {
                       autocompleteSettings: Q.value[Te],
                       selectSettings: S.value[Te],
                       onSetValue: (ze) => Z({ data: ee, field: Te, newValue: ze }),
-                      customFields: fe.value[ee.id]
+                      customFields: he.value[ee.id]
                     }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])) : U.type == "number" ? (d(), w(I(yn), {
                       key: 1,
                       modelValue: ee[Te],
@@ -49236,7 +49238,7 @@ const Ri = (function() {
                 style: { "white-space": "nowrap" }
               }, {
                 body: R((U) => [
-                  (d(!0), g(N, null, ke(I(v).filter((ee) => ee.row), (ee) => (d(), w(I(pe), {
+                  (d(!0), g(N, null, ke(I(v).filter((ee) => ee.row), (ee) => (d(), w(I(fe), {
                     icon: ee.icon,
                     class: H(ee.class),
                     onClick: (Te) => ee.click(U.data, y.value, t.table, a.value)
@@ -49248,19 +49250,19 @@ const Ri = (function() {
             _: 1
           }, 8, ["value", "loading", "selection", "selectAll", "filters", "expandedRows"]),
           P(I(It), {
-            visible: he.value,
-            "onUpdate:visible": G[5] || (G[5] = (U) => he.value = U),
+            visible: de.value,
+            "onUpdate:visible": G[5] || (G[5] = (U) => de.value = U),
             header: "Редактировать",
             modal: ""
           }, {
             footer: R(() => [
-              P(I(pe), {
+              P(I(fe), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: at
               }),
-              P(I(pe), {
+              P(I(fe), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -49285,13 +49287,13 @@ const Ri = (function() {
             modal: ""
           }, {
             footer: R(() => [
-              P(I(pe), {
+              P(I(fe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: G[6] || (G[6] = (U) => Ee.value = !1)
               }),
-              P(I(pe), {
+              P(I(fe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -49313,13 +49315,13 @@ const Ri = (function() {
             modal: ""
           }, {
             footer: R(() => [
-              P(I(pe), {
+              P(I(fe), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: G[8] || (G[8] = (U) => Me.value = !1)
               }),
-              P(I(pe), {
+              P(I(fe), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -57118,7 +57120,7 @@ var RE = function(e) {
     focustrap: Hr
   },
   components: {
-    Button: pe,
+    Button: fe,
     Portal: en,
     TimesIcon: fn
   }
@@ -57793,7 +57795,7 @@ var wa = 3.14159265358979, JE = {
     }
   },
   components: {
-    Button: pe,
+    Button: fe,
     PlusIcon: wo
   },
   directives: {
@@ -58134,7 +58136,7 @@ var lD = function(e) {
   components: {
     PlusIcon: wo,
     MinusIcon: zi,
-    Button: pe
+    Button: fe
   },
   directives: {
     ripple: ct
@@ -58346,7 +58348,7 @@ const UD = {
 };
 export {
   Nr as Badge,
-  pe as Button,
+  fe as Button,
   iD as Card,
   Mn as Checkbox,
   vn as Column,
