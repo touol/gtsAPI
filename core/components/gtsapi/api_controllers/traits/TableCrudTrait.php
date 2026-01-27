@@ -439,6 +439,26 @@ trait TableCrudTrait
             $request = $this->request_array_to_json($request);
             $request = array_merge($request, $data);
             
+            // Проверка readonly полей
+            if (!empty($rule['properties']['fields'])) {
+                foreach ($rule['properties']['fields'] as $field => $desc) {
+                    if (!empty($desc['readonly']) && isset($request[$field])) {
+                        // Получаем старое значение поля
+                        $oldValue = isset($object_old[$field]) ? $object_old[$field] : null;
+                        $newValue = $request[$field];
+                        
+                        // Сравниваем значения (учитываем разные типы)
+                        if ($oldValue != $newValue) {
+                            return $this->error('Поле "' . $field . '" доступно только для чтения и не может быть изменено', [
+                                'field' => $field,
+                                'old_value' => $oldValue,
+                                'new_value' => $newValue
+                            ]);
+                        }
+                    }
+                }
+            }
+            
             //class link Редактирование 2 таблиц одновременно
             $set_data[$rule['class']] = [];
             $fields = [];
