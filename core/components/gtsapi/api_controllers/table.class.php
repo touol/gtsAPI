@@ -70,7 +70,9 @@ class tableAPIController
         if (isset($req['filters']) and isset($request['filters'])) $req['filters'] = array_merge($req['filters'], $request['filters']);
         if (isset($request['is_virtual'])) $req['is_virtual'] = $request['is_virtual'];
         if (is_array($req)) $request = array_merge($request, $req);
-          
+
+        
+
         switch ($method) {
             case 'GET':
                 if (empty($request['api_action'])) $request['api_action'] = 'read';
@@ -261,6 +263,23 @@ class tableAPIController
             break;
             case 'delete':
                 return $this->delete($rule, $request, $rule['aсtions'][$request['api_action']]);
+            break;
+            case 'copy':
+                try {
+                    $action = [];
+                    if (isset($rule['properties']['actions']['copy'])) {
+                        $action = $rule['properties']['actions']['copy'];
+                        // Для UniTree получаем конфигурацию для конкретной таблицы
+                        if (isset($action['tables']) && isset($request['table'])) {
+                            if (isset($action['tables'][$request['table']])) {
+                                $action = $action['tables'][$request['table']];
+                            }
+                        }
+                    }
+                    return $this->copy($rule, $request, $action);
+                } catch (Exception $e) {
+                    return $this->error('Ошибка копирования: ' . $e->getMessage());
+                }
             break;
             case 'options':
                 return $this->options($rule, $request, $rule['aсtions'][$request['api_action']]);

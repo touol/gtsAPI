@@ -1,6 +1,10 @@
 <?php
+require_once __DIR__ . '/traits/TreeCopyTrait.php';
 
 class treeAPIController{
+    // Подключаем trait для копирования
+    use TreeCopyTrait;
+    
     public $config = [];
     public $modx;
     public $pdo;
@@ -160,6 +164,28 @@ class treeAPIController{
             break;
             case 'delete':
                 return $this->delete($rule,$request,$rule['aсtions'][$request['api_action']]);
+            break;
+            case 'copy':
+                try {
+                    // Получаем конфигурацию copy из actions
+                    if (!isset($rule['properties']['actions']['copy'])) {
+                        return $this->error('Не найдена конфигурация действия copy');
+                    }
+                    
+                    $action = $rule['properties']['actions']['copy'];
+                    
+                    // Для UniTree нужно получить конфигурацию из tables
+                    $copy_config = null;
+                    if (isset($request['table']) && isset($action['tables'][$request['table']])) {
+                        $copy_config = $action['tables'][$request['table']];
+                    } else {
+                        $copy_config = $action;
+                    }
+                    
+                    return $this->copy($rule, $request, $copy_config);
+                } catch (Exception $e) {
+                    return $this->error('Ошибка при копировании: ' . $e->getMessage());
+                }
             break;
             case 'options':
                 return $this->options($rule,$request,$rule['aсtions'][$request['api_action']]);
