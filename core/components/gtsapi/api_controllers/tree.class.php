@@ -1181,7 +1181,7 @@ class treeAPIController{
             
             foreach($objs as $obj){
                 $object_old = $obj->toArray();
-                $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
+                $resp = $this->run_triggers($rule, 'before', 'delete', [], $object_old);
                 if(!$resp['success']) return $resp;
                 
                 if($rule['properties']['useUniTree']){
@@ -1197,7 +1197,7 @@ class treeAPIController{
                 }
                 
                 if($obj->remove()){
-                    $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
+                    $resp = $this->run_triggers($rule, 'after', 'delete', [], $object_old);
                     if(!$resp['success']) return $resp;
                 }
             }
