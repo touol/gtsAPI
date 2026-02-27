@@ -3,7 +3,7 @@
 /** @var array $scriptProperties */
 $name_lower = strtolower($app);
 $debug = false;
-$vapi = 6;
+$vapi = 7;
 
 // Проверяем параметр enableSSR
 $enableSSR = !empty($enableSSR) ? (bool)$enableSSR : false;
