@@ -3948,7 +3948,7 @@ function wm(t, e, n, r, i, o, a, l, u, s, c, f, h, p = {}, y = null) {
     },
     deleteLineItem: async () => {
       try {
-        await t.delete({ ids: x.value.id }), a.value = a.value.filter(
+        await t.delete({ ids: x.value.id, filters: e() }), a.value = a.value.filter(
           (Ae) => Ae.id !== x.value.id
         ), V.value = !1, x.value = {};
       } catch (Ae) {
@@ -3961,7 +3961,7 @@ function wm(t, e, n, r, i, o, a, l, u, s, c, f, h, p = {}, y = null) {
     deleteSelectedLineItems: async () => {
       const Ae = H.value.map((me) => me.id).join(",");
       try {
-        await t.delete({ ids: Ae }), a.value = a.value.filter(
+        await t.delete({ ids: Ae, filters: e() }), a.value = a.value.filter(
           (me) => !H.value.includes(me)
         ), $.value = !1, H.value = null;
       } catch (me) {
