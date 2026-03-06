@@ -51692,28 +51692,31 @@ class $c {
     const n = `${this.assetsPath}${e.toLowerCase()}/web`;
     if (!this.loadedComponents.has(e))
       try {
+        const r = `${n}/js/${e.toLowerCase()}.js`;
+        if (!(await fetch(r, { method: "HEAD" })).ok)
+          throw new Error(`Component not found: ${r}`);
         if (window.PVTablesAPI) {
           if (!window.PVTablesAPI.Vue) {
-            const o = await import("vue");
-            window.PVTablesAPI.Vue = o;
+            const l = await import("vue");
+            window.PVTablesAPI.Vue = l;
           }
         } else {
-          const { useNotifications: o } = await Promise.resolve().then(() => ow), a = (await Promise.resolve().then(() => vk)).default, l = await import("vue");
+          const { useNotifications: l } = await Promise.resolve().then(() => ow), u = (await Promise.resolve().then(() => vk)).default, s = await import("vue");
           window.PVTablesAPI = {
-            useNotifications: o,
-            apiCtor: a,
-            Vue: l
+            useNotifications: l,
+            apiCtor: u,
+            Vue: s
           };
         }
         if (!window.Vue) {
-          const o = window.PVTablesAPI.Vue || await import("vue");
-          window.Vue = o;
+          const l = window.PVTablesAPI.Vue || await import("vue");
+          window.Vue = l;
         }
         await this._loadCSS(`${n}/css/${e.toLowerCase()}.css`);
-        let i = await this._loadJS(`${n}/js/${e.toLowerCase()}.js`);
-        window[e] && (i = window[e]), i.default && typeof i.default.install == "function" ? this.app.use(i.default) : i.default ? this.app.component(e, i.default) : i[e] && this.app.component(e, i[e]), this.loadedComponents.set(e, i), console.log(`✓ Компонент ${e} загружен и зарегистрирован`);
+        let a = await this._loadJS(`${n}/js/${e.toLowerCase()}.js`);
+        window[e] && (a = window[e]), a.default && typeof a.default.install == "function" ? this.app.use(a.default) : a.default ? this.app.component(e, a.default) : a[e] && this.app.component(e, a[e]), this.loadedComponents.set(e, a), console.log(`✓ Компонент ${e} загружен и зарегистрирован`);
       } catch (r) {
-        throw console.error(`✗ Ошибка загрузки компонента ${e}:`, r), r;
+        throw r;
       }
   }
   /**
@@ -51727,13 +51730,7 @@ class $c {
         return;
       }
       const i = document.createElement("link");
-      i.rel = "stylesheet", i.href = e, i.onload = () => n(), i.onerror = () => {
-        fetch(e, { method: "HEAD" }).then((o) => {
-          o.status === 404 ? (console.warn(`CSS файл не найден: ${e}`), n()) : r(new Error(`Failed to load CSS: ${e}`));
-        }).catch(() => {
-          console.warn(`CSS файл недоступен: ${e}`), n();
-        });
-      }, document.head.appendChild(i);
+      i.rel = "stylesheet", i.href = e, i.onload = () => n(), i.onerror = () => n(), document.head.appendChild(i);
     });
   }
   /**
@@ -51753,13 +51750,7 @@ class $c {
         } catch (o) {
           r(o);
         }
-      }, i.onerror = () => {
-        fetch(e, { method: "HEAD" }).then((o) => {
-          o.status === 404 ? r(new Error(`Component not found: ${e}`)) : r(new Error(`Failed to load JS: ${e}`));
-        }).catch(() => {
-          r(new Error(`Component not available: ${e}`));
-        });
-      }, document.head.appendChild(i);
+      }, i.onerror = () => r(new Error(`Failed to load JS: ${e}`)), document.head.appendChild(i);
     });
   }
   /**
