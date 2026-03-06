@@ -22893,7 +22893,7 @@ const tw = {
   success: "info",
   error: "error",
   warning: "warn"
-}, Tt = () => ({ notify: (e = "", n, r = !1) => {
+}, Rt = () => ({ notify: (e = "", n, r = !1) => {
   const i = {
     ...tw[e],
     ...n
@@ -22904,7 +22904,7 @@ const tw = {
   }
 } }), ow = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  useNotifications: Tt
+  useNotifications: Rt
 }, Symbol.toStringTag, { value: "Module" }));
 function Od(t, e) {
   return function() {
@@ -24357,11 +24357,11 @@ const {
   formToJSON: uL,
   getAdapter: dL,
   mergeConfig: cL
-} = Ct, Rt = (t, e = 6e4) => {
+} = Ct, Tt = (t, e = 6e4) => {
   const r = {
     baseURL: `/api/${t}`,
     timeout: e
-  }, i = Ct.create(r), { notify: o } = Tt();
+  }, i = Ct.create(r), { notify: o } = Rt();
   return i.interceptors.request.use(
     (a) => a,
     (a) => {
@@ -24425,7 +24425,7 @@ const {
   };
 }, vk = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: Rt
+  default: Tt
 }, Symbol.toStringTag, { value: "Module" })), wk = { key: 0 }, kk = { key: 0 }, Ck = { key: 1 }, Zi = {
   __name: "PVAutoComplete",
   props: /* @__PURE__ */ Nt({
@@ -24456,7 +24456,7 @@ const {
   }),
   emits: /* @__PURE__ */ Nt(["update:id", "set-value", "tab"], ["update:modelValue"]),
   setup(t, { emit: e }) {
-    const n = Nn(t, "modelValue"), r = E(!1), i = E(""), o = t, a = Rt(o.field.table), l = e, { notify: u } = Tt(), s = E(null), c = (A) => {
+    const n = Nn(t, "modelValue"), r = E(!1), i = E(""), o = t, a = Tt(o.field.table), l = e, { notify: u } = Rt(), s = E(null), c = (A) => {
       l("tab", A);
     }, p = E(""), h = E([]), f = E({}), y = E({
       offset: 0,
@@ -24727,7 +24727,7 @@ const {
   }),
   emits: /* @__PURE__ */ Nt(["update:id", "set-value"], ["update:modelValue"]),
   setup(t, { emit: e }) {
-    const n = Nn(t, "modelValue"), r = E(!1), i = E(""), o = t, a = Rt(o.field.table), l = e, { notify: u } = Tt(), s = E(""), c = E([]), p = E({}), h = E({
+    const n = Nn(t, "modelValue"), r = E(!1), i = E(""), o = t, a = Tt(o.field.table), l = e, { notify: u } = Rt(), s = E(""), c = E([]), p = E({}), h = E({
       offset: 0,
       limit: 10,
       loading: !1,
@@ -24785,7 +24785,7 @@ const {
         const le = te.key;
         if (f.value[le] = {}, y.value[le] = [], te.default_row)
           try {
-            const Te = await Rt(te.table).autocomplete({
+            const Te = await Tt(te.table).autocomplete({
               query: "",
               ids: "",
               ...te.default_row
@@ -24802,7 +24802,7 @@ const {
       const ie = S.value.find((Te) => Te.key === te);
       if (ie)
         try {
-          const Te = Rt(ie.table);
+          const Te = Tt(ie.table);
           let Le = {
             query: le,
             ids: ""
@@ -24949,7 +24949,7 @@ const {
         const ie = le.key;
         if (te[ie] && te[ie] !== null && te[ie] !== "")
           try {
-            const Le = await Rt(le.table).autocomplete({
+            const Le = await Tt(le.table).autocomplete({
               id: te[ie]
             });
             if (Le.data.rows && Le.data.rows.length > 0) {
@@ -28179,7 +28179,7 @@ const Pl = {
   emits: /* @__PURE__ */ Nt(["set-value"], ["update:modelValue"]),
   setup(t, { emit: e }) {
     Nn(t, "modelValue");
-    const n = t, r = e, { notify: i } = Tt(), o = Rt(n.field.table), a = Rt(n.field.table_link), l = E([]), u = E([]), s = E(!1), c = async () => {
+    const n = t, r = e, { notify: i } = Rt(), o = Tt(n.field.table), a = Tt(n.field.table_link), l = E([]), u = E([]), s = E(!1), c = async () => {
       s.value = !0;
       try {
         const f = await o.read({
@@ -30874,7 +30874,7 @@ function GC(t, e, n, r, i, o) {
   }), 128))], 16, _C)], 16)], 16);
 }
 tc.render = GC;
-const { notify: kt } = Tt();
+const { notify: kt } = Rt();
 class xo {
   constructor() {
     this.api = Ct.create({
@@ -31175,7 +31175,7 @@ class xo {
     }
   }
 }
-const { notify: Wn } = Tt(), ro = new xo(), Ee = Si({
+const { notify: Wn } = Rt(), ro = new xo(), Ee = Si({
   // Текущая директория
   currentDirectory: "/",
   // Список файлов в текущей директории
@@ -39999,7 +39999,7 @@ const bc = (t) => (Yt("data-v-ff61e4cf"), t = t(), Zt(), t), t6 = { class: "uplo
   }),
   emits: /* @__PURE__ */ Nt(["set-value"], ["update:modelValue"]),
   setup(t, { emit: e }) {
-    const { notify: n } = Tt(), r = Nn(t, "modelValue"), i = t, o = (S) => {
+    const { notify: n } = Rt(), r = Nn(t, "modelValue"), i = t, o = (S) => {
       if (!S || typeof S != "string") return !0;
       const O = [
         /\$parent/gi,
@@ -43585,8 +43585,8 @@ const m3 = { props: { template: String, parent: Object, templateProps: { type: O
     }
   },
   created() {
-    this.api = Rt(this.mywatch.table);
-    const t = Tt();
+    this.api = Tt(this.mywatch.table);
+    const t = Rt();
     if (this.notify = t.notify, this.form && this.form.tabs) {
       const e = Object.keys(this.form.tabs)[0];
       this.activeTab = e || null;
@@ -43884,7 +43884,7 @@ const yo = /* @__PURE__ */ lt(g3, [["render", M3]]), B3 = { key: 0 }, F3 = {
   },
   emits: ["select-treenode"],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = E(!0), o = Rt(r.table), { notify: a } = Tt(), l = E([]);
+    const r = t, i = E(!0), o = Tt(r.table), { notify: a } = Rt(), l = E([]);
     let u = {};
     const s = E(), c = E({}), p = E({}), h = E({}), f = E(0), y = E(!1), v = E(!0), k = E(!0);
     let L = new URLSearchParams(document.location.search);
@@ -43939,7 +43939,7 @@ const yo = /* @__PURE__ */ lt(g3, [["render", M3]]), B3 = { key: 0 }, F3 = {
           if (p.value.classes[G.data.class].label && (ne = p.value.classes[G.data.class].label), p.value.classes[G.data.class].tabs)
             F = p.value.classes[G.data.class].tabs;
           else if (p.value.classes[G.data.class].table) {
-            const pe = Rt(p.value.classes[G.data.class].table);
+            const pe = Tt(p.value.classes[G.data.class].table);
             try {
               const ge = await pe.get(se);
               for (let ye in p.value.classes[G.data.class])
@@ -43957,7 +43957,7 @@ const yo = /* @__PURE__ */ lt(g3, [["render", M3]]), B3 = { key: 0 }, F3 = {
           if (p.value.classes.default.label && (ne = p.value.classes.default.label), p.value.classes.default.tabs)
             F = p.value.classes.default.tabs;
           else if (p.value.classes.default.table) {
-            const pe = Rt(p.value.classes.default.table);
+            const pe = Tt(p.value.classes.default.table);
             try {
               const ge = await pe.get(se);
               for (let ye in p.value.classes.default)
@@ -44376,7 +44376,7 @@ const yo = /* @__PURE__ */ lt(g3, [["render", M3]]), B3 = { key: 0 }, F3 = {
   },
   emits: ["select-file"],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = E(!0), o = new xo(), { notify: a } = Tt(), l = E([]);
+    const r = t, i = E(!0), o = new xo(), { notify: a } = Rt(), l = E([]);
     let u = {};
     const s = E(), c = E(!1), p = E("/"), h = E([]), f = E(null);
     Dt(async () => {
@@ -45014,7 +45014,7 @@ const yo = /* @__PURE__ */ lt(g3, [["render", M3]]), B3 = { key: 0 }, F3 = {
     }
   },
   setup(t, { expose: e }) {
-    const n = t, r = new xo(), { notify: i } = Tt(), o = E(!1), a = E(!1), l = E(null), u = E(n.content || ""), s = E(""), c = He(() => n.file ? n.file.path : ""), p = He(() => n.file ? n.file.size : null), h = He(() => n.file ? n.file.lastmod : null), f = async () => {
+    const n = t, r = new xo(), { notify: i } = Rt(), o = E(!1), a = E(!1), l = E(null), u = E(n.content || ""), s = E(""), c = He(() => n.file ? n.file.path : ""), p = He(() => n.file ? n.file.size : null), h = He(() => n.file ? n.file.lastmod : null), f = async () => {
       if (n.file)
         try {
           o.value = !0, l.value = null;
@@ -45145,8 +45145,8 @@ const yo = /* @__PURE__ */ lt(g3, [["render", M3]]), B3 = { key: 0 }, F3 = {
   emits: ["update-treenode-title"],
   setup(t, { emit: e }) {
     const n = t;
-    let r = Rt(n.table);
-    const { notify: i } = Tt();
+    let r = Tt(n.table);
+    const { notify: i } = Rt();
     Dt(() => {
       s();
     }), ft(
@@ -45160,7 +45160,7 @@ const yo = /* @__PURE__ */ lt(g3, [["render", M3]]), B3 = { key: 0 }, F3 = {
     let a = {};
     const l = E([{ field: "id", label: "id", type: "text" }]), u = E({}), s = async () => {
       try {
-        r = Rt(n.table);
+        r = Tt(n.table);
         const y = await r.options();
         if (a = y.data.fields, y.data.form && (u.value = y.data.form), l.value = c(a), n.current_id > 0) {
           const v = await r.get(n.current_id);
@@ -47152,7 +47152,7 @@ const Pc = /* @__PURE__ */ lt(VO, [["render", p9], ["__scopeId", "data-v-b8be86b
   },
   emits: ["copy"],
   setup(t, { emit: e }) {
-    const n = t, r = e, { notify: i } = Tt(), o = He(() => n.selectedCells.length), a = He(() => {
+    const n = t, r = e, { notify: i } = Rt(), o = He(() => n.selectedCells.length), a = He(() => {
       const p = o.value, h = p % 10, f = p % 100;
       return f >= 11 && f <= 14 ? "ячеек" : h === 1 ? "ячейка" : h >= 2 && h <= 4 ? "ячейки" : "ячеек";
     }), l = He(() => {
@@ -47476,7 +47476,7 @@ const E9 = { class: "card pvtables" }, D9 = { style: { padding: "1rem" } }, L9 =
   },
   emits: ["get-response", "refresh-table"],
   setup(t, { expose: e, emit: n }) {
-    const r = td, i = t, o = n, a = Rt(i.table), { notify: l } = Tt(), u = E({}), s = E({}), c = (fe) => {
+    const r = td, i = t, o = n, a = Tt(i.table), { notify: l } = Rt(), u = E({}), s = E({}), c = (fe) => {
       l("success", { detail: "Печать выполнена успешно" });
     }, p = (fe) => {
       l("error", { detail: `Ошибка печати: ${fe.message}` });
@@ -48860,7 +48860,7 @@ const Li = (function() {
 })(), rR = Li.fetch ? (...t) => Li.fetch(...t) : () => Promise.reject(new Error("[ofetch] global.fetch is not supported!")), iR = Li.Headers, aR = Li.AbortController, lR = Lc({ fetch: rR, Headers: iR, AbortController: aR }), sR = (t, e = 6e4) => {
   let n = "/";
   typeof window > "u" && (typeof globalThis.SSR_BASE_URL < "u" ? n = globalThis.SSR_BASE_URL : n = "http://localhost/");
-  const r = `${n}api/${t}`, { notify: i } = Tt(), o = lR.create({
+  const r = `${n}api/${t}`, { notify: i } = Rt(), o = lR.create({
     baseURL: r,
     timeout: e,
     retry: 1,
@@ -48981,7 +48981,7 @@ const Li = (function() {
   }),
   emits: /* @__PURE__ */ Nt(["update:id", "set-value"], ["update:id"]),
   setup(t, { emit: e }) {
-    const n = Nn(t, "id"), r = t, i = Rt(r.table), o = e, { notify: a } = Tt(), l = E({});
+    const n = Nn(t, "id"), r = t, i = Tt(r.table), o = e, { notify: a } = Rt(), l = E({});
     On(async () => {
       if (Number(n.value) == 0 && Number(r.options.default) > 0 && (n.value = r.options.default), r.options && Array.isArray(r.options.rows) && r.options.rows.length) {
         const [y] = r.options.rows.filter((v) => n.value == v.id);
@@ -49118,7 +49118,7 @@ const Li = (function() {
   }),
   emits: ["update:modelValue"],
   setup(t) {
-    const e = Nn(t, "modelValue"), n = t, { notify: r } = Tt(), i = E(!1), o = () => {
+    const e = Nn(t, "modelValue"), n = t, { notify: r } = Rt(), i = E(!1), o = () => {
       const D = document.querySelector("html");
       i.value = !i.value, D.classList.toggle("my-app-dark");
     }, a = E(), l = () => {
@@ -51402,7 +51402,7 @@ const nT = { key: 0 }, oT = ["href"], rT = ["innerHTML"], iT = { class: "ml-2" }
   },
   emits: ["menu-click"],
   setup(t, { expose: e, emit: n }) {
-    const r = t, i = E(!0), o = Rt(r.table), { notify: a } = Tt(), l = E([]), u = E({});
+    const r = t, i = E(!0), o = Tt(r.table), { notify: a } = Rt(), l = E([]), u = E({});
     Dt(async () => {
       await s();
     });
@@ -51647,7 +51647,7 @@ class mL {
 }
 class $c {
   constructor(e) {
-    this.app = e, this.loadedComponents = /* @__PURE__ */ new Map(), this.loadingComponents = /* @__PURE__ */ new Map(), this.failedComponents = /* @__PURE__ */ new Set(), this.assetsPath = null, this.api = Rt("tSkladNaryad");
+    this.app = e, this.loadedComponents = /* @__PURE__ */ new Map(), this.loadingComponents = /* @__PURE__ */ new Map(), this.failedComponents = /* @__PURE__ */ new Set(), this.assetsPath = null;
   }
   /**
    * Инициализация - получаем assets path с сервера
@@ -51752,30 +51752,6 @@ class $c {
         }
       }, i.onerror = () => r(new Error(`Failed to load JS: ${e}`)), document.head.appendChild(i);
     });
-  }
-  /**
-   * Получает список компонентов из таблицы tSkladNaryad
-   * @returns {Promise<string[]>}
-   */
-  async fetchComponentsList() {
-    try {
-      const e = await this.api.read();
-      if (!e.success)
-        return console.error("Ошибка чтения tSkladNaryad:", e.message), [];
-      const n = e.data.rows.map((r) => r.component).filter((r) => r && r.trim() !== "");
-      return [...new Set(n)];
-    } catch (e) {
-      return console.error("Ошибка получения списка компонентов:", e), [];
-    }
-  }
-  /**
-   * Загружает все компоненты из списка
-   * @param {string[]} components - Массив названий компонентов
-   * @returns {Promise<void>}
-   */
-  async loadComponents(e) {
-    const n = e.map((r) => this.loadComponent(r));
-    await Promise.allSettled(n);
   }
 }
 var sT = {
@@ -58627,8 +58603,8 @@ function UD(t, e, n, r, i, o) {
 }
 HD.render = UD;
 window.PVTablesAPI || (window.PVTablesAPI = {
-  useNotifications: Tt,
-  apiCtor: Rt,
+  useNotifications: Rt,
+  apiCtor: Tt,
   apiFetch: sR,
   ComponentLoader: $c
 });
@@ -58653,7 +58629,7 @@ const gL = {
         }
       },
       locale: JE.ru
-    }), t.component("gtsAutoComplete", Mc), t.component("PVAutoComplete", Zi), t.component("PVTables", Di), t.component("PVTab", pP), t.component("apiCtor", Rt), t.component("gtsDate", Pl), t.component("PVDateTime", Rl), t.component("gtsSelect", El), t.component("PVTable", cR), t.component("PVForm", yo), t.component("PVTableModel", kR), t.component("EditField", Lr), t.component("FileGallery", Pc), t.component("FileUploadDialog", Ic), t.component("FileEditDialog", xc), t.component("FileViewDialog", Oc);
+    }), t.component("gtsAutoComplete", Mc), t.component("PVAutoComplete", Zi), t.component("PVTables", Di), t.component("PVTab", pP), t.component("apiCtor", Tt), t.component("gtsDate", Pl), t.component("PVDateTime", Rl), t.component("gtsSelect", El), t.component("PVTable", cR), t.component("PVForm", yo), t.component("PVTableModel", kR), t.component("EditField", Lr), t.component("FileGallery", Pc), t.component("FileUploadDialog", Ic), t.component("FileEditDialog", xc), t.component("FileViewDialog", Oc);
   }
 };
 export {
@@ -58708,11 +58684,11 @@ export {
   z3 as UniTree,
   pL as UniTreePanel,
   Ou as UniTreeSplitButton,
-  Rt as apiCtor,
+  Tt as apiCtor,
   sR as apiFetch,
   gL as default,
   hL as fileUtils,
   Mc as gtsAutoComplete,
   Pl as gtsDate,
-  Tt as useNotifications
+  Rt as useNotifications
 };
