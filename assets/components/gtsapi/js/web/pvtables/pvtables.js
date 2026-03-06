@@ -4890,17 +4890,14 @@ function xm() {
       a(l, s);
     }
   }, a = async (l, u) => {
-    if (u)
-      if (u.firstElementChild.classList.contains("readonly") && (u = e(u)), u.firstElementChild.classList.contains("boolean") && (u = e(u)), u.firstElementChild.classList.contains("autocomplete") && (u.firstElementChild.firstElementChild.tagName == "SPAN" && await r(u, "click"), u = u.firstElementChild.firstElementChild, u.select()), u.firstElementChild)
-        if ((u.firstElementChild.classList.contains("date") || u.firstElementChild.classList.contains("datetime")) && (u = u.firstElementChild.firstElementChild.firstElementChild, u.focus()), u.firstElementChild.classList.contains("select"))
-          u.firstElementChild.firstElementChild.tagName == "SPAN" && await r(u, "click"), u = u.firstElementChild.firstElementChild.nextElementSibling, r(u, "click");
-        else {
-          await r(u, "click");
-          const s = u.querySelector("input, textarea");
-          s && (s.focus(), s.select());
-        }
-      else
-        console.log("moveCell targetCell", u);
+    if (u && (u.firstElementChild.classList.contains("readonly") && (u = e(u)), u.firstElementChild.classList.contains("boolean") && (u = e(u)), u.firstElementChild.classList.contains("autocomplete") && (u.firstElementChild.firstElementChild.tagName == "SPAN" && await r(u, "click"), u = u.firstElementChild.firstElementChild, u.select()), u.firstElementChild))
+      if ((u.firstElementChild.classList.contains("date") || u.firstElementChild.classList.contains("datetime")) && (u = u.firstElementChild.firstElementChild.firstElementChild, u.focus()), u.firstElementChild.classList.contains("select"))
+        u.firstElementChild.firstElementChild.tagName == "SPAN" && await r(u, "click"), u = u.firstElementChild.firstElementChild.nextElementSibling, r(u, "click");
+      else {
+        await r(u, "click");
+        const s = u.querySelector("input, textarea");
+        s && (s.focus(), s.select());
+      }
   };
   return {
     findCell: t,
