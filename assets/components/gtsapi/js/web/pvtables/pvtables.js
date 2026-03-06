@@ -47093,8 +47093,7 @@ const Pc = /* @__PURE__ */ lt(VO, [["render", p9], ["__scopeId", "data-v-b8be86b
         if (!a)
           return;
         await a.loadComponent("PVPrint"), i.value = !0;
-      } catch (p) {
-        p.message && (p.message.includes("Component not found") || p.message.includes("Component not available")) ? console.warn("Компонент PVPrint недоступен") : (console.error("Ошибка загрузки компонента PVPrint:", p), r("print-error", p));
+      } catch {
       }
     }, u = async (p, h) => {
       try {
@@ -47136,7 +47135,7 @@ const Pc = /* @__PURE__ */ lt(VO, [["render", p9], ["__scopeId", "data-v-b8be86b
       }, null, 40, ["page-key"])) : C("", !0)
     ]));
   }
-}, b9 = /* @__PURE__ */ lt(g9, [["__scopeId", "data-v-f78fd166"]]), Nl = (t) => (Yt("data-v-db933d79"), t = t(), Zt(), t), y9 = { class: "datatable-status-bar" }, v9 = { class: "status-info" }, w9 = { class: "status-item" }, k9 = /* @__PURE__ */ Nl(() => /* @__PURE__ */ b("i", { class: "pi pi-check-square" }, null, -1)), C9 = {
+}, b9 = /* @__PURE__ */ lt(g9, [["__scopeId", "data-v-411a073e"]]), Nl = (t) => (Yt("data-v-db933d79"), t = t(), Zt(), t), y9 = { class: "datatable-status-bar" }, v9 = { class: "status-info" }, w9 = { class: "status-item" }, k9 = /* @__PURE__ */ Nl(() => /* @__PURE__ */ b("i", { class: "pi pi-check-square" }, null, -1)), C9 = {
   key: 0,
   class: "status-item"
 }, S9 = /* @__PURE__ */ Nl(() => /* @__PURE__ */ b("i", { class: "pi pi-chart-line" }, null, -1)), I9 = {
@@ -51679,8 +51678,8 @@ class $c {
     this.loadingComponents.set(e, n);
     try {
       await n;
-    } catch (r) {
-      throw this.failedComponents.add(e), r;
+    } catch {
+      this.failedComponents.add(e);
     } finally {
       this.loadingComponents.delete(e);
     }
