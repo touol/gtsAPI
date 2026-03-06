@@ -51648,7 +51648,7 @@ class mL {
 }
 class $c {
   constructor(e) {
-    this.app = e, this.loadedComponents = /* @__PURE__ */ new Map(), this.loadingComponents = /* @__PURE__ */ new Map(), this.assetsPath = null, this.api = Rt("tSkladNaryad");
+    this.app = e, this.loadedComponents = /* @__PURE__ */ new Map(), this.loadingComponents = /* @__PURE__ */ new Map(), this.failedComponents = /* @__PURE__ */ new Set(), this.assetsPath = null, this.api = Rt("tSkladNaryad");
   }
   /**
    * Инициализация - получаем assets path с сервера
@@ -51671,7 +51671,7 @@ class $c {
    * @returns {Promise<void>}
    */
   async loadComponent(e) {
-    if (await this.initialize(), this.loadedComponents.has(e))
+    if (await this.initialize(), this.loadedComponents.has(e) || this.failedComponents.has(e))
       return;
     if (this.loadingComponents.has(e))
       return this.loadingComponents.get(e);
@@ -51679,6 +51679,8 @@ class $c {
     this.loadingComponents.set(e, n);
     try {
       await n;
+    } catch (r) {
+      throw this.failedComponents.add(e), r;
     } finally {
       this.loadingComponents.delete(e);
     }
