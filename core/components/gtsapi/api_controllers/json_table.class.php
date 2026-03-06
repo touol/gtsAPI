@@ -318,16 +318,35 @@ class jsonTableAPIController extends tableAPIController{
             foreach($rule['properties']['fields'] as $field => $fieldDef){
                 if(!empty($fieldDef['select_from_json'])){
                     $siblingKey = $fieldDef['select_from_json'];
-                    $valueField = $fieldDef['select_value_field'] ?? 'naryad_id';
-                    $labelField = $fieldDef['select_label_field'] ?? 'name';
+                    $valueField = $fieldDef['select_value_field'] ?? 'id';
                     $siblingRows = $resp['data']['json'][$siblingKey] ?? [];
-                    $selectRows = [];
-                    $seen = [];
+                    // Собираем уникальные значения
+                    $ids = [];
                     foreach($siblingRows as $sRow){
                         $val = $sRow[$valueField] ?? '';
-                        if($val !== '' && !isset($seen[$val])){
-                            $seen[$val] = true;
-                            $selectRows[] = ['id' => $val, 'content' => $sRow[$labelField] ?? ''];
+                        if($val !== '' && !in_array($val, $ids)) $ids[] = $val;
+                    }
+                    $selectRows = [];
+                    if(!empty($ids)){
+                        // Если указан класс — берем имена из БД
+                        if(!empty($fieldDef['select_label_class'])){
+                            $labelClass = $fieldDef['select_label_class'];
+                            $labelDbField = $fieldDef['select_label_field'] ?? 'name';
+                            foreach($ids as $id){
+                                $obj = $this->modx->getObject($labelClass, (int)$id);
+                                $selectRows[] = ['id' => $id, 'content' => $obj ? $obj->get($labelDbField) : $id];
+                            }
+                        } else {
+                            // Иначе берем label из самого JSON
+                            $labelField = $fieldDef['select_label_field'] ?? 'name';
+                            $seen = [];
+                            foreach($siblingRows as $sRow){
+                                $val = $sRow[$valueField] ?? '';
+                                if($val !== '' && !isset($seen[$val])){
+                                    $seen[$val] = true;
+                                    $selectRows[] = ['id' => $val, 'content' => $sRow[$labelField] ?? ''];
+                                }
+                            }
                         }
                     }
                     $selects[$field] = ['rows' => $selectRows];
