@@ -15133,7 +15133,7 @@ const Iv = {
   directives: {
     focustrap: _r
   }
-}, xv = ["id", "aria-modal"], Ov = ["onClick", "onKeydown", "tabindex"], Pv = { style: { padding: "0.5rem", "border-bottom": "1px solid #dee2e6" } }, Rv = { style: { display: "flex", "align-items": "center", cursor: "pointer" } }, Tv = ["checked"], Ev = /* @__PURE__ */ y("span", { style: { "font-weight": "bold" } }, "Показать все", -1), Dv = { style: { display: "flex", "align-items": "center", cursor: "pointer" } }, Lv = ["value", "checked", "onChange"];
+}, xv = ["id", "aria-modal"], Ov = ["onClick", "onKeydown", "tabindex"], Pv = { style: { padding: "0.15rem 0.5rem", "border-bottom": "1px solid #dee2e6" } }, Rv = { style: { display: "flex", "align-items": "center", cursor: "pointer" } }, Tv = ["checked"], Ev = /* @__PURE__ */ y("span", { style: { "font-weight": "bold" } }, "Показать все", -1), Dv = { style: { display: "flex", "align-items": "center", cursor: "pointer" } }, Lv = ["value", "checked", "onChange"];
 function Mv(t, e, n, r, i, o) {
   const a = j("Button"), l = j("Select"), u = j("Portal"), s = pt("focustrap");
   return d(), g("div", m({
@@ -15324,7 +15324,7 @@ function Mv(t, e, n, r, i, o) {
                 n.filterList && n.filterList[n.field] ? (d(), g("div", m({
                   key: 2,
                   class: t.cx("filterValueList"),
-                  style: { "max-height": "200px", "overflow-y": "auto", "margin-bottom": "10px" }
+                  style: { "max-height": "350px", "overflow-y": "auto", "margin-bottom": "10px" }
                 }, o.getColumnPT("filterValueList")), [
                   y("div", Pv, [
                     y("label", Rv, [
@@ -15332,14 +15332,14 @@ function Mv(t, e, n, r, i, o) {
                         type: "checkbox",
                         checked: o.isAllSelected,
                         onChange: e[9] || (e[9] = (...c) => o.toggleAllValues && o.toggleAllValues(...c)),
-                        style: { "margin-right": "0.5rem" }
+                        style: { "margin-right": "0.4rem" }
                       }, null, 40, Tv),
                       Ev
                     ])
                   ]),
                   (d(!0), g(K, null, Te(n.filterList[n.field], (c) => (d(), g("div", {
                     key: c,
-                    style: { padding: "0.5rem" }
+                    style: { padding: "0.1rem 0.5rem" }
                   }, [
                     y("label", Dv, [
                       y("input", {
@@ -15347,7 +15347,7 @@ function Mv(t, e, n, r, i, o) {
                         value: c,
                         checked: i.selectedValues.includes(c),
                         onChange: (p) => o.toggleValue(c),
-                        style: { "margin-right": "0.5rem" }
+                        style: { "margin-right": "0.4rem" }
                       }, null, 40, Lv),
                       y("span", null, B(c === "" ? "(Пусто)" : c), 1)
                     ])
