@@ -311,6 +311,32 @@ class jsonTableAPIController extends tableAPIController{
         ];
 
         $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'],$rows,0);
+
+        // select_from_json: берем опции select из соседнего ключа в JSON
+        if(isset($rule['properties']['fields'])){
+            $selects = [];
+            foreach($rule['properties']['fields'] as $field => $fieldDef){
+                if(!empty($fieldDef['select_from_json'])){
+                    $siblingKey = $fieldDef['select_from_json'];
+                    $valueField = $fieldDef['select_value_field'] ?? 'naryad_id';
+                    $labelField = $fieldDef['select_label_field'] ?? 'name';
+                    $siblingRows = $resp['data']['json'][$siblingKey] ?? [];
+                    $selectRows = [];
+                    $seen = [];
+                    foreach($siblingRows as $sRow){
+                        $val = $sRow[$valueField] ?? '';
+                        if($val !== '' && !isset($seen[$val])){
+                            $seen[$val] = true;
+                            $selectRows[] = ['id' => $val, 'content' => $sRow[$labelField] ?? ''];
+                        }
+                    }
+                    $selects[$field] = ['rows' => $selectRows];
+                }
+            }
+            if(!empty($selects)){
+                $out['selects'] = $selects;
+            }
+        }
         
         
         $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
