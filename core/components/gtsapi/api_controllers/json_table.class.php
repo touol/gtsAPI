@@ -17,7 +17,7 @@ class jsonTableAPIController extends tableAPIController{
             if(is_string($request['ids'])) $ids = explode(',',$request['ids']);
             $resp = $this->getJSON($rule,$request);
             if(!$resp['success']) return $resp;
-            $rows0 = $rows2 = $resp['data']['where']['json'];
+            $rows0 = $rows2 = $resp['data']['json'];
             $keys = [];
             if(!empty($rule['properties']['json_path']['key'])){
                 $key_path = $this->replaceKeyPlaceholders($rule['properties']['json_path']['key'], $request);
@@ -30,7 +30,7 @@ class jsonTableAPIController extends tableAPIController{
                     }
                 }
             }
-            $obj = $resp['data']['where']['obj'];
+            $obj = $resp['data']['obj'];
             foreach($rows0 as $k1=>$row){
                 if(in_array((string)$row['id'], $ids)){
                     $object_old = $row;
