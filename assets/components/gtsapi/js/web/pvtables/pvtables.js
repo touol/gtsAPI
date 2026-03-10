@@ -3975,12 +3975,12 @@ function Lg(e, t, n, r, i, o, a, l, u, s, d, f, h, p = {}, g = null, y = null) {
     onCellEditComplete: async (Ue) => {
       let { data: Ie, newValue: se, field: fe } = Ue;
       if (!fe) return;
-      const x = (re, me) => me.split(".").reduce((Ce, xe) => Ce[xe], re), K = (re, me, Ce) => {
+      const x = (re, me) => me.split(".").reduce((ke, xe) => ke[xe], re), K = (re, me, ke) => {
         const xe = me.split("."), L = xe.pop();
         let U = re;
         for (let Pe = 0; Pe < xe.length; Pe++)
           U[xe[Pe]] || (U[xe[Pe]] = {}), U = U[xe[Pe]];
-        U[L] = Ce;
+        U[L] = ke;
       };
       if (E && E(Ie.id)) {
         if (!S || !S(Ie._rowKey)) {
@@ -3992,30 +3992,30 @@ function Lg(e, t, n, r, i, o, a, l, u, s, d, f, h, p = {}, g = null, y = null) {
         const re = Ie._rowKey;
         if (R.has(re)) {
           try {
-            const Ce = await R.get(re);
-            if (Ce) {
+            const ke = await R.get(re);
+            if (ke) {
               const xe = {
-                id: Ce,
+                id: ke,
                 [fe]: se,
                 update_from_row: 1
               };
               await e.update(xe, { filters: t() });
             }
-          } catch (Ce) {
-            console.log("error", Ce);
+          } catch (ke) {
+            console.log("error", ke);
           }
           return;
         }
         let me;
-        R.set(re, new Promise((Ce) => {
-          me = Ce;
+        R.set(re, new Promise((ke) => {
+          me = ke;
         }));
         try {
-          const Ce = {};
+          const ke = {};
           for (let L in Ie)
-            L !== "id" && Ie[L] !== null && Ie[L] !== void 0 && Ie[L] !== "" && (Ce[L] = Ie[L]);
-          Ce[fe] = se, Ce.filters = t();
-          const xe = await e.action("insert", Ce);
+            L !== "id" && Ie[L] !== null && Ie[L] !== void 0 && Ie[L] !== "" && (ke[L] = Ie[L]);
+          ke[fe] = se, ke.filters = t();
+          const xe = await e.action("insert", ke);
           if (i("get-response", {
             table: o.table,
             action: "insert",
@@ -4040,8 +4040,8 @@ function Lg(e, t, n, r, i, o, a, l, u, s, d, f, h, p = {}, g = null, y = null) {
                 s.value[Pe] = xe.data.row_setting[Pe];
           } else
             me(null), r(!1);
-        } catch (Ce) {
-          console.log("error", Ce), n("error", { detail: Ce.message }, !0), me(null);
+        } catch (ke) {
+          console.log("error", ke), n("error", { detail: ke.message }, !0), me(null);
         } finally {
           R.delete(re);
         }
@@ -4063,8 +4063,8 @@ function Lg(e, t, n, r, i, o, a, l, u, s, d, f, h, p = {}, g = null, y = null) {
           for (let me in re.data.customFields)
             u.value[me] = re.data.customFields[me];
         if (re.data.object) {
-          const me = l(Number(W.id)), Ce = a.value[me]?._rowKey;
-          !re.data.object._rowKey && Ce && (re.data.object._rowKey = Ce), a.value[me] = re.data.object, y && y.value && y.value.updateEditingMetaData(me, re.data.object);
+          const me = l(Number(W.id)), ke = a.value[me]?._rowKey;
+          !re.data.object._rowKey && ke && (re.data.object._rowKey = ke), a.value[me] = re.data.object, y && y.value && y.value.updateEditingMetaData(me, re.data.object);
         } else if (re.data.defvalues) {
           const me = l(Number(W.id)), xe = {
             ...a.value[me],
@@ -5168,11 +5168,11 @@ function Ag(e, t, n, r, i = null, o = "", a = null, l = null, u = null, s = null
   let re = null;
   const me = () => {
     re || (re = document.createElement("style"), re.type = "text/css", re.id = `pvtables-vscroll-${o}`, document.head.appendChild(re)), u && u.value && u.value.$el && u.value.$el.classList.add(`pvtables-vscroll-${o}`);
-  }, Ce = () => {
+  }, ke = () => {
     re && (document.head.removeChild(re), re = null), u && u.value && u.value.$el && u.value.$el.classList.remove(`pvtables-vscroll-${o}`);
   }, xe = () => {
     if (!V.value) {
-      Ce();
+      ke();
       return;
     }
     me();
@@ -5210,7 +5210,7 @@ function Ag(e, t, n, r, i = null, o = "", a = null, l = null, u = null, s = null
   }), dt(() => l.autoFitHeight, (L) => {
     E.value = L, L ? (at(), window.addEventListener("resize", at)) : (w.value = l.scrollHeight, window.removeEventListener("resize", at));
   })), Fo(() => {
-    window.removeEventListener("resize", at), K(), Ce();
+    window.removeEventListener("resize", at), K(), ke();
   }), {
     op: h,
     selectedColumns: p,
@@ -42937,12 +42937,12 @@ const vc = {
       var ee;
       return w.value ? l.value : (ee = L()) == null ? void 0 : ee.cursorPosition.value;
     }), O = Ve(() => E.value.length), R = Ve(() => {
-      var ee, oe, Te, ke;
+      var ee, oe, Te, Ce;
       if (w.value) {
         const Ge = en(y.value);
         return z(Ge);
       }
-      return r.parentInd === null ? [] : (ke = (Te = (oe = (ee = L()) == null ? void 0 : ee.currentNodes) == null ? void 0 : oe.value) == null ? void 0 : Te[r.parentInd]) == null ? void 0 : ke.children;
+      return r.parentInd === null ? [] : (Ce = (Te = (oe = (ee = L()) == null ? void 0 : ee.currentNodes) == null ? void 0 : oe.value) == null ? void 0 : Te[r.parentInd]) == null ? void 0 : Ce.children;
     }), D = Ve(() => he().length);
     Ve(() => Ze().length), Vt(() => {
       w.value && document.addEventListener("mouseup", re);
@@ -42958,12 +42958,12 @@ const vc = {
         return;
       }
       (oe = L()) == null || oe.setCursorPosition(ee);
-    }, z = (ee, oe = [], Te = !0) => ee.map((ke, Ge) => {
+    }, z = (ee, oe = [], Te = !0) => ee.map((Ce, Ge) => {
       const ze = oe.concat(Ge);
-      return N(ze, ke, ee, Te);
-    }), N = (ee, oe = null, Te = null, ke = null) => {
+      return N(ze, Ce, ee, Te);
+    }), N = (ee, oe = null, Te = null, Ce = null) => {
       const Ge = ee.slice(-1)[0];
-      if (Te = Te || Pe(y.value, ee), oe = oe || Te && Te[Ge] || null, ke == null && (ke = ce?.(ee)), !oe)
+      if (Te = Te || Pe(y.value, ee), oe = oe || Te && Te[Ge] || null, Ce == null && (Ce = ce?.(ee)), !oe)
         return null;
       const ze = oe.isExpanded == null ? !0 : !!oe.isExpanded, gt = oe.isDraggable == null ? !0 : !!oe.isDraggable, pt = oe.isSelectable == null ? !0 : !!oe.isSelectable;
       return {
@@ -42973,7 +42973,7 @@ const vc = {
         children: oe.children ? z(oe.children, ee, ze) : [],
         isSelected: !!oe.isSelected,
         isExpanded: ze,
-        isVisible: ke,
+        isVisible: Ce,
         isDraggable: gt,
         isSelectable: pt,
         data: oe.data !== void 0 ? oe.data : {},
@@ -42990,7 +42990,7 @@ const vc = {
         return !0;
       let oe = y.value;
       for (let Te = 0; Te < ee.length - 1; Te++) {
-        let ke = ee[Te], Ge = oe[ke];
+        let Ce = ee[Te], Ge = oe[Ce];
         if (!(Ge.isExpanded == null || Ge.isExpanded))
           return !1;
         oe = Ge.children || [];
@@ -43014,14 +43014,14 @@ const vc = {
       U().emit("nodecontextmenu", ee, oe);
     }, Y = (ee, oe) => {
       oe.preventDefault();
-      const Te = U(), ke = Te.getCursorPositionFromCoords(oe.clientX, oe.clientY);
-      Te.setCursorPosition(ke), Te.emit("externaldragover", ke, oe);
+      const Te = U(), Ce = Te.getCursorPositionFromCoords(oe.clientX, oe.clientY);
+      Te.setCursorPosition(Ce), Te.emit("externaldragover", Ce, oe);
     }, G = (ee, oe) => {
-      const Te = U(), ke = Te.getCursorPositionFromCoords(oe.clientX, oe.clientY);
-      Te.emit("externaldrop", ke, oe), V(null);
+      const Te = U(), Ce = Te.getCursorPositionFromCoords(oe.clientX, oe.clientY);
+      Te.emit("externaldrop", Ce, oe), V(null);
     }, ne = (ee, oe = !1, Te = null) => {
-      const ke = Array.isArray(r.multiselectKey) ? r.multiselectKey : [r.multiselectKey];
-      oe = (Te && !!ke.find((qt) => Te[qt]) || oe) && r.allowMultiselect;
+      const Ce = Array.isArray(r.multiselectKey) ? r.multiselectKey : [r.multiselectKey];
+      oe = (Te && !!Ce.find((qt) => Te[qt]) || oe) && r.allowMultiselect;
       const Ge = N(ee);
       if (!Ge)
         return null;
@@ -43039,7 +43039,7 @@ const vc = {
       }
       if (g.value)
         return;
-      const ke = h.value, Ge = ke || f.value && (p.value.x !== ee.clientX || p.value.y !== ee.clientY), ze = ke === !1 && Ge === !0;
+      const Ce = h.value, Ge = Ce || f.value && (p.value.x !== ee.clientX || p.value.y !== ee.clientY), ze = Ce === !1 && Ge === !0;
       if (p.value = {
         x: ee.clientX,
         y: ee.clientY
@@ -43056,13 +43056,13 @@ const vc = {
       const Ko = pt.bottom - r.scrollAreaHeight, _o = (ee.clientY - Ko) / (pt.bottom - Ko), bo = pt.top + r.scrollAreaHeight, jo = (bo - ee.clientY) / (bo - pt.top);
       _o > 0 ? K(_o) : jo > 0 ? K(-jo) : W();
     }, Re = (ee, oe) => {
-      const Te = document.elementFromPoint(ee, oe), ke = Te != null && Te.getAttribute("path") ? Te : Ee(Te);
+      const Te = document.elementFromPoint(ee, oe), Ce = Te != null && Te.getAttribute("path") ? Te : Ee(Te);
       let Ge, ze;
-      if (ke) {
-        if (!ke)
+      if (Ce) {
+        if (!Ce)
           return;
-        Ge = N(JSON.parse(ke.getAttribute("path")));
-        const gt = ke.offsetHeight, pt = r.edgeSize, Ft = oe - ke.getBoundingClientRect().top;
+        Ge = N(JSON.parse(Ce.getAttribute("path")));
+        const gt = Ce.offsetHeight, pt = r.edgeSize, Ft = oe - Ce.getBoundingClientRect().top;
         Ge.isLeaf ? ze = Ft >= gt / 2 ? "after" : "before" : Ft <= pt ? ze = "before" : Ft >= gt - pt ? ze = "after" : ze = "inside";
       } else {
         const gt = U().ref.value.getBoundingClientRect();
@@ -43085,9 +43085,9 @@ const vc = {
       }), ee;
     }, Ue = () => N([0]), Ie = (ee, oe) => {
       let Te = null;
-      return _e((ke) => {
-        if (!(fe(ke.path, ee) < 1) && (!oe || oe(ke)))
-          return Te = ke, !1;
+      return _e((Ce) => {
+        if (!(fe(Ce.path, ee) < 1) && (!oe || oe(Ce)))
+          return Te = Ce, !1;
       }), Te;
     }, se = (ee, oe) => {
       let Te = [];
@@ -43096,9 +43096,9 @@ const vc = {
           return !1;
         Te.push(Ge);
       });
-      let ke = Te.length;
-      for (; ke--; ) {
-        const Ge = Te[ke];
+      let Ce = Te.length;
+      for (; Ce--; ) {
+        const Ge = Te[Ce];
         if (!oe || oe(Ge))
           return Ge;
       }
@@ -43150,9 +43150,9 @@ const vc = {
           return;
         }
       }
-      const ke = en(y.value), Ge = [];
+      const Ce = en(y.value), Ge = [];
       for (let pt of Te) {
-        const Ft = Pe(ke, pt.path)[pt.ind];
+        const Ft = Pe(Ce, pt.path)[pt.ind];
         Ge.push(Ft);
       }
       let ze = !1;
@@ -43163,10 +43163,10 @@ const vc = {
       const gt = [];
       for (let pt of Ge)
         gt.push(en(pt)), pt.toBeDeleted = !0;
-      sn(S.value, gt, ke), Qt((pt, Ft, qt) => {
+      sn(S.value, gt, Ce), Qt((pt, Ft, qt) => {
         pt.toBeDeleted && Ft.splice(qt, 1);
-      }, ke), d.value = null, F(ke), Se(Te, S.value, ee), xe();
-    }, Ce = (ee, oe) => {
+      }, Ce), d.value = null, F(Ce), Se(Te, S.value, ee), xe();
+    }, ke = (ee, oe) => {
       r.allowToggleBranch && (q({ path: oe.path, patch: { isExpanded: !oe.isExpanded } }), Z(oe, ee), ee.stopPropagation());
     }, xe = () => {
       h.value = !1, f.value = !1, V(null), W();
@@ -43175,11 +43175,11 @@ const vc = {
         i("updateNode", { path: ee, patch: oe });
         return;
       }
-      const Te = JSON.stringify(ee), ke = en(y.value);
+      const Te = JSON.stringify(ee), Ce = en(y.value);
       _e((Ge, ze) => {
         if (Ge.pathStr === Te)
           return Pf(ze, oe), !1;
-      }, ke), F(ke);
+      }, Ce), F(Ce);
     }, he = () => {
       const ee = [];
       return _e((oe) => {
@@ -43192,40 +43192,40 @@ const vc = {
       }), ee;
     }, _e = (ee, oe = null, Te = []) => {
       oe || (oe = y.value);
-      let ke = !1;
+      let Ce = !1;
       const Ge = [];
       for (let ze = 0; ze < oe.length; ze++) {
         const gt = oe[ze], pt = Te.concat(ze), Ft = N(pt, gt, oe);
-        if (ke = ee(Ft, gt, oe) === !1, Ft && Ge.push(Ft), ke || gt.children && (ke = _e(ee, gt.children, pt) === !1, ke))
+        if (Ce = ee(Ft, gt, oe) === !1, Ft && Ge.push(Ft), Ce || gt.children && (Ce = _e(ee, gt.children, pt) === !1, Ce))
           break;
       }
-      return ke ? !1 : Ge;
+      return Ce ? !1 : Ge;
     }, Qt = (ee, oe) => {
       let Te = oe.length;
       for (; Te--; ) {
-        const ke = oe[Te];
-        ke.children && Qt(ee, ke.children), ee(ke, oe, Te);
+        const Ce = oe[Te];
+        Ce.children && Qt(ee, Ce.children), ee(Ce, oe, Te);
       }
       return oe;
     }, Vn = (ee) => {
-      const oe = ee.map((ke) => JSON.stringify(ke)), Te = en(y.value);
-      _e((ke, Ge, ze) => {
+      const oe = ee.map((Ce) => JSON.stringify(Ce)), Te = en(y.value);
+      _e((Ce, Ge, ze) => {
         for (const gt of oe)
-          ke.pathStr === gt && (Ge.toBeDeleted = !0);
-      }, Te), Qt((ke, Ge, ze) => {
-        ke.toBeDeleted && Ge.splice(ze, 1);
+          Ce.pathStr === gt && (Ge.toBeDeleted = !0);
+      }, Te), Qt((Ce, Ge, ze) => {
+        Ce.toBeDeleted && Ge.splice(ze, 1);
       }, Te), F(Te);
     }, sn = (ee, oe, Te) => {
-      const ke = en(ee), Ge = ke.node, ze = Pe(Te, Ge.path), gt = ze[Ge.ind];
-      if (ke.placement === "inside")
+      const Ce = en(ee), Ge = Ce.node, ze = Pe(Te, Ge.path), gt = ze[Ge.ind];
+      if (Ce.placement === "inside")
         gt.children = gt.children || [], gt.children.unshift(...oe);
       else {
-        const pt = ke.placement === "before" ? Ge.ind : Ge.ind + 1;
+        const pt = Ce.placement === "before" ? Ge.ind : Ge.ind + 1;
         ze.splice(pt, 0, ...oe);
       }
     }, zn = (ee, oe) => {
-      const Te = Array.isArray(oe) ? oe : [oe], ke = en(y.value);
-      sn(ee, Te, ke), F(ke);
+      const Te = Array.isArray(oe) ? oe : [oe], Ce = en(y.value);
+      sn(ee, Te, Ce), F(Ce);
     }, go = (ee, oe) => {
       const Te = en(oe).path;
       return JSON.stringify(Te.slice(0, ee.path.length)) == ee.pathStr;
@@ -43265,67 +43265,67 @@ const vc = {
         onMouseleave: Ke
       }, [
         v("div", m5, [
-          (c(!0), m(H, null, Me(R.value, (ke, Ge) => (c(), m("div", {
-            class: J(["sl-vue-tree-next-node", { "sl-vue-tree-next-selected": ke.isSelected }])
+          (c(!0), m(H, null, Me(R.value, (Ce, Ge) => (c(), m("div", {
+            class: J(["sl-vue-tree-next-node", { "sl-vue-tree-next-selected": Ce.isSelected }])
           }, [
             v("div", {
               class: "sl-vue-tree-next-cursor sl-vue-tree-next-cursor_before",
               onDragover: oe[0] || (oe[0] = wt(() => {
               }, ["prevent"])),
               style: $t({
-                visibility: S.value && S.value.node.pathStr === ke.pathStr && S.value.placement === "before" ? "visible" : "hidden",
+                visibility: S.value && S.value.node.pathStr === Ce.pathStr && S.value.placement === "before" ? "visible" : "hidden",
                 "--depth": O.value
               })
             }, null, 36),
             v("div", {
               class: J(["sl-vue-tree-next-node-item", {
-                "sl-vue-tree-next-cursor-hover": S.value && S.value.node.pathStr === ke.pathStr,
-                "sl-vue-tree-next-cursor-inside": S.value && S.value.placement === "inside" && S.value.node.pathStr === ke.pathStr,
-                "sl-vue-tree-next-node-is-leaf": ke.isLeaf,
-                "sl-vue-tree-next-node-is-folder": !ke.isLeaf
+                "sl-vue-tree-next-cursor-hover": S.value && S.value.node.pathStr === Ce.pathStr,
+                "sl-vue-tree-next-cursor-inside": S.value && S.value.placement === "inside" && S.value.node.pathStr === Ce.pathStr,
+                "sl-vue-tree-next-node-is-leaf": Ce.isLeaf,
+                "sl-vue-tree-next-node-is-folder": !Ce.isLeaf
               }]),
-              onMousedown: (ze) => x(ze, ke),
-              onMouseup: (ze) => me(ze, ke),
-              onContextmenu: (ze) => le(ke, ze),
-              onDblclick: (ze) => Q(ke, ze),
-              onClick: (ze) => B(ke, ze),
-              onDragover: (ze) => Y(ke, ze),
-              onDrop: (ze) => G(ke, ze),
-              path: ke.pathStr
+              onMousedown: (ze) => x(ze, Ce),
+              onMouseup: (ze) => me(ze, Ce),
+              onContextmenu: (ze) => le(Ce, ze),
+              onDblclick: (ze) => Q(Ce, ze),
+              onClick: (ze) => B(Ce, ze),
+              onDragover: (ze) => Y(Ce, ze),
+              onDrop: (ze) => G(Ce, ze),
+              path: Ce.pathStr
             }, [
               (c(!0), m(H, null, Me(E.value, (ze) => (c(), m("div", b5))), 256)),
               ee.level && ee.showBranches ? (c(), m("div", v5, [
-                A(ee.$slots, "branch", { node: ke }, () => [
-                  ke.isLastChild ? I("", !0) : (c(), m("span", y5, $("├") + $("─") + "  ", 1)),
-                  ke.isLastChild ? (c(), m("span", w5, $("└") + $("─") + "  ", 1)) : I("", !0)
+                A(ee.$slots, "branch", { node: Ce }, () => [
+                  Ce.isLastChild ? I("", !0) : (c(), m("span", y5, $("├") + $("─") + "  ", 1)),
+                  Ce.isLastChild ? (c(), m("span", w5, $("└") + $("─") + "  ", 1)) : I("", !0)
                 ])
               ])) : I("", !0),
               v("div", C5, [
-                ke.isLeaf ? I("", !0) : (c(), m("span", {
+                Ce.isLeaf ? I("", !0) : (c(), m("span", {
                   key: 0,
                   class: "sl-vue-tree-next-toggle",
-                  onClick: (ze) => Ce(ze, ke)
+                  onClick: (ze) => ke(ze, Ce)
                 }, [
-                  A(ee.$slots, "toggle", { node: ke }, () => [
-                    v("span", null, $(ke.isLeaf ? "" : ke.isExpanded ? "-" : "+"), 1)
+                  A(ee.$slots, "toggle", { node: Ce }, () => [
+                    v("span", null, $(Ce.isLeaf ? "" : Ce.isExpanded ? "-" : "+"), 1)
                   ])
                 ], 8, k5)),
-                A(ee.$slots, "title", { node: ke }, () => [
-                  De($(ke.title), 1)
+                A(ee.$slots, "title", { node: Ce }, () => [
+                  De($(Ce.title), 1)
                 ]),
-                !ke.isLeaf && ke.children.length == 0 && ke.isExpanded ? A(ee.$slots, "empty-node", {
+                !Ce.isLeaf && Ce.children.length == 0 && Ce.isExpanded ? A(ee.$slots, "empty-node", {
                   key: 1,
-                  node: ke
+                  node: Ce
                 }) : I("", !0)
               ]),
               v("div", S5, [
-                A(ee.$slots, "sidebar", { node: ke })
+                A(ee.$slots, "sidebar", { node: Ce })
               ])
             ], 42, g5),
-            ke.children && ke.children.length && ke.isExpanded ? (c(), k(Te, {
+            Ce.children && Ce.children.length && Ce.isExpanded ? (c(), k(Te, {
               key: 0,
-              "model-value": ke.children,
-              level: ke.level,
+              "model-value": Ce.children,
+              level: Ce.level,
               "parent-ind": Ge,
               "allow-multiselect": ee.allowMultiselect,
               "allow-toggle-branch": ee.allowToggleBranch,
@@ -43363,7 +43363,7 @@ const vc = {
               onDragover: oe[2] || (oe[2] = wt(() => {
               }, ["prevent"])),
               style: $t({
-                visibility: S.value && S.value.node.pathStr === ke.pathStr && S.value.placement === "after" ? "visible" : "hidden",
+                visibility: S.value && S.value.node.pathStr === Ce.pathStr && S.value.placement === "after" ? "visible" : "hidden",
                 "--depth": O.value
               })
             }, null, 36)
@@ -43920,22 +43920,22 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
       y.value || x();
     }, N = async (se, fe, x) => {
       let K = "", W = [];
-      for (let Ce in se) {
-        if (K == "" && (K = se[Ce].data.class), K != se[Ce].data.class) {
+      for (let ke in se) {
+        if (K == "" && (K = se[ke].data.class), K != se[ke].data.class) {
           a("error", { detail: "Cannot move nodes of different classes" }, !0);
           return;
         }
-        W.push({ id: se[Ce].data.id, parent_id: se[Ce].data.parent_id, menuindex: se[Ce].data.menuindex });
+        W.push({ id: se[ke].data.id, parent_id: se[ke].data.parent_id, menuindex: se[ke].data.menuindex });
       }
       const re = {
         placement: fe.placement,
         node: { id: fe.node.data.id, parent_id: fe.node.data.parent_id, menuindex: fe.node.data.menuindex }
       }, me = x && x.ctrlKey && w.value;
       try {
-        const Ce = await o.nodedrop({ nodes1: W, position1: re, copy: me });
+        const ke = await o.nodedrop({ nodes1: W, position1: re, copy: me });
         O();
-      } catch (Ce) {
-        a("error", { detail: Ce.message }, !0);
+      } catch (ke) {
+        a("error", { detail: ke.message }, !0);
       }
     }, ce = async (se) => {
       let fe = se.data.target_id ? se.data.target_id : se.data.id;
@@ -43948,12 +43948,12 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
             const re = jt(f.value.classes[se.data.class].table);
             try {
               const me = await re.get(fe);
-              for (let Ce in f.value.classes[se.data.class])
-                if (Ce != "table" && f.value.classes[se.data.class][Ce].if) {
+              for (let ke in f.value.classes[se.data.class])
+                if (ke != "table" && f.value.classes[se.data.class][ke].if) {
                   let xe = !0;
-                  for (let L in f.value.classes[se.data.class][Ce].if)
-                    me[L] != f.value.classes[se.data.class][Ce].if[L] && (xe = !1);
-                  xe && (x = f.value.classes[se.data.class][Ce].tabs);
+                  for (let L in f.value.classes[se.data.class][ke].if)
+                    me[L] != f.value.classes[se.data.class][ke].if[L] && (xe = !1);
+                  xe && (x = f.value.classes[se.data.class][ke].tabs);
                 }
             } catch (me) {
               a("error", { detail: me.message }, !0);
@@ -43966,12 +43966,12 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
             const re = jt(f.value.classes.default.table);
             try {
               const me = await re.get(fe);
-              for (let Ce in f.value.classes.default)
-                if (Ce != "table" && f.value.classes.default[Ce].if) {
+              for (let ke in f.value.classes.default)
+                if (ke != "table" && f.value.classes.default[ke].if) {
                   let xe = !0;
-                  for (let L in f.value.classes.default[Ce].if)
-                    me[L] != f.value.classes.default[Ce].if[L] && (xe = !1);
-                  xe && (x = f.value.classes.default[Ce].tabs);
+                  for (let L in f.value.classes.default[ke].if)
+                    me[L] != f.value.classes.default[ke].if[L] && (xe = !1);
+                  xe && (x = f.value.classes.default[ke].tabs);
                 }
             } catch (me) {
               a("error", { detail: me.message }, !0);
@@ -43983,9 +43983,9 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
         for (let re in x) {
           if (x[re].hasOwnProperty("where")) {
             let me = {};
-            for (let Ce in x[re].where) {
-              let xe = x[re].where[Ce];
-              xe == "current_id" && (xe = fe), xe == "tree_id" && (xe = se.data.id), me[Ce] = {
+            for (let ke in x[re].where) {
+              let xe = x[re].where[ke];
+              xe == "current_id" && (xe = fe), xe == "tree_id" && (xe = se.data.id), me[ke] = {
                 operator: "and",
                 constraints: [
                   {
@@ -43999,10 +43999,10 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
           }
           if (x[re].hasOwnProperty("tables"))
             for (let me in x[re].tables) {
-              let Ce = {};
+              let ke = {};
               for (let xe in x[re].tables[me].where) {
                 let L = x[re].tables[me].where[xe];
-                L == "current_id" && (L = fe), L == "tree_id" && (L = se.data.id), Ce[xe] = {
+                L == "current_id" && (L = fe), L == "tree_id" && (L = se.data.id), ke[xe] = {
                   operator: "and",
                   constraints: [
                     {
@@ -44012,13 +44012,13 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
                   ]
                 };
               }
-              W[me] = Ce;
+              W[me] = ke;
             }
         }
         if (x) {
           const re = (me) => {
-            for (let Ce in me)
-              typeof me[Ce] == "string" && me[Ce].includes("insert_menu_id") ? me[Ce] = me[Ce].replace(/insert_menu_id/g, fe) : typeof me[Ce] == "object" && me[Ce] !== null && re(me[Ce]);
+            for (let ke in me)
+              typeof me[ke] == "string" && me[ke].includes("insert_menu_id") ? me[ke] = me[ke].replace(/insert_menu_id/g, fe) : typeof me[ke] == "object" && me[ke] !== null && re(me[ke]);
           };
           re(x);
         }
@@ -44443,39 +44443,39 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
       }
     }, E = (x, K, W, re = null) => {
       const me = [];
-      return K.forEach((Ce) => {
-        const xe = Ce.name.startsWith(".");
+      return K.forEach((ke) => {
+        const xe = ke.name.startsWith(".");
         me.push({
-          title: Ce.name,
+          title: ke.name,
           isLeaf: !1,
           isExpanded: !1,
           data: {
-            id: Ce.path,
-            path: Ce.path,
+            id: ke.path,
+            path: ke.path,
             is_dir: !0,
             hidden: xe,
             type: "directory",
-            size: Ce.size,
-            lastmod: Ce.lastmod,
+            size: ke.size,
+            lastmod: ke.lastmod,
             sourceId: re
           },
           children: []
         });
-      }), x.forEach((Ce) => {
-        const xe = Ce.name.startsWith("."), L = Ce.name.split(".").pop().toLowerCase();
+      }), x.forEach((ke) => {
+        const xe = ke.name.startsWith("."), L = ke.name.split(".").pop().toLowerCase();
         me.push({
-          title: Ce.name,
+          title: ke.name,
           isLeaf: !0,
           data: {
-            id: Ce.path,
-            path: Ce.path,
+            id: ke.path,
+            path: ke.path,
             is_dir: !1,
             hidden: xe,
-            type: Ce.type,
+            type: ke.type,
             ext: L,
-            size: Ce.size,
-            lastmod: Ce.lastmod,
-            editable: Ce.editable,
+            size: ke.size,
+            lastmod: ke.lastmod,
+            editable: ke.editable,
             sourceId: re
           }
         });
@@ -44672,12 +44672,12 @@ const Mo = /* @__PURE__ */ vt(x5, [["render", j5]]), H5 = { key: 0 }, N5 = {
         for (let W = 0; W < B.value.files.length; W++) {
           const re = B.value.files[W], me = new FormData();
           me.append("file", re), me.append("path", x);
-          const Ce = await o.uploadFile(
+          const ke = await o.uploadFile(
             re,
             x,
             K
           );
-          Ce.success !== 1 && a("error", { detail: `Ошибка при загрузке файла ${re.name}: ${Ce.message}` }, !0);
+          ke.success !== 1 && a("error", { detail: `Ошибка при загрузке файла ${re.name}: ${ke.message}` }, !0);
         }
         a("success", { detail: "Файлы успешно загружены" }, !0), p.value ? await w(f.value, p.value) : await w(), _.value = !1;
       } catch (x) {
@@ -49957,9 +49957,9 @@ function N9(e, t, n, r, i, o, a, l, u, s, d, f, h, p = {}, g = null, y = null, w
         }
         return;
       }
-      const Ce = { id: x.id, [K]: W, update_from_row: 1 };
+      const ke = { id: x.id, [K]: W, update_from_row: 1 };
       try {
-        const xe = await e.update(Ce, { filters: t?.() });
+        const xe = await e.update(ke, { filters: t?.() });
         if (i("get-response", { table: o.table, action: "update", response: xe }), !xe.success) {
           n("error", { detail: xe.message }, !0);
           return;
@@ -50117,8 +50117,8 @@ function G9({ tableName: e, api: t, notify: n, scrollRef: r, actionsRow: i, rowA
       let W = 0;
       if (at.length && !Ke.has(x.type)) {
         const me = at.length > 100 ? at.slice(0, 100) : at;
-        for (const Ce of me) {
-          const xe = Ce[x.field];
+        for (const ke of me) {
+          const xe = ke[x.field];
           if (xe == null || xe === "") continue;
           const L = Math.ceil(ce(xe, ue));
           L > W && (W = L);
@@ -50953,10 +50953,10 @@ const q9 = {
         for (let we in Nt.value)
           Nt.value[we].refresh?.(!0, te);
     }, K = P([]);
-    let W, re, me, Ce, xe, L, U, Pe, q, he, Ne, Ze, _e, Qt, Vn;
+    let W, re, me, ke, xe, L, U, Pe, q, he, Ne, Ze, _e, Qt, Vn;
     const sn = P([]), zn = P({}), go = P(!1), en = P(!1);
     P([]);
-    const Wt = P(!1), ee = P({}), oe = P(null), Te = P(null), ke = P(null), Ge = P([]), ze = Ve(() => sn.value.filter((j) => j.head)), gt = Ve(() => sn.value.filter((j) => j.row && j.menu !== 1));
+    const Wt = P(!1), ee = P({}), oe = P(null), Te = P(null), Ce = P(null), Ge = P([]), ze = Ve(() => sn.value.filter((j) => j.head)), gt = Ve(() => sn.value.filter((j) => j.row && j.menu !== 1));
     let pt, Ft, qt;
     const Nt = P({});
     let tn, zo, Ko, _o, bo, jo;
@@ -51393,7 +51393,7 @@ const q9 = {
           modalFormData: ee,
           modalFormAction: oe,
           modalFormRowData: Te,
-          modalFormType: ke,
+          modalFormType: Ce,
           modalFormColumns: Ge
         }), Ft = pt.hideModalForm, qt = pt.submitModalForm;
         const Dt = N9(
@@ -51415,7 +51415,7 @@ const q9 = {
           S,
           Zt
         );
-        W = Dt.lineItem, re = Dt.lineItemDialog, me = Dt.deleteLineItemDialog, Ce = Dt.deleteLineItemsDialog, _e = Dt.mywatch, xe = Dt.openNew, L = Dt.editLineItem, U = Dt.hideDialog, Pe = Dt.saveLineItem, q = Dt.confirmDeleteLineItem, he = Dt.deleteLineItem, Ne = Dt.confirmDeleteSelected, Ze = Dt.deleteSelectedLineItems, Qt = Dt.saveCellUpdate, Vn = Dt.consumeSkip;
+        W = Dt.lineItem, re = Dt.lineItemDialog, me = Dt.deleteLineItemDialog, ke = Dt.deleteLineItemsDialog, _e = Dt.mywatch, xe = Dt.openNew, L = Dt.editLineItem, U = Dt.hideDialog, Pe = Dt.saveLineItem, q = Dt.confirmDeleteLineItem, he = Dt.deleteLineItem, Ne = Dt.confirmDeleteSelected, Ze = Dt.deleteSelectedLineItems, Qt = Dt.saveCellUpdate, Vn = Dt.consumeSkip;
         const pn = rp(s, () => Ke, d, r.table);
         tn = pn.subs, zo = pn.subfilters, Ko = pn.parent_row, jo = pn.expandedTableTreeRows;
         const Io = pn.toogleExpandRow;
@@ -51695,10 +51695,10 @@ const q9 = {
             ]),
             _: 1
           }, 8, ["visible"])) : I("", !0),
-          C(Ce) ? (c(), k(C(Tt), {
+          C(ke) ? (c(), k(C(Tt), {
             key: 3,
-            visible: C(Ce),
-            "onUpdate:visible": te[13] || (te[13] = (ae) => Kt(Ce) ? Ce.value = ae : Ce = ae),
+            visible: C(ke),
+            "onUpdate:visible": te[13] || (te[13] = (ae) => Kt(ke) ? ke.value = ae : ke = ae),
             header: "Confirm",
             modal: ""
           }, {
@@ -51707,7 +51707,7 @@ const q9 = {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
-                onClick: te[12] || (te[12] = (ae) => Kt(Ce) ? Ce.value = !1 : Ce = !1)
+                onClick: te[12] || (te[12] = (ae) => Kt(ke) ? ke.value = !1 : ke = !1)
               }),
               T(C(be), {
                 label: "Да",
@@ -52081,8 +52081,8 @@ const hE = {
     P([]);
     const Ie = P(null), se = P(null), fe = P([]), x = P(!1), K = Ve(
       () => Q.value.filter((ye) => ye.modal_only != !0 && ye.type != "hidden" && !(x.value && ye.field == "id"))
-    ), W = /* @__PURE__ */ new Set(["multiautocomplete", "boolean", "date", "datetime", "html", "view", "file"]), re = P(null), me = P(!1), Ce = `pvtables-engine-${i.table}`, xe = P(localStorage.getItem(Ce) !== "primevue"), L = () => {
-      xe.value = !xe.value, localStorage.setItem(Ce, xe.value ? "tanstack" : "primevue");
+    ), W = /* @__PURE__ */ new Set(["multiautocomplete", "boolean", "date", "datetime", "html", "view", "file"]), re = P(null), me = P(!1), ke = `pvtables-engine-${i.table}`, xe = P(!1), L = () => {
+      xe.value = !xe.value, localStorage.setItem(ke, xe.value ? "tanstack" : "primevue");
     };
     Vt(async () => {
       if (!xe.value) {
@@ -52179,7 +52179,7 @@ const hE = {
       rowHeight: ee,
       calculatedRowHeight: oe,
       virtualScrollPopover: Te,
-      virtualScrollerOptions: ke,
+      virtualScrollerOptions: Ce,
       onVirtualScrollToggle: Ge,
       toggleVirtualScrollSettings: ze,
       recalculateRowHeight: gt,
@@ -52679,7 +52679,7 @@ const hE = {
           T(z1, {
             value: C(y),
             lazy: "",
-            virtualScrollerOptions: C(ke),
+            virtualScrollerOptions: C(Ce),
             paginator: "",
             first: C(g),
             rows: Z.value,
@@ -53952,7 +53952,7 @@ const Wa = (function() {
     }, W = (L) => {
       if (pe.value[L.id] && pe.value[L.id].class)
         return pe.value[L.id].class;
-    }, re = (L) => L.type, me = P({}), Ce = (L, U) => !!(me.value[L.id] && me.value[L.id][U] && me.value[L.id][U].readonly == 1), xe = (L, U) => {
+    }, re = (L) => L.type, me = P({}), ke = (L, U) => !!(me.value[L.id] && me.value[L.id][U] && me.value[L.id][U].readonly == 1), xe = (L, U) => {
       let Pe = "td-body " + L.type, q = !1;
       return me.value[U.id] && me.value[U.id][L.field] && me.value[U.id][L.field].readonly == 1 && (q = !0), L.readonly || q ? Pe + " readonly" : Pe;
     };
@@ -54126,25 +54126,25 @@ const Wa = (function() {
                       key: 1,
                       modelValue: he[Ne],
                       "onUpdate:modelValue": (Ze) => he[Ne] = Ze,
-                      disabled: Ce(he, Ne)
+                      disabled: ke(he, Ne)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : q.type == "decimal" ? (c(), k(C(eo), {
                       key: 2,
                       modelValue: he[Ne],
                       "onUpdate:modelValue": (Ze) => he[Ne] = Ze,
                       minFractionDigits: q.FractionDigits,
                       maxFractionDigits: q.FractionDigits,
-                      disabled: Ce(he, Ne)
+                      disabled: ke(he, Ne)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : q.type == "textarea" ? (c(), k(C(Ui), {
                       key: 3,
                       modelValue: he[Ne],
                       "onUpdate:modelValue": (Ze) => he[Ne] = Ze,
                       rows: "1",
-                      disabled: Ce(he, Ne)
+                      disabled: ke(he, Ne)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (c(), k(C(kt), {
                       key: 4,
                       modelValue: he[Ne],
                       "onUpdate:modelValue": (Ze) => he[Ne] = Ze,
-                      disabled: Ce(he, Ne)
+                      disabled: ke(he, Ne)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"]))
                   ]),
                   key: "0"
