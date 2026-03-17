@@ -81,9 +81,9 @@ trait TableFilterTrait
         if (in_array($name, $selectFields)) {
             $fieldExistsInSelect = true;
         }
-        
-        // Если поля нет в select, пропускаем фильтр
-        if (!$fieldExistsInSelect) {
+
+        // Поля с точкой (например Orgs2ContactLink.org_id) явно ссылаются на join-таблицу — не проверяем по select
+        if (!$fieldExistsInSelect && strpos($name, '.') === false) {
             return $where;
         }
         
