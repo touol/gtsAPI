@@ -87,7 +87,7 @@ trait TableTriggerTrait
                         'rule' => $rule,
                         'class' => $class,
                         'request' => $request,
-                        'fields' => $this->addFields($rule, $rule['properties']['fields'], $request['watch_action']),
+                        'fields' => $this->addFields($rule, $rule['properties']['fields'], $request['watch_action'])['properties']['fields'],
                         'trigger' => 'gtsapi_watch_form',
                     ];
                     return $service->{$triggers[$class]['gtsapi_watch_form']}($params);
