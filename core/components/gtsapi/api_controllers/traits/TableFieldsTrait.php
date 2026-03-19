@@ -331,7 +331,10 @@ trait TableFieldsTrait
         if (isset($rule['properties']['enable_virt_scroll'])) {
             $options['enable_virt_scroll'] = $rule['properties']['enable_virt_scroll'];
         }
-        
+        if (isset($rule['properties']['mobile_card'])) {
+            $options['mobile_card'] = $rule['properties']['mobile_card'];
+        }
+
         return $this->success('options', $options);
     }
 
