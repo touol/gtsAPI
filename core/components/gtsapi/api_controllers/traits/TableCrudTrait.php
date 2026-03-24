@@ -137,8 +137,11 @@ trait TableCrudTrait
                     'limit'  => 1,
                 ]);
                 $sfRes = $this->pdo->run();
-                $obj->set($sfField, (int)(isset($sfRes[0]['max_sf']) ? $sfRes[0]['max_sf'] : 0) + 10);
-                $obj->save();
+                // Если sortfield явно передан в запросе (восстановление через undo) — не перезаписываем
+                if (empty($request[$sfField])) {
+                    $obj->set($sfField, (int)(isset($sfRes[0]['max_sf']) ? $sfRes[0]['max_sf'] : 0) + 10);
+                    $obj->save();
+                }
                 $object = $obj->toArray();
             }
 
@@ -906,6 +909,18 @@ trait TableCrudTrait
         if (isset($rule['properties']['log']) && $rule['properties']['log'] === false) return;
 
         try {
+            // Очистка устаревших записей раз в сутки через кеш MODX
+            $today     = date('Y-m-d');
+            $cacheKey  = 'gtsapi_log_cleanup_date';
+            $lastClean = $this->modx->cacheManager->get($cacheKey, ['cache_prefix' => 'gtsapi/']);
+            if ($lastClean !== $today) {
+                $days   = (int)$this->modx->getOption('gtsapi_log_retention_days', null, 30);
+                $cutoff = date('Y-m-d H:i:s', strtotime("-{$days} days"));
+                $table  = $this->modx->getTableName('gtsAPILog');
+                $this->modx->exec("DELETE FROM {$table} WHERE created_at < '{$cutoff}'");
+                $this->modx->cacheManager->set($cacheKey, $today, 0, ['cache_prefix' => 'gtsapi/']);
+            }
+
             $log = $this->modx->newObject('gtsAPILog');
             if (!$log) return;
             $log->set('user_id',     (int)$this->modx->user->id);
