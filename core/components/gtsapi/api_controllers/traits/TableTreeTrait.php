@@ -105,6 +105,79 @@ trait TableTreeTrait
     }
 
     /**
+     * Изменить порядок строк через drag-and-drop.
+     * Принимает $request['order'] — массив ID в новом порядке.
+     * Назначает sortfield = 10, 20, 30... по этому порядку.
+     * Настройка: row_drag: { sortfield: "sortfield", parentsort: "parent_field" }
+     */
+    public function sortableReorder($rule, $request)
+    {
+        $rowDragConfig = isset($rule['properties']['row_drag']) && is_array($rule['properties']['row_drag'])
+            ? $rule['properties']['row_drag'] : null;
+        if (!$rowDragConfig) return $this->error('row_drag не настроен или не является объектом');
+
+        $sfField = isset($rowDragConfig['sortfield']) ? $rowDragConfig['sortfield'] : 'sortfield';
+        $order   = isset($request['order']) ? $request['order'] : [];
+        if (empty($order) || !is_array($order)) return $this->error('Не передан order');
+
+        $sf = 10;
+        foreach ($order as $id) {
+            $id = (int)$id;
+            if (!$id) continue;
+            if ($obj = $this->modx->getObject($rule['class'], $id)) {
+                $obj->set($sfField, $sf);
+                $obj->save();
+                $sf += 10;
+            }
+        }
+        return $this->success('Порядок сохранён');
+    }
+
+    /**
+     * Вставить пустую строку выше строки с указанным ID.
+     * Сдвигает строки с sortfield >= target на +10, создаёт новую строку на их месте.
+     * Принимает $request['target_id'] (или $request['id']).
+     */
+    public function sortableInsertAbove($rule, $request)
+    {
+        $rowDragConfig = isset($rule['properties']['row_drag']) && is_array($rule['properties']['row_drag'])
+            ? $rule['properties']['row_drag'] : null;
+        if (!$rowDragConfig) return $this->error('row_drag не настроен или не является объектом');
+
+        $sfField  = isset($rowDragConfig['sortfield'])  ? $rowDragConfig['sortfield']  : 'sortfield';
+        $psField  = isset($rowDragConfig['parentsort']) ? $rowDragConfig['parentsort'] : null;
+
+        $targetId = (int)(isset($request['target_id']) ? $request['target_id'] : (isset($request['id']) ? $request['id'] : 0));
+        if (!$targetId) return $this->error('Не указан target_id');
+
+        $target = $this->modx->getObject($rule['class'], $targetId);
+        if (!$target) return $this->error('Строка не найдена');
+
+        $targetSortfield = (int)$target->get($sfField);
+        $parentValue     = $psField ? $target->get($psField) : null;
+
+        // Сдвигаем строки с sortfield >= targetSortfield в той же группе
+        $table       = $this->modx->getTableName($rule['class']);
+        $whereParent = ($psField && $parentValue !== null)
+            ? "AND `{$psField}` = " . (int)$parentValue : '';
+        $this->modx->exec(
+            "UPDATE {$table} SET `{$sfField}` = `{$sfField}` + 10
+             WHERE `{$sfField}` >= {$targetSortfield} {$whereParent}"
+        );
+
+        // Создаём новую строку с нужным sortfield и parentsort
+        $newObj = $this->modx->newObject($rule['class']);
+        if (!$newObj) return $this->error('Ошибка создания объекта');
+        if ($psField && $parentValue !== null) {
+            $newObj->set($psField, $parentValue);
+        }
+        $newObj->set($sfField, $targetSortfield);
+        $newObj->save();
+
+        return $this->success('', ['id' => $newObj->get('id'), $sfField => $targetSortfield]);
+    }
+
+    /**
      * Установка строки выбора для группировки
      */
     public function setSelectRow($rule, $rows0 = null)

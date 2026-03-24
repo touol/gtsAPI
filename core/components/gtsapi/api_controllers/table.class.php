@@ -216,7 +216,7 @@ class tableAPIController
         }
         
         $action = explode('/', $request['api_action']);
-        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style']) and isset($rule['properties']['actions'])) {
+        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style', 'sortable_reorder', 'sortable_insert_above']) and isset($rule['properties']['actions'])) {
             $api_action = $request['api_action'];
             if ($api_action == 'watch_form') $api_action = $request['watch_action'];
 
@@ -300,6 +300,12 @@ class tableAPIController
             break;
             case 'reset_fields_style':
                 return $this->reset_fields_style($rule, $request);
+            break;
+            case 'sortable_reorder':
+                return $this->sortableReorder($rule, $request);
+            break;
+            case 'sortable_insert_above':
+                return $this->sortableInsertAbove($rule, $request);
             break;
             default:
                 $action = explode('/', $request['api_action']);

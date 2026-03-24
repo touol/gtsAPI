@@ -334,6 +334,9 @@ trait TableFieldsTrait
         if (isset($rule['properties']['mobile_card'])) {
             $options['mobile_card'] = $rule['properties']['mobile_card'];
         }
+        if (isset($rule['properties']['row_drag'])) {
+            $options['row_drag'] = $rule['properties']['row_drag'];
+        }
 
         return $this->success('options', $options);
     }

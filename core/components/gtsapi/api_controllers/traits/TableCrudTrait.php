@@ -123,6 +123,25 @@ trait TableCrudTrait
                 }
             }
 
+            // Автоназначение sortfield если row_drag настроен как объект
+            if (!empty($rule['properties']['row_drag']) && is_array($rule['properties']['row_drag'])) {
+                $sfField = $rule['properties']['row_drag']['sortfield'] ?? 'sortfield';
+                $psField = $rule['properties']['row_drag']['parentsort'] ?? null;
+                $sfWhere = ["{$rule['class']}.id:!=" => $obj->get('id')];
+                if ($psField) $sfWhere["{$rule['class']}.{$psField}"] = $obj->get($psField);
+                $this->pdo->setConfig([
+                    'class'  => $rule['class'],
+                    'select' => ["MAX({$sfField}) as max_sf"],
+                    'where'  => $sfWhere,
+                    'return' => 'data',
+                    'limit'  => 1,
+                ]);
+                $sfRes = $this->pdo->run();
+                $obj->set($sfField, (int)(isset($sfRes[0]['max_sf']) ? $sfRes[0]['max_sf'] : 0) + 10);
+                $obj->save();
+                $object = $obj->toArray();
+            }
+
             $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old, $object, $obj);
             $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
             $readRequest['filters'] = $request['filters'];
