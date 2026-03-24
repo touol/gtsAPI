@@ -834,6 +834,63 @@ return [
               }
             }
           },
+          "gtsAPILog": {
+            "label": "Лог действий",
+            "table": {
+              "class": "gtsAPILog",
+              "actions": {
+                "read": {}
+              },
+              "pdoTools": {
+                "class": "gtsAPILog",
+                "sortby": "id",
+                "sortdir": "DESC"
+              },
+              "checkbox": 0,
+              "autosave": 0,
+              "row": {
+                "id": {
+                  "label": "ID"
+                },
+                "user_id": {
+                  "label": "Пользователь",
+                  "filter": 1
+                },
+                "table_name": {
+                  "label": "Таблица",
+                  "filter": 1
+                },
+                "action": {
+                  "label": "Действие",
+                  "filter": 1
+                },
+                "object_id": {
+                  "label": "ID объекта",
+                  "filter": 1
+                },
+                "data_before": {
+                  "label": "До",
+                  "edit": {
+                    "type": "textarea",
+                    "editor": "ace",
+                    "editor_mode": "json"
+                  }
+                },
+                "data_after": {
+                  "label": "После",
+                  "edit": {
+                    "type": "textarea",
+                    "editor": "ace",
+                    "editor_mode": "json"
+                  }
+                },
+                "created_at": {
+                  "label": "Дата",
+                  "filter": 1
+                }
+              }
+            }
+          },
           "gtsAPIRule": {
             "label": "Правила АПИ",
             "table": {
