@@ -11,8 +11,8 @@ $xpdo_meta_map['gtsAPILog']= array (
   'fields' => 
   array (
     'user_id' => 0,
-    'table_name' => '',
-    'action' => '',
+    'log_table' => '',
+    'log_action' => '',
     'object_id' => 0,
     'data_before' => NULL,
     'data_after' => NULL,
@@ -28,7 +28,7 @@ $xpdo_meta_map['gtsAPILog']= array (
       'null' => true,
       'default' => 0,
     ),
-    'table_name' => 
+    'log_table' => 
     array (
       'dbtype' => 'varchar',
       'precision' => '161',
@@ -36,7 +36,7 @@ $xpdo_meta_map['gtsAPILog']= array (
       'null' => false,
       'default' => '',
     ),
-    'action' => 
+    'log_action' => 
     array (
       'dbtype' => 'varchar',
       'precision' => '20',
@@ -73,15 +73,15 @@ $xpdo_meta_map['gtsAPILog']= array (
   ),
   'indexes' => 
   array (
-    'table_name' => 
+    'log_table' => 
     array (
-      'alias' => 'table_name',
+      'alias' => 'log_table',
       'primary' => false,
       'unique' => false,
       'type' => 'BTREE',
       'columns' => 
       array (
-        'table_name' => 
+        'log_table' => 
         array (
           'length' => '',
           'collation' => 'A',

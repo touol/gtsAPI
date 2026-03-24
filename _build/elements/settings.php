@@ -856,11 +856,11 @@ return [
                   "label": "Пользователь",
                   "filter": 1
                 },
-                "table_name": {
+                "log_table": {
                   "label": "Таблица",
                   "filter": 1
                 },
-                "action": {
+                "log_action": {
                   "label": "Действие",
                   "filter": 1
                 },

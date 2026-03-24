@@ -924,8 +924,8 @@ trait TableCrudTrait
             $log = $this->modx->newObject('gtsAPILog');
             if (!$log) return;
             $log->set('user_id',     (int)$this->modx->user->id);
-            $log->set('table_name',  $rule['table'] ?? '');
-            $log->set('action',      $action);
+            $log->set('log_table',   $rule['table'] ?? '');
+            $log->set('log_action',  $action);
             $log->set('object_id',   (int)$objectId);
             $log->set('data_before', $dataBefore ? json_encode($dataBefore, JSON_UNESCAPED_UNICODE) : null);
             $log->set('data_after',  $dataAfter  ? json_encode($dataAfter,  JSON_UNESCAPED_UNICODE) : null);
