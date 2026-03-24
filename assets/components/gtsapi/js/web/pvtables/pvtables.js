@@ -1,5 +1,5 @@
 import * as _v from "vue";
-import { renderSlot as H, createBlock as S, createCommentVNode as I, openBlock as d, Teleport as fd, ref as T, readonly as Nv, getCurrentInstance as Hv, onMounted as Ht, nextTick as Pn, watch as it, mergeProps as b, createElementBlock as m, createElementVNode as v, resolveDirective as Dt, resolveDynamicComponent as ce, Fragment as G, toDisplayString as V, normalizeProps as Jo, withDirectives as Je, resolveComponent as se, withCtx as D, createVNode as M, TransitionGroup as jv, renderList as Be, compile as Xs, markRaw as Uv, onBeforeUnmount as Bo, createTextVNode as Ve, normalizeClass as ee, Transition as gn, createSlots as En, normalizeStyle as Bt, toHandlers as ss, withModifiers as wt, withKeys as ct, computed as Me, mergeModels as Zn, useModel as _i, watchEffect as Ao, unref as y, vShow as pi, reactive as Fs, pushScopeId as Nn, popScopeId as Hn, inject as cm, provide as dm, defineComponent as pd, h as Wn, vModelText as nr, vModelSelect as gc, createStaticVNode as Gv, onErrorCaptured as Wv, isRef as sn, shallowRef as fm, triggerRef as jf, onScopeDispose as qv, customRef as Yv, onUnmounted as Zv, guardReactiveProps as Jv } from "vue";
+import { renderSlot as H, createBlock as S, createCommentVNode as I, openBlock as d, Teleport as fd, ref as T, readonly as Nv, getCurrentInstance as Hv, onMounted as Ht, nextTick as Pn, watch as it, mergeProps as b, createElementBlock as m, createElementVNode as v, resolveDirective as Dt, resolveDynamicComponent as ce, Fragment as G, toDisplayString as V, normalizeProps as Jo, withDirectives as Je, resolveComponent as se, withCtx as D, createVNode as M, TransitionGroup as jv, renderList as Be, compile as Xs, markRaw as Uv, onBeforeUnmount as Bo, createTextVNode as ze, normalizeClass as ee, Transition as gn, createSlots as En, normalizeStyle as Bt, toHandlers as ss, withModifiers as wt, withKeys as ct, computed as Me, mergeModels as Zn, useModel as _i, watchEffect as Ao, unref as y, vShow as pi, reactive as Fs, pushScopeId as Nn, popScopeId as Hn, inject as cm, provide as dm, defineComponent as pd, h as Wn, vModelText as nr, vModelSelect as gc, createStaticVNode as Gv, onErrorCaptured as Wv, isRef as sn, shallowRef as fm, triggerRef as jf, onScopeDispose as qv, customRef as Yv, onUnmounted as Zv, guardReactiveProps as Jv } from "vue";
 function xa(e, t) {
   return e ? e.classList ? e.classList.contains(t) : new RegExp("(^| )" + t + "( |$)", "gi").test(e.className) : !1;
 }
@@ -3989,8 +3989,8 @@ function w0(e, t, n, i, r, o, a, l, s, u, c, p, h, f = {}, g = null, w = null) {
       const O = (ue, xe) => xe.split(".").reduce((Pe, $e) => Pe[$e], ue), j = (ue, xe, Pe) => {
         const $e = xe.split("."), $ = $e.pop();
         let J = ue;
-        for (let ze = 0; ze < $e.length; ze++)
-          J[$e[ze]] || (J[$e[ze]] = {}), J = J[$e[ze]];
+        for (let Ve = 0; Ve < $e.length; Ve++)
+          J[$e[Ve]] || (J[$e[Ve]] = {}), J = J[$e[Ve]];
         J[$] = Pe;
       };
       if (P && P(we.id)) {
@@ -4038,17 +4038,17 @@ function w0(e, t, n, i, r, o, a, l, s, u, c, p, h, f = {}, g = null, w = null) {
           if ($e.data && $e.data.object && $e.data.object.id) {
             const $ = we.id, J = $e.data.object;
             if (xe(J.id), C) {
-              const ze = {};
+              const Ve = {};
               for (let re in J)
-                ze[re] = null;
-              await C($, J, ze);
+                Ve[re] = null;
+              await C($, J, Ve);
             }
             if ($e.data.customFields)
-              for (let ze in $e.data.customFields)
-                s.value[ze] = $e.data.customFields[ze];
+              for (let Ve in $e.data.customFields)
+                s.value[Ve] = $e.data.customFields[Ve];
             if ($e.data.row_setting)
-              for (let ze in $e.data.row_setting)
-                u.value[ze] = $e.data.row_setting[ze];
+              for (let Ve in $e.data.row_setting)
+                u.value[Ve] = $e.data.row_setting[Ve];
           } else
             xe(null), i(!1);
         } catch (Pe) {
@@ -4970,17 +4970,17 @@ function I0(e, t, n, i, r = null, o = "", a = null, l = null, s = null, u = null
     const $ = document.querySelector("html");
     g.value = !g.value, $.classList.toggle("my-app-dark");
   }, L = ($, J) => {
-    let ze = "td-body ", re = $.type, Ie = !1;
-    return n.value[J.id] && n.value[J.id][$.field] && (n.value[J.id][$.field].readonly == 1 && (Ie = !0), n.value[J.id][$.field].type != re && (re = n.value[J.id][$.field].type)), $.readonly || Ie ? ze + re + " readonly" : ze + re;
+    let Ve = "td-body ", re = $.type, ke = !1;
+    return n.value[J.id] && n.value[J.id][$.field] && (n.value[J.id][$.field].readonly == 1 && (ke = !0), n.value[J.id][$.field].type != re && (re = n.value[J.id][$.field].type)), $.readonly || ke ? Ve + re + " readonly" : Ve + re;
   }, _ = ($) => $.type, te = ($) => {
     let J = {};
     return $.style && (J = typeof $.style == "string" ? {} : { ...$.style }), $.width && (J.width = $.width), $["min-width"] && (J["min-width"] = $["min-width"]), Object.keys(J).length === 0 && $.type === "datetime" && (J["min-width"] = "190px"), Object.keys(J).length === 0 && $.type === "textarea" && (J["min-width"] = "190px"), J;
   }, ye = ($, J) => {
-    f.value = J.value.filter((ze) => ze.modal_only != !0), h.value.toggle($);
+    f.value = J.value.filter((Ve) => Ve.modal_only != !0), h.value.toggle($);
   }, Y = ($, J) => {
-    J.value.forEach((ze) => {
-      $.includes(ze) ? ze.modal_only = !1 : ze.modal_only = !0;
-    }), f.value = J.value.filter((ze) => ze.modal_only != !0);
+    J.value.forEach((Ve) => {
+      $.includes(Ve) ? Ve.modal_only = !1 : Ve.modal_only = !0;
+    }), f.value = J.value.filter((Ve) => Ve.modal_only != !0);
   };
   let W = null;
   const Z = () => {
@@ -4989,16 +4989,16 @@ function I0(e, t, n, i, r = null, o = "", a = null, l = null, s = null, u = null
     W && (document.head.removeChild(W), W = null);
   }, q = ($, J = null) => {
     if (!o) return;
-    const ze = localStorage.getItem(`pvtables-${o}-column-widths`);
-    let re = null, Ie = null;
-    if (ze)
+    const Ve = localStorage.getItem(`pvtables-${o}-column-widths`);
+    let re = null, ke = null;
+    if (Ve)
       try {
-        const ut = JSON.parse(ze);
-        ut.columnWidths ? (re = ut.columnWidths, Ie = ut.tableWidth) : re = ut;
+        const ut = JSON.parse(Ve);
+        ut.columnWidths ? (re = ut.columnWidths, ke = ut.tableWidth) : re = ut;
       } catch (ut) {
         console.error("Ошибка парсинга локальных стилей:", ut);
       }
-    else w.value && (w.value.columnWidths ? (re = w.value.columnWidths, Ie = w.value.tableWidth) : re = w.value);
+    else w.value && (w.value.columnWidths ? (re = w.value.columnWidths, ke = w.value.tableWidth) : re = w.value);
     if (!re || !$.value) {
       N();
       return;
@@ -5013,34 +5013,34 @@ function I0(e, t, n, i, r = null, o = "", a = null, l = null, s = null, u = null
         });
       }
     }), setTimeout(() => {
-      K(Ye, J, Ie);
+      K(Ye, J, ke);
     }, 100);
-  }, K = ($, J, ze = null) => {
+  }, K = ($, J, Ve = null) => {
     N(), Z();
     let re = "";
-    const Ie = J ? `[data-pc-name="datatable"][${J}] > [data-pc-section="tablecontainer"] > table[data-pc-section="table"]` : '[data-pc-name="datatable"] > [data-pc-section="tablecontainer"] > table[data-pc-section="table"]';
-    ze && (re += `
-        ${Ie} {
-          width: ${ze};
-          min-width: ${ze};
+    const ke = J ? `[data-pc-name="datatable"][${J}] > [data-pc-section="tablecontainer"] > table[data-pc-section="table"]` : '[data-pc-name="datatable"] > [data-pc-section="tablecontainer"] > table[data-pc-section="table"]';
+    Ve && (re += `
+        ${ke} {
+          width: ${Ve};
+          min-width: ${Ve};
         }
       `), $.forEach(({ domIndex: Ye, width: ut }) => {
       const nt = `width: ${ut}px !important; max-width: ${ut}px !important`;
       re += `
-        ${Ie} > thead[data-pc-section="thead"] > tr > th:nth-child(${Ye}),
-        ${Ie} > tbody[data-pc-section="tbody"] > tr > td:nth-child(${Ye}),
-        ${Ie} > tfoot[data-pc-section="tfoot"] > tr > td:nth-child(${Ye}) {
+        ${ke} > thead[data-pc-section="thead"] > tr > th:nth-child(${Ye}),
+        ${ke} > tbody[data-pc-section="tbody"] > tr > td:nth-child(${Ye}),
+        ${ke} > tfoot[data-pc-section="tfoot"] > tr > td:nth-child(${Ye}) {
           ${nt}
         }
       `;
     }), W.innerHTML = re;
   }, le = ($, J) => {
     if (!o || !$ || !J.value) return;
-    const ze = $.querySelectorAll("thead th"), re = {}, Ie = {};
+    const Ve = $.querySelectorAll("thead th"), re = {}, ke = {};
     J.value.forEach((nt) => {
-      Ie[nt.label] = nt;
-    }), ze.forEach((nt, jt) => {
-      const Mn = nt.textContent?.trim(), Dn = Ie[Mn];
+      ke[nt.label] = nt;
+    }), Ve.forEach((nt, jt) => {
+      const Mn = nt.textContent?.trim(), Dn = ke[Mn];
       Dn && Dn.field && (re[Dn.field] = {
         width: `${nt.offsetWidth}px`,
         domIndex: jt + 1
@@ -5090,7 +5090,7 @@ function I0(e, t, n, i, r = null, o = "", a = null, l = null, s = null, u = null
       try {
         const $ = s.value.$el;
         if (!$) return;
-        const J = window.innerHeight, re = $.getBoundingClientRect().top, Ie = $.querySelector(".p-datatable-header"), Ye = $.querySelector(".p-paginator"), ut = Ie ? Ie.offsetHeight : 0, nt = Ye ? Ye.offsetHeight : 0, Mn = J - re - ut - nt - 20, Dn = Math.max(200, Mn);
+        const J = window.innerHeight, re = $.getBoundingClientRect().top, ke = $.querySelector(".p-datatable-header"), Ye = $.querySelector(".p-paginator"), ut = ke ? ke.offsetHeight : 0, nt = Ye ? Ye.offsetHeight : 0, Mn = J - re - ut - nt - 20, Dn = Math.max(200, Mn);
         C.value = `${Dn}px`;
       } catch ($) {
         console.error("Error calculating table height:", $);
@@ -5112,8 +5112,8 @@ function I0(e, t, n, i, r = null, o = "", a = null, l = null, s = null, u = null
       if (B = C.value, C.value = null, u && u.value) {
         u.value = !1;
         try {
-          const $ = `pvtables-virtual-scroll-${o}`, J = localStorage.getItem($), ze = J ? JSON.parse(J) : {};
-          ze.enabled = !1, localStorage.setItem($, JSON.stringify(ze));
+          const $ = `pvtables-virtual-scroll-${o}`, J = localStorage.getItem($), Ve = J ? JSON.parse(J) : {};
+          Ve.enabled = !1, localStorage.setItem($, JSON.stringify(Ve));
         } catch {
         }
       }
@@ -5139,11 +5139,11 @@ function I0(e, t, n, i, r = null, o = "", a = null, l = null, s = null, u = null
     if (s && s.value && s.value.$el) {
       const re = s.value.$el.querySelector("table");
       if (re) {
-        const Ie = re.scrollWidth || re.offsetWidth;
-        Ie > 0 && ($ = `${Math.ceil(Ie * 1.05)}px`);
+        const ke = re.scrollWidth || re.offsetWidth;
+        ke > 0 && ($ = `${Math.ceil(ke * 1.05)}px`);
       }
     }
-    const J = `pvtables-stretch-${o}`, ze = `
+    const J = `pvtables-stretch-${o}`, Ve = `
       /* Растягиваем главный контейнер таблицы */
       .${J}.pvtables {
         min-width: ${$} !important;
@@ -5174,7 +5174,7 @@ function I0(e, t, n, i, r = null, o = "", a = null, l = null, s = null, u = null
         width: ${$} !important;
       }
     `;
-    pe.innerHTML = ze;
+    pe.innerHTML = Ve;
   };
   let ue = null;
   const xe = () => {
@@ -7789,7 +7789,7 @@ function Aw(e, t, n, i, r, o) {
     value: e.modelValue,
     placeholder: e.placeholder
   }, function() {
-    return [Ve(V(o.label === "p-emptylabel" ? " " : o.label || "empty"), 1)];
+    return [ze(V(o.label === "p-emptylabel" ? " " : o.label || "empty"), 1)];
   })], 16, Dw)), o.isClearIconVisible ? H(e.$slots, "clearicon", {
     key: 2,
     class: ee(e.cx("clearIcon")),
@@ -8012,7 +8012,7 @@ function Aw(e, t, n, i, r, o) {
               }, e.ptm("emptyMessage"), {
                 "data-p-hidden-accessible": !0
               }), [H(e.$slots, "emptyfilter", {}, function() {
-                return [Ve(V(o.emptyFilterMessageText), 1)];
+                return [ze(V(o.emptyFilterMessageText), 1)];
               })], 16)) : !e.options || e.options && e.options.length === 0 ? (d(), m("li", b({
                 key: 1,
                 class: e.cx("emptyMessage"),
@@ -8020,7 +8020,7 @@ function Aw(e, t, n, i, r, o) {
               }, e.ptm("emptyMessage"), {
                 "data-p-hidden-accessible": !0
               }), [H(e.$slots, "empty", {}, function() {
-                return [Ve(V(o.emptyMessageText), 1)];
+                return [ze(V(o.emptyMessageText), 1)];
               })], 16)) : I("", !0)], 16, Lw)];
             }),
             _: 2
@@ -9605,7 +9605,7 @@ function SC(e, t, n, i, r, o) {
       ref_for: !0
     }, o.getPTOptions(l - 1, "page"), {
       "data-p-active": l - 1 === n.page
-    }), [Ve(V(l), 1)], 16, kC)), [[a]]);
+    }), [ze(V(l), 1)], 16, kC)), [[a]]);
   }), 128))], 16);
 }
 Hm.render = SC;
@@ -11291,7 +11291,7 @@ function JC(e, t, n, i, r, o) {
   return d(), m("span", b({
     class: e.cx("root")
   }, e.ptmi("root")), [H(e.$slots, "default", {}, function() {
-    return [Ve(V(e.value), 1)];
+    return [ze(V(e.value), 1)];
   })], 16);
 }
 Yr.render = JC;
@@ -12033,7 +12033,7 @@ var ek = function(t) {
       $parentInstance: this
     };
   }
-}, ke = {
+}, Se = {
   name: "Button",
   extends: ok,
   inheritAttrs: !1,
@@ -12129,7 +12129,7 @@ function ik(e, t, n, i, r, o) {
     _: 3
   }, 16, ["class"])), [[s]]);
 }
-ke.render = ik;
+Se.render = ik;
 var lu = {
   name: "MinusIcon",
   extends: xt
@@ -13228,7 +13228,7 @@ const Dk = /* @__PURE__ */ Ot(Ek, [["render", Mk]]), Lk = {
   components: {
     DTRadioButton: Dk,
     DTCheckbox: kk,
-    Button: ke,
+    Button: Se,
     ChevronDownIcon: Xn,
     ChevronRightIcon: Ko,
     BarsIcon: au,
@@ -13420,7 +13420,7 @@ function Ak(e, t, n, i, r, o) {
         _: 1
       }, 16, ["class", "aria-label", "unstyled", "onClick", "pt"])) : I("", !0)
     ], 64)) : (d(), m(G, { key: 8 }, [
-      Ve(V(o.resolveFieldData()), 1)
+      ze(V(o.resolveFieldData()), 1)
     ], 64))
   ], 16, Fk));
 }
@@ -15136,7 +15136,7 @@ const wS = {
   },
   components: {
     Select: Vl,
-    Button: ke,
+    Button: Se,
     Portal: io,
     FilterSlashIcon: Dd,
     FilterIcon: Md,
@@ -16609,7 +16609,7 @@ const Zm = /* @__PURE__ */ Ot(s2, [["render", u2]]), c2 = {
   },
   components: {
     Badge: Yr,
-    Button: ke,
+    Button: Se,
     Popover: Vr,
     Slider: Ym,
     DTHeaderCheckbox: Zm,
@@ -16665,7 +16665,7 @@ function v2(e, t, n, i, r, o) {
           v("h4", p2, V(o.columnProp("header")), 1),
           v("div", h2, [
             v("label", m2, [
-              Ve(" Ширина колонки: "),
+              ze(" Ширина колонки: "),
               v("strong", null, V(r.currentColumnWidth) + "px", 1)
             ]),
             v("div", g2, [
@@ -19333,7 +19333,7 @@ var _2 = function(t) {
     focustrap: zl
   },
   components: {
-    Button: ke,
+    Button: Se,
     Portal: io,
     WindowMinimizeIcon: Xm,
     WindowMaximizeIcon: Jm,
@@ -19498,7 +19498,7 @@ function J2(e, t, n, i, r, o) {
             ref: o.footerContainerRef,
             class: e.cx("footer")
           }, e.ptm("footer")), [H(e.$slots, "footer", {}, function() {
-            return [Ve(V(e.footer), 1)];
+            return [ze(V(e.footer), 1)];
           })], 16)) : I("", !0)], 64))], 16, Y2)), [[s, {
             disabled: !e.modal
           }]]) : I("", !0)];
@@ -20922,7 +20922,7 @@ function kI(e, t, n, i, r, o) {
   }, function() {
     return [e.display === "comma" ? (d(), m(G, {
       key: 0
-    }, [Ve(V(o.label || "empty"), 1)], 64)) : e.display === "chip" ? (d(), m(G, {
+    }, [ze(V(o.label || "empty"), 1)], 64)) : e.display === "chip" ? (d(), m(G, {
       key: 1
     }, [(d(!0), m(G, null, Be(o.chipSelectedItems, function(C) {
       return d(), m("span", b({
@@ -20960,7 +20960,7 @@ function kI(e, t, n, i, r, o) {
       })], 16);
     }), 128)), !e.modelValue || e.modelValue.length === 0 ? (d(), m(G, {
       key: 0
-    }, [Ve(V(e.placeholder || "empty"), 1)], 64)) : I("", !0)], 64)) : I("", !0)];
+    }, [ze(V(e.placeholder || "empty"), 1)], 64)) : I("", !0)], 64)) : I("", !0)];
   })], 16)], 16), v("div", b({
     class: e.cx("dropdown")
   }, e.ptm("dropdown")), [e.loading ? H(e.$slots, "loadingicon", {
@@ -21141,7 +21141,7 @@ function kI(e, t, n, i, r, o) {
                   option: B.optionGroup,
                   index: o.getOptionIndex(A, R)
                 }, function() {
-                  return [Ve(V(o.getOptionGroupLabel(B.optionGroup)), 1)];
+                  return [ze(V(o.getOptionGroupLabel(B.optionGroup)), 1)];
                 })], 16, wI)) : Je((d(), m("li", b({
                   key: 1,
                   id: r.id + "_" + o.getOptionIndex(A, R),
@@ -21204,13 +21204,13 @@ function kI(e, t, n, i, r, o) {
                 class: e.cx("emptyMessage"),
                 role: "option"
               }, e.ptm("emptyMessage")), [H(e.$slots, "emptyfilter", {}, function() {
-                return [Ve(V(o.emptyFilterMessageText), 1)];
+                return [ze(V(o.emptyFilterMessageText), 1)];
               })], 16)) : !e.options || e.options && e.options.length === 0 ? (d(), m("li", b({
                 key: 1,
                 class: e.cx("emptyMessage"),
                 role: "option"
               }, e.ptm("emptyMessage")), [H(e.$slots, "empty", {}, function() {
-                return [Ve(V(o.emptyMessageText), 1)];
+                return [ze(V(o.emptyMessageText), 1)];
               })], 16)) : I("", !0)], 16, yI)];
             }),
             _: 2
@@ -22680,7 +22680,7 @@ function UI(e, t, n, i, r, o) {
                           option: k.optionGroup,
                           index: o.getOptionIndex(x, w)
                         }, () => [
-                          Ve(V(o.getOptionGroupLabel(k.optionGroup)), 1)
+                          ze(V(o.getOptionGroupLabel(k.optionGroup)), 1)
                         ])
                       ], 16, HI)) : Je((d(), m("li", b({
                         key: 1,
@@ -22704,7 +22704,7 @@ function UI(e, t, n, i, r, o) {
                           option: k,
                           index: o.getOptionIndex(x, w)
                         }, () => [
-                          Ve(V(o.getOptionLabel(k)), 1)
+                          ze(V(o.getOptionLabel(k)), 1)
                         ])
                       ], 16, jI)), [
                         [p]
@@ -22716,7 +22716,7 @@ function UI(e, t, n, i, r, o) {
                       role: "option"
                     }, e.ptm("emptyMessage")), [
                       H(e.$slots, "empty", {}, () => [
-                        Ve(V(o.searchResultMessageText), 1)
+                        ze(V(o.searchResultMessageText), 1)
                       ])
                     ], 16)) : I("", !0)
                   ], 16, NI)
@@ -24660,7 +24660,7 @@ const {
     };
     return (L, _) => e.styleShow ? (d(), m("span", g6, [
       i.value ? (d(), m("span", b6, V(r.value), 1)) : e.field.hide_id ? I("", !0) : (d(), m("span", v6, V(n.value), 1)),
-      Ve(" " + V(f.value.content), 1)
+      ze(" " + V(f.value.content), 1)
     ])) : (d(), S(y(Jr), {
       key: 1,
       onKeydown: _[6] || (_[6] = ct(wt(() => {
@@ -27251,7 +27251,7 @@ var zd = {
   },
   components: {
     InputText: Vt,
-    Button: ke,
+    Button: Se,
     Portal: io,
     CalendarIcon: kg,
     ChevronLeftIcon: Vd,
@@ -27475,7 +27475,7 @@ function X6(e, t, n, i, r, o) {
             }, e.ptm("decade")), [H(e.$slots, "decade", {
               years: o.yearPickerValues
             }, function() {
-              return [Ve(V(o.yearPickerValues[0].value) + " - " + V(o.yearPickerValues[o.yearPickerValues.length - 1].value), 1)];
+              return [ze(V(o.yearPickerValues[0].value) + " - " + V(o.yearPickerValues[o.yearPickerValues.length - 1].value), 1)];
             })], 16)) : I("", !0)], 16), Je(M(l, b({
               ref_for: !0,
               ref: o.nextButtonRef,
@@ -27575,7 +27575,7 @@ function X6(e, t, n, i, r, o) {
                     visibility: "hidden"
                   },
                   ref_for: !0
-                }, e.ptm("weekLabel")), "0", 16)) : I("", !0), Ve(" " + V(c.weekNumbers[f]), 1)];
+                }, e.ptm("weekLabel")), "0", 16)) : I("", !0), ze(" " + V(c.weekNumbers[f]), 1)];
               })], 16, W6)], 16)) : I("", !0), (d(!0), m(G, null, Be(h, function(g) {
                 return d(), m("td", b({
                   key: g.day + "" + g.month,
@@ -27625,7 +27625,7 @@ function X6(e, t, n, i, r, o) {
                 }), [H(e.$slots, "date", {
                   date: g
                 }, function() {
-                  return [Ve(V(g.day), 1)];
+                  return [ze(V(g.day), 1)];
                 })], 16, Y6)), [[u]]), o.isSelected(g) ? (d(), m("div", b({
                   key: 0,
                   class: "p-hidden-accessible",
@@ -27669,7 +27669,7 @@ function X6(e, t, n, i, r, o) {
             }), {
               "data-p-disabled": !c.selectable,
               "data-p-selected": o.isMonthSelected(p)
-            }), [Ve(V(c.value) + " ", 1), o.isMonthSelected(p) ? (d(), m("div", b({
+            }), [ze(V(c.value) + " ", 1), o.isMonthSelected(p) ? (d(), m("div", b({
               key: 0,
               class: "p-hidden-accessible",
               "aria-live": "polite",
@@ -27702,7 +27702,7 @@ function X6(e, t, n, i, r, o) {
             }), {
               "data-p-disabled": !c.selectable,
               "data-p-selected": o.isYearSelected(c.value)
-            }), [Ve(V(c.value) + " ", 1), o.isYearSelected(c.value) ? (d(), m("div", b({
+            }), [ze(V(c.value) + " ", 1), o.isYearSelected(c.value) ? (d(), m("div", b({
               key: 0,
               class: "p-hidden-accessible",
               "aria-live": "polite",
@@ -29650,7 +29650,7 @@ function y3(e, t, n, i, r, o) {
                   option: x.optionGroup,
                   index: o.getOptionIndex(R, C)
                 }, function() {
-                  return [Ve(V(o.getOptionGroupLabel(x.optionGroup)), 1)];
+                  return [ze(V(o.getOptionGroupLabel(x.optionGroup)), 1)];
                 })], 16, b3)) : Je((d(), m("li", b({
                   key: 1,
                   id: r.id + "_" + o.getOptionIndex(R, C),
@@ -29682,14 +29682,14 @@ function y3(e, t, n, i, r, o) {
                   option: x,
                   index: o.getOptionIndex(R, C)
                 }, function() {
-                  return [Ve(V(o.getOptionLabel(x)), 1)];
+                  return [ze(V(o.getOptionLabel(x)), 1)];
                 })], 16, v3)), [[p]])], 64);
               }), 128)), !w || w && w.length === 0 ? (d(), m("li", b({
                 key: 0,
                 class: e.cx("emptyMessage"),
                 role: "option"
               }, e.ptm("emptyMessage")), [H(e.$slots, "empty", {}, function() {
-                return [Ve(V(o.searchResultMessageText), 1)];
+                return [ze(V(o.searchResultMessageText), 1)];
               })], 16)) : I("", !0)], 16, g3)];
             }),
             _: 2
@@ -30551,7 +30551,7 @@ function L3(e, t, n, i, r, o) {
     selected: o.checkboxMode ? o.checked : o.selected
   }, null, 8, ["node", "selected"])) : (d(), m(G, {
     key: 1
-  }, [Ve(V(o.label(n.node)), 1)], 64))], 16)], 16, D3), o.hasChildren && o.expanded ? (d(), m("ul", b({
+  }, [ze(V(o.label(n.node)), 1)], 64))], 16)], 16, D3), o.hasChildren && o.expanded ? (d(), m("ul", b({
     key: 0,
     class: e.cx("nodeChildren"),
     role: "group"
@@ -32375,7 +32375,7 @@ var Mg = {
   components: {
     DTRadioButton: Eg,
     DTCheckbox: Tg,
-    Button: ke,
+    Button: Se,
     ChevronDownIcon: Xn,
     ChevronRightIcon: Ko,
     BarsIcon: au,
@@ -32611,7 +32611,7 @@ function a5(e, t, n, i, r, o) {
     _: 1
   }, 16, ["class", "aria-label", "unstyled", "onClick", "pt"])) : I("", !0)], 64)) : (d(), m(G, {
     key: 7
-  }, [Ve(V(o.resolveFieldData()), 1)], 64))], 16, i5));
+  }, [ze(V(o.resolveFieldData()), 1)], 64))], 16, i5));
 }
 Mg.render = a5;
 function sl(e) {
@@ -34506,7 +34506,7 @@ var jd = {
   },
   components: {
     Select: Vl,
-    Button: ke,
+    Button: Se,
     Portal: io,
     FilterSlashIcon: Dd,
     FilterIcon: Md,
@@ -37658,12 +37658,12 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
             ]),
             v("div", y4, [
               w4,
-              M(y(ke), {
+              M(y(Se), {
                 class: ee([{ "p-button-outlined": s.value !== "name" }, "mr-2"]),
                 onClick: z[1] || (z[1] = (L) => g("name"))
               }, {
                 default: D(() => [
-                  Ve(" Имя "),
+                  ze(" Имя "),
                   s.value === "name" ? (d(), m("i", {
                     key: 0,
                     class: ee(x())
@@ -37671,12 +37671,12 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
                 ]),
                 _: 1
               }, 8, ["class"]),
-              M(y(ke), {
+              M(y(Se), {
                 class: ee([{ "p-button-outlined": s.value !== "size" }, "mr-2"]),
                 onClick: z[2] || (z[2] = (L) => g("size"))
               }, {
                 default: D(() => [
-                  Ve(" Размер "),
+                  ze(" Размер "),
                   s.value === "size" ? (d(), m("i", {
                     key: 0,
                     class: ee(x())
@@ -37684,12 +37684,12 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
                 ]),
                 _: 1
               }, 8, ["class"]),
-              M(y(ke), {
+              M(y(Se), {
                 class: ee([{ "p-button-outlined": s.value !== "lastmod" }, "mr-2"]),
                 onClick: z[3] || (z[3] = (L) => g("lastmod"))
               }, {
                 default: D(() => [
-                  Ve(" Дата "),
+                  ze(" Дата "),
                   s.value === "lastmod" ? (d(), m("i", {
                     key: 0,
                     class: ee(x())
@@ -37702,12 +37702,12 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
         ]),
         end: D(() => [
           v("div", C4, [
-            M(y(ke), {
+            M(y(Se), {
               icon: "pi pi-th-large",
               class: ee([{ "p-button-outlined": l.value !== "grid" }, "mr-2"]),
               onClick: z[4] || (z[4] = (L) => w("grid"))
             }, null, 8, ["class"]),
-            M(y(ke), {
+            M(y(Se), {
               icon: "pi pi-list",
               class: ee({ "p-button-outlined": l.value !== "list" }),
               onClick: z[5] || (z[5] = (L) => w("list"))
@@ -37767,7 +37767,7 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
                       key: 0,
                       class: ee([E(L.data), "mr-2"])
                     }, null, 2)),
-                    Ve(" " + V(L.data.name), 1)
+                    ze(" " + V(L.data.name), 1)
                   ])
                 ]),
                 _: 1
@@ -37777,7 +37777,7 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
                 header: "Размер"
               }, {
                 body: D((L) => [
-                  Ve(V(F(L.data.size)), 1)
+                  ze(V(F(L.data.size)), 1)
                 ]),
                 _: 1
               }),
@@ -37786,7 +37786,7 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
                 header: "Дата изменения"
               }, {
                 body: D((L) => [
-                  Ve(V(B(L.data.lastmod)), 1)
+                  ze(V(B(L.data.lastmod)), 1)
                 ]),
                 _: 1
               })
@@ -37916,19 +37916,19 @@ const ea = (e) => (Nn("data-v-c98426d1"), e = e(), Hn(), e), m4 = { class: "file
           ])) : I("", !0)
         ]),
         v("div", bO, [
-          M(y(ke), {
+          M(y(Se), {
             label: "Скачать",
             icon: "pi pi-download",
             onClick: u,
             class: "mr-2"
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Переименовать",
             icon: "pi pi-pencil",
             onClick: c,
             class: "mr-2"
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Удалить",
             icon: "pi pi-trash",
             class: "p-button-danger",
@@ -38528,7 +38528,7 @@ function $O(e, t, n, i, r, o) {
     key: 0,
     class: e.cx("label")
   }, e.ptm("label")), [H(e.$slots, "default", {}, function() {
-    return [Ve(V(e.value + "%"), 1)];
+    return [ze(V(e.value + "%"), 1)];
   })], 16)) : I("", !0)], 16)) : o.indeterminate ? (d(), m("div", b({
     key: 1,
     class: e.cx("value")
@@ -38815,7 +38815,7 @@ var VO = function(t) {
     }
   },
   components: {
-    Button: ke,
+    Button: Se,
     Badge: Yr,
     TimesIcon: Vo
   }
@@ -39196,7 +39196,7 @@ var Hg = {
     }
   },
   components: {
-    Button: ke,
+    Button: Se,
     ProgressBar: Kg,
     Message: zg,
     FileContent: _g,
@@ -39336,7 +39336,7 @@ function ZO(e, t, n, i, r, o) {
         pt: e.ptm("pcMessage")
       }, {
         default: D(function() {
-          return [Ve(V(c), 1)];
+          return [ze(V(c), 1)];
         }),
         _: 2
       }, 1032, ["onClose", "unstyled", "pt"]);
@@ -39378,7 +39378,7 @@ function ZO(e, t, n, i, r, o) {
       pt: e.ptm("pcMessages")
     }, {
       default: D(function() {
-        return [Ve(V(c), 1)];
+        return [ze(V(c), 1)];
       }),
       _: 2
     }, 1032, ["onClose", "unstyled", "pt"]);
@@ -39475,7 +39475,7 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
       dismissableMask: !0
     }, {
       footer: D(() => [
-        M(y(ke), {
+        M(y(Se), {
           label: "Закрыть",
           icon: "pi pi-times",
           onClick: l,
@@ -39497,7 +39497,7 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
             header: D(({ chooseCallback: c, uploadCallback: p, clearCallback: h, files: f }) => [
               v("div", XO, [
                 v("div", QO, [
-                  M(y(ke), {
+                  M(y(Se), {
                     onClick: (g) => c(),
                     icon: "pi pi-images",
                     rounded: "",
@@ -39505,7 +39505,7 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
                     severity: "help",
                     label: "Выбрать"
                   }, null, 8, ["onClick"]),
-                  M(y(ke), {
+                  M(y(Se), {
                     onClick: (g) => p(),
                     icon: "pi pi-cloud-upload",
                     rounded: "",
@@ -39515,7 +39515,7 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
                     disabled: !f || f.length === 0
                   }, null, 8, ["onClick", "disabled"])
                 ]),
-                M(y(ke), {
+                M(y(Se), {
                   onClick: (g) => h(),
                   icon: "pi pi-times",
                   rounded: "",
@@ -39541,7 +39541,7 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
                   ]),
                   v("div", rP, [
                     v("span", null, V(o(g.size)), 1),
-                    M(y(ke), {
+                    M(y(Se), {
                       onClick: (C) => f(w),
                       icon: "pi pi-times",
                       rounded: "",
@@ -39607,13 +39607,13 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
       dismissableMask: !0
     }, {
       footer: D(() => [
-        M(y(ke), {
+        M(y(Se), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: s,
           class: "p-button-text"
         }),
-        M(y(ke), {
+        M(y(Se), {
           label: "Создать",
           icon: "pi pi-check",
           onClick: l,
@@ -39693,13 +39693,13 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
       dismissableMask: !0
     }, {
       footer: D(() => [
-        M(y(ke), {
+        M(y(Se), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: u,
           class: "p-button-text"
         }),
-        M(y(ke), {
+        M(y(Se), {
           label: "Переименовать",
           icon: "pi pi-check",
           onClick: s,
@@ -39771,13 +39771,13 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
       dismissableMask: !0
     }, {
       footer: D(() => [
-        M(y(ke), {
+        M(y(Se), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: s,
           class: "p-button-text"
         }),
-        M(y(ke), {
+        M(y(Se), {
           label: "Удалить",
           icon: "pi pi-trash",
           class: "p-button-danger",
@@ -39788,13 +39788,13 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
         v("div", IP, [
           v("div", xP, [
             o.value ? (d(), m("p", OP, [
-              Ve(" Вы действительно хотите удалить директорию "),
+              ze(" Вы действительно хотите удалить директорию "),
               v("strong", null, V(r.value), 1),
-              Ve("? ")
+              ze("? ")
             ])) : (d(), m("p", PP, [
-              Ve(" Вы действительно хотите удалить файл "),
+              ze(" Вы действительно хотите удалить файл "),
               v("strong", null, V(r.value), 1),
-              Ve("? ")
+              ze("? ")
             ])),
             RP,
             o.value ? (d(), m("p", TP, " Все файлы и поддиректории внутри этой директории также будут удалены! ")) : I("", !0)
@@ -39849,26 +39849,26 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
               v("div", zP, V(a.value), 1)
             ]),
             v("div", KP, [
-              M(y(ke), {
+              M(y(Se), {
                 icon: "pi pi-upload",
                 label: "Загрузить",
                 class: "mr-2",
                 onClick: l
               }),
-              M(y(ke), {
+              M(y(Se), {
                 icon: "pi pi-folder",
                 label: "Создать директорию",
                 class: "mr-2",
                 onClick: s
               }),
-              M(y(ke), {
+              M(y(Se), {
                 icon: "pi pi-trash",
                 label: "Удалить директорию",
                 class: "mr-2 p-button-danger",
                 onClick: u,
                 disabled: !y(r).selectedFile || !y(r).selectedFile.is_dir
               }, null, 8, ["disabled"]),
-              e.selectionMode ? (d(), S(y(ke), {
+              e.selectionMode ? (d(), S(y(Se), {
                 key: 0,
                 icon: "pi pi-check",
                 label: "Выбрать файл",
@@ -39946,7 +39946,7 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
             disabled: e.disabled,
             class: "w-full"
           }, null, 8, ["modelValue", "placeholder", "disabled"]),
-          M(y(ke), {
+          M(y(Se), {
             icon: "pi pi-folder-open",
             onClick: a,
             disabled: e.disabled
@@ -40109,7 +40109,7 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
       data: e.data,
       onClick: f
     }, null, 8, ["value", "field", "row", "data"])) : l.value.field == "id" ? (d(), m(G, { key: 1 }, [
-      Ve(V(i.value), 1)
+      ze(V(i.value), 1)
     ], 64)) : l.value.type == "autocomplete" ? (d(), S(jl, {
       key: 2,
       field: l.value,
@@ -40152,9 +40152,9 @@ const jg = (e) => (Nn("data-v-ff61e4cf"), e = e(), Hn(), e), JO = { class: "uplo
       disabled: e.use_readonly && l.value.readonly,
       styleShow: !0
     }, null, 8, ["id", "options", "disabled"])) : l.value.type == "decimal" ? (d(), m(G, { key: 6 }, [
-      Ve(V(w(i.value, l.value.FractionDigits)), 1)
+      ze(V(w(i.value, l.value.FractionDigits)), 1)
     ], 64)) : l.value.type == "number" ? (d(), m(G, { key: 7 }, [
-      Ve(V(i.value), 1)
+      ze(V(i.value), 1)
     ], 64)) : l.value.type == "date" ? (d(), S(Kd, {
       key: 8,
       "model-value": i.value,
@@ -42727,7 +42727,7 @@ var ZR = function(t) {
     }
   },
   components: {
-    PVSButton: ke,
+    PVSButton: Se,
     PVSMenu: qg,
     ChevronDownIcon: Xn
   }
@@ -42954,7 +42954,7 @@ const yh = {
         return B(Ze);
       }
       return i.parentInd === null ? [] : (De = (Ke = (me = (de = $()) == null ? void 0 : de.currentNodes) == null ? void 0 : me.value) == null ? void 0 : Ke[i.parentInd]) == null ? void 0 : De.children;
-    }), E = Me(() => Ie().length);
+    }), E = Me(() => ke().length);
     Me(() => ut().length), Ht(() => {
       C.value && document.addEventListener("mouseup", ue);
     }), Bo(() => {
@@ -42974,7 +42974,7 @@ const yh = {
       return A(Ge, De, de, Ke);
     }), A = (de, me = null, Ke = null, De = null) => {
       const Ze = de.slice(-1)[0];
-      if (Ke = Ke || ze(w.value, de), me = me || Ke && Ke[Ze] || null, De == null && (De = z?.(de)), !me)
+      if (Ke = Ke || Ve(w.value, de), me = me || Ke && Ke[Ze] || null, De == null && (De = z?.(de)), !me)
         return null;
       const Ge = me.isExpanded == null ? !0 : !!me.isExpanded, Pt = me.isDraggable == null ? !0 : !!me.isDraggable, vt = me.isSelectable == null ? !0 : !!me.isSelectable;
       return {
@@ -43163,7 +43163,7 @@ const yh = {
       }
       const De = bn(w.value), Ze = [];
       for (let vt of Ke) {
-        const zt = ze(De, vt.path)[vt.ind];
+        const zt = Ve(De, vt.path)[vt.ind];
         Ze.push(zt);
       }
       let Ge = !1;
@@ -43181,7 +43181,7 @@ const yh = {
       i.allowToggleBranch && (re({ path: me.path, patch: { isExpanded: !me.isExpanded } }), Y(me, de), de.stopPropagation());
     }, $e = () => {
       h.value = !1, p.value = !1, F(null), oe();
-    }, $ = () => i.parentContext, J = () => C.value ? jn : i.rootContext, ze = (de, me) => me.length === 1 ? de : ze(de[me[0]].children, me.slice(1)), re = ({ path: de, patch: me }) => {
+    }, $ = () => i.parentContext, J = () => C.value ? jn : i.rootContext, Ve = (de, me) => me.length === 1 ? de : Ve(de[me[0]].children, me.slice(1)), re = ({ path: de, patch: me }) => {
       if (!C.value) {
         r("updateNode", { path: de, patch: me });
         return;
@@ -43191,7 +43191,7 @@ const yh = {
         if (Ze.pathStr === Ke)
           return Yg(Ge, me), !1;
       }, De), L(De);
-    }, Ie = () => {
+    }, ke = () => {
       const de = [];
       return nt((me) => {
         me.isSelected && de.push(me);
@@ -43227,7 +43227,7 @@ const yh = {
         De.toBeDeleted && Ze.splice(Ge, 1);
       }, Ke), L(Ke);
     }, Dn = (de, me, Ke) => {
-      const De = bn(de), Ze = De.node, Ge = ze(Ke, Ze.path), Pt = Ge[Ze.ind];
+      const De = bn(de), Ze = De.node, Ge = Ve(Ke, Ze.path), Pt = Ge[Ze.ind];
       if (De.placement === "inside")
         Pt.children = Pt.children || [], Pt.children.unshift(...me);
       else {
@@ -43260,7 +43260,7 @@ const yh = {
       getLastNode: Ce,
       getNextNode: we,
       getPrevNode: Q,
-      getSelected: Ie,
+      getSelected: ke,
       insert: Ln,
       remove: Mn,
       rootCursorPosition: l,
@@ -43322,7 +43322,7 @@ const yh = {
                   ])
                 ], 8, u8)),
                 H(de.$slots, "title", { node: De }, () => [
-                  Ve(V(De.title), 1)
+                  ze(V(De.title), 1)
                 ]),
                 !De.isLeaf && De.children.length == 0 && De.isExpanded ? H(de.$slots, "empty-node", {
                   key: 1,
@@ -43350,7 +43350,7 @@ const yh = {
             }, {
               title: D(({ node: Ge }) => [
                 H(de.$slots, "title", { node: Ge }, () => [
-                  Ve(V(Ge.title), 1)
+                  ze(V(Ge.title), 1)
                 ])
               ]),
               toggle: D(({ node: Ge }) => [
@@ -43386,7 +43386,7 @@ const yh = {
             class: "sl-vue-tree-next-drag-info"
           }, [
             H(de.$slots, "draginfo", {}, () => [
-              Ve(" Items: " + V(E.value), 1)
+              ze(" Items: " + V(E.value), 1)
             ])
           ], 512)), [
             [pi, h.value]
@@ -43730,7 +43730,7 @@ function T8(e, t, n, i, r, o) {
               value: g
             }, {
               default: D(() => [
-                Ve(V(f.label), 1)
+                ze(V(f.label), 1)
               ]),
               _: 2
             }, 1032, ["value"]))), 128)),
@@ -43739,7 +43739,7 @@ function T8(e, t, n, i, r, o) {
               value: "additional"
             }, {
               default: D(() => [
-                Ve("Дополнительно")
+                ze("Дополнительно")
               ]),
               _: 1
             })) : I("", !0)
@@ -43761,7 +43761,7 @@ function T8(e, t, n, i, r, o) {
                       for: w.field,
                       class: "font-semibold w-24 pt-2"
                     }, [
-                      Ve(V(w.label) + " ", 1),
+                      ze(V(w.label) + " ", 1),
                       o.isFieldRequired(w) ? (d(), m("span", g8, "*")) : I("", !0)
                     ], 8, m8),
                     v("div", {
@@ -43803,7 +43803,7 @@ function T8(e, t, n, i, r, o) {
                       for: f.field,
                       class: "font-semibold w-24 pt-2"
                     }, [
-                      Ve(V(f.label) + " ", 1),
+                      ze(V(f.label) + " ", 1),
                       o.isFieldRequired(f) ? (d(), m("span", C8, "*")) : I("", !0)
                     ], 8, w8),
                     v("div", {
@@ -43846,7 +43846,7 @@ function T8(e, t, n, i, r, o) {
           for: f.field,
           class: "font-semibold w-24 pt-2"
         }, [
-          Ve(V(f.label) + " ", 1),
+          ze(V(f.label) + " ", 1),
           o.isFieldRequired(f) ? (d(), m("span", O8, "*")) : I("", !0)
         ], 8, x8),
         v("div", {
@@ -44155,7 +44155,7 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
               onKeydown: ct(we, ["enter"]),
               placeholder: "Поиск..."
             }, null, 8, ["modelValue"]),
-            M(y(ke), {
+            M(y(Se), {
               icon: "pi pi-refresh",
               class: "p-button-text",
               onClick: x
@@ -44213,13 +44213,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: pe[7] || (pe[7] = (O) => Y.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44243,13 +44243,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: pe[9] || (pe[9] = (O) => W.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44780,7 +44780,7 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
     } }), (O, j) => (d(), m(G, null, [
       r.value ? (d(), m("span", $8, "Загрузка")) : (d(), m("div", V8, [
         v("div", z8, [
-          M(y(ke), {
+          M(y(Se), {
             icon: "pi pi-refresh",
             class: "p-button-text",
             onClick: j[0] || (j[0] = (oe) => C("/"))
@@ -44830,13 +44830,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[4] || (j[4] = (oe) => B.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44866,13 +44866,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[7] || (j[7] = (oe) => A.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Создать",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44902,13 +44902,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[10] || (j[10] = (oe) => z.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Создать",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -44938,13 +44938,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[12] || (j[12] = (oe) => L.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text p-button-danger",
@@ -44967,13 +44967,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: j[14] || (j[14] = (oe) => _.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Загрузить",
             icon: "pi pi-upload",
             class: "p-button-text",
@@ -45103,13 +45103,13 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
           v("div", pT, [
             v("h2", hT, V(c.value), 1),
             v("div", mT, [
-              M(y(ke), {
+              M(y(Se), {
                 icon: "pi pi-download",
                 class: "p-button-text",
                 onClick: g,
                 tooltip: "Скачать файл"
               }),
-              M(y(ke), {
+              M(y(Se), {
                 icon: "pi pi-copy",
                 class: "p-button-text",
                 onClick: w,
@@ -45126,7 +45126,7 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
           v("div", wT, [
             v("div", CT, [
               v("div", null, [
-                M(y(ke), {
+                M(y(Se), {
                   icon: "pi pi-save",
                   label: "Сохранить",
                   class: "p-button-sm mr-2",
@@ -45221,7 +45221,7 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
           mywatch: f.value,
           form: s.value
         }, null, 8, ["modelValue", "columns", "mywatch", "form"]),
-        M(y(ke), {
+        M(y(Se), {
           label: "Сохранить",
           icon: "pi pi-check",
           class: "p-button-text",
@@ -45390,7 +45390,7 @@ const Zo = /* @__PURE__ */ Ot(f8, [["render", T8]]), E8 = { key: 0 }, M8 = {
   key: 0,
   class: "upload-zone-content"
 }, DT = /* @__PURE__ */ dr(() => /* @__PURE__ */ v("span", { class: "upload-icon" }, "☁⬆", -1)), LT = /* @__PURE__ */ dr(() => /* @__PURE__ */ v("p", { class: "upload-text" }, [
-  /* @__PURE__ */ Ve(" Перетащите файлы сюда или "),
+  /* @__PURE__ */ ze(" Перетащите файлы сюда или "),
   /* @__PURE__ */ v("span", { class: "upload-link" }, "нажмите для выбора")
 ], -1)), FT = { class: "upload-hint" }, BT = { class: "upload-hint" }, AT = {
   key: 1,
@@ -45530,7 +45530,7 @@ function d7(e, t, n, i, r, o) {
           disabled: r.selectedFiles.length === 0 || r.isUploading
         }, [
           r.isUploading ? (d(), m("span", u7, "⟳")) : (d(), m("span", c7, "⬆")),
-          Ve(" " + V(r.isUploading ? "Загрузка..." : "Загрузить файлы"), 1)
+          ze(" " + V(r.isUploading ? "Загрузка..." : "Загрузить файлы"), 1)
         ], 8, s7)
       ])
     ])
@@ -45741,23 +45741,23 @@ function bE(e, t, n, i, r, o) {
           v("div", k7, [
             v("div", S7, [
               I7,
-              Ve(" " + V(n.file.format_size), 1)
+              ze(" " + V(n.file.format_size), 1)
             ]),
             v("div", x7, [
               O7,
-              Ve(" " + V(n.file.type.toUpperCase()), 1)
+              ze(" " + V(n.file.type.toUpperCase()), 1)
             ]),
             v("div", P7, [
               R7,
-              Ve(" " + V(n.file.format_createdon), 1)
+              ze(" " + V(n.file.format_createdon), 1)
             ]),
             n.file.resource_pagetitle ? (d(), m("div", T7, [
               E7,
-              Ve(" " + V(n.file.resource_pagetitle), 1)
+              ze(" " + V(n.file.resource_pagetitle), 1)
             ])) : I("", !0),
             n.file.user_username ? (d(), m("div", M7, [
               D7,
-              Ve(" " + V(n.file.user_username), 1)
+              ze(" " + V(n.file.user_username), 1)
             ])) : I("", !0)
           ])
         ]),
@@ -45876,7 +45876,7 @@ function bE(e, t, n, i, r, o) {
                 disabled: r.isGeneratingThumbnails
               }, [
                 r.isGeneratingThumbnails ? (d(), m("span", cE, "⟳")) : (d(), m("span", dE, "🖼")),
-                Ve(" " + V(r.isGeneratingThumbnails ? "Генерация..." : "Создать миниатюры"), 1)
+                ze(" " + V(r.isGeneratingThumbnails ? "Генерация..." : "Создать миниатюры"), 1)
               ], 8, uE)
             ])
           ])) : I("", !0)
@@ -45896,7 +45896,7 @@ function bE(e, t, n, i, r, o) {
           disabled: r.isSaving || !o.isFormValid
         }, [
           r.isSaving ? (d(), m("span", mE, "⟳")) : (d(), m("span", gE, "💾")),
-          Ve(" " + V(r.isSaving ? "Сохранение..." : "Сохранить"), 1)
+          ze(" " + V(r.isSaving ? "Сохранение..." : "Сохранить"), 1)
         ], 8, hE)
       ])
     ])
@@ -46116,7 +46116,7 @@ function D9(e, t, n, i, r, o) {
             }, null, 8, GE),
             v("p", WE, [
               qE,
-              Ve(" Если PDF не отображается, "),
+              ze(" Если PDF не отображается, "),
               v("a", {
                 href: n.file.full_url,
                 target: "_blank"
@@ -46138,7 +46138,7 @@ function D9(e, t, n, i, r, o) {
               class: "btn btn-primary btn-lg"
             }, [
               c9,
-              Ve(" Скачать файл ")
+              ze(" Скачать файл ")
             ])
           ]))
         ]),
@@ -46186,7 +46186,7 @@ function D9(e, t, n, i, r, o) {
           class: "btn btn-primary"
         }, [
           M9,
-          Ve(" Скачать ")
+          ze(" Скачать ")
         ]),
         v("button", {
           onClick: t[9] || (t[9] = (...a) => o.closeDialog && o.closeDialog(...a)),
@@ -46554,14 +46554,14 @@ function sD(e, t, n, i, r, o) {
           class: "btn btn-primary"
         }, [
           V9,
-          Ve(" Загрузить файлы ")
+          ze(" Загрузить файлы ")
         ])) : I("", !0),
         v("button", {
           onClick: t[1] || (t[1] = (...u) => o.refreshFiles && o.refreshFiles(...u)),
           class: "btn btn-secondary"
         }, [
           z9,
-          Ve(" Обновить ")
+          ze(" Обновить ")
         ])
       ])
     ]),
@@ -46675,28 +46675,28 @@ function sD(e, t, n, i, r, o) {
                 onClick: t[12] || (t[12] = (u) => o.sortBy("name")),
                 class: "sortable"
               }, [
-                Ve(" Имя "),
+                ze(" Имя "),
                 r.sortField === "name" ? (d(), m("span", TM, V(r.sortDirection === "asc" ? "▲" : "▼"), 1)) : I("", !0)
               ]),
               v("th", {
                 onClick: t[13] || (t[13] = (u) => o.sortBy("type")),
                 class: "sortable"
               }, [
-                Ve(" Тип "),
+                ze(" Тип "),
                 r.sortField === "type" ? (d(), m("span", EM, V(r.sortDirection === "asc" ? "▲" : "▼"), 1)) : I("", !0)
               ]),
               v("th", {
                 onClick: t[14] || (t[14] = (u) => o.sortBy("size")),
                 class: "sortable"
               }, [
-                Ve(" Размер "),
+                ze(" Размер "),
                 r.sortField === "size" ? (d(), m("span", MM, V(r.sortDirection === "asc" ? "▲" : "▼"), 1)) : I("", !0)
               ]),
               v("th", {
                 onClick: t[15] || (t[15] = (u) => o.sortBy("createdon")),
                 class: "sortable"
               }, [
-                Ve(" Дата "),
+                ze(" Дата "),
                 r.sortField === "createdon" ? (d(), m("span", DM, V(r.sortDirection === "asc" ? "▲" : "▼"), 1)) : I("", !0)
               ]),
               n.allowActions ? (d(), m("th", LM, "Действия")) : I("", !0)
@@ -46933,7 +46933,7 @@ const eb = /* @__PURE__ */ Ot(L9, [["render", sD], ["__scopeId", "data-v-b8be86b
                 value: E.key
               }, {
                 default: D(() => [
-                  Ve(V(E.title), 1)
+                  ze(V(E.title), 1)
                 ]),
                 _: 2
               }, 1032, ["value"]))), 256))
@@ -47223,22 +47223,22 @@ const eb = /* @__PURE__ */ Ot(L9, [["render", sD], ["__scopeId", "data-v-b8be86b
       v("div", hD, [
         v("span", mD, [
           gD,
-          Ve(" Выделено: "),
+          ze(" Выделено: "),
           v("strong", null, V(o.value), 1),
-          Ve(" " + V(a.value), 1)
+          ze(" " + V(a.value), 1)
         ]),
         s.value !== null ? (d(), m("span", bD, [
           vD,
-          Ve(" Среднее: "),
+          ze(" Среднее: "),
           v("strong", null, V(u(s.value)), 1)
         ])) : I("", !0),
         l.value !== null ? (d(), m("span", yD, [
           wD,
-          Ve(" Сумма: "),
+          ze(" Сумма: "),
           v("strong", null, V(u(l.value)), 1)
         ])) : I("", !0)
       ]),
-      M(y(ke), {
+      M(y(Se), {
         icon: "pi pi-copy",
         label: "Копировать",
         size: "small",
@@ -49998,14 +49998,20 @@ function hb(e, t, n, i, r, o, a, l, s, u, c, p, h, f = {}, g = null, w = null, C
           for (const re in O)
             re !== "id" && re !== "_rowKey" && O[re] !== null && O[re] !== void 0 && O[re] !== "" && (J[re] = O[re]);
           J[j] = oe, J.filters = t?.();
-          const ze = await e.action("insert", J);
-          if (r("get-response", { table: o.table, action: "insert", response: ze }), !ze.success) {
-            n("error", { detail: ze.message }, !0), $(null);
+          const Ve = await e.action("insert", J);
+          if (r("get-response", { table: o.table, action: "insert", response: Ve }), !Ve.success) {
+            n("error", { detail: Ve.message }, !0), $(null);
             return;
           }
-          if (ze.data?.object?.id) {
-            const re = ze.data.object;
-            $(re.id), P(O.id, re, w?.value ?? {}), F(), a.value = [...a.value], ze.data?.refresh_table == 1 && (F(3), i(!1));
+          if (Ve.data?.object?.id) {
+            const re = Ve.data.object;
+            if ($(re.id), P(O.id, re, w?.value ?? {}), F(), a.value = [...a.value], Ve.data?.customFields)
+              for (const ke in Ve.data.customFields)
+                s.value[ke] = Ve.data.customFields[ke];
+            if (Ve.data?.row_setting)
+              for (const ke in Ve.data.row_setting)
+                u.value[ke] = Ve.data.row_setting[ke];
+            Ve.data?.refresh_table == 1 && (F(3), i(!1));
           } else
             $(null), i(!1);
         } catch (J) {
@@ -50029,6 +50035,9 @@ function hb(e, t, n, i, r, o, a, l, s, u, c, p, h, f = {}, g = null, w = null, C
             C?.value && document.querySelector(".tan-edit-div, .tan-edit-checkbox")?.focus();
           });
         }
+        if ($e.data?.customFields)
+          for (const J in $e.data.customFields)
+            s.value[J] = $e.data.customFields[J];
         if ($e.data?.row_setting)
           for (const J in $e.data.row_setting)
             u.value[J] = $e.data.row_setting[J];
@@ -50706,7 +50715,7 @@ const $L = {
     const n = wd, i = t;
     return (r, o) => (d(), S(y(Kl), { class: "p-mb-4" }, {
       start: D(() => [
-        (d(!0), m(G, null, Be(e.headActions, (a) => (d(), S(y(ke), {
+        (d(!0), m(G, null, Be(e.headActions, (a) => (d(), S(y(Se), {
           key: a.action,
           icon: a.icon,
           label: a.label,
@@ -50736,7 +50745,7 @@ const $L = {
         ], 64))), 128))
       ]),
       end: D(() => [
-        Je(M(y(ke), {
+        Je(M(y(Se), {
           icon: "pi pi-check-square",
           class: ee(e.cellSelectionMode ? "p-button-info" : "p-button-secondary"),
           onClick: o[0] || (o[0] = (a) => i("toggle-cell-selection"))
@@ -50748,7 +50757,7 @@ const $L = {
             { bottom: !0 }
           ]
         ]),
-        Je(M(y(ke), {
+        Je(M(y(Se), {
           icon: "pi pi-refresh",
           class: "p-button-success",
           onClick: o[1] || (o[1] = (a) => i("refresh"))
@@ -50760,7 +50769,7 @@ const $L = {
             { bottom: !0 }
           ]
         ]),
-        Je(M(y(ke), {
+        Je(M(y(Se), {
           icon: "pi pi-filter-slash",
           onClick: o[2] || (o[2] = (a) => i("clear"))
         }, null, 512), [
@@ -50771,7 +50780,7 @@ const $L = {
             { bottom: !0 }
           ]
         ]),
-        Je(M(y(ke), {
+        Je(M(y(Se), {
           icon: "pi pi-cog",
           onClick: o[3] || (o[3] = (a) => i("settings", a))
         }, null, 512), [
@@ -50782,7 +50791,7 @@ const $L = {
             { bottom: !0 }
           ]
         ]),
-        e.showMobileSwitch ? Je((d(), S(y(ke), {
+        e.showMobileSwitch ? Je((d(), S(y(Se), {
           key: 0,
           icon: "pi pi-mobile",
           onClick: o[4] || (o[4] = (a) => i("switch-mobile"))
@@ -50794,7 +50803,7 @@ const $L = {
             { bottom: !0 }
           ]
         ]) : I("", !0),
-        Je(M(y(ke), {
+        Je(M(y(Se), {
           icon: "pi pi-th-large",
           class: "p-button-info",
           onClick: o[5] || (o[5] = (a) => i("switch-engine"))
@@ -51039,7 +51048,7 @@ const $L = {
         v("div", uF, [
           e.inline ? I("", !0) : (d(), m("div", cF, [
             dF,
-            Ve(" " + V(e.columnLabel || e.openFilterColId), 1)
+            ze(" " + V(e.columnLabel || e.openFilterColId), 1)
           ])),
           v("div", fF, [
             e.inline ? I("", !0) : (d(), m("div", pF, "Фильтр")),
@@ -51098,7 +51107,7 @@ const $L = {
                       onMousedown: wt((_) => P(z), ["prevent"])
                     }, [
                       e.colMeta && !e.colMeta.hide_id ? (d(), m("span", RF, V(e.colMeta.show_id && z[e.colMeta.show_id] > 0 ? z[e.colMeta.show_id] : z.id), 1)) : I("", !0),
-                      Ve(" " + V(z.content), 1)
+                      ze(" " + V(z.content), 1)
                     ], 42, PF))), 128)),
                     u.value.length === 0 ? (d(), m("div", TF, "Не найдено")) : I("", !0)
                   ])) : I("", !0)
@@ -51128,7 +51137,7 @@ const $L = {
               onClick: F[3] || (F[3] = (B) => i("add-constraint"))
             }, [
               FF,
-              Ve(" Добавить правило ")
+              ze(" Добавить правило ")
             ]),
             v("div", BF, [
               v("button", {
@@ -51136,14 +51145,14 @@ const $L = {
                 onClick: F[4] || (F[4] = (B) => i("clear-all"))
               }, [
                 AF,
-                Ve(" Сбросить ")
+                ze(" Сбросить ")
               ]),
               v("button", {
                 class: "tan-filter-action-btn tan-filter-action-apply",
                 onClick: F[5] || (F[5] = (B) => i("apply-server"))
               }, [
                 $F,
-                Ve(" Применить ")
+                ze(" Применить ")
               ])
             ])
           ]),
@@ -51181,7 +51190,7 @@ const $L = {
     class: "pi pi-arrows-v",
     style: { "margin-right": "4px" }
   }),
-  /* @__PURE__ */ Ve(" Высота таблицы ")
+  /* @__PURE__ */ ze(" Высота таблицы ")
 ], -1), WF = { style: { display: "flex", "align-items": "center", gap: "0.6rem", "margin-bottom": "0.6rem" } }, qF = /* @__PURE__ */ v("label", {
   for: "tan-autofit-height-toggle",
   style: { cursor: "pointer", "font-size": "13px", flex: "1" }
@@ -51190,7 +51199,7 @@ const $L = {
     class: "pi pi-arrows-h",
     style: { "margin-right": "4px" }
   }),
-  /* @__PURE__ */ Ve(" Ширина столбцов ")
+  /* @__PURE__ */ ze(" Ширина столбцов ")
 ], -1), XF = { style: { display: "flex", "align-items": "center", gap: "0.6rem", "margin-bottom": "0.6rem" } }, QF = /* @__PURE__ */ v("label", {
   for: "tan-autofit-toggle",
   style: { cursor: "pointer", "font-size": "13px", flex: "1" }
@@ -51248,7 +51257,7 @@ const $L = {
                 inputId: "tan-autofit-toggle"
               }, null, 8, ["modelValue"]),
               QF,
-              e.autoFitCols ? I("", !0) : (d(), S(y(ke), {
+              e.autoFitCols ? I("", !0) : (d(), S(y(Se), {
                 key: 0,
                 size: "small",
                 text: "",
@@ -51258,7 +51267,7 @@ const $L = {
               }))
             ]),
             v("div", eB, [
-              M(y(ke), {
+              M(y(Se), {
                 size: "small",
                 outlined: "",
                 icon: "pi pi-save",
@@ -51266,7 +51275,7 @@ const $L = {
                 style: { "justify-content": "flex-start" },
                 onClick: l[4] || (l[4] = (s) => i("save-local"))
               }),
-              M(y(ke), {
+              M(y(Se), {
                 size: "small",
                 outlined: "",
                 icon: "pi pi-cloud-upload",
@@ -51274,7 +51283,7 @@ const $L = {
                 style: { "justify-content": "flex-start" },
                 onClick: l[5] || (l[5] = (s) => i("save-server"))
               }),
-              M(y(ke), {
+              M(y(Se), {
                 size: "small",
                 outlined: "",
                 severity: "warn",
@@ -51283,7 +51292,7 @@ const $L = {
                 style: { "justify-content": "flex-start" },
                 onClick: l[6] || (l[6] = (s) => i("reset-local"))
               }),
-              M(y(ke), {
+              M(y(Se), {
                 size: "small",
                 outlined: "",
                 severity: "danger",
@@ -51566,9 +51575,9 @@ const $L = {
                 }, [
                   e.col.type === "autocomplete" && !e.col.hide_id ? (d(), m(G, { key: 0 }, [
                     v("span", aB, V(e.col.show_id && le[e.col.show_id] > 0 ? le[e.col.show_id] : le.id), 1),
-                    Ve(" " + V(le.content), 1)
+                    ze(" " + V(le.content), 1)
                   ], 64)) : (d(), m(G, { key: 1 }, [
-                    Ve(V(le.content), 1)
+                    ze(V(le.content), 1)
                   ], 64))
                 ], 10, rB))), 128)),
                 c.value.length === 0 ? (d(), m("div", lB, "Не найдено")) : I("", !0)
@@ -51688,7 +51697,7 @@ const $L = {
         for (let Te in pn.value)
           pn.value[Te].refresh?.(!0, X);
     }, oe = T([]);
-    let ue, xe, Pe, $e, $, J, ze, re, Ie, Ye, ut, nt, jt, Mn, Dn;
+    let ue, xe, Pe, $e, $, J, Ve, re, ke, Ye, ut, nt, jt, Mn, Dn;
     const Ln = T([]), Yt = T({}), bn = T(!1), jn = T(!1);
     T([]);
     const de = T(!1), me = T({}), Ke = T(null), De = T(null), Ze = T(null), Ge = T([]), Pt = Me(() => Ln.value.filter((U) => U.head)), vt = Me(() => Ln.value.filter((U) => U.row && U.menu !== 1));
@@ -51933,7 +51942,7 @@ const $L = {
       ...la.value ? [Uo] : [],
       ...vo.value,
       ...bn.value ? [Wi.value] : []
-    ]), kn = T({}), Qn = T([]), Sn = T([]), Se = T({});
+    ]), kn = T({}), Qn = T([]), Sn = T([]), Ie = T({});
     it(kn, () => {
       oe.value = Le.getSelectedRowModel().rows.map((U) => U.original);
     }, { deep: !0 });
@@ -51955,7 +51964,7 @@ const $L = {
           return Sn.value;
         },
         get expanded() {
-          return Se.value;
+          return Ie.value;
         },
         get columnSizing() {
           return Ho.value;
@@ -51973,7 +51982,7 @@ const $L = {
         Sn.value = typeof U == "function" ? U(Sn.value) : U;
       },
       onExpandedChange: (U) => {
-        Se.value = typeof U == "function" ? U(Se.value) : U;
+        Ie.value = typeof U == "function" ? U(Ie.value) : U;
       },
       onColumnSizingChange: (U) => {
         Ho.value = typeof U == "function" ? U(Ho.value) : U;
@@ -52266,23 +52275,23 @@ const $L = {
           x,
           Bn
         );
-        ue = Ut.lineItem, xe = Ut.lineItemDialog, Pe = Ut.deleteLineItemDialog, $e = Ut.deleteLineItemsDialog, jt = Ut.mywatch, $ = Ut.openNew, J = Ut.editLineItem, ze = Ut.hideDialog, re = Ut.saveLineItem, Ie = Ut.confirmDeleteLineItem, Ye = Ut.deleteLineItem, ut = Ut.confirmDeleteSelected, nt = Ut.deleteSelectedLineItems, Mn = Ut.saveCellUpdate, Dn = Ut.consumeSkip;
+        ue = Ut.lineItem, xe = Ut.lineItemDialog, Pe = Ut.deleteLineItemDialog, $e = Ut.deleteLineItemsDialog, jt = Ut.mywatch, $ = Ut.openNew, J = Ut.editLineItem, Ve = Ut.hideDialog, re = Ut.saveLineItem, ke = Ut.confirmDeleteLineItem, Ye = Ut.deleteLineItem, ut = Ut.confirmDeleteSelected, nt = Ut.deleteSelectedLineItems, Mn = Ut.saveCellUpdate, Dn = Ut.consumeSkip;
         const Gn = Sd(u, () => ve, c, i.table);
         Cn = Gn.subs, ro = Gn.subfilters, _o = Gn.parent_row, hi = Gn.expandedTableTreeRows;
         const Zi = Gn.toogleExpandRow;
         Un = async (at) => {
-          await Zi(at), Se.value = { ...Gn.expandedRows.value };
+          await Zi(at), Ie.value = { ...Gn.expandedRows.value };
         };
         const ha = Gn.setExpandedRow;
         No = async (at, ma) => {
-          await ha(at, ma), Se.value = { ...Gn.expandedRows.value };
+          await ha(at, ma), Ie.value = { ...Gn.expandedRows.value };
         };
         const Oi = zt.processActions(
           Te.data.actions,
           i.actions,
           {
             editLineItem: J,
-            confirmDeleteLineItem: Ie,
+            confirmDeleteLineItem: ke,
             confirmDeleteSelected: ut,
             openNew: $,
             setExpandedRow: No,
@@ -52561,17 +52570,17 @@ const $L = {
             v("div", EB, [
               v("span", MB, [
                 DB,
-                Ve(" Выделено: "),
+                ze(" Выделено: "),
                 v("strong", null, V(y(Zl)), 1)
               ]),
               y(kr) !== null ? (d(), m("span", LB, [
                 FB,
-                Ve(" Среднее: "),
+                ze(" Среднее: "),
                 v("strong", null, V(Gi(y(kr))), 1)
               ])) : I("", !0),
               y(Si) !== null ? (d(), m("span", BB, [
                 AB,
-                Ve(" Сумма: "),
+                ze(" Сумма: "),
                 v("strong", null, V(Gi(y(Si))), 1)
               ])) : I("", !0)
             ]),
@@ -52583,7 +52592,7 @@ const $L = {
                 title: "Копировать (Ctrl+C)"
               }, [
                 zB,
-                Ve(" Копировать ")
+                ze(" Копировать ")
               ], 8, VB),
               v("button", {
                 class: "tan-status-btn tan-status-btn--close",
@@ -52600,13 +52609,13 @@ const $L = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
-                onClick: y(ze)
+                onClick: y(Ve)
               }, null, 8, ["onClick"]),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -52635,13 +52644,13 @@ const $L = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: X[17] || (X[17] = (ie) => sn(Pe) ? Pe.value = !1 : Pe = !1)
               }),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -52664,13 +52673,13 @@ const $L = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: X[19] || (X[19] = (ie) => sn($e) ? $e.value = !1 : $e = !1)
               }),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -52690,13 +52699,13 @@ const $L = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: y(en)
               }, null, 8, ["onClick"]),
-              M(y(ke), {
+              M(y(Se), {
                 label: Ke.value?.modal_form?.buttons?.submit?.label || "Выполнить",
                 icon: Ke.value?.modal_form?.buttons?.submit?.icon || "pi pi-check",
                 class: "p-button-text",
@@ -53359,7 +53368,7 @@ function sA(e, t, n, i, r, o) {
             }, e.ptm("submenuLabel")), [H(e.$slots, e.$slots.submenulabel ? "submenulabel" : "submenuheader", {
               item: s
             }, function() {
-              return [Ve(V(o.label(s)), 1)];
+              return [ze(V(o.label(s)), 1)];
             })], 16, lA)) : I("", !0), (d(!0), m(G, null, Be(s.items, function(c, p) {
               return d(), m(G, {
                 key: c.label + u + "_" + p
@@ -53744,7 +53753,7 @@ var uA = function(t) {
     focustrap: zl
   },
   components: {
-    Button: ke,
+    Button: Se,
     Portal: io,
     TimesIcon: Vo
   }
@@ -54688,7 +54697,7 @@ const zA = { class: "tan-mc-header" }, KA = {
             v("i", {
               class: ee(r.value ? "pi pi-angle-up" : "pi pi-angle-down")
             }, null, 2),
-            Ve(" " + V(r.value ? "Скрыть" : "Подробнее"), 1)
+            ze(" " + V(r.value ? "Скрыть" : "Подробнее"), 1)
           ]),
           r.value ? (d(), m("div", GA, [
             (d(!0), m(G, null, Be(C.value, (x) => (d(), m("div", {
@@ -58191,11 +58200,11 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
   emits: ["get-response", "refresh-table", "switch-to-desktop"],
   setup(e, { expose: t, emit: n }) {
     const i = e, r = n, o = Xt(i.table), { notify: a } = rn(), l = T([]), s = T({}), u = T(null), c = T({}), p = T({}), h = T(null), f = T([]), g = Sd(h, () => $, T([]), i.table), w = g.expandedRows, C = g.subs, P = g.subfilters, k = g.childComponentRefs, x = Me(() => !!h.value);
-    function R(Se) {
-      Se._rowKey || (Se._rowKey = String(Se.id)), x.value && g.toogleExpandRow(Se);
+    function R(Ie) {
+      Ie._rowKey || (Ie._rowKey = String(Ie.id)), x.value && g.toogleExpandRow(Ie);
     }
-    function E(Se, Le) {
-      Se._rowKey || (Se._rowKey = String(Se.id)), g.setExpandedRow(Se, Le);
+    function E(Ie, Le) {
+      Ie._rowKey || (Ie._rowKey = String(Ie.id)), g.setExpandedRow(Ie, Le);
     }
     const F = T(null), B = T(!1), A = T(!1), z = T(!1), L = T({ enabled: !1, fields: [], filters: {}, table: "", action: "" }), _ = T(null), te = T(null), ye = T(null), {
       loading: Y,
@@ -58215,47 +58224,47 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
       isEditableEmptyRow: we,
       emptyRowsState: Q
     } = Cd(0);
-    it(le, (Se) => {
-      for (const Le in Se) s.value[Le] = Se[Le];
+    it(le, (Ie) => {
+      for (const Le in Ie) s.value[Le] = Ie[Le];
     }, { deep: !0 });
     const pe = Me(() => {
-      const Se = {};
+      const Ie = {};
       for (const Le in K.value) {
         const ae = K.value[Le]?.rows;
         if (ae) {
           const Ue = /* @__PURE__ */ new Map();
-          ae.forEach((Rt) => Ue.set(String(Rt.id), Rt.content)), Se[Le] = Ue;
+          ae.forEach((Rt) => Ue.set(String(Rt.id), Rt.content)), Ie[Le] = Ue;
         }
       }
-      return Se;
+      return Ie;
     }), O = Me(() => {
-      const Se = {};
+      const Ie = {};
       for (const Le in K.value) {
         const ae = K.value[Le]?.rows;
         if (ae) {
           const Ue = /* @__PURE__ */ new Map();
-          ae.forEach((Rt) => Ue.set(String(Rt.id), Rt)), Se[Le] = Ue;
+          ae.forEach((Rt) => Ue.set(String(Rt.id), Rt)), Ie[Le] = Ue;
         }
       }
-      return Se;
+      return Ie;
     }), j = Me(() => {
-      const Se = {};
+      const Ie = {};
       for (const Le in s.value) {
         const ae = s.value[Le]?.rows;
         if (ae) {
           const Ue = /* @__PURE__ */ new Map();
-          ae.forEach((Rt) => Ue.set(String(Rt.id), Rt.content ?? Rt.label ?? "")), Se[Le] = Ue;
+          ae.forEach((Rt) => Ue.set(String(Rt.id), Rt.content ?? Rt.label ?? "")), Ie[Le] = Ue;
         }
       }
-      return Se;
+      return Ie;
     }), { cardRoles: oe, tplComponent: ue, articleComponent: xe } = lz(u, l);
-    let Pe, $e, $, J, ze;
+    let Pe, $e, $, J, Ve;
     it(() => i.filters, () => {
       Pe && (J?.(), Z.value = 0, q.value && (q.value.first = 0), Pe());
     }, { deep: !0 });
     const {
       colServerFilters: re,
-      colChecklistState: Ie,
+      colChecklistState: ke,
       MATCH_MODES: Ye,
       MATCH_MODE_LABELS: ut,
       OPERATOR_LABELS: nt,
@@ -58279,91 +58288,91 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
       selectSettingsGetter: () => s.value,
       autocompleteSettingsGetter: () => K.value,
       acFullMapsGetter: () => O.value,
-      getACContentFn: (Se, Le) => pe.value[Se]?.get(String(Le)) ?? "",
-      getSelectContentFn: (Se, Le) => j.value[Se]?.get(String(Le)) ?? "",
-      formatDateFn: (Se) => Se ? Se.split("-").reverse().join(".") : "",
+      getACContentFn: (Ie, Le) => pe.value[Ie]?.get(String(Le)) ?? "",
+      getSelectContentFn: (Ie, Le) => j.value[Ie]?.get(String(Le)) ?? "",
+      formatDateFn: (Ie) => Ie ? Ie.split("-").reverse().join(".") : "",
       onChecklistChange: me
     });
-    function me(Se, Le, ae) {
-      Le.size === 0 || Le.size === ae.length ? delete re.value[Se] : re.value[Se] = {
+    function me(Ie, Le, ae) {
+      Le.size === 0 || Le.size === ae.length ? delete re.value[Ie] : re.value[Ie] = {
         operator: "or",
         constraints: [{ value: Array.from(Le), matchMode: "in" }]
-      }, jt(Se);
+      }, jt(Ie);
     }
-    function Ke(Se, Le) {
-      re.value[Se] && (re.value[Se].operator = Le);
+    function Ke(Ie, Le) {
+      re.value[Ie] && (re.value[Ie].operator = Le);
     }
-    function De(Se, Le, ae) {
-      const Ue = re.value[Se];
+    function De(Ie, Le, ae) {
+      const Ue = re.value[Ie];
       Ue && (Ue.constraints[Le] = { ...Ue.constraints[Le], value: ae });
     }
-    function Ze(Se, Le, ae) {
-      const Ue = re.value[Se];
+    function Ze(Ie, Le, ae) {
+      const Ue = re.value[Ie];
       Ue && (Ue.constraints[Le] = { ...Ue.constraints[Le], matchMode: ae });
     }
     const Ge = Me(
-      () => l.value.filter((Se) => Se.type !== "hidden" && Se.type !== "html")
+      () => l.value.filter((Ie) => Ie.type !== "hidden" && Ie.type !== "html")
     ), Pt = Me(
-      () => Ge.value.filter((Se) => jn(Se.field)).length
+      () => Ge.value.filter((Ie) => jn(Ie.field)).length
     );
     function vt() {
-      for (const Se of Ge.value) de(Se.field, Se.type);
+      for (const Ie of Ge.value) de(Ie.field, Ie.type);
       ki.value = !0;
     }
     function zt() {
-      for (const Se of Ge.value) Mn(Se.field);
+      for (const Ie of Ge.value) Mn(Ie.field);
       ki.value = !1;
     }
     const en = T([]), ln = T({}), pn = T(!1), Cn = T([]);
     let ro, _o, No;
-    const Un = T(!1), hi = T({}), mi = T(null), fr = T(null), na = T(null), ji = T([]), gi = Me(() => en.value.filter((Se) => Se.head)), Ui = Me(() => en.value.filter((Se) => Se.row && Se.menu !== 1)), pr = Me(() => gi.value.filter((Se) => Se.bulk)), Gi = T(null), hr = {
+    const Un = T(!1), hi = T({}), mi = T(null), fr = T(null), na = T(null), ji = T([]), gi = Me(() => en.value.filter((Ie) => Ie.head)), Ui = Me(() => en.value.filter((Ie) => Ie.row && Ie.menu !== 1)), pr = Me(() => gi.value.filter((Ie) => Ie.bulk)), Gi = T(null), hr = {
       "p-button-success": "tan-ml-item--success",
       "p-button-danger": "tan-ml-item--danger",
       "p-button-warn": "tan-ml-item--warn",
       "p-button-info": "tan-ml-item--info",
       "p-button-secondary": "tan-ml-item--secondary"
     }, oa = Me(
-      () => gi.value.map((Se) => {
-        const Le = Se.class?.trim() ?? "", ae = Object.entries(hr).find(([Ue]) => Le.includes(Ue))?.[1] ?? "";
+      () => gi.value.map((Ie) => {
+        const Le = Ie.class?.trim() ?? "", ae = Object.entries(hr).find(([Ue]) => Le.includes(Ue))?.[1] ?? "";
         return {
-          label: Se.label,
-          icon: Se.icon,
+          label: Ie.label,
+          icon: Ie.icon,
           itemClass: ae,
           command: (Ue) => {
-            const Rt = Se.head_click ?? Se.click;
+            const Rt = Ie.head_click ?? Ie.click;
             Rt && Rt(Ue.originalEvent, i.table, $, Cn);
           }
         };
       })
     );
-    function mr(Se, Le) {
-      Se.click && Se.click(Le, l.value, i.table, $);
+    function mr(Ie, Le) {
+      Ie.click && Ie.click(Le, l.value, i.table, $);
     }
-    function ti(Se, Le) {
-      const ae = ln.value?.[Se];
+    function ti(Ie, Le) {
+      const ae = ln.value?.[Ie];
       ae?.click && ae.click(Le, l.value, i.table, $);
     }
-    function go(Se) {
-      Cn.value = N.value.filter((Le) => Kt.value.has(Le.id)), Se.click && Se.click(null, l.value, i.table, $);
+    function go(Ie) {
+      Cn.value = N.value.filter((Le) => Kt.value.has(Le.id)), Ie.click && Ie.click(null, l.value, i.table, $);
     }
     const Kt = T(/* @__PURE__ */ new Set()), dn = Me(() => Kt.value.size > 0 && Kt.value.size === N.value.length), ao = Me(() => Kt.value.size > 0 && !dn.value);
-    function lo(Se) {
-      if (!Se) return;
+    function lo(Ie) {
+      if (!Ie) return;
       const Le = new Set(Kt.value);
-      Le.has(Se) ? Le.delete(Se) : Le.add(Se), Kt.value = Le;
+      Le.has(Ie) ? Le.delete(Ie) : Le.add(Ie), Kt.value = Le;
     }
     function bo() {
       if (dn.value) {
         Kt.value = /* @__PURE__ */ new Set();
         return;
       }
-      Kt.value = new Set(N.value.map((Se) => Se.id));
+      Kt.value = new Set(N.value.map((Ie) => Ie.id));
     }
     function bi() {
       Kt.value = /* @__PURE__ */ new Set();
     }
-    it(N, () => bi()), it(Kt, (Se) => {
-      Cn.value = N.value.filter((Le) => Se.has(Le.id));
+    it(N, () => bi()), it(Kt, (Ie) => {
+      Cn.value = N.value.filter((Le) => Ie.has(Le.id));
     }, { deep: !0 });
     let ia, vi, gr, ni, yi, Ho, oi, br;
     function ra() {
@@ -58380,8 +58389,8 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
       Z.value !== 0 && (Z.value = Math.max(0, Z.value - Fn.value), $e?.({ first: Z.value, rows: Fn.value }), Cr());
     }
     function wr() {
-      const Se = Z.value + Fn.value;
-      Se >= W.value || (Z.value = Se, $e?.({ first: Z.value, rows: Fn.value }), Cr());
+      const Ie = Z.value + Fn.value;
+      Ie >= W.value || (Z.value = Ie, $e?.({ first: Z.value, rows: Fn.value }), Cr());
     }
     function Cr() {
       i.scrollMode === "container" && te.value ? te.value.scrollTop = 0 : window.scrollTo({ top: ye.value?.offsetTop ?? 0, behavior: "smooth" });
@@ -58393,10 +58402,10 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
       getScrollElement: () => te.value,
       estimateSize: () => 140,
       overscan: 5,
-      measureElement: (Se) => Se?.getBoundingClientRect().height ?? 140
+      measureElement: (Ie) => Ie?.getBoundingClientRect().height ?? 140
     });
-    function Wi(Se) {
-      Se && Uo.value.measureElement(Se);
+    function Wi(Ie) {
+      Ie && Uo.value.measureElement(Ie);
     }
     const vo = ML({
       get count() {
@@ -58408,8 +58417,8 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         return ye.value?.offsetTop ?? 0;
       }
     });
-    function la(Se) {
-      Se && vo.value.measureElement(Se);
+    function la(Ie) {
+      Ie && vo.value.measureElement(Ie);
     }
     const ki = T(!1), kn = () => {
       Pe?.(), r("refresh-table");
@@ -58417,16 +58426,16 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
     Ht(async () => {
       Y.value = !0, q.value = { first: 0, rows: Fn.value };
       try {
-        const Se = await o.options();
-        if (!Se.data?.fields) {
+        const Ie = await o.options();
+        if (!Ie.data?.fields) {
           a("error", { detail: "Поля таблицы не получены" }), Y.value = !1;
           return;
         }
-        const Le = Se.data.fields;
-        if (Se.data.limit !== !1 && Se.data.limit && (Fn.value = Se.data.limit, q.value.rows = Se.data.limit), Se.data.selects)
-          for (const ft in Se.data.selects)
-            Se.data.selects[ft] && (s.value[ft] = Se.data.selects[ft]);
-        Se.data.mobile_card && (u.value = Se.data.mobile_card), Se.data.table_tree && (h.value = Se.data.table_tree), Se.data.data_fields && (f.value = Se.data.data_fields);
+        const Le = Ie.data.fields;
+        if (Ie.data.limit !== !1 && Ie.data.limit && (Fn.value = Ie.data.limit, q.value.rows = Ie.data.limit), Ie.data.selects)
+          for (const ft in Ie.data.selects)
+            Ie.data.selects[ft] && (s.value[ft] = Ie.data.selects[ft]);
+        Ie.data.mobile_card && (u.value = Ie.data.mobile_card), Ie.data.table_tree && (h.value = Ie.data.table_tree), Ie.data.data_fields && (f.value = Ie.data.data_fields);
         const ae = [];
         for (const ft in Le)
           Le[ft].field = ft, Le[ft].label || (Le[ft].label = ft), Le[ft].type || (Le[ft].type = ft === "id" ? "view" : "text"), Le[ft].readonly = Le[ft].readonly === !0 || Le[ft].readonly == 1, s.value[ft] || (s.value[ft] = {}), Le[ft].select_data && (s.value[ft].rows = Le[ft].select_data), ae.push(Le[ft]);
@@ -58440,10 +58449,10 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           T(null),
           q
         );
-        $ = Rt.filters, J = Rt.initFilters, ze = Rt.prepFilters, Pe = ge(o, Le, $, () => ze(), a, () => i.sorting), Ue = Pe, $e = ne(Pe), J(), ro = kd({
+        $ = Rt.filters, J = Rt.initFilters, Ve = Rt.prepFilters, Pe = ge(o, Le, $, () => Ve(), a, () => i.sorting), Ue = Pe, $e = ne(Pe), J(), ro = kd({
           api: o,
           props: i,
-          prepFilters: () => ze(),
+          prepFilters: () => Ve(),
           refresh: kn,
           notify: a,
           emit: r,
@@ -58460,7 +58469,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         }), _o = ro.hideModalForm, No = ro.submitModalForm;
         const Ct = hb(
           o,
-          () => ze(),
+          () => Ve(),
           a,
           kn,
           r,
@@ -58493,9 +58502,9 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           ft || (Ct.deleteLineItemDialog.value = !1);
         }), it(z, (ft) => {
           ft || (Ct.deleteLineItemsDialog.value = !1);
-        }), Ct.mywatch && (L.value = Ct.mywatch.value), Se.data.form && (p.value = Se.data.form);
+        }), Ct.mywatch && (L.value = Ct.mywatch.value), Ie.data.form && (p.value = Ie.data.form);
         const Po = ro.processActions(
-          Se.data.actions,
+          Ie.data.actions,
           i.actions,
           {
             editLineItem: Ct.editLineItem,
@@ -58508,20 +58517,20 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           }
         );
         en.value = Po.cur_actions, ln.value = Po.nemu_actions, pn.value = Po.SpeedDialEnabled, await Pe();
-      } catch (Se) {
-        console.error("[TanMobileList]", Se), a("error", { detail: Se.message }), Y.value = !1;
+      } catch (Ie) {
+        console.error("[TanMobileList]", Ie), a("error", { detail: Ie.message }), Y.value = !1;
       }
     });
     function Qn() {
-      const Se = N.value.length - 1;
-      Se < 0 || (i.scrollMode === "container" ? Uo.value.scrollToIndex(Se, { align: "end" }) : vo.value.scrollToIndex(Se, { align: "end" }));
+      const Ie = N.value.length - 1;
+      Ie < 0 || (i.scrollMode === "container" ? Uo.value.scrollToIndex(Ie, { align: "end" }) : vo.value.scrollToIndex(Ie, { align: "end" }));
     }
     function Sn() {
       it(N, async () => {
         await Pn(), Qn();
       }, { once: !0 }), kn();
     }
-    return t({ refresh: kn, scrollToLast: Qn, refreshAndScrollToLast: Sn }), (Se, Le) => (d(), m("div", {
+    return t({ refresh: kn, scrollToLast: Qn, refreshAndScrollToLast: Sn }), (Ie, Le) => (d(), m("div", {
       class: "tan-mobile-list",
       ref_key: "rootRef",
       ref: _
@@ -58538,7 +58547,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           class: "tan-ml-select-all",
           "onUpdate:modelValue": bo
         }, null, 8, ["modelValue", "indeterminate"])) : I("", !0),
-        gi.value.length ? (d(), S(y(ke), {
+        gi.value.length ? (d(), S(y(Se), {
           key: 1,
           icon: "pi pi-ellipsis-v",
           text: "",
@@ -58566,7 +58575,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           _: 1
         }, 8, ["model"]),
         sz,
-        M(y(ke), {
+        M(y(Se), {
           icon: "pi pi-filter",
           text: "",
           rounded: "",
@@ -58584,7 +58593,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           ]),
           _: 1
         }),
-        M(y(ke), {
+        M(y(Se), {
           icon: "pi pi-table",
           text: "",
           rounded: "",
@@ -58595,7 +58604,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
       ], 2),
       y(Y) ? (d(), m("div", cz, [
         dz,
-        Ve(" Загрузка... ")
+        ze(" Загрузка... ")
       ])) : y(N).length === 0 ? (d(), m("div", fz, " Нет данных ")) : e.scrollMode === "container" ? (d(), m("div", {
         key: 2,
         ref_key: "scrollContainerRef",
@@ -58636,7 +58645,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
               onToggleSelect: (Ue) => lo(y(N)[ae.index]?.id),
               onAction: (Ue) => mr(Ue, y(N)[ae.index]),
               onMenuAction: ({ action: Ue }) => ti(Ue, y(N)[ae.index]),
-              onEdit: (Ue) => Se.openEditDialog(y(N)[ae.index]),
+              onEdit: (Ue) => Ie.openEditDialog(y(N)[ae.index]),
               onToggleExpand: (Ue) => R(y(N)[ae.index])
             }, null, 8, ["row", "cols", "cardRoles", "tplComponent", "articleComponent", "rowActions", "menuActions", "speedDialEnabled", "table", "filters", "selectSettings", "acMaps", "acFullMaps", "selectMaps", "customFields", "selected", "expandable", "expanded", "onToggleSelect", "onAction", "onMenuAction", "onEdit", "onToggleExpand"]),
             y(w)[y(N)[ae.index]?._rowKey || String(y(N)[ae.index]?.id)] && y(C)[y(N)[ae.index]?._rowKey || String(y(N)[ae.index]?.id)] ? (d(), m("div", hz, [
@@ -58711,7 +58720,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
               onToggleSelect: (Ue) => lo(y(N)[ae.index]?.id),
               onAction: (Ue) => mr(Ue, y(N)[ae.index]),
               onMenuAction: ({ action: Ue }) => ti(Ue, y(N)[ae.index]),
-              onEdit: (Ue) => Se.openEditDialog(y(N)[ae.index]),
+              onEdit: (Ue) => Ie.openEditDialog(y(N)[ae.index]),
               onToggleExpand: (Ue) => R(y(N)[ae.index])
             }, null, 8, ["row", "cols", "cardRoles", "tplComponent", "articleComponent", "rowActions", "menuActions", "speedDialEnabled", "table", "filters", "selectSettings", "acMaps", "acFullMaps", "selectMaps", "customFields", "selected", "expandable", "expanded", "onToggleSelect", "onAction", "onMenuAction", "onEdit", "onToggleExpand"]),
             y(w)[y(N)[ae.index]?._rowKey || String(y(N)[ae.index]?.id)] && y(C)[y(N)[ae.index]?._rowKey || String(y(N)[ae.index]?.id)] ? (d(), m("div", gz, [
@@ -58744,7 +58753,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         ], 4)
       ], 512)),
       !y(Y) && y(W) > 0 ? (d(), m("div", bz, [
-        M(y(ke), {
+        M(y(Se), {
           icon: "pi pi-chevron-left",
           text: "",
           rounded: "",
@@ -58752,7 +58761,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           onClick: jo
         }, null, 8, ["disabled"]),
         v("span", vz, V(Ci.value) + " / " + V(yr.value) + " · " + V(y(W)), 1),
-        M(y(ke), {
+        M(y(Se), {
           icon: "pi pi-chevron-right",
           text: "",
           rounded: "",
@@ -58765,7 +58774,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
           ao.value || dn.value ? (d(), m("div", yz, [
             v("span", wz, "Выбрано: " + V(Kt.value.size), 1),
             v("div", Cz, [
-              (d(!0), m(G, null, Be(pr.value, (ae) => (d(), S(y(ke), {
+              (d(!0), m(G, null, Be(pr.value, (ae) => (d(), S(y(Se), {
                 key: ae.label,
                 icon: ae.icon,
                 label: ae.label,
@@ -58773,7 +58782,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
                 severity: ae.class?.includes("danger") ? "danger" : "secondary",
                 onClick: (Ue) => go(ae)
               }, null, 8, ["icon", "label", "severity", "onClick"]))), 128)),
-              M(y(ke), {
+              M(y(Se), {
                 icon: "pi pi-times",
                 text: "",
                 rounded: "",
@@ -58794,7 +58803,7 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         header: D(() => [
           v("div", kz, [
             Sz,
-            M(y(ke), {
+            M(y(Se), {
               label: "Очистить всё",
               text: "",
               size: "small",
@@ -58829,9 +58838,9 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
                         matchModes: y(Ye)[ae.type] ?? y(Ye).text,
                         matchModeLabels: y(ut),
                         operatorLabels: y(nt),
-                        selectOptions: y(Ie)[ae.field]?.all ?? [],
-                        checklistAll: y(Ie)[ae.field]?.all ?? [],
-                        checklistChecked: y(Ie)[ae.field]?.checked,
+                        selectOptions: y(ke)[ae.field]?.all ?? [],
+                        checklistAll: y(ke)[ae.field]?.all ?? [],
+                        checklistChecked: y(ke)[ae.field]?.checked,
                         onApplyServer: (Ue) => y(jt)(ae.field),
                         onClearAll: (Ue) => y(Mn)(ae.field),
                         "onUpdate:operator": (Ue) => Ke(ae.field, Ue),
@@ -58863,13 +58872,13 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         style: { width: "95vw", "max-width": "480px" }
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: ra
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -58898,13 +58907,13 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: Le[9] || (Le[9] = (ae) => A.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -58925,13 +58934,13 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         style: { width: "95vw", "max-width": "480px" }
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: y(_o)
           }, null, 8, ["onClick"]),
-          M(y(ke), {
+          M(y(Se), {
             label: mi.value?.modal_form?.buttons?.submit?.label || "Выполнить",
             icon: mi.value?.modal_form?.buttons?.submit?.icon || "pi pi-check",
             class: "p-button-text",
@@ -58957,13 +58966,13 @@ const ta = (e) => (Nn("data-v-81cdfeb9"), e = e(), Hn(), e), sz = /* @__PURE__ *
         modal: ""
       }, {
         footer: D(() => [
-          M(y(ke), {
+          M(y(Se), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: Le[13] || (Le[13] = (ae) => z.value = !1)
           }),
-          M(y(ke), {
+          M(y(Se), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-danger",
@@ -59244,9 +59253,9 @@ const Mz = {
     T([]);
     const pe = T(null), O = T(null), j = T([]), oe = T(!1), ue = Me(
       () => q.value.filter((Re) => Re.modal_only != !0 && Re.type != "hidden" && !(oe.value && Re.field == "id"))
-    ), xe = /* @__PURE__ */ new Set(["multiautocomplete", "boolean", "date", "datetime", "html", "view", "file"]), Pe = T(null), $e = T(!1), $ = `pvtables-engine-${r.table}`, J = T(localStorage.getItem($) !== "primevue"), ze = () => {
+    ), xe = /* @__PURE__ */ new Set(["multiautocomplete", "boolean", "date", "datetime", "html", "view", "file"]), Pe = T(null), $e = T(!1), $ = `pvtables-engine-${r.table}`, J = T(localStorage.getItem($) !== "primevue"), Ve = () => {
       J.value = !J.value, localStorage.setItem($, J.value ? "tanstack" : "primevue");
-    }, { useMobileView: re, setForceDesktop: Ie } = uf(), Ye = Me(() => r.autoFitHeight || r.child ? "container" : "window");
+    }, { useMobileView: re, setForceDesktop: ke } = uf(), Ye = Me(() => r.autoFitHeight || r.child ? "container" : "window");
     Ht(async () => {
       if (!J.value) {
         h.value = !0, C.value = {
@@ -59428,7 +59437,7 @@ const Mz = {
       modalFormColumns: kn
     });
     Sn.defHeadAction, Sn.defRowAction, Sn.excelExport, Sn.getDataFieldsValues, Sn.showModalForm;
-    const Se = Sn.hideModalForm, Le = Sn.submitModalForm, ae = w0(
+    const Ie = Sn.hideModalForm, Le = Sn.submitModalForm, ae = w0(
       a,
       () => me(),
       l,
@@ -59561,7 +59570,7 @@ const Mz = {
           scrollMode: Ye.value,
           onGetResponse: be[0] || (be[0] = (fe) => o("get-response", fe)),
           onRefreshTable: be[1] || (be[1] = (fe) => o("refresh-table", fe)),
-          onSwitchToDesktop: be[2] || (be[2] = (fe) => y(Ie)(!0))
+          onSwitchToDesktop: be[2] || (be[2] = (fe) => y(ke)(!0))
         }, null, 8, ["table", "actions", "filters", "sorting", "scrollHeight", "autoFitHeight", "scrollMode"])) : J.value ? (d(), S(WB, {
           key: 1,
           ref_key: "tanTableRef",
@@ -59576,7 +59585,7 @@ const Mz = {
           emptyRowsCount: e.emptyRowsCount,
           onGetResponse: be[3] || (be[3] = (fe) => o("get-response", fe)),
           onRefreshTable: be[4] || (be[4] = (fe) => o("refresh-table", fe)),
-          onSwitchEngine: ze
+          onSwitchEngine: Ve
         }, null, 8, ["table", "actions", "filters", "sorting", "scrollHeight", "autoFitHeight", "child", "emptyRowsCount"])) : (d(), m("div", Mz, [
           M(y(Vr), {
             ref_key: "op",
@@ -59647,21 +59656,21 @@ const Mz = {
                   jz
                 ]),
                 v("div", Uz, [
-                  M(y(ke), {
+                  M(y(Se), {
                     label: "Сбросить локальные стили",
                     icon: "pi pi-refresh",
                     onClick: be[11] || (be[11] = () => y(ti)(Ln)),
                     size: "small",
                     severity: "secondary"
                   }),
-                  M(y(ke), {
+                  M(y(Se), {
                     label: "Сбросить стили на сервере",
                     icon: "pi pi-server",
                     onClick: be[12] || (be[12] = () => y(go)(Ln)),
                     size: "small",
                     severity: "warning"
                   }),
-                  M(y(ke), {
+                  M(y(Se), {
                     label: "Сохранить стили на сервере",
                     icon: "pi pi-save",
                     onClick: y(mr),
@@ -59703,14 +59712,14 @@ const Mz = {
                   v("small", Xz, "Автоопределенная: " + V(y(Pt)) + "px", 1)
                 ]),
                 v("div", Qz, [
-                  M(y(ke), {
+                  M(y(Se), {
                     label: "Пересчитать",
                     icon: "pi pi-refresh",
                     onClick: y(pn),
                     size: "small",
                     disabled: !y(Ze)
                   }, null, 8, ["onClick", "disabled"]),
-                  Je(M(y(ke), {
+                  Je(M(y(Se), {
                     label: "Сбросить",
                     icon: "pi pi-undo",
                     onClick: y(ro),
@@ -59731,7 +59740,7 @@ const Mz = {
           }, 512),
           M(y(Kl), { class: "p-mb-4" }, {
             start: D(() => [
-              (d(!0), m(G, null, Be(he.value, (fe) => (d(), S(y(ke), {
+              (d(!0), m(G, null, Be(he.value, (fe) => (d(), S(y(Se), {
                 icon: fe.icon,
                 label: fe.label,
                 class: ee(fe.class),
@@ -59769,7 +59778,7 @@ const Mz = {
               ], 64))), 128))
             ]),
             end: D(() => [
-              Je(M(y(ke), {
+              Je(M(y(Se), {
                 icon: y(Si) ? "pi pi-check-square" : "pi pi-table",
                 class: ee(y(Si) ? "p-button-success" : ""),
                 onClick: y(Ql)
@@ -59781,7 +59790,7 @@ const Mz = {
                   { bottom: !0 }
                 ]
               ]),
-              Je(M(y(ke), {
+              Je(M(y(Se), {
                 icon: y(fr) ? "pi pi-moon" : "pi pi-sun",
                 onClick: y(na)
               }, null, 8, ["icon", "onClick"]), [
@@ -59792,7 +59801,7 @@ const Mz = {
                   { bottom: !0 }
                 ]
               ]),
-              Je(M(y(ke), {
+              Je(M(y(Se), {
                 icon: "pi pi-refresh",
                 class: "p-button-success",
                 onClick: be[15] || (be[15] = (fe) => Ln(!1))
@@ -59804,7 +59813,7 @@ const Mz = {
                   { bottom: !0 }
                 ]
               ]),
-              Je(M(y(ke), {
+              Je(M(y(Se), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: be[16] || (be[16] = (fe) => y(De)())
@@ -59816,7 +59825,7 @@ const Mz = {
                   { bottom: !0 }
                 ]
               ]),
-              Je(M(y(ke), {
+              Je(M(y(Se), {
                 type: "button",
                 icon: "pi pi-cog",
                 onClick: be[17] || (be[17] = (fe) => br(fe, q.value))
@@ -59828,7 +59837,7 @@ const Mz = {
                   { bottom: !0 }
                 ]
               ]),
-              Je(M(y(ke), {
+              Je(M(y(Se), {
                 type: "button",
                 icon: y(Ze) ? "pi pi-bolt" : "pi pi-forward",
                 class: ee(y(Ze) ? "p-button-warning" : ""),
@@ -59841,11 +59850,11 @@ const Mz = {
                   { bottom: !0 }
                 ]
               ]),
-              Je(M(y(ke), {
+              Je(M(y(Se), {
                 type: "button",
                 icon: "pi pi-th-large",
                 class: ee(J.value ? "p-button-info" : ""),
-                onClick: ze
+                onClick: Ve
               }, null, 8, ["class"]), [
                 [
                   y(i),
@@ -59956,12 +59965,12 @@ const Mz = {
               }, {
                 body: D(({ data: fe }) => [
                   fe.gtsapi_children_count > 0 ? (d(), m(G, { key: 0 }, [
-                    y(Fn)[fe._rowKey] ? (d(), S(y(ke), {
+                    y(Fn)[fe._rowKey] ? (d(), S(y(Se), {
                       key: 0,
                       icon: "pi pi-angle-down",
                       class: "p-button-text",
                       onClick: (He) => y(wr)(fe)
-                    }, null, 8, ["onClick"])) : (d(), S(y(ke), {
+                    }, null, 8, ["onClick"])) : (d(), S(y(Se), {
                       key: 1,
                       icon: "pi pi-angle-right",
                       class: "p-button-text",
@@ -59993,16 +60002,16 @@ const Mz = {
                     }, [
                       xi(fe, He) ? (d(), m(G, { key: 0 }, [
                         fe.field === "id" ? (d(), m(G, { key: 0 }, [
-                          Ve(V(He[mt]), 1)
+                          ze(V(He[mt]), 1)
                         ], 64)) : fe.type === "decimal" ? (d(), m(G, { key: 1 }, [
-                          Ve(V(Sr(Zt(He, mt), fe.FractionDigits)), 1)
+                          ze(V(Sr(Zt(He, mt), fe.FractionDigits)), 1)
                         ], 64)) : fe.type === "number" || fe.type === "view" ? (d(), m(G, { key: 2 }, [
-                          Ve(V(Zt(He, mt)), 1)
+                          ze(V(Zt(He, mt)), 1)
                         ], 64)) : fe.type === "autocomplete" ? (d(), m(G, { key: 3 }, [
                           fe.hide_id ? I("", !0) : (d(), m("span", eK, V(Zt(He, mt)), 1)),
-                          Ve(" " + V(is(mt, Zt(He, mt))), 1)
+                          ze(" " + V(is(mt, Zt(He, mt))), 1)
                         ], 64)) : fe.type === "select" ? (d(), m(G, { key: 4 }, [
-                          Ve(V(Yi(mt, Zt(He, mt))), 1)
+                          ze(V(Yi(mt, Zt(He, mt))), 1)
                         ], 64)) : fe.type === "html" ? (d(), m("span", {
                           key: 5,
                           innerHTML: Zt(He, mt)
@@ -60012,9 +60021,9 @@ const Mz = {
                           binary: !0,
                           disabled: ""
                         }, null, 8, ["modelValue"])) : fe.type === "date" ? (d(), m(G, { key: 7 }, [
-                          Ve(V(ca(Zt(He, mt))), 1)
+                          ze(V(ca(Zt(He, mt))), 1)
                         ], 64)) : fe.type === "datetime" ? (d(), m(G, { key: 8 }, [
-                          Ve(V(da(Zt(He, mt))), 1)
+                          ze(V(da(Zt(He, mt))), 1)
                         ], 64)) : (d(), m("span", {
                           key: 9,
                           title: fe.truncate && Zt(He, mt) && String(Zt(He, mt)).length > fe.truncate ? Zt(He, mt) : ""
@@ -60083,7 +60092,7 @@ const Mz = {
                       filters: y(Yt),
                       action: He,
                       onActionClick: (mt) => He.click(fe.data, q.value, e.table, y(Yt))
-                    }, null, 40, ["data", "columns", "table", "filters", "action", "onActionClick"])) : (d(), S(y(ke), {
+                    }, null, 40, ["data", "columns", "table", "filters", "action", "onActionClick"])) : (d(), S(y(Se), {
                       key: 1,
                       icon: He.icon,
                       class: ee(He.class),
@@ -60108,13 +60117,13 @@ const Mz = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: y(Iu)
               }, null, 8, ["onClick"]),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -60142,13 +60151,13 @@ const Mz = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: be[30] || (be[30] = (fe) => Ct.value = !1)
               }),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -60170,13 +60179,13 @@ const Mz = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: be[32] || (be[32] = (fe) => Po.value = !1)
               }),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -60198,13 +60207,13 @@ const Mz = {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
-                onClick: y(Se)
+                onClick: y(Ie)
               }, null, 8, ["onClick"]),
-              M(y(ke), {
+              M(y(Se), {
                 label: vo.value?.modal_form?.buttons?.submit?.label || "Выполнить",
                 icon: vo.value?.modal_form?.buttons?.submit?.icon || "pi pi-check",
                 class: "p-button-text",
@@ -60957,11 +60966,11 @@ const Js = (function() {
       for (let J in R)
         switch (R[J].type) {
           default:
-            const ze = R[J].default ? R[J].default : null;
+            const Ve = R[J].default ? R[J].default : null;
             $[J] = {
               operator: un.AND,
               constraints: [
-                { value: ze, matchMode: pt.EQUALS }
+                { value: Ve, matchMode: pt.EQUALS }
               ]
             };
         }
@@ -60991,38 +61000,38 @@ const Js = (function() {
         for (let re in n.fields)
           n.fields[re].field = re, n.fields[re].hasOwnProperty("label") || (n.fields[re].label = re), n.fields[re].hasOwnProperty("type") || (n.fields[re].type = "text"), n.fields[re].hasOwnProperty("readonly") && (n.fields[re].readonly === !0 || n.fields[re].readonly == 1 ? n.fields[re].readonly = !0 : n.fields[re].readonly = !1), n.fields[re].select_data && (k.value[re] || (k.value[re] = {}), k.value[re].rows = n.fields[re].select_data), J.push(n.fields[re]), $.push(re);
         P.value = $, l();
-        let ze = {};
+        let Ve = {};
         if (n.actions.hasOwnProperty(n.table))
           for (let re in n.actions[n.table])
-            ze[re] = n.actions[n.table][re];
-        for (let re in ze) {
-          let Ie = { ...ze[re] }, Ye = !0;
-          switch (Ie.action = re, re) {
+            Ve[re] = n.actions[n.table][re];
+        for (let re in Ve) {
+          let ke = { ...Ve[re] }, Ye = !0;
+          switch (ke.action = re, re) {
             case "update":
-              Ie.hasOwnProperty("row") || (Ie.row = !0), Ie.hasOwnProperty("icon") || (Ie.icon = "pi pi-pencil"), Ie.hasOwnProperty("class") || (Ie.class = " p-button-success"), Ie.hasOwnProperty("click") || (Ie.click = (ut) => N(ut));
+              ke.hasOwnProperty("row") || (ke.row = !0), ke.hasOwnProperty("icon") || (ke.icon = "pi pi-pencil"), ke.hasOwnProperty("class") || (ke.class = " p-button-success"), ke.hasOwnProperty("click") || (ke.click = (ut) => N(ut));
               break;
             case "delete":
-              Ie.hasOwnProperty("row") || (Ie.row = !0), Ie.hasOwnProperty("head") || (Ie.head = !0), Ie.hasOwnProperty("icon") || (Ie.icon = "pi pi-trash"), Ie.hasOwnProperty("class") || (Ie.class = " p-button-danger"), Ie.hasOwnProperty("click") || (Ie.click = (ut) => ne(ut)), Ie.hasOwnProperty("head_click") || (Ie.head_click = () => Ce()), Ie.hasOwnProperty("label") || (Ie.label = "Удалить");
+              ke.hasOwnProperty("row") || (ke.row = !0), ke.hasOwnProperty("head") || (ke.head = !0), ke.hasOwnProperty("icon") || (ke.icon = "pi pi-trash"), ke.hasOwnProperty("class") || (ke.class = " p-button-danger"), ke.hasOwnProperty("click") || (ke.click = (ut) => ne(ut)), ke.hasOwnProperty("head_click") || (ke.head_click = () => Ce()), ke.hasOwnProperty("label") || (ke.label = "Удалить");
               break;
             case "create":
-              Ie.hasOwnProperty("head") || (Ie.head = !0), Ie.hasOwnProperty("icon") || (Ie.icon = "pi pi-plus"), Ie.hasOwnProperty("class") || (Ie.class = " p-button-success"), Ie.hasOwnProperty("head_click") || (Ie.head_click = () => he()), Ie.hasOwnProperty("label") || (Ie.label = "Создать");
+              ke.hasOwnProperty("head") || (ke.head = !0), ke.hasOwnProperty("icon") || (ke.icon = "pi pi-plus"), ke.hasOwnProperty("class") || (ke.class = " p-button-success"), ke.hasOwnProperty("head_click") || (ke.head_click = () => he()), ke.hasOwnProperty("label") || (ke.label = "Создать");
               break;
             case "subtables":
               Ye = !1;
-              for (let ut in ze[re]) {
-                let nt = { action: re, ...ze[re][ut] };
+              for (let ut in Ve[re]) {
+                let nt = { action: re, ...Ve[re][ut] };
                 nt.table = ut, nt.hasOwnProperty("row") || (nt.row = !0), nt.hasOwnProperty("icon") || (nt.icon = "pi pi-angle-right"), nt.hasOwnProperty("class") || (nt.class = " p-button-success"), nt.hasOwnProperty("click") || (nt.click = (jt) => L(jt, nt)), C.value = !0, w.value.push(nt);
               }
               break;
             case "subtabs":
               Ye = !1;
-              for (let ut in ze[re]) {
-                let nt = { action: re, tabs: { ...ze[re][ut] } };
+              for (let ut in Ve[re]) {
+                let nt = { action: re, tabs: { ...Ve[re][ut] } };
                 nt.table = ut, nt.hasOwnProperty("row") || (nt.row = !0), nt.hasOwnProperty("icon") || (nt.icon = "pi pi-angle-right"), nt.hasOwnProperty("class") || (nt.class = " p-button-success"), nt.hasOwnProperty("click") || (nt.click = (jt) => L(jt, nt)), C.value = !0, w.value.push(nt);
               }
               break;
           }
-          Ye && (Ie.hasOwnProperty("row") && (C.value = !0), w.value.push(Ie));
+          Ye && (ke.hasOwnProperty("row") && (C.value = !0), w.value.push(ke));
         }
         g.value = J, p.value = !1;
       } catch ($) {
@@ -61032,24 +61041,24 @@ const Js = (function() {
     const E = T({}), F = T({}), B = T({}), A = T({}), z = async ($) => {
       E.value = { ...$ };
     }, L = async ($, J) => {
-      let ze = { ...E.value };
-      if (ze.hasOwnProperty($.id))
+      let Ve = { ...E.value };
+      if (Ve.hasOwnProperty($.id))
         if (F.value[$.id].table == J.table) {
-          delete ze[$.id], await z(ze);
+          delete Ve[$.id], await z(Ve);
           return;
         } else
-          delete ze[$.id], await z(ze), ze[$.id] = !0;
+          delete Ve[$.id], await z(Ve), Ve[$.id] = !0;
       else
-        ze[$.id] = !0;
+        Ve[$.id] = !0;
       if (F.value[$.id] = J, J.action == "subtables") {
         if (J.hasOwnProperty("where")) {
           let re = {};
-          for (let Ie in J.where)
-            re[Ie] = {
+          for (let ke in J.where)
+            re[ke] = {
               operator: un.AND,
               constraints: [
                 {
-                  value: $[J.where[Ie]],
+                  value: $[J.where[ke]],
                   matchMode: pt.EQUALS
                 }
               ]
@@ -61059,9 +61068,9 @@ const Js = (function() {
       } else if (J.action == "subtabs") {
         for (let re in J.tabs)
           if (J.tabs[re].hasOwnProperty("where")) {
-            let Ie = {};
+            let ke = {};
             for (let Ye in J.tabs[re].where)
-              Ie[Ye] = {
+              ke[Ye] = {
                 operator: un.AND,
                 constraints: [
                   {
@@ -61070,15 +61079,15 @@ const Js = (function() {
                   }
                 ]
               };
-            A.value.hasOwnProperty($.id) || (A.value[$.id] = {}), A.value[$.id][re] = Ie;
+            A.value.hasOwnProperty($.id) || (A.value[$.id] = {}), A.value[$.id][re] = ke;
           }
       }
-      E.value = { ...ze };
+      E.value = { ...Ve };
     }, _ = T({}), te = T({});
     sf();
     const ye = async ($) => {
-      let { data: J, newValue: ze, field: re } = $;
-      J[re] = ze;
+      let { data: J, newValue: Ve, field: re } = $;
+      J[re] = Ve;
     }, Y = T({}), W = T(!1), Z = T(!1), N = ($) => {
       Y.value = { ...$ }, Z.value = !0;
     }, q = () => {
@@ -61101,9 +61110,9 @@ const Js = (function() {
         }
     }, le = ($) => {
       let J = -1;
-      for (let ze = 0; ze < t.value.length; ze++)
-        if (t.value[ze].id === $) {
-          J = ze;
+      for (let Ve = 0; Ve < t.value.length; Ve++)
+        if (t.value[Ve].id === $) {
+          J = Ve;
           break;
         }
       return J;
@@ -61139,20 +61148,20 @@ const Js = (function() {
       if (te.value[$.id] && te.value[$.id].class)
         return te.value[$.id].class;
     }, ue = ($) => $.type, xe = T({}), Pe = ($, J) => !!(xe.value[$.id] && xe.value[$.id][J] && xe.value[$.id][J].readonly == 1), $e = ($, J) => {
-      let ze = "td-body " + $.type, re = !1;
-      return xe.value[J.id] && xe.value[J.id][$.field] && xe.value[J.id][$.field].readonly == 1 && (re = !0), $.readonly || re ? ze + " readonly" : ze;
+      let Ve = "td-body " + $.type, re = !1;
+      return xe.value[J.id] && xe.value[J.id][$.field] && xe.value[J.id][$.field].readonly == 1 && (re = !0), $.readonly || re ? Ve + " readonly" : Ve;
     };
     return ($, J) => {
-      const ze = se("PVTables");
+      const Ve = se("PVTables");
       return d(), m(G, null, [
         v("div", p_, [
           M(y(Kl), { class: "p-mb-4" }, {
             start: D(() => [
-              (d(!0), m(G, null, Be(y(w).filter((re) => re.head), (re) => (d(), S(y(ke), {
+              (d(!0), m(G, null, Be(y(w).filter((re) => re.head), (re) => (d(), S(y(Se), {
                 icon: re.icon,
                 label: re.label,
                 class: ee(re.class),
-                onClick: (Ie) => re.head_click(Ie, e.table, a.value, we.value)
+                onClick: (ke) => re.head_click(ke, e.table, a.value, we.value)
               }, null, 8, ["icon", "label", "class", "onClick"]))), 256))
             ]),
             center: D(() => [
@@ -61163,9 +61172,9 @@ const Js = (function() {
                   key: 0,
                   table: re.table,
                   id: re.default,
-                  "onUpdate:id": (Ie) => re.default = Ie,
+                  "onUpdate:id": (ke) => re.default = ke,
                   options: re.rows,
-                  onSetValue: (Ie) => s(re)
+                  onSetValue: (ke) => s(re)
                 }, null, 8, ["table", "id", "onUpdate:id", "options", "onSetValue"])) : I("", !0)
               ], 64))), 128))
             ]),
@@ -61178,7 +61187,7 @@ const Js = (function() {
                   class: ee(["pi", { "pi-moon": r.value, "pi-sun": !r.value }])
                 }, null, 2)
               ]),
-              M(y(ke), {
+              M(y(Se), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: J[0] || (J[0] = (re) => u())
@@ -61215,12 +61224,12 @@ const Js = (function() {
           }, {
             expansion: D((re) => [
               F.value[re.data.id].action == "subtables" ? (d(), m("div", h_, [
-                M(ze, {
+                M(Ve, {
                   table: F.value[re.data.id].table,
                   actions: e.actions,
                   filters: A.value[re.data.id],
-                  ref: (Ie) => {
-                    Ie && (B.value[re.data.id] = Ie);
+                  ref: (ke) => {
+                    ke && (B.value[re.data.id] = ke);
                   }
                 }, null, 8, ["table", "actions", "filters"])
               ])) : I("", !0),
@@ -61229,8 +61238,8 @@ const Js = (function() {
                   tabs: F.value[re.data.id].tabs,
                   actions: e.actions,
                   filters: A.value[re.data.id],
-                  ref: (Ie) => {
-                    Ie && (B.value[re.data.id] = Ie);
+                  ref: (ke) => {
+                    ke && (B.value[re.data.id] = ke);
                   }
                 }, null, 8, ["tabs", "actions", "filters"])
               ])) : I("", !0)
@@ -61247,50 +61256,50 @@ const Js = (function() {
                 dataType: re.dataType,
                 class: ee(ue(re))
               }, En({
-                body: D(({ data: Ie, field: Ye }) => [
+                body: D(({ data: ke, field: Ye }) => [
                   v("div", {
-                    class: ee($e(re, Ie))
+                    class: ee($e(re, ke))
                   }, [
                     M(Ts, {
                       field: re,
-                      data: Ie[Ye],
+                      data: ke[Ye],
                       use_data: !0,
                       autocompleteSettings: _.value[Ye],
                       selectSettings: k.value[Ye],
-                      onSetValue: (ut) => ye({ data: Ie, field: Ye, newValue: ut }),
-                      customFields: xe.value[Ie.id]
+                      onSetValue: (ut) => ye({ data: ke, field: Ye, newValue: ut }),
+                      customFields: xe.value[ke.id]
                     }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])
                   ], 2)
                 ]),
-                filter: D(({ filterModel: Ie }) => [
+                filter: D(({ filterModel: ke }) => [
                   ["autocomplete", "select", "boolean", "date", "datetime"].includes(re.type) ? (d(), S(Ts, {
                     key: 0,
                     field: re,
-                    modelValue: Ie.value,
-                    "onUpdate:modelValue": (Ye) => Ie.value = Ye,
+                    modelValue: ke.value,
+                    "onUpdate:modelValue": (Ye) => ke.value = Ye,
                     autocompleteSettings: _.value[re.field],
                     selectSettings: k.value[re.field],
                     class: "p-column-filter"
                   }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "autocompleteSettings", "selectSettings"])) : (d(), m(G, { key: 1 }, [
                     re.type == "number" ? (d(), S(y(Wo), {
                       key: 0,
-                      modelValue: Ie.value,
-                      "onUpdate:modelValue": (Ye) => Ie.value = Ye
+                      modelValue: ke.value,
+                      "onUpdate:modelValue": (Ye) => ke.value = Ye
                     }, null, 8, ["modelValue", "onUpdate:modelValue"])) : re.type == "decimal" ? (d(), S(y(Wo), {
                       key: 1,
-                      modelValue: Ie.value,
-                      "onUpdate:modelValue": (Ye) => Ie.value = Ye,
+                      modelValue: ke.value,
+                      "onUpdate:modelValue": (Ye) => ke.value = Ye,
                       minFractionDigits: re.FractionDigits,
                       maxFractionDigits: re.FractionDigits
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits"])) : re.type == "textarea" ? (d(), S(y(yl), {
                       key: 2,
-                      modelValue: Ie.value,
-                      "onUpdate:modelValue": (Ye) => Ie.value = Ye,
+                      modelValue: ke.value,
+                      "onUpdate:modelValue": (Ye) => ke.value = Ye,
                       rows: "1"
                     }, null, 8, ["modelValue", "onUpdate:modelValue"])) : (d(), S(y(Vt), {
                       key: 3,
-                      modelValue: Ie.value,
-                      "onUpdate:modelValue": (Ye) => Ie.value = Ye
+                      modelValue: ke.value,
+                      "onUpdate:modelValue": (Ye) => ke.value = Ye
                     }, null, 8, ["modelValue", "onUpdate:modelValue"]))
                   ], 64))
                 ]),
@@ -61298,39 +61307,39 @@ const Js = (function() {
               }, [
                 !["autocomplete", "select", "boolean", "date", "datetime", "html", "view"].includes(re.type) && !re.readonly ? {
                   name: "editor",
-                  fn: D(({ data: Ie, field: Ye }) => [
-                    xe.value[Ie.id] && xe.value[Ie.id][Ye] && ["autocomplete", "select", "boolean", "date", "datetime", "html", "view"].includes(xe.value[Ie.id][Ye].type) ? (d(), S(Ts, {
+                  fn: D(({ data: ke, field: Ye }) => [
+                    xe.value[ke.id] && xe.value[ke.id][Ye] && ["autocomplete", "select", "boolean", "date", "datetime", "html", "view"].includes(xe.value[ke.id][Ye].type) ? (d(), S(Ts, {
                       key: 0,
                       field: re,
-                      data: Ie[Ye],
+                      data: ke[Ye],
                       use_data: !0,
                       autocompleteSettings: _.value[Ye],
                       selectSettings: k.value[Ye],
-                      onSetValue: (ut) => ye({ data: Ie, field: Ye, newValue: ut }),
-                      customFields: xe.value[Ie.id]
+                      onSetValue: (ut) => ye({ data: ke, field: Ye, newValue: ut }),
+                      customFields: xe.value[ke.id]
                     }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"])) : re.type == "number" ? (d(), S(y(Wo), {
                       key: 1,
-                      modelValue: Ie[Ye],
-                      "onUpdate:modelValue": (ut) => Ie[Ye] = ut,
-                      disabled: Pe(Ie, Ye)
+                      modelValue: ke[Ye],
+                      "onUpdate:modelValue": (ut) => ke[Ye] = ut,
+                      disabled: Pe(ke, Ye)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : re.type == "decimal" ? (d(), S(y(Wo), {
                       key: 2,
-                      modelValue: Ie[Ye],
-                      "onUpdate:modelValue": (ut) => Ie[Ye] = ut,
+                      modelValue: ke[Ye],
+                      "onUpdate:modelValue": (ut) => ke[Ye] = ut,
                       minFractionDigits: re.FractionDigits,
                       maxFractionDigits: re.FractionDigits,
-                      disabled: Pe(Ie, Ye)
+                      disabled: Pe(ke, Ye)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "minFractionDigits", "maxFractionDigits", "disabled"])) : re.type == "textarea" ? (d(), S(y(yl), {
                       key: 3,
-                      modelValue: Ie[Ye],
-                      "onUpdate:modelValue": (ut) => Ie[Ye] = ut,
+                      modelValue: ke[Ye],
+                      "onUpdate:modelValue": (ut) => ke[Ye] = ut,
                       rows: "1",
-                      disabled: Pe(Ie, Ye)
+                      disabled: Pe(ke, Ye)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"])) : (d(), S(y(Vt), {
                       key: 4,
-                      modelValue: Ie[Ye],
-                      "onUpdate:modelValue": (ut) => Ie[Ye] = ut,
-                      disabled: Pe(Ie, Ye)
+                      modelValue: ke[Ye],
+                      "onUpdate:modelValue": (ut) => ke[Ye] = ut,
+                      disabled: Pe(ke, Ye)
                     }, null, 8, ["modelValue", "onUpdate:modelValue", "disabled"]))
                   ]),
                   key: "0"
@@ -61342,10 +61351,10 @@ const Js = (function() {
                 style: { "white-space": "nowrap" }
               }, {
                 body: D((re) => [
-                  (d(!0), m(G, null, Be(y(w).filter((Ie) => Ie.row), (Ie) => (d(), S(y(ke), {
-                    icon: Ie.icon,
-                    class: ee(Ie.class),
-                    onClick: (Ye) => Ie.click(re.data, g.value, e.table, a.value)
+                  (d(!0), m(G, null, Be(y(w).filter((ke) => ke.row), (ke) => (d(), S(y(Se), {
+                    icon: ke.icon,
+                    class: ee(ke.class),
+                    onClick: (Ye) => ke.click(re.data, g.value, e.table, a.value)
                   }, null, 8, ["icon", "class", "onClick"]))), 256))
                 ]),
                 _: 1
@@ -61360,13 +61369,13 @@ const Js = (function() {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: q
               }),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -61391,13 +61400,13 @@ const Js = (function() {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: J[6] || (J[6] = (re) => Ae.value = !1)
               }),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -61419,13 +61428,13 @@ const Js = (function() {
             modal: ""
           }, {
             footer: D(() => [
-              M(y(ke), {
+              M(y(Se), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: J[8] || (J[8] = (re) => ge.value = !1)
               }),
-              M(y(ke), {
+              M(y(Se), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -64389,7 +64398,7 @@ const PN = (e) => (Nn("data-v-ca747bc0"), e = e(), Hn(), e), RN = { key: 0 }, TN
     return t({ refresh: () => {
       p();
     } }), (P, k) => r.value ? (d(), m("span", RN, "Загрузка")) : y(l) ? (d(), m(G, { key: 1 }, [
-      M(y(ke), {
+      M(y(Se), {
         icon: "pi pi-bars",
         class: "pv-menu-mobile-btn",
         text: "",
@@ -70666,7 +70675,7 @@ var mc = 3.14159265358979, Nj = {
     }
   },
   components: {
-    Button: ke,
+    Button: Se,
     PlusIcon: Zr
   },
   directives: {
@@ -71007,7 +71016,7 @@ var Xj = function(t) {
   components: {
     PlusIcon: Zr,
     MinusIcon: lu,
-    Button: ke
+    Button: Se
   },
   directives: {
     ripple: Ft
@@ -71219,7 +71228,7 @@ const BU = {
 };
 export {
   Yr as Badge,
-  ke as Button,
+  Se as Button,
   Zj as Card,
   Yn as Checkbox,
   qo as Column,
