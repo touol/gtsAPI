@@ -158,8 +158,10 @@ trait TableCrudTrait
                 $resp['data']['object']['gtsapi_children_count'] = $this->modx->getCount($rule['class'], $where);
             }
             if (!$resp['success']) return $resp;
-            
+
             $data = $resp['data'];
+
+            $this->writeLog($rule, 'create', $obj->get('id'), $object_old, $object);
 
             header('HTTP/1.1 201 Created');
             return $this->success('created', $data);
@@ -625,6 +627,9 @@ trait TableCrudTrait
                 }
                 if (!$resp['success']) return $resp;
                 $data = $resp['data'];
+
+                $this->writeLog($rule, 'update', $obj->get('id'), $object_old, $object);
+
                 //uniTree
                 $uniTreeTable = $this->setUniTreeTitle($rule, $obj);
                 if (!empty($uniTreeTable)) $data['uniTreeTable'] = $uniTreeTable;
@@ -696,6 +701,7 @@ trait TableCrudTrait
                     if ($obj->remove()) {
                         $resp = $this->run_triggers($rule, 'after', 'delete', [], $object_old);
                         if (!$resp['success']) return $resp;
+                        $this->writeLog($rule, 'delete', $object_old['id'], $object_old, null);
                     }
                 }
                 return $this->success('delete', ['ids' => $request['ids']]);
@@ -888,5 +894,30 @@ trait TableCrudTrait
         }
         
         return $this->success('Связанные объекты скопированы', $saved);
+    }
+
+    /**
+     * Запись действия в лог gtsAPILog.
+     * Отключается через properties: { log: false } в gtsapipackages.
+     * Срок хранения задаётся системной настройкой gtsapi_log_retention_days (по умолчанию 30 дней).
+     */
+    protected function writeLog($rule, $action, $objectId, $dataBefore, $dataAfter)
+    {
+        if (isset($rule['properties']['log']) && $rule['properties']['log'] === false) return;
+
+        try {
+            $log = $this->modx->newObject('gtsAPILog');
+            if (!$log) return;
+            $log->set('user_id',     (int)$this->modx->user->id);
+            $log->set('table_name',  $rule['table'] ?? '');
+            $log->set('action',      $action);
+            $log->set('object_id',   (int)$objectId);
+            $log->set('data_before', $dataBefore ? json_encode($dataBefore, JSON_UNESCAPED_UNICODE) : null);
+            $log->set('data_after',  $dataAfter  ? json_encode($dataAfter,  JSON_UNESCAPED_UNICODE) : null);
+            $log->set('created_at',  date('Y-m-d H:i:s'));
+            $log->save();
+        } catch (Exception $e) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'gtsAPI writeLog error: ' . $e->getMessage());
+        }
     }
 }

@@ -525,4 +525,27 @@ class gtsAPI
         }
         return $this->success();
     }
+
+    /**
+     * Cron-задача: очистка старых логов.
+     * Срок хранения — системная настройка gtsapi_log_retention_days (по умолчанию 30).
+     */
+    public function cron($params)
+    {
+        $log = '';
+        try {
+            $days = (int)$this->modx->getOption('gtsapi_log_retention_days', null, 30);
+            if ($days > 0) {
+                $table = $this->modx->getTableName('gtsAPILog');
+                if ($table) {
+                    $cutoff = date('Y-m-d H:i:s', strtotime("-{$days} days"));
+                    $deleted = $this->modx->exec("DELETE FROM {$table} WHERE created_at < '{$cutoff}'");
+                    $log .= "Deleted log entries older than {$days} days (cutoff: {$cutoff}), affected rows: {$deleted}\n";
+                }
+            }
+        } catch (Exception $e) {
+            $log .= 'cron error: ' . $e->getMessage() . "\n";
+        }
+        return $this->success('cron done', ['log' => $log]);
+    }
 }

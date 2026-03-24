@@ -352,4 +352,21 @@
 		</aggregate>
 
 	</object>
+
+    <object class="gtsAPILog" table="gtsapi_log" extends="xPDOSimpleObject">
+        <field key="user_id" dbtype="int" precision="10" phptype="integer" null="true" default="0"/>
+        <field key="table_name" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+        <field key="action" dbtype="varchar" precision="20" phptype="string" null="false" default=""/>
+        <field key="object_id" dbtype="int" precision="10" phptype="integer" null="true" default="0"/>
+        <field key="data_before" dbtype="text" phptype="string" null="true"/>
+        <field key="data_after" dbtype="text" phptype="string" null="true"/>
+        <field key="created_at" dbtype="datetime" phptype="datetime" null="true"/>
+
+        <index alias="table_name" name="table_name" primary="false" unique="false" type="BTREE">
+            <column key="table_name" length="" collation="A" null="false"/>
+        </index>
+        <index alias="created_at" name="created_at" primary="false" unique="false" type="BTREE">
+            <column key="created_at" length="" collation="A" null="false"/>
+        </index>
+    </object>
 </model>

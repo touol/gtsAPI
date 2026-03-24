@@ -16,6 +16,11 @@ return [
       'value' => '30',
       'area' => 'gtsapi_main',
     ],
+    'log_retention_days' => [
+      'xtype' => 'textfield',
+      'value' => '30',
+      'area' => 'gtsapi_main',
+    ],
     'only_jwt' => [
       'xtype' => 'combo-boolean',
       'value' => 0,
