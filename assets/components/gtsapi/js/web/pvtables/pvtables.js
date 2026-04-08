@@ -64804,34 +64804,34 @@ class Zf {
    * @private
    */
   async _doLoadComponent(t) {
-    const n = `${this.assetsPath}${t.toLowerCase()}/web`;
+    const n = `${this.assetsPath}${t.toLowerCase()}/web`, i = `?v=${Date.now()}`;
     if (!this.loadedComponents.has(t))
       try {
-        const i = `${n}/js/${t.toLowerCase()}.js`;
-        if (!(await fetch(i, { method: "HEAD" })).ok)
-          throw new Error(`Component not found: ${i}`);
+        const r = `${n}/js/${t.toLowerCase()}.js`;
+        if (!(await fetch(r + i, { method: "HEAD" })).ok)
+          throw new Error(`Component not found: ${r}`);
         if (window.PVTablesAPI) {
           if (!window.PVTablesAPI.Vue) {
-            const l = await import("vue");
-            window.PVTablesAPI.Vue = l;
+            const s = await import("vue");
+            window.PVTablesAPI.Vue = s;
           }
         } else {
-          const { useNotifications: l } = await Promise.resolve().then(() => mx), s = (await Promise.resolve().then(() => M6)).default, u = await import("vue");
+          const { useNotifications: s } = await Promise.resolve().then(() => mx), u = (await Promise.resolve().then(() => M6)).default, c = await import("vue");
           window.PVTablesAPI = {
-            useNotifications: l,
-            apiCtor: s,
-            Vue: u
+            useNotifications: s,
+            apiCtor: u,
+            Vue: c
           };
         }
         if (!window.Vue) {
-          const l = window.PVTablesAPI.Vue || await import("vue");
-          window.Vue = l;
+          const s = window.PVTablesAPI.Vue || await import("vue");
+          window.Vue = s;
         }
-        await this._loadCSS(`${n}/css/${t.toLowerCase()}.css`);
-        let a = await this._loadJS(`${n}/js/${t.toLowerCase()}.js`);
-        window[t] && (a = window[t]), a.default && typeof a.default.install == "function" ? this.app.use(a.default) : a.default ? this.app.component(t, a.default) : a[t] && this.app.component(t, a[t]), this.loadedComponents.set(t, a), console.log(`✓ Компонент ${t} загружен и зарегистрирован`);
-      } catch (i) {
-        throw i;
+        await this._loadCSS(`${n}/css/${t.toLowerCase()}.css${i}`);
+        let l = await this._loadJS(`${n}/js/${t.toLowerCase()}.js${i}`);
+        window[t] && (l = window[t]), l.default && typeof l.default.install == "function" ? this.app.use(l.default) : l.default ? this.app.component(t, l.default) : l[t] && this.app.component(t, l[t]), this.loadedComponents.set(t, l), console.log(`✓ Компонент ${t} загружен и зарегистрирован`);
+      } catch (r) {
+        throw r;
       }
   }
   /**
@@ -64840,12 +64840,13 @@ class Zf {
    */
   _loadCSS(t) {
     return new Promise((n, i) => {
-      if (document.querySelector(`link[href="${t}"]`)) {
-        n();
+      const r = t.split("?")[0], o = document.querySelector(`link[href^="${r}"]`);
+      if (o) {
+        o.href = t, n();
         return;
       }
-      const r = document.createElement("link");
-      r.rel = "stylesheet", r.href = t, r.onload = () => n(), r.onerror = () => n(), document.head.appendChild(r);
+      const a = document.createElement("link");
+      a.rel = "stylesheet", a.href = t, a.onload = () => n(), a.onerror = () => n(), document.head.appendChild(a);
     });
   }
   /**
