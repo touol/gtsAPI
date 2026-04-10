@@ -477,23 +477,26 @@ trait TableExportTrait
             $html .= '<h1>' . htmlspecialchars($title) . '</h1>';
         }
         // Если есть form.fields в настройках print, добавляем данные формы
-        if (isset($rule['properties']['actions']['print']['form']['fields']) && !empty($request['filters'])) {
+        if (isset($rule['properties']['actions']['print']['form']['fields'])) {
             $formFields = $rule['properties']['actions']['print']['form']['fields'];
             $html .= '<div style="margin-bottom: 20px;">';
-            
+
             foreach ($formFields as $fieldName => $fieldConfig) {
                 $filterFieldName = $fieldName;
                 if (isset($fieldConfig['class']) && isset($fieldConfig['as'])) {
                     $filterFieldName = $fieldConfig['class'] . '.' . $fieldConfig['as'];
                 }
-                
-                if (isset($request['filters'][$filterFieldName])) {
+
+                $value = null;
+
+                // Сначала ищем в фильтрах
+                if (!empty($request['filters']) && isset($request['filters'][$filterFieldName])) {
                     if (isset($request['filters'][$filterFieldName]['constraints']) && is_array($request['filters'][$filterFieldName]['constraints'])) {
                         $value = $request['filters'][$filterFieldName]['constraints'][0]['value'] ?? '';
                     } else {
                         $value = $request['filters'][$filterFieldName]['value'] ?? $request['filters'][$filterFieldName];
                     }
-                    
+
                     // Обработка autocomplete полей
                     if (isset($fieldConfig['type']) && $fieldConfig['type'] === 'autocomplete' && isset($fieldConfig['table'])) {
                         if ($gtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $fieldConfig['table'], 'active' => 1])) {
@@ -512,12 +515,18 @@ trait TableExportTrait
                             }
                         }
                     }
-                    
+                }
+                // Если нет в фильтрах — берём из первой строки данных
+                elseif (!empty($rows) && isset($rows[0][$fieldName])) {
+                    $value = $rows[0][$fieldName];
+                }
+
+                if ($value !== null && $value !== '') {
                     $label = $fieldConfig['label'] ?? $fieldName;
                     $html .= '<p><strong>' . htmlspecialchars($label) . ':</strong> ' . htmlspecialchars($value) . '</p>';
                 }
             }
-            
+
             $html .= '</div>';
         }
         
