@@ -214,44 +214,37 @@ trait TableAutocompleteTrait
                             $autocomplete['table'] = $desc['table'];
                             $autocomplete['class'] = $gtsAPITable->class ? $gtsAPITable->class : $desc['table'];
                             
-                            // Добавляем данные для полей поиска
+                            // Сначала загружаем главный автокомплит — в его строках находятся
+                            // значения search-полей (search keys — это поля целевой таблицы,
+                            // не родительской).
+                            $autocompleteResult = $this->autocomplete($autocomplete, $rows0);
+
                             $searchFieldsData = [];
                             foreach ($desc['search'] as $searchFieldKey => $searchFieldConfig) {
-                                if (isset($searchFieldConfig['table'])) {
-                                    if ($searchGtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $searchFieldConfig['table'], 'active' => 1])) {
-                                        $searchProperties = json_decode($searchGtsAPITable->properties, 1);
-                                        if (is_array($searchProperties) and isset($searchProperties['autocomplete'])) {
-                                            $this->addPackages($searchGtsAPITable->package_id);
-                                            $searchAutocomplete = $searchProperties['autocomplete'];
-                                            $searchAutocomplete['field'] = $searchFieldKey;
-                                            $searchAutocomplete['table'] = $searchFieldConfig['table'];
-                                            $searchAutocomplete['class'] = $searchGtsAPITable->class ? $searchGtsAPITable->class : $searchFieldConfig['table'];
-                                            
-                                            // Получаем значения для полей поиска из текущих строк
-                                            $searchFieldValues = [];
-                                            foreach ($rows0 as $row) {
-                                                if (isset($row[$searchFieldKey]) && !empty($row[$searchFieldKey])) {
-                                                    $searchFieldValues[$row[$searchFieldKey]] = $row[$searchFieldKey];
-                                                }
-                                            }
-                                            
-                                            if (!empty($searchFieldValues)) {
-                                                $searchFieldsData[$searchFieldKey] = $this->autocomplete($searchAutocomplete, []);
-                                                // Фильтруем только нужные значения
-                                                $filteredRows = [];
-                                                foreach ($searchFieldsData[$searchFieldKey]['rows'] as $searchRow) {
-                                                    if (in_array($searchRow['id'], $searchFieldValues)) {
-                                                        $filteredRows[] = $searchRow;
-                                                    }
-                                                }
-                                                $searchFieldsData[$searchFieldKey]['rows'] = $filteredRows;
-                                            }
-                                        }
+                                if (!isset($searchFieldConfig['table'])) continue;
+                                if (!($searchGtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $searchFieldConfig['table'], 'active' => 1]))) continue;
+                                $searchProperties = json_decode($searchGtsAPITable->properties, 1);
+                                if (!is_array($searchProperties) || !isset($searchProperties['autocomplete'])) continue;
+
+                                $this->addPackages($searchGtsAPITable->package_id);
+                                $searchAutocomplete = $searchProperties['autocomplete'];
+                                $searchAutocomplete['field'] = $searchFieldKey;
+                                $searchAutocomplete['table'] = $searchFieldConfig['table'];
+                                $searchAutocomplete['class'] = $searchGtsAPITable->class ? $searchGtsAPITable->class : $searchFieldConfig['table'];
+
+                                // Значения берём из уже загруженных строк целевого автокомплита —
+                                // именно там лежит, напр., period_id на строке tSkladOrders.
+                                $fakeRows = [];
+                                foreach ($autocompleteResult['rows'] as $acRow) {
+                                    if (isset($acRow[$searchFieldKey]) && !empty($acRow[$searchFieldKey])) {
+                                        $fakeRows[] = [$searchFieldKey => $acRow[$searchFieldKey]];
                                     }
                                 }
+                                if (!empty($fakeRows)) {
+                                    $searchFieldsData[$searchFieldKey] = $this->autocomplete($searchAutocomplete, $fakeRows);
+                                }
                             }
-                            
-                            $autocompleteResult = $this->autocomplete($autocomplete, $rows0);
+
                             $autocompleteResult['searchFields'] = $searchFieldsData;
                             $autocompletes[$field] = $autocompleteResult;
                         }
