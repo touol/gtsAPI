@@ -5330,6 +5330,7 @@ function Nd(e, t, n, i, r, o) {
       };
     }
     try {
+      if (e.child) throw new Error("skip url filters for child");
       const g = new URLSearchParams(window.location.search).get("filters");
       if (g) {
         let y = null;
