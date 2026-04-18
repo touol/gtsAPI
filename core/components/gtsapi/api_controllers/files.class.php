@@ -250,8 +250,11 @@ class filesAPIController{
         $directories = [];
 
         // baseUrl источника (modMediaSource возвращает в 'url' только pathRelative)
-        $baseUrl = $this->source->getOption('baseUrl', null, '');
-        $baseUrlRelative = (bool)$this->source->getOption('baseUrlRelative', null, true);
+        $sourceProps = $this->source->getPropertyList();
+        $baseUrl = isset($sourceProps['baseUrl']) ? (string)$sourceProps['baseUrl'] : '';
+        $baseUrlRelative = isset($sourceProps['baseUrlRelative'])
+            ? !in_array(strtolower((string)$sourceProps['baseUrlRelative']), ['false', '0', 'no', ''])
+            : true;
         if ($baseUrlRelative && $baseUrl !== '' && $baseUrl[0] !== '/') {
             $baseUrl = '/' . ltrim($baseUrl, '/');
         }
@@ -290,10 +293,10 @@ class filesAPIController{
                 'is_dir' => false,
                 'is_readable' => isset($item['perms']['read']) ? $item['perms']['read'] : true,
                 'is_writable' => isset($item['perms']['write']) ? $item['perms']['write'] : true,
-                'image' => isset($item['image']) ? $item['image'] : $fullUrl,
+                'image' => $fullUrl,
                 'image_width' => isset($item['image_width']) ? $item['image_width'] : 0,
                 'image_height' => isset($item['image_height']) ? $item['image_height'] : 0,
-                'thumb' => isset($item['thumb']) ? $item['thumb'] : $fullUrl,
+                'thumb' => $fullUrl,
                 'thumb_width' => isset($item['thumb_width']) ? $item['thumb_width'] : 0,
                 'thumb_height' => isset($item['thumb_height']) ? $item['thumb_height'] : 0,
                 'ext'=>$item['ext'],
