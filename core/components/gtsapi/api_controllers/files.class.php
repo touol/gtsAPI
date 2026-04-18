@@ -248,7 +248,22 @@ class filesAPIController{
         // Формируем ответ
         $files = [];
         $directories = [];
-        
+
+        // baseUrl источника (modMediaSource возвращает в 'url' только pathRelative)
+        $baseUrl = $this->source->getOption('baseUrl', null, '');
+        $baseUrlRelative = (bool)$this->source->getOption('baseUrlRelative', null, true);
+        if ($baseUrlRelative && $baseUrl !== '' && $baseUrl[0] !== '/') {
+            $baseUrl = '/' . ltrim($baseUrl, '/');
+        }
+        $buildFullUrl = function ($urlOrPath) use ($baseUrl) {
+            if (!$urlOrPath) return $urlOrPath;
+            if (preg_match('#^(https?:)?//#i', $urlOrPath)) return $urlOrPath;
+            if ($baseUrl === '' || $baseUrl === '/' || strpos($urlOrPath, $baseUrl) === 0) {
+                return $urlOrPath[0] === '/' ? $urlOrPath : '/' . $urlOrPath;
+            }
+            return rtrim($baseUrl, '/') . '/' . ltrim($urlOrPath, '/');
+        };
+
         // Обрабатываем директории
         foreach ($containerList as $item) {
             if ($item['type'] === 'dir') {
@@ -262,22 +277,23 @@ class filesAPIController{
                 ];
             }
         }
-        
+
         // Обрабатываем файлы
         foreach ($objectList as $item) {
+            $fullUrl = $buildFullUrl($item['url']);
             $files[] = [
                 'name' => $item['name'],
-                'url' => $item['url'],
+                'url' => $fullUrl,
                 'size' => isset($item['size']) ? $item['size'] : 0,
                 'lastmod' => isset($item['lastmod']) ? $item['lastmod'] : null,
                 'type' => isset($item['mime']) ? $item['mime'] : 'application/octet-stream',
                 'is_dir' => false,
                 'is_readable' => isset($item['perms']['read']) ? $item['perms']['read'] : true,
                 'is_writable' => isset($item['perms']['write']) ? $item['perms']['write'] : true,
-                'image' => isset($item['image']) ? $item['image'] : $item['url'],
+                'image' => isset($item['image']) ? $item['image'] : $fullUrl,
                 'image_width' => isset($item['image_width']) ? $item['image_width'] : 0,
                 'image_height' => isset($item['image_height']) ? $item['image_height'] : 0,
-                'thumb' => isset($item['thumb']) ? $item['thumb'] : $item['url'],
+                'thumb' => isset($item['thumb']) ? $item['thumb'] : $fullUrl,
                 'thumb_width' => isset($item['thumb_width']) ? $item['thumb_width'] : 0,
                 'thumb_height' => isset($item['thumb_height']) ? $item['thumb_height'] : 0,
                 'ext'=>$item['ext'],
