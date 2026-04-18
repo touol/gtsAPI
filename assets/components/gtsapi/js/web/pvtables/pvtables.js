@@ -39999,7 +39999,8 @@ const sb = (e) => (_n("data-v-ff61e4cf"), e = e(), Nn(), e), gP = { class: "uplo
         header: "Выбор файла",
         modal: !0,
         style: { width: "90vw", height: "80vh" },
-        dismissableMask: !0
+        dismissableMask: !1,
+        closeOnEscape: !0
       }, {
         default: L(() => [
           v("div", pR, [
@@ -40015,7 +40016,7 @@ const sb = (e) => (_n("data-v-ff61e4cf"), e = e(), Nn(), e), gP = { class: "uplo
       }, 8, ["visible"])
     ]));
   }
-}, df = /* @__PURE__ */ Tt(hR, [["__scopeId", "data-v-365aefc4"]]), mR = ["innerHTML"], gR = ["title"], $s = {
+}, df = /* @__PURE__ */ Tt(hR, [["__scopeId", "data-v-18c613c9"]]), mR = ["innerHTML"], gR = ["title"], $s = {
   __name: "Field",
   props: /* @__PURE__ */ Yn({
     field: {
