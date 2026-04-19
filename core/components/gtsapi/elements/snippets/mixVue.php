@@ -35,9 +35,13 @@ if($package = $modx->getObject('transport.modTransportPackage', ['package_name:L
 }
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/pvtables.css?v='.$vapi);
 if(!$debug){
-    
+    if($_SERVER['SERVER_PORT'] == 80){
+        $http1 = "http";
+    }else if($_SERVER['SERVER_PORT'] == 443){
+        $http1 = "https";
+    }
 
-    $assets_gtsapi_url = $modx->getOption('server_protocol').'://'.$modx->getOption('http_host').$modx->getOption('assets_url').'components/gtsapi/';
+    $assets_gtsapi_url = $http1.'://'.$modx->getOption('http_host').$modx->getOption('assets_url').'components/gtsapi/';
     $imports = [];
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
         $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.esm-browser.js';
