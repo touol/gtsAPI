@@ -328,11 +328,15 @@ trait TableExportTrait
             $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
             
             $filename = 'export_' . $rule['table'] . '_' . date('Y-m-d_H-i-s') . '.xlsx';
-            
+
+            // Сбрасываем любой ранее накопленный вывод PHP, чтобы он не попал
+            // в начало бинарного xlsx-потока и не сломал файл.
+            while (ob_get_level() > 0) { ob_end_clean(); }
+
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment;filename="' . $filename . '"');
             header('Cache-Control: max-age=0');
-            
+
             $objWriter->save('php://output');
             exit;
             
