@@ -467,18 +467,21 @@ trait TableCrudTrait
             if (!empty($rule['properties']['fields'])) {
                 foreach ($rule['properties']['fields'] as $field => $desc) {
                     if (!empty($desc['readonly']) && isset($request[$field])) {
-                        // JOIN-поля (класс отличается от основного) в $object_old не
-                        // лежат — сравнивать бесполезно, пропускаем.
+                        // JOIN-поля (класс отличается от основного) — пропускаем.
                         if (!empty($desc['class']) && $desc['class'] !== $rule['class']) {
+                            continue;
+                        }
+                        // Если поля нет в реальном объекте xPDO — оно не принадлежит
+                        // основной таблице (JOIN/вычисляемое), сравнивать бесполезно.
+                        if (!array_key_exists($field, $object_old)) {
                             continue;
                         }
 
                         // Получаем старое значение поля
-                        $oldValue = isset($object_old[$field]) ? $object_old[$field] : null;
+                        $oldValue = $object_old[$field];
                         $newValue = $request[$field];
 
                         // Нормализация: пустые значения считаются эквивалентными
-                        // (null / '' / '0' при bool/int со значением 0 — не меняем семантику).
                         $oldNorm = ($oldValue === null) ? '' : (string)$oldValue;
                         $newNorm = ($newValue === null) ? '' : (string)$newValue;
                         if ($oldNorm === $newNorm) {

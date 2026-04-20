@@ -286,14 +286,21 @@ trait TableExportTrait
                         case 'date':
                             $value = $row[$header['field']] ?? '';
                             if (!empty($value)) {
-                                $timestamp = strtotime($value);
-                                if ($timestamp !== false) {
-                                    $value = PHPExcel_Shared_Date::PHPToExcel($timestamp);
+                                // Избегаем TZ-сдвига: строим Excel-serial из Y-m-d без strtotime.
+                                if (preg_match('/^(\d{4})-(\d{2})-(\d{2})/', $value, $m)) {
+                                    $value = PHPExcel_Shared_Date::FormattedPHPToExcel(
+                                        (int)$m[1], (int)$m[2], (int)$m[3]
+                                    );
                                     $sheet->getStyle($col . $currentRow)->getNumberFormat()->setFormatCode('dd.mm.yyyy');
                                 }
                             }
                             break;
-                            
+
+                        case 'html':
+                            $raw = $row[$header['field']] ?? '';
+                            $value = $this->htmlToPlainText($raw);
+                            break;
+
                         default:
                             $value = $row[$header['field']] ?? '';
                             break;
@@ -319,9 +326,55 @@ trait TableExportTrait
             ];
             $sheet->getStyle($range)->applyFromArray($styleArray);
 
-            // Автоподбор ширины столбцов
-            foreach (range('A', $lastCol) as $columnID) {
-                $sheet->getColumnDimension($columnID)->setAutoSize(true);
+            // Ширина столбцов: col_widths из конфига excel_export + autoSize для остальных.
+            // Ключи col_widths: {field}, {field}_id (autocomplete id-колонка),
+            // {field}_display (autocomplete display-колонка). Приоритет — более специфичный.
+            $excelCfg = $rule['properties']['actions']['excel_export'] ?? [];
+            $colWidths = is_array($excelCfg['col_widths'] ?? null) ? $excelCfg['col_widths'] : [];
+            $maxWidth  = isset($excelCfg['max_width']) ? (int)$excelCfg['max_width'] : 0;
+
+            $resolveWidth = function ($header) use ($colWidths) {
+                $field = $header['field'] ?? null;
+                $type  = $header['type'] ?? '';
+                if ($field === null) return null;
+                if ($type === 'autocomplete_id' && isset($colWidths[$field . '_id'])) {
+                    return (float)$colWidths[$field . '_id'];
+                }
+                if ($type === 'autocomplete_display' && isset($colWidths[$field . '_display'])) {
+                    return (float)$colWidths[$field . '_display'];
+                }
+                if (isset($colWidths[$field])) {
+                    return (float)$colWidths[$field];
+                }
+                return null;
+            };
+
+            $col = 'A';
+            foreach ($headers as $header) {
+                $w = $resolveWidth($header);
+                if ($w !== null) {
+                    $sheet->getColumnDimension($col)->setWidth($w);
+                } else {
+                    $sheet->getColumnDimension($col)->setAutoSize(true);
+                }
+                $col++;
+            }
+
+            // Если указан max_width, после расчёта autoSize обрезаем превышающие.
+            if ($maxWidth > 0) {
+                $sheet->calculateColumnWidths();
+                $col = 'A';
+                foreach ($headers as $header) {
+                    if ($resolveWidth($header) === null) {
+                        $dim = $sheet->getColumnDimension($col);
+                        $w = $dim->getWidth();
+                        if ($w > $maxWidth) {
+                            $dim->setAutoSize(false);
+                            $dim->setWidth($maxWidth);
+                        }
+                    }
+                    $col++;
+                }
             }
 
             // Создаем writer и отправляем файл
@@ -569,7 +622,7 @@ trait TableExportTrait
                         $searchField = $header['search_field'];
                         $parentField = $header['parent_field'];
                         $value = $row[$searchField] ?? '';
-                        
+
                         if (!empty($value) && isset($autocompletes[$parentField]['searchFields'][$searchField])) {
                             foreach ($autocompletes[$parentField]['searchFields'][$searchField]['rows'] as $autocompleteRow) {
                                 if ($autocompleteRow['id'] == $value) {
@@ -579,12 +632,16 @@ trait TableExportTrait
                             }
                         }
                         break;
-                        
+
+                    case 'html':
+                        $value = $this->htmlToPlainText($row[$header['field']] ?? '');
+                        break;
+
                     default:
                         $value = $row[$header['field']] ?? '';
                         break;
                 }
-                
+
                 $html .= '<td>' . htmlspecialchars($value) . '</td>';
             }
             
@@ -593,7 +650,29 @@ trait TableExportTrait
         
         $html .= '</tbody></table>';
         if (!isset($request['no_html_tag'])) $html .= '</body></html>';
-        
+
         return $html;
+    }
+
+    /**
+     * Превращает HTML из type:'html' колонок в плоский текст для экспорта/печати.
+     * - Удаляет теги, но заменяет ссылки на их текстовое содержимое.
+     * - Декодирует HTML-сущности.
+     * - Схлопывает повторные пробелы/переводы строк.
+     */
+    protected function htmlToPlainText($html)
+    {
+        if ($html === null || $html === '') return '';
+        $s = (string)$html;
+        // <br> и </p> → перевод строки (чтобы списки читались разделёнными).
+        $s = preg_replace('#<\s*br\s*/?\s*>#i', "\n", $s);
+        $s = preg_replace('#</\s*p\s*>#i', "\n", $s);
+        // strip tags + decode entities
+        $s = strip_tags($s);
+        $s = html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        // Чистим пробелы
+        $s = preg_replace('/[ \t]+/', ' ', $s);
+        $s = preg_replace('/\s*\n\s*/', "\n", $s);
+        return trim($s);
     }
 }
