@@ -467,18 +467,33 @@ trait TableCrudTrait
             if (!empty($rule['properties']['fields'])) {
                 foreach ($rule['properties']['fields'] as $field => $desc) {
                     if (!empty($desc['readonly']) && isset($request[$field])) {
+                        // JOIN-поля (класс отличается от основного) в $object_old не
+                        // лежат — сравнивать бесполезно, пропускаем.
+                        if (!empty($desc['class']) && $desc['class'] !== $rule['class']) {
+                            continue;
+                        }
+
                         // Получаем старое значение поля
                         $oldValue = isset($object_old[$field]) ? $object_old[$field] : null;
                         $newValue = $request[$field];
-                        
-                        // Сравниваем значения (учитываем разные типы)
-                        if ($oldValue != $newValue) {
-                            return $this->error('Поле "' . $field . '" доступно только для чтения и не может быть изменено', [
-                                'field' => $field,
-                                'old_value' => $oldValue,
-                                'new_value' => $newValue
-                            ]);
+
+                        // Нормализация: пустые значения считаются эквивалентными
+                        // (null / '' / '0' при bool/int со значением 0 — не меняем семантику).
+                        $oldNorm = ($oldValue === null) ? '' : (string)$oldValue;
+                        $newNorm = ($newValue === null) ? '' : (string)$newValue;
+                        if ($oldNorm === $newNorm) {
+                            continue;
                         }
+                        // Числовое сравнение для числовых представлений (1 vs "1", 0 vs false)
+                        if (is_numeric($oldNorm) && is_numeric($newNorm) && (float)$oldNorm === (float)$newNorm) {
+                            continue;
+                        }
+
+                        return $this->error('Поле "' . $field . '" доступно только для чтения и не может быть изменено', [
+                            'field' => $field,
+                            'old_value' => $oldValue,
+                            'new_value' => $newValue
+                        ]);
                     }
                 }
             }
