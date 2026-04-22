@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-BYu3bxZ-.js")).catch(function(h) {
+  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-D_WqCHNA.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -50242,7 +50242,7 @@ const ll = (e) => (Qi("data-v-19a23a77"), e = e(), er(), e), DF = { class: "phot
       _: 1
     }, 8, ["visible"]));
   }
-}, dB = /* @__PURE__ */ En(cB, [["__scopeId", "data-v-19a23a77"]]), wb = (e) => (Qi("data-v-abb07c92"), e = e(), er(), e), fB = { class: "file-browser" }, pB = { class: "toolbar p-4 border-b" }, hB = { class: "flex justify-between items-center" }, mB = { class: "flex items-center" }, gB = /* @__PURE__ */ wb(() => /* @__PURE__ */ S("h2", { class: "text-xl font-semibold mr-4" }, "Менеджер файлов", -1)), bB = { class: "breadcrumb text-gray-500" }, vB = { class: "actions" }, yB = /* @__PURE__ */ wb(() => /* @__PURE__ */ S("p", { class: "mb-4" }, [
+}, dB = /* @__PURE__ */ En(cB, [["__scopeId", "data-v-19a23a77"]]), wb = (e) => (Qi("data-v-2a86144c"), e = e(), er(), e), fB = { class: "file-browser" }, pB = { class: "toolbar p-4 border-b" }, hB = { class: "flex justify-between items-center" }, mB = { class: "flex items-center" }, gB = /* @__PURE__ */ wb(() => /* @__PURE__ */ S("h2", { class: "text-xl font-semibold mr-4" }, "Менеджер файлов", -1)), bB = { class: "breadcrumb text-gray-500" }, vB = { class: "actions" }, yB = /* @__PURE__ */ wb(() => /* @__PURE__ */ S("p", { class: "mb-4" }, [
   /* @__PURE__ */ ht(" Поле в записи будет очищено. "),
   /* @__PURE__ */ S("strong", null, "Физически файл не удаляется"),
   /* @__PURE__ */ ht(", остаётся на сервере. ")
@@ -50461,7 +50461,7 @@ const ll = (e) => (Qi("data-v-19a23a77"), e = e(), er(), e), DF = { class: "phot
       se(I(qr))
     ], 64));
   }
-}, N5 = /* @__PURE__ */ En(PB, [["__scopeId", "data-v-abb07c92"]]), OB = { class: "file-selector" }, LB = {
+}, N5 = /* @__PURE__ */ En(PB, [["__scopeId", "data-v-2a86144c"]]), OB = { class: "file-selector" }, LB = {
   class: "file-browser-container",
   style: { height: "100%" }
 }, RB = {
