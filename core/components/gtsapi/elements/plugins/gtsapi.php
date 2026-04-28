@@ -69,7 +69,27 @@ switch ($modx->event->name) {
                 header("Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, DELETE, PATCH");
                 header('Access-Control-Allow-Headers: Content-Type, X-Requested-With, Authorization');
                 $resp['time'] = number_format(round(microtime(true) - $start_time, 7), 7);
-                exit(json_encode($resp));
+                // JSON_INVALID_UTF8_SUBSTITUTE — битые UTF-8 байты заменяются на U+FFFD
+                // вместо тихого возврата false с пустым ответом. Параллельно лог,
+                // чтобы найти источник битых данных.
+                $json = json_encode($resp, JSON_INVALID_UTF8_SUBSTITUTE);
+                if ($json === false) {
+                    $modx->log(modX::LOG_LEVEL_ERROR,
+                        '[gtsAPI plugin] json_encode failed: ' . json_last_error_msg() .
+                        ' | uri=' . $uri
+                    );
+                    $json = json_encode([
+                        'success' => false,
+                        'message' => 'JSON encode error: ' . json_last_error_msg(),
+                    ]);
+                } elseif (json_last_error() !== JSON_ERROR_NONE) {
+                    // Запросы прошли, но были битые байты — фиксируем чтобы найти источник
+                    $modx->log(modX::LOG_LEVEL_ERROR,
+                        '[gtsAPI plugin] json_encode warning (битый UTF-8 в данных): ' .
+                        json_last_error_msg() . ' | uri=' . $uri
+                    );
+                }
+                exit($json);
             }
         }
         break;
