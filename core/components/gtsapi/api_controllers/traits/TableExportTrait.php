@@ -171,32 +171,46 @@ trait TableExportTrait
             $columnIndex = 0;
             $startRow = isset($formData['startRow']) ? $formData['startRow'] : 1;
 
+            // col_widths.<colName> = 'hide' → колонка не выводится (режим "отчёт").
+            // Имена колонок: для простых полей = field, для autocomplete = field_id /
+            // field_display, для multiautocomplete = field_searchField.
+            $hideCfg = $rule['properties']['actions']['excel_export']['col_widths'] ?? [];
+            $isHidden = function ($colName) use ($hideCfg) {
+                return isset($hideCfg[$colName]) && $hideCfg[$colName] === 'hide';
+            };
+
             foreach ($fields as $fieldName => $fieldConfig) {
                 if (isset($fieldConfig['modal_only']) && $fieldConfig['modal_only']) continue;
-                
+
                 $label = $fieldConfig['label'] ?? $fieldName;
-                
+
                 // Обработка autocomplete полей - создаем два столбца
                 if (isset($fieldConfig['type']) && $fieldConfig['type'] === 'autocomplete') {
-                    $headers[] = [
-                        'field' => $fieldName,
-                        'label' => $label . ' ID',
-                        'type' => 'autocomplete_id'
-                    ];
-                    $headers[] = [
-                        'field' => $fieldName,
-                        'label' => $label,
-                        'type' => 'autocomplete_display',
-                        'config' => $fieldConfig
-                    ];
-                } 
+                    if (!$isHidden($fieldName . '_id')) {
+                        $headers[] = [
+                            'field' => $fieldName,
+                            'label' => $label . ' ID',
+                            'type' => 'autocomplete_id'
+                        ];
+                    }
+                    if (!$isHidden($fieldName . '_display')) {
+                        $headers[] = [
+                            'field' => $fieldName,
+                            'label' => $label,
+                            'type' => 'autocomplete_display',
+                            'config' => $fieldConfig
+                        ];
+                    }
+                }
                 // Обработка multiautocomplete полей
                 else if (isset($fieldConfig['type']) && $fieldConfig['type'] === 'multiautocomplete') {
                     if (isset($fieldConfig['search'])) {
                         foreach ($fieldConfig['search'] as $searchField => $searchConfig) {
+                            $colName = $fieldName . '_' . $searchField;
+                            if ($isHidden($colName)) continue;
                             $searchLabel = $searchConfig['label'] ?? $searchField;
                             $headers[] = [
-                                'field' => $fieldName . '_' . $searchField,
+                                'field' => $colName,
                                 'label' => $label . ' - ' . $searchLabel,
                                 'type' => 'multiautocomplete',
                                 'config' => $searchConfig,
@@ -206,6 +220,7 @@ trait TableExportTrait
                         }
                     }
                 } else {
+                    if ($isHidden($fieldName)) continue;
                     $headers[] = [
                         'field' => $fieldName,
                         'label' => $label,
