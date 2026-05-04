@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-BjRd75xV.js")).catch(function(h) {
+  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-D4QXwWF2.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -60794,7 +60794,7 @@ function dU({ tableName: e, api: t, notify: n, scrollRef: o, actionsRow: r, rowA
       requestAnimationFrame(() => te(ke));
       return;
     }
-    if (!ke && (Math.abs(ve - L) < D || performance.now() - R < ee))
+    if (!ke && R && (Math.abs(ve - L) < D || performance.now() - R < ee))
       return;
     const F = (c?.value ?? 32) + 2, q = (f?.value ? 28 : 0) + // __drag__
     38 + // __select__
