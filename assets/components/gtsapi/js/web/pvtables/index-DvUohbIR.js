@@ -3986,11 +3986,11 @@ function A4(e, t, n, o, r, i, a, l, s, u, c, f, h, d = {}, g = null, b = null) {
     onCellEditComplete: async (ce) => {
       let { data: ne, newValue: W, field: ie } = ce;
       if (!ie) return;
-      const M = (xe, z) => z.split(".").reduce((De, ot) => De[ot], xe), re = (xe, z, De) => {
-        const ot = z.split("."), he = ot.pop();
+      const M = (xe, z) => z.split(".").reduce((De, it) => De[it], xe), re = (xe, z, De) => {
+        const it = z.split("."), he = it.pop();
         let ue = xe;
-        for (let Ue = 0; Ue < ot.length; Ue++)
-          ue[ot[Ue]] || (ue[ot[Ue]] = {}), ue = ue[ot[Ue]];
+        for (let Ue = 0; Ue < it.length; Ue++)
+          ue[it[Ue]] || (ue[it[Ue]] = {}), ue = ue[it[Ue]];
         ue[he] = De;
       };
       if (k && k(ne.id)) {
@@ -4005,12 +4005,12 @@ function A4(e, t, n, o, r, i, a, l, s, u, c, f, h, d = {}, g = null, b = null) {
           try {
             const De = await R.get(xe);
             if (De) {
-              const ot = {
+              const it = {
                 id: De,
                 [ie]: W,
                 update_from_row: 1
               };
-              await e.update(ot, { filters: t() });
+              await e.update(it, { filters: t() });
             }
           } catch (De) {
             console.log("error", De);
@@ -4026,29 +4026,29 @@ function A4(e, t, n, o, r, i, a, l, s, u, c, f, h, d = {}, g = null, b = null) {
           for (let he in ne)
             he !== "id" && ne[he] !== null && ne[he] !== void 0 && ne[he] !== "" && (De[he] = ne[he]);
           De[ie] = W, De.filters = t();
-          const ot = await e.action("insert", De);
+          const it = await e.action("insert", De);
           if (r("get-response", {
             table: i.table,
             action: "insert",
-            response: ot
-          }), !ot.success) {
-            n("error", { detail: ot.message }, !0), z(null);
+            response: it
+          }), !it.success) {
+            n("error", { detail: it.message }, !0), z(null);
             return;
           }
-          if (ot.data && ot.data.object && ot.data.object.id) {
-            const he = ne.id, ue = ot.data.object;
+          if (it.data && it.data.object && it.data.object.id) {
+            const he = ne.id, ue = it.data.object;
             if (z(ue.id), y) {
               const Ue = {};
               for (let Oe in ue)
                 Ue[Oe] = null;
               await y(he, ue, Ue);
             }
-            if (ot.data.customFields)
-              for (let Ue in ot.data.customFields)
-                s.value[Ue] = ot.data.customFields[Ue];
-            if (ot.data.row_setting)
-              for (let Ue in ot.data.row_setting)
-                u.value[Ue] = ot.data.row_setting[Ue];
+            if (it.data.customFields)
+              for (let Ue in it.data.customFields)
+                s.value[Ue] = it.data.customFields[Ue];
+            if (it.data.row_setting)
+              for (let Ue in it.data.row_setting)
+                u.value[Ue] = it.data.row_setting[Ue];
           } else
             z(null), o(!1);
         } catch (De) {
@@ -4077,11 +4077,11 @@ function A4(e, t, n, o, r, i, a, l, s, u, c, f, h, d = {}, g = null, b = null) {
           const z = l(Number(pe.id)), De = a.value[z]?._rowKey;
           !xe.data.object._rowKey && De && (xe.data.object._rowKey = De), a.value[z] = xe.data.object, b && b.value && b.value.updateEditingMetaData(z, xe.data.object);
         } else if (xe.data.defvalues) {
-          const z = l(Number(pe.id)), ot = {
+          const z = l(Number(pe.id)), it = {
             ...a.value[z],
             ...xe.data.defvalues
           };
-          a.value[z] = ot, b && b.value && b.value.updateEditingMetaData(z, ot);
+          a.value[z] = it, b && b.value && b.value.updateEditingMetaData(z, it);
         }
         if (xe.data.row_setting)
           for (let z in xe.data.row_setting)
@@ -5132,7 +5132,7 @@ function B4(e, t, n, o, r = null, i = "", a = null, l = null, s = null, u = null
       }
     } else
       y.value = Y || l?.scrollHeight || "85vh";
-    if (ot(), a) {
+    if (it(), a) {
       const he = ee.value ? "Вертикальный скролл отключен. Виртуальный скроллинг также отключен." : "Вертикальный скролл включен.";
       a("info", { detail: he });
     }
@@ -5194,7 +5194,7 @@ function B4(e, t, n, o, r = null, i = "", a = null, l = null, s = null, u = null
     xe || (xe = document.createElement("style"), xe.type = "text/css", xe.id = `pvtables-vscroll-${i}`, document.head.appendChild(xe)), s && s.value && s.value.$el && s.value.$el.classList.add(`pvtables-vscroll-${i}`);
   }, De = () => {
     xe && (document.head.removeChild(xe), xe = null), s && s.value && s.value.$el && s.value.$el.classList.remove(`pvtables-vscroll-${i}`);
-  }, ot = () => {
+  }, it = () => {
     if (!ee.value) {
       De();
       return;
@@ -5269,7 +5269,7 @@ function B4(e, t, n, o, r = null, i = "", a = null, l = null, s = null, u = null
     // Режим отключения вертикального скролла
     disableVerticalScroll: ee,
     onDisableVerticalScrollToggle: W,
-    applyVerticalScrollStyles: ot
+    applyVerticalScrollStyles: it
   };
 }
 function qg(e, t, n, o, r, i) {
@@ -42836,11 +42836,11 @@ function Jt(e) {
     return ae();
   };
   var fe = d.__private__.convertDateToPDFDate = function(C) {
-    var K = C.getTimezoneOffset(), me = K < 0 ? "+" : "-", Le = Math.floor(Math.abs(K / 60)), Ve = Math.abs(K % 60), it = [me, j(Le), "'", j(Ve), "'"].join("");
-    return ["D:", C.getFullYear(), j(C.getMonth() + 1), j(C.getDate()), j(C.getHours()), j(C.getMinutes()), j(C.getSeconds()), it].join("");
+    var K = C.getTimezoneOffset(), me = K < 0 ? "+" : "-", Le = Math.floor(Math.abs(K / 60)), Ve = Math.abs(K % 60), ot = [me, j(Le), "'", j(Ve), "'"].join("");
+    return ["D:", C.getFullYear(), j(C.getMonth() + 1), j(C.getDate()), j(C.getHours()), j(C.getMinutes()), j(C.getSeconds()), ot].join("");
   }, ke = d.__private__.convertPDFDateToDate = function(C) {
-    var K = parseInt(C.substr(2, 4), 10), me = parseInt(C.substr(6, 2), 10) - 1, Le = parseInt(C.substr(8, 2), 10), Ve = parseInt(C.substr(10, 2), 10), it = parseInt(C.substr(12, 2), 10), Re = parseInt(C.substr(14, 2), 10);
-    return new Date(K, me, Le, Ve, it, Re, 0);
+    var K = parseInt(C.substr(2, 4), 10), me = parseInt(C.substr(6, 2), 10) - 1, Le = parseInt(C.substr(8, 2), 10), Ve = parseInt(C.substr(10, 2), 10), ot = parseInt(C.substr(12, 2), 10), Re = parseInt(C.substr(14, 2), 10);
+    return new Date(K, me, Le, Ve, ot, Re, 0);
   }, ve = d.__private__.setCreationDate = function(C) {
     var K;
     if (C === void 0 && (C = /* @__PURE__ */ new Date()), C instanceof Date) K = fe(C);
@@ -42876,7 +42876,7 @@ function Jt(e) {
     return C = C.toString(), W += C.length + 1, pe.push(C), pe;
   }, De = d.__private__.write = function(C) {
     return z(arguments.length === 1 ? C.toString() : Array.prototype.join.call(arguments, " "));
-  }, ot = d.__private__.getArrayBuffer = function(C) {
+  }, it = d.__private__.getArrayBuffer = function(C) {
     for (var K = C.length, me = new ArrayBuffer(K), Le = new Uint8Array(me); K--; ) Le[K] = C.charCodeAt(K);
     return me;
   }, he = [["Helvetica", "helvetica", "normal", "WinAnsiEncoding"], ["Helvetica-Bold", "helvetica", "bold", "WinAnsiEncoding"], ["Helvetica-Oblique", "helvetica", "italic", "WinAnsiEncoding"], ["Helvetica-BoldOblique", "helvetica", "bolditalic", "WinAnsiEncoding"], ["Courier", "courier", "normal", "WinAnsiEncoding"], ["Courier-Bold", "courier", "bold", "WinAnsiEncoding"], ["Courier-Oblique", "courier", "italic", "WinAnsiEncoding"], ["Courier-BoldOblique", "courier", "bolditalic", "WinAnsiEncoding"], ["Times-Roman", "times", "normal", "WinAnsiEncoding"], ["Times-Bold", "times", "bold", "WinAnsiEncoding"], ["Times-Italic", "times", "italic", "WinAnsiEncoding"], ["Times-BoldItalic", "times", "bolditalic", "WinAnsiEncoding"], ["ZapfDingbats", "zapfdingbats", "normal", null], ["Symbol", "symbol", "normal", null]];
@@ -42934,9 +42934,9 @@ function Jt(e) {
     if (Object.keys(Xt).indexOf(C) === -1) throw new Error("Invalid arguments passed to jsPDF.setDocumentProperty");
     return Xt[C] = K;
   };
-  var Tt, zt, At, In, _e, $e = {}, Ze = {}, nt = [], st = {}, mt = {}, Ct = {}, It = {}, tn = null, Kt = 0, Mt = [], dn = new i0(d), si = e.hotfixes || [], Yn = {}, hi = {}, Bo = [], Nt = function C(K, me, Le, Ve, it, Re) {
-    if (!(this instanceof C)) return new C(K, me, Le, Ve, it, Re);
-    isNaN(K) && (K = 1), isNaN(me) && (me = 0), isNaN(Le) && (Le = 0), isNaN(Ve) && (Ve = 1), isNaN(it) && (it = 0), isNaN(Re) && (Re = 0), this._matrix = [K, me, Le, Ve, it, Re];
+  var Tt, zt, At, In, _e, $e = {}, Ze = {}, nt = [], st = {}, mt = {}, Ct = {}, It = {}, tn = null, Kt = 0, Mt = [], dn = new i0(d), si = e.hotfixes || [], Yn = {}, hi = {}, Bo = [], Nt = function C(K, me, Le, Ve, ot, Re) {
+    if (!(this instanceof C)) return new C(K, me, Le, Ve, ot, Re);
+    isNaN(K) && (K = 1), isNaN(me) && (me = 0), isNaN(Le) && (Le = 0), isNaN(Ve) && (Ve = 1), isNaN(ot) && (ot = 0), isNaN(Re) && (Re = 0), this._matrix = [K, me, Le, Ve, ot, Re];
   };
   Object.defineProperty(Nt.prototype, "sx", { get: function() {
     return this._matrix[0];
@@ -42997,18 +42997,18 @@ function Jt(e) {
   } }), Nt.prototype.join = function(C) {
     return [this.sx, this.shy, this.shx, this.sy, this.tx, this.ty].map(G).join(C);
   }, Nt.prototype.multiply = function(C) {
-    var K = C.sx * this.sx + C.shy * this.shx, me = C.sx * this.shy + C.shy * this.sy, Le = C.shx * this.sx + C.sy * this.shx, Ve = C.shx * this.shy + C.sy * this.sy, it = C.tx * this.sx + C.ty * this.shx + this.tx, Re = C.tx * this.shy + C.ty * this.sy + this.ty;
-    return new Nt(K, me, Le, Ve, it, Re);
+    var K = C.sx * this.sx + C.shy * this.shx, me = C.sx * this.shy + C.shy * this.sy, Le = C.shx * this.sx + C.sy * this.shx, Ve = C.shx * this.shy + C.sy * this.sy, ot = C.tx * this.sx + C.ty * this.shx + this.tx, Re = C.tx * this.shy + C.ty * this.sy + this.ty;
+    return new Nt(K, me, Le, Ve, ot, Re);
   }, Nt.prototype.decompose = function() {
-    var C = this.sx, K = this.shy, me = this.shx, Le = this.sy, Ve = this.tx, it = this.ty, Re = Math.sqrt(C * C + K * K), Ne = (C /= Re) * me + (K /= Re) * Le;
+    var C = this.sx, K = this.shy, me = this.shx, Le = this.sy, Ve = this.tx, ot = this.ty, Re = Math.sqrt(C * C + K * K), Ne = (C /= Re) * me + (K /= Re) * Le;
     me -= C * Ne, Le -= K * Ne;
     var gt = Math.sqrt(me * me + Le * Le);
-    return Ne /= gt, C * (Le /= gt) < K * (me /= gt) && (C = -C, K = -K, Ne = -Ne, Re = -Re), { scale: new Nt(Re, 0, 0, gt, 0, 0), translate: new Nt(1, 0, 0, 1, Ve, it), rotate: new Nt(C, K, -K, C, 0, 0), skew: new Nt(1, 0, Ne, 1, 0, 0) };
+    return Ne /= gt, C * (Le /= gt) < K * (me /= gt) && (C = -C, K = -K, Ne = -Ne, Re = -Re), { scale: new Nt(Re, 0, 0, gt, 0, 0), translate: new Nt(1, 0, 0, 1, Ve, ot), rotate: new Nt(C, K, -K, C, 0, 0), skew: new Nt(1, 0, Ne, 1, 0, 0) };
   }, Nt.prototype.toString = function(C) {
     return this.join(" ");
   }, Nt.prototype.inversed = function() {
-    var C = this.sx, K = this.shy, me = this.shx, Le = this.sy, Ve = this.tx, it = this.ty, Re = 1 / (C * Le - K * me), Ne = Le * Re, gt = -K * Re, Be = -me * Re, Xe = C * Re;
-    return new Nt(Ne, gt, Be, Xe, -Ne * Ve - Be * it, -gt * Ve - Xe * it);
+    var C = this.sx, K = this.shy, me = this.shx, Le = this.sy, Ve = this.tx, ot = this.ty, Re = 1 / (C * Le - K * me), Ne = Le * Re, gt = -K * Re, Be = -me * Re, Xe = C * Re;
+    return new Nt(Ne, gt, Be, Xe, -Ne * Ve - Be * ot, -gt * Ve - Xe * ot);
   }, Nt.prototype.applyToPoint = function(C) {
     var K = C.x * this.sx + C.y * this.shx + this.tx, me = C.x * this.shy + C.y * this.sy + this.ty;
     return new ga(K, me);
@@ -43016,8 +43016,8 @@ function Jt(e) {
     var K = this.applyToPoint(C), me = this.applyToPoint(new ga(C.x + C.w, C.y + C.h));
     return new fl(K.x, K.y, me.x - K.x, me.y - K.y);
   }, Nt.prototype.clone = function() {
-    var C = this.sx, K = this.shy, me = this.shx, Le = this.sy, Ve = this.tx, it = this.ty;
-    return new Nt(C, K, me, Le, Ve, it);
+    var C = this.sx, K = this.shy, me = this.shx, Le = this.sy, Ve = this.tx, ot = this.ty;
+    return new Nt(C, K, me, Le, Ve, ot);
   }, d.Matrix = Nt;
   var Pi = d.matrixMult = function(C, K) {
     return K.multiply(C);
@@ -43061,7 +43061,7 @@ function Jt(e) {
   }, Ri = d.__private__.encodeColorString = function(C) {
     var K;
     typeof C == "string" && (C = { ch1: C });
-    var me = C.ch1, Le = C.ch2, Ve = C.ch3, it = C.ch4, Re = C.pdfColorType === "draw" ? ["G", "RG", "K"] : ["g", "rg", "k"];
+    var me = C.ch1, Le = C.ch2, Ve = C.ch3, ot = C.ch4, Re = C.pdfColorType === "draw" ? ["G", "RG", "K"] : ["g", "rg", "k"];
     if (typeof me == "string" && me.charAt(0) !== "#") {
       var Ne = new I5(me);
       if (Ne.ok) me = Ne.toHex();
@@ -43071,16 +43071,16 @@ function Jt(e) {
       var gt = parseInt(me.substr(1), 16);
       me = gt >> 16 & 255, Le = gt >> 8 & 255, Ve = 255 & gt;
     }
-    if (Le === void 0 || it === void 0 && me === Le && Le === Ve) K = typeof me == "string" ? me + " " + Re[0] : C.precision === 2 ? E(me / 255) + " " + Re[0] : A(me / 255) + " " + Re[0];
-    else if (it === void 0 || no(it) === "object") {
-      if (it && !isNaN(it.a) && it.a === 0) return ["1.", "1.", "1.", Re[1]].join(" ");
+    if (Le === void 0 || ot === void 0 && me === Le && Le === Ve) K = typeof me == "string" ? me + " " + Re[0] : C.precision === 2 ? E(me / 255) + " " + Re[0] : A(me / 255) + " " + Re[0];
+    else if (ot === void 0 || no(ot) === "object") {
+      if (ot && !isNaN(ot.a) && ot.a === 0) return ["1.", "1.", "1.", Re[1]].join(" ");
       K = typeof me == "string" ? [me, Le, Ve, Re[1]].join(" ") : C.precision === 2 ? [E(me / 255), E(Le / 255), E(Ve / 255), Re[1]].join(" ") : [A(me / 255), A(Le / 255), A(Ve / 255), Re[1]].join(" ");
-    } else K = typeof me == "string" ? [me, Le, Ve, it, Re[2]].join(" ") : C.precision === 2 ? [E(me), E(Le), E(Ve), E(it), Re[2]].join(" ") : [A(me), A(Le), A(Ve), A(it), Re[2]].join(" ");
+    } else K = typeof me == "string" ? [me, Le, Ve, ot, Re[2]].join(" ") : C.precision === 2 ? [E(me), E(Le), E(Ve), E(ot), Re[2]].join(" ") : [A(me), A(Le), A(Ve), A(ot), Re[2]].join(" ");
     return K;
   }, ui = d.__private__.getFilters = function() {
     return a;
   }, gi = d.__private__.putStream = function(C) {
-    var K = (C = C || {}).data || "", me = C.filters || ui(), Le = C.alreadyAppliedFilters || [], Ve = C.addLength1 || !1, it = K.length, Re = C.objectId, Ne = function(Pn) {
+    var K = (C = C || {}).data || "", me = C.filters || ui(), Le = C.alreadyAppliedFilters || [], Ve = C.addLength1 || !1, ot = K.length, Re = C.objectId, Ne = function(Pn) {
       return Pn;
     };
     if (c !== null && Re === void 0) throw new Error("ObjectId must be passed to putStream for file encryption");
@@ -43088,7 +43088,7 @@ function Jt(e) {
     var gt = {};
     me === !0 && (me = ["FlateEncode"]);
     var Be = C.additionalKeyValues || [], Xe = (gt = Jt.API.processDataByFilters !== void 0 ? Jt.API.processDataByFilters(K, me) : { data: K, reverseChain: [] }).reverseChain + (Array.isArray(Le) ? Le.join(" ") : Le.toString());
-    if (gt.data.length !== 0 && (Be.push({ key: "Length", value: gt.data.length }), Ve === !0 && Be.push({ key: "Length1", value: it })), Xe.length != 0) if (Xe.split("/").length - 1 == 1) Be.push({ key: "Filter", value: Xe });
+    if (gt.data.length !== 0 && (Be.push({ key: "Length", value: gt.data.length }), Ve === !0 && Be.push({ key: "Length1", value: ot })), Xe.length != 0) if (Xe.split("/").length - 1 == 1) Be.push({ key: "Filter", value: Xe });
     else {
       Be.push({ key: "Filter", value: "[" + Xe + "]" });
       for (var Pt = 0; Pt < Be.length; Pt += 1) if (Be[Pt].key === "DecodeParms") {
@@ -43102,10 +43102,10 @@ function Jt(e) {
   }, lo = d.__private__.putPage = function(C) {
     var K = C.number, me = C.data, Le = C.objId, Ve = C.contentsObjId;
     go(Le, !0), z("<</Type /Page"), z("/Parent " + C.rootDictionaryObjId + " 0 R"), z("/Resources " + C.resourceDictionaryObjId + " 0 R"), z("/MediaBox [" + parseFloat(G(C.mediaBox.bottomLeftX)) + " " + parseFloat(G(C.mediaBox.bottomLeftY)) + " " + G(C.mediaBox.topRightX) + " " + G(C.mediaBox.topRightY) + "]"), C.cropBox !== null && z("/CropBox [" + G(C.cropBox.bottomLeftX) + " " + G(C.cropBox.bottomLeftY) + " " + G(C.cropBox.topRightX) + " " + G(C.cropBox.topRightY) + "]"), C.bleedBox !== null && z("/BleedBox [" + G(C.bleedBox.bottomLeftX) + " " + G(C.bleedBox.bottomLeftY) + " " + G(C.bleedBox.topRightX) + " " + G(C.bleedBox.topRightY) + "]"), C.trimBox !== null && z("/TrimBox [" + G(C.trimBox.bottomLeftX) + " " + G(C.trimBox.bottomLeftY) + " " + G(C.trimBox.topRightX) + " " + G(C.trimBox.topRightY) + "]"), C.artBox !== null && z("/ArtBox [" + G(C.artBox.bottomLeftX) + " " + G(C.artBox.bottomLeftY) + " " + G(C.artBox.topRightX) + " " + G(C.artBox.topRightY) + "]"), typeof C.userUnit == "number" && C.userUnit !== 1 && z("/UserUnit " + C.userUnit), dn.publish("putPage", { objId: Le, pageContext: Mt[K], pageNumber: K, page: me }), z("/Contents " + Ve + " 0 R"), z(">>"), z("endobj");
-    var it = me.join(`
+    var ot = me.join(`
 `);
-    return R === L && (it += `
-Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
+    return R === L && (ot += `
+Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Le;
   }, bo = d.__private__.putPages = function() {
     var C, K, me = [];
     for (C = 1; C <= Kt; C++) Mt[C].objId = ao(), Mt[C].contentsObjId = ao();
@@ -43144,8 +43144,8 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
       return Cn.trim();
     })(C.colors, K), Ve = [];
     Ve.push({ key: "FunctionType", value: "0" }), Ve.push({ key: "Domain", value: "[0.0 1.0]" }), Ve.push({ key: "Size", value: "[" + K + "]" }), Ve.push({ key: "BitsPerSample", value: "8" }), Ve.push({ key: "Range", value: "[0.0 1.0 0.0 1.0 0.0 1.0]" }), Ve.push({ key: "Decode", value: "[0.0 1.0 0.0 1.0 0.0 1.0]" }), gi({ data: Le, additionalKeyValues: Ve, alreadyAppliedFilters: ["/ASCIIHexDecode"], objectId: me }), z("endobj"), C.objectNumber = Kn(), z("<< /ShadingType " + C.type), z("/ColorSpace /DeviceRGB");
-    var it = "/Coords [" + G(parseFloat(C.coords[0])) + " " + G(parseFloat(C.coords[1])) + " ";
-    C.type === 2 ? it += G(parseFloat(C.coords[2])) + " " + G(parseFloat(C.coords[3])) : it += G(parseFloat(C.coords[2])) + " " + G(parseFloat(C.coords[3])) + " " + G(parseFloat(C.coords[4])) + " " + G(parseFloat(C.coords[5])), z(it += "]"), C.matrix && z("/Matrix [" + C.matrix.toString() + "]"), z("/Function " + me + " 0 R"), z("/Extend [true true]"), z(">>"), z("endobj");
+    var ot = "/Coords [" + G(parseFloat(C.coords[0])) + " " + G(parseFloat(C.coords[1])) + " ";
+    C.type === 2 ? ot += G(parseFloat(C.coords[2])) + " " + G(parseFloat(C.coords[3])) : ot += G(parseFloat(C.coords[2])) + " " + G(parseFloat(C.coords[3])) + " " + G(parseFloat(C.coords[4])) + " " + G(parseFloat(C.coords[5])), z(ot += "]"), C.matrix && z("/Matrix [" + C.matrix.toString() + "]"), z("/Function " + me + " 0 R"), z("/Extend [true true]"), z(">>"), z("endobj");
   }, wr = function(C, K) {
     var me = ao(), Le = Kn();
     K.push({ resourcesOid: me, objectOid: Le }), C.objectNumber = Le;
@@ -43187,18 +43187,18 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
   }, ci = function(C) {
     Ze[C.fontName] = Ze[C.fontName] || {}, Ze[C.fontName][C.fontStyle] = C.id;
   }, Vi = function(C, K, me, Le, Ve) {
-    var it = { id: "F" + (Object.keys($e).length + 1).toString(10), postScriptName: C, fontName: K, fontStyle: me, encoding: Le, isStandardFont: Ve || !1, metadata: {} };
-    return dn.publish("addFont", { font: it, instance: this }), $e[it.id] = it, ci(it), it.id;
+    var ot = { id: "F" + (Object.keys($e).length + 1).toString(10), postScriptName: C, fontName: K, fontStyle: me, encoding: Le, isStandardFont: Ve || !1, metadata: {} };
+    return dn.publish("addFont", { font: ot, instance: this }), $e[ot.id] = ot, ci(ot), ot.id;
   }, Jo = d.__private__.pdfEscape = d.pdfEscape = function(C, K) {
     return (function(me, Le) {
-      var Ve, it, Re, Ne, gt, Be, Xe, Pt, Et;
+      var Ve, ot, Re, Ne, gt, Be, Xe, Pt, Et;
       if (Re = (Le = Le || {}).sourceEncoding || "Unicode", gt = Le.outputEncoding, (Le.autoencode || gt) && $e[Tt].metadata && $e[Tt].metadata[Re] && $e[Tt].metadata[Re].encoding && (Ne = $e[Tt].metadata[Re].encoding, !gt && $e[Tt].encoding && (gt = $e[Tt].encoding), !gt && Ne.codePages && (gt = Ne.codePages[0]), typeof gt == "string" && (gt = Ne[gt]), gt)) {
-        for (Xe = !1, Be = [], Ve = 0, it = me.length; Ve < it; Ve++) (Pt = gt[me.charCodeAt(Ve)]) ? Be.push(String.fromCharCode(Pt)) : Be.push(me[Ve]), Be[Ve].charCodeAt(0) >> 8 && (Xe = !0);
+        for (Xe = !1, Be = [], Ve = 0, ot = me.length; Ve < ot; Ve++) (Pt = gt[me.charCodeAt(Ve)]) ? Be.push(String.fromCharCode(Pt)) : Be.push(me[Ve]), Be[Ve].charCodeAt(0) >> 8 && (Xe = !0);
         me = Be.join("");
       }
       for (Ve = me.length; Xe === void 0 && Ve !== 0; ) me.charCodeAt(Ve - 1) >> 8 && (Xe = !0), Ve--;
       if (!Xe) return me;
-      for (Be = Le.noBOM ? [] : [254, 255], Ve = 0, it = me.length; Ve < it; Ve++) {
+      for (Be = Le.noBOM ? [] : [254, 255], Ve = 0, ot = me.length; Ve < ot; Ve++) {
         if ((Et = (Pt = me.charCodeAt(Ve)) >> 8) >> 8) throw new Error("Character at position " + Ve + " of string '" + me + "' exceeds 16bits. Cannot be encoded into UCS-2 BE");
         Be.push(Et), Be.push(Pt - (Et << 8));
       }
@@ -43297,12 +43297,12 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
     return Sr(), Dr(), z("startxref"), z("" + K), z("%%EOF"), xe(M[q]), ne.join(`
 `);
   }, Yr = d.__private__.getBlob = function(C) {
-    return new Blob([ot(C)], { type: "application/pdf" });
+    return new Blob([it(C)], { type: "application/pdf" });
   }, ji = function(C) {
     for (; C.firstChild; ) C.removeChild(C.firstChild);
   }, Zo = function(C) {
-    var K, me = C.document, Le = me.documentElement, Ve = me.head, it = me.body;
-    return Ve || (Ve = me.createElement("head"), Le.appendChild(Ve)), it || (it = me.createElement("body"), Le.appendChild(it)), ji(Ve), ji(it), (K = me.createElement("style")).appendChild(me.createTextNode("html, body { padding: 0; margin: 0; } iframe { width: 100%; height: 100%; border: 0;}")), Ve.appendChild(K), { document: me, body: it };
+    var K, me = C.document, Le = me.documentElement, Ve = me.head, ot = me.body;
+    return Ve || (Ve = me.createElement("head"), Le.appendChild(Ve)), ot || (ot = me.createElement("body"), Le.appendChild(ot)), ji(Ve), ji(ot), (K = me.createElement("style")).appendChild(me.createTextNode("html, body { padding: 0; margin: 0; } iframe { width: 100%; height: 100%; border: 0;}")), Ve.appendChild(K), { document: me, body: ot };
   }, bi = d.output = d.__private__.output = (To = function(C, K) {
     switch (typeof (K = K || {}) == "string" ? K = { filename: K } : K.filename = K.filename || "generated.pdf", C) {
       case void 0:
@@ -43311,7 +43311,7 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
         d.save(K.filename);
         break;
       case "arraybuffer":
-        return ot(zi());
+        return it(zi());
       case "blob":
         return Yr(zi());
       case "bloburi":
@@ -43330,12 +43330,12 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
         return "data:application/pdf;filename=" + encodeURIComponent(K.filename) + ";base64," + me;
       case "pdfobjectnewwindow":
         if (Object.prototype.toString.call(cn) === "[object Window]") {
-          var Ve = "https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js", it = !K.pdfObjectUrl;
-          it || (Ve = K.pdfObjectUrl);
+          var Ve = "https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js", ot = !K.pdfObjectUrl;
+          ot || (Ve = K.pdfObjectUrl);
           var Re = cn.open();
           if (Re !== null) {
             var Ne = Zo(Re), gt = Ne.document.createElement("script"), Be = this;
-            gt.src = Ve, it && (gt.integrity = "sha512-4ze/a9/4jqu+tX9dfOqJYSvyYd5M6qum/3HpCLr+/Jqf0whc37VUbkpNGHR7/8pSnCFw47T1fmIpwBV7UySh3g==", gt.crossOrigin = "anonymous"), gt.onload = function() {
+            gt.src = Ve, ot && (gt.integrity = "sha512-4ze/a9/4jqu+tX9dfOqJYSvyYd5M6qum/3HpCLr+/Jqf0whc37VUbkpNGHR7/8pSnCFw47T1fmIpwBV7UySh3g==", gt.crossOrigin = "anonymous"), gt.onload = function() {
               Re.PDFObject.embed(Be.output("dataurlstring"), K);
             }, Ne.body.appendChild(gt);
           }
@@ -43436,14 +43436,14 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
       M[K] = me, Mt[K] = Le, this.setPage(K);
     } else if (C < K) {
       me = M[C], Le = Mt[C];
-      for (var it = C; it < K; it++) M[it] = M[it + 1], Mt[it] = Mt[it + 1];
+      for (var ot = C; ot < K; ot++) M[ot] = M[ot + 1], Mt[ot] = Mt[ot + 1];
       M[K] = me, Mt[K] = Le, this.setPage(K);
     }
     return this;
   }, d.deletePage = function() {
     return Mr.apply(this, arguments), this;
   }, d.__private__.text = d.text = function(C, K, me, Le, Ve) {
-    var it, Re, Ne, gt, Be, Xe, Pt, Et, Cn, xn = (Le = Le || {}).scope || this;
+    var ot, Re, Ne, gt, Be, Xe, Pt, Et, Cn, xn = (Le = Le || {}).scope || this;
     if (typeof C == "number" && typeof K == "number" && (typeof me == "string" || Array.isArray(me))) {
       var Pn = me;
       me = K, K = C, C = Pn;
@@ -43493,7 +43493,7 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
     }
     if ((Xe = Le.maxWidth || 0) > 0 && (typeof C == "string" ? C = xn.splitTextToSize(C, Xe) : Object.prototype.toString.call(C) === "[object Array]" && (C = C.reduce(function(Gn, Xn) {
       return Gn.concat(xn.splitTextToSize(Xn, Xe));
-    }, []))), it = { text: C, x: K, y: me, options: Le, mutex: { pdfEscape: Jo, activeFontKey: Tt, fonts: $e, activeFontSize: ue } }, dn.publish("preProcessText", it), C = it.text, Ne = (Le = it.options).angle, Cn instanceof Nt == 0 && Ne && typeof Ne == "number") {
+    }, []))), ot = { text: C, x: K, y: me, options: Le, mutex: { pdfEscape: Jo, activeFontKey: Tt, fonts: $e, activeFontSize: ue } }, dn.publish("preProcessText", ot), C = ot.text, Ne = (Le = ot.options).angle, Cn instanceof Nt == 0 && Ne && typeof Ne == "number") {
       Ne *= Math.PI / 180, Le.rotationDirection === 0 && (Ne = -Ne), R === L && (Ne = -Ne);
       var ds = Math.cos(Ne), ir = Math.sin(Ne);
       Cn = new Nt(ds, ir, -ir, ds, 0, 0);
@@ -43581,7 +43581,7 @@ Q`), go(Ve, !0), gi({ data: it, filters: ui(), objectId: Ve }), z("endobj"), Le;
     }
     (typeof Le.R2L == "boolean" ? Le.R2L : Me) === !0 && (C = zl(C, function(Gn, Xn, Ao) {
       return [Gn.split("").reverse().join(""), Xn, Ao];
-    })), it = { text: C, x: K, y: me, options: Le, mutex: { pdfEscape: Jo, activeFontKey: Tt, fonts: $e, activeFontSize: ue } }, dn.publish("postProcessText", it), C = it.text, Zn = it.mutex.isHex || !1;
+    })), ot = { text: C, x: K, y: me, options: Le, mutex: { pdfEscape: Jo, activeFontKey: Tt, fonts: $e, activeFontSize: ue } }, dn.publish("postProcessText", ot), C = ot.text, Zn = ot.mutex.isHex || !1;
     var Kl = $e[Tt].encoding;
     Kl !== "WinAnsiEncoding" && Kl !== "StandardEncoding" || (C = zl(C, function(Gn, Xn, Ao) {
       return [Ys(Gn), Xn, Ao];
@@ -43669,10 +43669,10 @@ T* `) : C.join(` Tj
     C === null || R === L && C === void 0 || (C = Ye(C), z(C));
   };
   function Mi(C, K, me, Le, Ve) {
-    var it = new Hu(K || this.boundingBox, me || this.xStep, Le || this.yStep, this.gState, Ve || this.matrix);
-    it.stream = this.stream;
+    var ot = new Hu(K || this.boundingBox, me || this.xStep, Le || this.yStep, this.gState, Ve || this.matrix);
+    ot.stream = this.stream;
     var Re = C + "$$" + this.cloneIndex++ + "$$";
-    return Eo(Re, it), it;
+    return Eo(Re, ot), ot;
   }
   var Qt = function(C, K) {
     var me = mt[C.key], Le = st[me];
@@ -43699,17 +43699,17 @@ T* `) : C.join(` Tj
     return z(G(Q(C)) + " " + G(H(K)) + " m"), this;
   }, Vn = d.lineTo = function(C, K) {
     return z(G(Q(C)) + " " + G(H(K)) + " l"), this;
-  }, ha = d.curveTo = function(C, K, me, Le, Ve, it) {
-    return z([G(Q(C)), G(H(K)), G(Q(me)), G(H(Le)), G(Q(Ve)), G(H(it)), "c"].join(" ")), this;
+  }, ha = d.curveTo = function(C, K, me, Le, Ve, ot) {
+    return z([G(Q(C)), G(H(K)), G(Q(me)), G(H(Le)), G(Q(Ve)), G(H(ot)), "c"].join(" ")), this;
   };
   d.__private__.line = d.line = function(C, K, me, Le, Ve) {
     if (isNaN(C) || isNaN(K) || isNaN(me) || isNaN(Le) || !ft(Ve)) throw new Error("Invalid arguments passed to jsPDF.line");
     return R === P ? this.lines([[me - C, Le - K]], C, K, [1, 1], Ve || "S") : this.lines([[me - C, Le - K]], C, K, [1, 1]).stroke();
-  }, d.__private__.lines = d.lines = function(C, K, me, Le, Ve, it) {
+  }, d.__private__.lines = d.lines = function(C, K, me, Le, Ve, ot) {
     var Re, Ne, gt, Be, Xe, Pt, Et, Cn, xn, Pn, Zn, zn;
-    if (typeof C == "number" && (zn = me, me = K, K = C, C = zn), Le = Le || [1, 1], it = it || !1, isNaN(K) || isNaN(me) || !Array.isArray(C) || !Array.isArray(Le) || !ft(Ve) || typeof it != "boolean") throw new Error("Invalid arguments passed to jsPDF.lines");
+    if (typeof C == "number" && (zn = me, me = K, K = C, C = zn), Le = Le || [1, 1], ot = ot || !1, isNaN(K) || isNaN(me) || !Array.isArray(C) || !Array.isArray(Le) || !ft(Ve) || typeof ot != "boolean") throw new Error("Invalid arguments passed to jsPDF.lines");
     for (xo(K, me), Re = Le[0], Ne = Le[1], Be = C.length, Pn = K, Zn = me, gt = 0; gt < Be; gt++) (Xe = C[gt]).length === 2 ? (Pn = Xe[0] * Re + Pn, Zn = Xe[1] * Ne + Zn, Vn(Pn, Zn)) : (Pt = Xe[0] * Re + Pn, Et = Xe[1] * Ne + Zn, Cn = Xe[2] * Re + Pn, xn = Xe[3] * Ne + Zn, Pn = Xe[4] * Re + Pn, Zn = Xe[5] * Ne + Zn, ha(Pt, Et, Cn, xn, Pn, Zn));
-    return it && St(), hn(Ve), this;
+    return ot && St(), hn(Ve), this;
   }, d.path = function(C) {
     for (var K = 0; K < C.length; K++) {
       var me = C[K], Le = me.c;
@@ -43731,17 +43731,17 @@ T* `) : C.join(` Tj
   }, d.__private__.rect = d.rect = function(C, K, me, Le, Ve) {
     if (isNaN(C) || isNaN(K) || isNaN(me) || isNaN(Le) || !ft(Ve)) throw new Error("Invalid arguments passed to jsPDF.rect");
     return R === P && (Le = -Le), z([G(Q(C)), G(H(K)), G(Q(me)), G(Q(Le)), "re"].join(" ")), hn(Ve), this;
-  }, d.__private__.triangle = d.triangle = function(C, K, me, Le, Ve, it, Re) {
-    if (isNaN(C) || isNaN(K) || isNaN(me) || isNaN(Le) || isNaN(Ve) || isNaN(it) || !ft(Re)) throw new Error("Invalid arguments passed to jsPDF.triangle");
-    return this.lines([[me - C, Le - K], [Ve - me, it - Le], [C - Ve, K - it]], C, K, [1, 1], Re, !0), this;
-  }, d.__private__.roundedRect = d.roundedRect = function(C, K, me, Le, Ve, it, Re) {
-    if (isNaN(C) || isNaN(K) || isNaN(me) || isNaN(Le) || isNaN(Ve) || isNaN(it) || !ft(Re)) throw new Error("Invalid arguments passed to jsPDF.roundedRect");
+  }, d.__private__.triangle = d.triangle = function(C, K, me, Le, Ve, ot, Re) {
+    if (isNaN(C) || isNaN(K) || isNaN(me) || isNaN(Le) || isNaN(Ve) || isNaN(ot) || !ft(Re)) throw new Error("Invalid arguments passed to jsPDF.triangle");
+    return this.lines([[me - C, Le - K], [Ve - me, ot - Le], [C - Ve, K - ot]], C, K, [1, 1], Re, !0), this;
+  }, d.__private__.roundedRect = d.roundedRect = function(C, K, me, Le, Ve, ot, Re) {
+    if (isNaN(C) || isNaN(K) || isNaN(me) || isNaN(Le) || isNaN(Ve) || isNaN(ot) || !ft(Re)) throw new Error("Invalid arguments passed to jsPDF.roundedRect");
     var Ne = 4 / 3 * (Math.SQRT2 - 1);
-    return Ve = Math.min(Ve, 0.5 * me), it = Math.min(it, 0.5 * Le), this.lines([[me - 2 * Ve, 0], [Ve * Ne, 0, Ve, it - it * Ne, Ve, it], [0, Le - 2 * it], [0, it * Ne, -Ve * Ne, it, -Ve, it], [2 * Ve - me, 0], [-Ve * Ne, 0, -Ve, -it * Ne, -Ve, -it], [0, 2 * it - Le], [0, -it * Ne, Ve * Ne, -it, Ve, -it]], C + Ve, K, [1, 1], Re, !0), this;
+    return Ve = Math.min(Ve, 0.5 * me), ot = Math.min(ot, 0.5 * Le), this.lines([[me - 2 * Ve, 0], [Ve * Ne, 0, Ve, ot - ot * Ne, Ve, ot], [0, Le - 2 * ot], [0, ot * Ne, -Ve * Ne, ot, -Ve, ot], [2 * Ve - me, 0], [-Ve * Ne, 0, -Ve, -ot * Ne, -Ve, -ot], [0, 2 * ot - Le], [0, -ot * Ne, Ve * Ne, -ot, Ve, -ot]], C + Ve, K, [1, 1], Re, !0), this;
   }, d.__private__.ellipse = d.ellipse = function(C, K, me, Le, Ve) {
     if (isNaN(C) || isNaN(K) || isNaN(me) || isNaN(Le) || !ft(Ve)) throw new Error("Invalid arguments passed to jsPDF.ellipse");
-    var it = 4 / 3 * (Math.SQRT2 - 1) * me, Re = 4 / 3 * (Math.SQRT2 - 1) * Le;
-    return xo(C + me, K), ha(C + me, K - Re, C + it, K - Le, C, K - Le), ha(C - it, K - Le, C - me, K - Re, C - me, K), ha(C - me, K + Re, C - it, K + Le, C, K + Le), ha(C + it, K + Le, C + me, K + Re, C + me, K), hn(Ve), this;
+    var ot = 4 / 3 * (Math.SQRT2 - 1) * me, Re = 4 / 3 * (Math.SQRT2 - 1) * Le;
+    return xo(C + me, K), ha(C + me, K - Re, C + ot, K - Le, C, K - Le), ha(C - ot, K - Le, C - me, K - Re, C - me, K), ha(C - me, K + Re, C - ot, K + Le, C, K + Le), ha(C + ot, K + Le, C + me, K + Re, C + me, K), hn(Ve), this;
   }, d.__private__.circle = d.circle = function(C, K, me, Le) {
     if (isNaN(C) || isNaN(K) || isNaN(me) || !ft(Le)) throw new Error("Invalid arguments passed to jsPDF.circle");
     return this.ellipse(C, K, me, me, Le);
@@ -43756,8 +43756,8 @@ T* `) : C.join(` Tj
     for (C in Ze) if (Ze.hasOwnProperty(C)) for (K in me[C] = [], Ze[C]) Ze[C].hasOwnProperty(K) && me[C].push(K);
     return me;
   }, d.addFont = function(C, K, me, Le, Ve) {
-    var it = ["StandardEncoding", "MacRomanEncoding", "Identity-H", "WinAnsiEncoding"];
-    return arguments[3] && it.indexOf(arguments[3]) !== -1 ? Ve = arguments[3] : arguments[3] && it.indexOf(arguments[3]) == -1 && (me = Y(me, Le)), Vi.call(this, C, K, me, Ve = Ve || "Identity-H");
+    var ot = ["StandardEncoding", "MacRomanEncoding", "Identity-H", "WinAnsiEncoding"];
+    return arguments[3] && ot.indexOf(arguments[3]) !== -1 ? Ve = arguments[3] : arguments[3] && ot.indexOf(arguments[3]) == -1 && (me = Y(me, Le)), Vi.call(this, C, K, me, Ve = Ve || "Identity-H");
   };
   var ma, en = e.lineWidth || 0.200025, Us = d.__private__.getLineWidth = d.getLineWidth = function() {
     return en;
@@ -43864,20 +43864,20 @@ T* `) : C.join(` Tj
     var me = C || 0;
     Object.defineProperty(this, "x", { enumerable: !0, get: function() {
       return me;
-    }, set: function(it) {
-      isNaN(it) || (me = parseFloat(it));
+    }, set: function(ot) {
+      isNaN(ot) || (me = parseFloat(ot));
     } });
     var Le = K || 0;
     Object.defineProperty(this, "y", { enumerable: !0, get: function() {
       return Le;
-    }, set: function(it) {
-      isNaN(it) || (Le = parseFloat(it));
+    }, set: function(ot) {
+      isNaN(ot) || (Le = parseFloat(ot));
     } });
     var Ve = "pt";
     return Object.defineProperty(this, "type", { enumerable: !0, get: function() {
       return Ve;
-    }, set: function(it) {
-      Ve = it.toString();
+    }, set: function(ot) {
+      Ve = ot.toString();
     } }), this;
   }, fl = function(C, K, me, Le) {
     ga.call(this, C, K), this.type = "rect";
@@ -43887,11 +43887,11 @@ T* `) : C.join(` Tj
     }, set: function(Re) {
       isNaN(Re) || (Ve = parseFloat(Re));
     } });
-    var it = Le || 0;
+    var ot = Le || 0;
     return Object.defineProperty(this, "h", { enumerable: !0, get: function() {
-      return it;
+      return ot;
     }, set: function(Re) {
-      isNaN(Re) || (it = parseFloat(Re));
+      isNaN(Re) || (ot = parseFloat(Re));
     } }), this;
   }, Aa = function() {
     this.page = Kt, this.currentPage = q, this.pages = M.slice(0), this.pagesContext = Mt.slice(0), this.x = At, this.y = In, this.matrix = _e, this.width = $l(q), this.height = Nn(q), this.outputDestination = pe, this.id = "", this.objectNumber = -1;
@@ -43923,8 +43923,8 @@ T* `) : C.join(` Tj
       try {
         var Ve = lu(Yr(zi()), C);
         typeof lu.unload == "function" && cn.setTimeout && setTimeout(lu.unload, 911), me(Ve);
-      } catch (it) {
-        Le(it.message);
+      } catch (ot) {
+        Le(ot.message);
       }
     });
   }, Jt.API) Jt.API.hasOwnProperty(pl) && (pl === "events" && Jt.API.events.length ? (function(C, K) {
@@ -45677,13 +45677,13 @@ function sm(e) {
     if (pe == 0) return ae(ne), j;
     for (var xe, z = 1; z <= pe; ) {
       for (var De = z; g[z] == 0 && z <= pe; ) ++z;
-      var ot = z - De;
-      if (ot >= 16) {
-        xe = ot >> 4;
+      var it = z - De;
+      if (it >= 16) {
+        xe = it >> 4;
         for (var he = 1; he <= xe; ++he) ae(W);
-        ot &= 15;
+        it &= 15;
       }
-      ce = 32767 + g[z], ae(Z[(ot << 4) + h[ce]]), ae(f[ce]), z++;
+      ce = 32767 + g[z], ae(Z[(it << 4) + h[ce]]), ae(f[ce]), z++;
     }
     return pe != 63 && ae(ne), j;
   }
@@ -45724,7 +45724,7 @@ function sm(e) {
     })(), fe(65498), fe(12), ye(3), ye(1), ye(0), ye(2), ye(17), ye(3), ye(17), ye(0), ye(63), ye(0);
     var j = 0, _ = 0, Z = 0;
     y = 0, k = 7, this.encode.displayName = "_encode_";
-    for (var ce, ne, W, ie, M, re, pe, xe, z, De = F.data, ot = F.width, he = F.height, ue = 4 * ot, Ue = 0; Ue < he; ) {
+    for (var ce, ne, W, ie, M, re, pe, xe, z, De = F.data, it = F.width, he = F.height, ue = 4 * it, Ue = 0; Ue < he; ) {
       for (ce = 0; ce < ue; ) {
         for (M = ue * Ue + ce, pe = -1, xe = 0, z = 0; z < 64; z++) re = M + (xe = z >> 3) * ue + (pe = 4 * (7 & z)), Ue + xe >= he && (re -= ue * (Ue + 1 + xe - he)), ce + pe >= ue && (re -= ce + pe - ue + 4), ne = De[re++], W = De[re++], ie = De[re++], P[z] = (ee[ne] + ee[W + 256 | 0] + ee[ie + 512 | 0] >> 16) - 128, L[z] = (ee[ne + 768 | 0] + ee[W + 1024 | 0] + ee[ie + 1280 | 0] >> 16) - 128, R[z] = (ee[ne + 1280 | 0] + ee[W + 1536 | 0] + ee[ie + 1792 | 0] >> 16) - 128;
         j = ke(P, u, j, t, o), _ = ke(L, c, _, n, r), Z = ke(R, c, Z, n, r), ce += 32;
@@ -45918,7 +45918,7 @@ function w0(e) {
     function De(m, v) {
       t(m != null), t(v != null), t(m.Xa == v.Xa), o(v.X, 0, m.X, 0, 1 << v.Xa);
     }
-    function ot() {
+    function it() {
       this.X = [], this.Xa = this.Mb = 0;
     }
     function he(m, v, O, T) {
@@ -46845,14 +46845,14 @@ function w0(e) {
     function Ve() {
       this.data = [], this.offset = this.kd = this.ha = this.w = 0, this.na = [], this.xa = this.gb = this.Ja = this.Sa = this.P = 0;
     }
-    function it() {
+    function ot() {
       this.nc = this.Ea = this.b = this.hc = 0, this.K = [], this.w = 0;
     }
     function Re() {
-      this.ua = 0, this.Wa = new ot(), this.vb = new ot(), this.md = this.xc = this.wc = 0, this.vc = [], this.Wb = 0, this.Ya = new te(), this.yc = new Q();
+      this.ua = 0, this.Wa = new it(), this.vb = new it(), this.md = this.xc = this.wc = 0, this.vc = [], this.Wb = 0, this.Ya = new te(), this.yc = new Q();
     }
     function Ne() {
-      this.xb = this.a = 0, this.l = new kr(), this.ca = new Kt(), this.V = [], this.Ba = 0, this.Ta = [], this.Ua = 0, this.m = new q(), this.Pb = 0, this.wd = new q(), this.Ma = this.$ = this.C = this.i = this.c = this.xd = 0, this.s = new Re(), this.ab = 0, this.gc = a(4, it), this.Oc = 0;
+      this.xb = this.a = 0, this.l = new kr(), this.ca = new Kt(), this.V = [], this.Ba = 0, this.Ta = [], this.Ua = 0, this.m = new q(), this.Pb = 0, this.wd = new q(), this.Ma = this.$ = this.C = this.i = this.c = this.xd = 0, this.s = new Re(), this.ab = 0, this.gc = a(4, ot), this.Oc = 0;
     }
     function gt() {
       this.Lc = this.Z = this.$a = this.i = this.c = 0, this.l = new kr(), this.ic = 0, this.ca = [], this.tb = 0, this.qd = null, this.rd = 0;
@@ -47763,7 +47763,7 @@ function vF() {
     }, set: function(z) {
       var De;
       if (this.ctx.font = z, (De = /^\s*(?=(?:(?:[-a-z]+\s*){0,2}(italic|oblique))?)(?=(?:(?:[-a-z]+\s*){0,2}(small-caps))?)(?=(?:(?:[-a-z]+\s*){0,2}(bold(?:er)?|lighter|[1-9]00))?)(?:(?:normal|\1|\2|\3)\s*){0,3}((?:xx?-)?(?:small|large)|medium|smaller|larger|[.\d]+(?:\%|in|[cem]m|ex|p[ctx]))(?:\s*\/\s*(normal|[.\d]+(?:\%|in|[cem]m|ex|p[ctx])))?\s*([-_,\"\'\sa-z0-9]+?)\s*$/i.exec(z)) !== null) {
-        var ot = De[1];
+        var it = De[1];
         De[2];
         var he = De[3], ue = De[4];
         De[5];
@@ -47824,7 +47824,7 @@ function vF() {
             }
             return re;
           })(this.pdf, this.fontFaces), wt = Me.map(function(At) {
-            return { family: At, stretch: "normal", weight: he, style: ot };
+            return { family: At, stretch: "normal", weight: he, style: it };
           }), vt = (function(At, In, _e) {
             for (var $e = (_e = _e || {}).defaultFontFamily || "times", Ze = Object.assign({}, cF, _e.genericFontFamilies || {}), nt = null, st = null, mt = 0; mt < In.length; ++mt) if (Ze[(nt = rm(In[mt])).family] && (nt.family = Ze[nt.family]), At.hasOwnProperty(nt.family)) {
               st = At[nt.family];
@@ -47853,7 +47853,7 @@ function vF() {
           this.pdf.setFont(vt.ref.name, vt.ref.style);
         } else {
           var _t = "";
-          (he === "bold" || parseInt(he, 10) >= 700 || ot === "bold") && (_t = "bold"), ot === "italic" && (_t += "italic"), _t.length === 0 && (_t = "normal");
+          (he === "bold" || parseInt(he, 10) >= 700 || it === "bold") && (_t = "bold"), it === "italic" && (_t += "italic"), _t.length === 0 && (_t = "normal");
           for (var on = "", Xt = { arial: "Helvetica", Arial: "Helvetica", verdana: "Helvetica", Verdana: "Helvetica", helvetica: "Helvetica", Helvetica: "Helvetica", "sans-serif": "Helvetica", fixed: "Courier", monospace: "Courier", terminal: "Courier", cursive: "Times", fantasy: "Times", serif: "Times" }, Tt = 0; Tt < Me.length; Tt++) {
             if (this.pdf.internal.getFont(Me[Tt], _t, { noFallback: !0, disableWarning: !0 }) !== void 0) {
               on = Me[Tt];
@@ -48041,7 +48041,7 @@ function vF() {
   f.prototype.drawImage = function(F, q, j, _, Z, ce, ne, W, ie) {
     var M = this.pdf.getImageProperties(F), re = 1, pe = 1, xe = 1, z = 1;
     _ !== void 0 && W !== void 0 && (xe = W / _, z = ie / Z, re = M.width / _ * W / _, pe = M.height / Z * ie / Z), ce === void 0 && (ce = q, ne = j, q = 0, j = 0), _ !== void 0 && W === void 0 && (W = _, ie = Z), _ === void 0 && W === void 0 && (W = M.width, ie = M.height);
-    var De = this.ctx.transform.decompose(), ot = ye(De.rotate.shx), he = new s(), ue = (he = (he = (he = he.multiply(De.translate)).multiply(De.skew)).multiply(De.scale)).applyToRectangle(new l(ce - q * xe, ne - j * z, _ * re, Z * pe));
+    var De = this.ctx.transform.decompose(), it = ye(De.rotate.shx), he = new s(), ue = (he = (he = (he = he.multiply(De.translate)).multiply(De.skew)).multiply(De.scale)).applyToRectangle(new l(ce - q * xe, ne - j * z, _ * re, Z * pe));
     if (this.autoPaging) {
       for (var Ue, Oe = y.call(this, ue), Me = [], Je = 0; Je < Oe.length; Je += 1) Me.indexOf(Oe[Je]) === -1 && Me.push(Oe[Je]);
       L(Me);
@@ -48055,9 +48055,9 @@ function vF() {
         var _e = JSON.parse(JSON.stringify(ue));
         _e = P([_e], this.posX + this.margin[3], -At + Xt + this.ctx.prevPageLastElemOffset)[0];
         var $e = (_t > wt || _t < vt) && b.call(this);
-        $e && (this.pdf.saveGraphicsState(), this.pdf.rect(this.margin[3], this.margin[0], on, zt, null).clip().discardPath()), this.pdf.addImage(F, "JPEG", _e.x, _e.y, _e.w, _e.h, null, null, ot), $e && this.pdf.restoreGraphicsState();
+        $e && (this.pdf.saveGraphicsState(), this.pdf.rect(this.margin[3], this.margin[0], on, zt, null).clip().discardPath()), this.pdf.addImage(F, "JPEG", _e.x, _e.y, _e.w, _e.h, null, null, it), $e && this.pdf.restoreGraphicsState();
       }
-    } else this.pdf.addImage(F, "JPEG", ue.x, ue.y, ue.w, ue.h, null, null, ot);
+    } else this.pdf.addImage(F, "JPEG", ue.x, ue.y, ue.w, ue.h, null, null, it);
   };
   var y = function(F, q, j) {
     var _ = [];
@@ -48105,7 +48105,7 @@ function vF() {
   }, R = function(F, q) {
     var j = this.fillStyle, _ = this.strokeStyle, Z = this.lineCap, ce = this.lineWidth, ne = Math.abs(ce * this.ctx.transform.scaleX), W = this.lineJoin;
     if (this.autoPaging) {
-      for (var ie, M, re = JSON.parse(JSON.stringify(this.path)), pe = JSON.parse(JSON.stringify(this.path)), xe = [], z = 0; z < pe.length; z++) if (pe[z].x !== void 0) for (var De = y.call(this, pe[z]), ot = 0; ot < De.length; ot += 1) xe.indexOf(De[ot]) === -1 && xe.push(De[ot]);
+      for (var ie, M, re = JSON.parse(JSON.stringify(this.path)), pe = JSON.parse(JSON.stringify(this.path)), xe = [], z = 0; z < pe.length; z++) if (pe[z].x !== void 0) for (var De = y.call(this, pe[z]), it = 0; it < De.length; it += 1) xe.indexOf(De[it]) === -1 && xe.push(De[it]);
       for (var he = 0; he < xe.length; he++) for (; this.pdf.internal.getNumberOfPages() < xe[he]; ) k.call(this);
       L(xe);
       for (var ue = xe[0], Ue = xe[xe.length - 1], Oe = ue; Oe < Ue + 1; Oe++) {
@@ -48158,14 +48158,14 @@ function vF() {
         }
       }
       _ = q ? null : F === "stroke" ? "stroke" : "fill";
-      for (var ot = !1, he = 0; he < Z.length; he++) if (Z[he].arc) for (var ue = Z[he].abs, Ue = 0; Ue < ue.length; Ue++) {
+      for (var it = !1, he = 0; he < Z.length; he++) if (Z[he].arc) for (var ue = Z[he].abs, Ue = 0; Ue < ue.length; Ue++) {
         var Oe = ue[Ue];
-        Oe.type === "arc" ? G.call(this, Oe.x, Oe.y, Oe.radius, Oe.startAngle, Oe.endAngle, Oe.counterclockwise, void 0, q, !ot) : Q.call(this, Oe.x, Oe.y), ot = !0;
+        Oe.type === "arc" ? G.call(this, Oe.x, Oe.y, Oe.radius, Oe.startAngle, Oe.endAngle, Oe.counterclockwise, void 0, q, !it) : Q.call(this, Oe.x, Oe.y), it = !0;
       }
-      else if (Z[he].close === !0) this.pdf.internal.out("h"), ot = !1;
+      else if (Z[he].close === !0) this.pdf.internal.out("h"), it = !1;
       else if (Z[he].begin !== !0) {
         var Me = Z[he].start.x, Je = Z[he].start.y;
-        H.call(this, Z[he].deltas, Me, Je), ot = !0;
+        H.call(this, Z[he].deltas, Me, Je), it = !0;
       }
       _ && $.call(this, _), q && B.call(this);
     }
@@ -48234,7 +48234,7 @@ function vF() {
     if (this.autoPaging) {
       var M = this.ctx.transform.decompose(), re = new s();
       re = (re = (re = re.multiply(M.translate)).multiply(M.skew)).multiply(M.scale);
-      for (var pe = this.ctx.transform.applyToRectangle(new l(F.x, ne, ce.w, ce.h)), xe = re.applyToRectangle(new l(F.x, W, ce.w, ce.h)), z = y.call(this, xe), De = [], ot = 0; ot < z.length; ot += 1) De.indexOf(z[ot]) === -1 && De.push(z[ot]);
+      for (var pe = this.ctx.transform.applyToRectangle(new l(F.x, ne, ce.w, ce.h)), xe = re.applyToRectangle(new l(F.x, W, ce.w, ce.h)), z = y.call(this, xe), De = [], it = 0; it < z.length; it += 1) De.indexOf(z[it]) === -1 && De.push(z[it]);
       L(De);
       for (var he = De[0], ue = De[De.length - 1], Ue = he; Ue < ue + 1; Ue++) {
         this.pdf.setPage(Ue);
@@ -48271,7 +48271,7 @@ function vF() {
     }
     return W;
   }, ae = function(F, q, j) {
-    var _ = (j - q) / 2, Z = F * Math.cos(_), ce = F * Math.sin(_), ne = Z, W = -ce, ie = ne * ne + W * W, M = ie + ne * Z + W * ce, re = 4 / 3 * (Math.sqrt(2 * ie * M) - M) / (ne * ce - W * Z), pe = ne - re * W, xe = W + re * ne, z = pe, De = -xe, ot = _ + q, he = Math.cos(ot), ue = Math.sin(ot);
+    var _ = (j - q) / 2, Z = F * Math.cos(_), ce = F * Math.sin(_), ne = Z, W = -ce, ie = ne * ne + W * W, M = ie + ne * Z + W * ce, re = 4 / 3 * (Math.sqrt(2 * ie * M) - M) / (ne * ce - W * Z), pe = ne - re * W, xe = W + re * ne, z = pe, De = -xe, it = _ + q, he = Math.cos(it), ue = Math.sin(it);
     return { x1: F * Math.cos(q), y1: F * Math.sin(q), x2: pe * he - xe * ue, y2: pe * ue + xe * he, x3: z * he - De * ue, y3: z * ue + De * he, x4: F * Math.cos(j), y4: F * Math.sin(j) };
   }, ye = function(F) {
     return 180 * F / Math.PI;
@@ -48279,8 +48279,8 @@ function vF() {
     var ne = F + 0.5 * (j - F), W = q + 0.5 * (_ - q), ie = Z + 0.5 * (j - Z), M = ce + 0.5 * (_ - ce), re = Math.min(F, Z, ne, ie), pe = Math.max(F, Z, ne, ie), xe = Math.min(q, ce, W, M), z = Math.max(q, ce, W, M);
     return new l(re, xe, pe - re, z - xe);
   }, ke = function(F, q, j, _, Z, ce, ne, W) {
-    var ie, M, re, pe, xe, z, De, ot, he, ue, Ue, Oe, Me, Je, wt = j - F, vt = _ - q, _t = Z - j, on = ce - _, Xt = ne - Z, Tt = W - ce;
-    for (M = 0; M < 41; M++) he = (De = (re = F + (ie = M / 40) * wt) + ie * ((xe = j + ie * _t) - re)) + ie * (xe + ie * (Z + ie * Xt - xe) - De), ue = (ot = (pe = q + ie * vt) + ie * ((z = _ + ie * on) - pe)) + ie * (z + ie * (ce + ie * Tt - z) - ot), M == 0 ? (Ue = he, Oe = ue, Me = he, Je = ue) : (Ue = Math.min(Ue, he), Oe = Math.min(Oe, ue), Me = Math.max(Me, he), Je = Math.max(Je, ue));
+    var ie, M, re, pe, xe, z, De, it, he, ue, Ue, Oe, Me, Je, wt = j - F, vt = _ - q, _t = Z - j, on = ce - _, Xt = ne - Z, Tt = W - ce;
+    for (M = 0; M < 41; M++) he = (De = (re = F + (ie = M / 40) * wt) + ie * ((xe = j + ie * _t) - re)) + ie * (xe + ie * (Z + ie * Xt - xe) - De), ue = (it = (pe = q + ie * vt) + ie * ((z = _ + ie * on) - pe)) + ie * (z + ie * (ce + ie * Tt - z) - it), M == 0 ? (Ue = he, Oe = ue, Me = he, Je = ue) : (Ue = Math.min(Ue, he), Oe = Math.min(Oe, ue), Me = Math.max(Me, he), Je = Math.max(Je, ue));
     return new l(Math.round(Ue), Math.round(Oe), Math.round(Me - Ue), Math.round(Je - Oe));
   }, ve = function() {
     if (this.prevLineDash || this.ctx.lineDash.length || this.ctx.lineDashOffset) {
@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-DZKYCB-0.js")).catch(function(h) {
+  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-BjRd75xV.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -49997,10 +49997,10 @@ const ll = (e) => (Qi("data-v-19a23a77"), e = e(), er(), e), DF = { class: "phot
       return ne.forEach((re, pe) => {
         pe > 0 && W.addPage();
         const xe = re.width / re.height, z = ie / M;
-        let De, ot;
-        xe > z ? (De = ie, ot = ie / xe) : (ot = M, De = M * xe);
-        const he = (ie - De) / 2, ue = (M - ot) / 2, Ue = re.toDataURL("image/jpeg", 0.85);
-        W.addImage(Ue, "JPEG", he, ue, De, ot);
+        let De, it;
+        xe > z ? (De = ie, it = ie / xe) : (it = M, De = M * xe);
+        const he = (ie - De) / 2, ue = (M - it) / 2, Ue = re.toDataURL("image/jpeg", 0.85);
+        W.addImage(Ue, "JPEG", he, ue, De, it);
       }), W.output("blob");
     }, q = async (ne, W) => {
       i.value = "uploading";
@@ -53717,17 +53717,17 @@ const mg = {
         return;
       }
       if (f.value = !1, !h.value && $e && !g.value && ke($e.path, !1, _e), g.value = !1, !P.value) {
-        ot();
+        it();
         return;
       }
       const Ze = wt();
       for (let It of Ze) {
         if (It.pathStr == P.value.node.pathStr) {
-          ot();
+          it();
           return;
         }
         if (zt(It, P.value.node)) {
-          ot();
+          it();
           return;
         }
       }
@@ -53738,7 +53738,7 @@ const mg = {
       }
       let mt = !1;
       if (A(Ze, P.value, () => mt = !0), mt) {
-        ot();
+        it();
         return;
       }
       const Ct = [];
@@ -53746,10 +53746,10 @@ const mg = {
         Ct.push(At(It)), It.toBeDeleted = !0;
       Xt(P.value, Ct, nt), _t((It, tn, Kt) => {
         It.toBeDeleted && tn.splice(Kt, 1);
-      }, nt), c.value = null, B(nt), Q(Ze, P.value, _e), ot();
+      }, nt), c.value = null, B(nt), Q(Ze, P.value, _e), it();
     }, De = (_e, $e) => {
       o.allowToggleBranch && (Oe({ path: $e.path, patch: { isExpanded: !$e.isExpanded } }), H($e, _e), _e.stopPropagation());
-    }, ot = () => {
+    }, it = () => {
       h.value = !1, f.value = !1, ee(null), pe();
     }, he = () => o.parentContext, ue = () => y.value ? In : o.rootContext, Ue = (_e, $e) => $e.length === 1 ? _e : Ue(_e[$e[0]].children, $e.slice(1)), Oe = ({ path: _e, patch: $e }) => {
       if (!y.value) {
@@ -54531,10 +54531,10 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
               const z = await xe.get(ie);
               for (let De in f.value.classes[W.data.class])
                 if (De != "table" && f.value.classes[W.data.class][De].if) {
-                  let ot = !0;
+                  let it = !0;
                   for (let he in f.value.classes[W.data.class][De].if)
-                    z[he] != f.value.classes[W.data.class][De].if[he] && (ot = !1);
-                  ot && (M = f.value.classes[W.data.class][De].tabs);
+                    z[he] != f.value.classes[W.data.class][De].if[he] && (it = !1);
+                  it && (M = f.value.classes[W.data.class][De].tabs);
                 }
             } catch (z) {
               a("error", { detail: z.message }, !0);
@@ -54549,10 +54549,10 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
               const z = await xe.get(ie);
               for (let De in f.value.classes.default)
                 if (De != "table" && f.value.classes.default[De].if) {
-                  let ot = !0;
+                  let it = !0;
                   for (let he in f.value.classes.default[De].if)
-                    z[he] != f.value.classes.default[De].if[he] && (ot = !1);
-                  ot && (M = f.value.classes.default[De].tabs);
+                    z[he] != f.value.classes.default[De].if[he] && (it = !1);
+                  it && (M = f.value.classes.default[De].tabs);
                 }
             } catch (z) {
               a("error", { detail: z.message }, !0);
@@ -54565,12 +54565,12 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
           if (M[xe].hasOwnProperty("where")) {
             let z = {};
             for (let De in M[xe].where) {
-              let ot = M[xe].where[De];
-              ot == "current_id" && (ot = ie), ot == "tree_id" && (ot = W.data.id), z[De] = {
+              let it = M[xe].where[De];
+              it == "current_id" && (it = ie), it == "tree_id" && (it = W.data.id), z[De] = {
                 operator: "and",
                 constraints: [
                   {
-                    value: ot,
+                    value: it,
                     matchMode: "equals"
                   }
                 ]
@@ -54581,9 +54581,9 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
           if (M[xe].hasOwnProperty("tables"))
             for (let z in M[xe].tables) {
               let De = {};
-              for (let ot in M[xe].tables[z].where) {
-                let he = M[xe].tables[z].where[ot];
-                he == "current_id" && (he = ie), he == "tree_id" && (he = W.data.id), De[ot] = {
+              for (let it in M[xe].tables[z].where) {
+                let he = M[xe].tables[z].where[it];
+                he == "current_id" && (he = ie), he == "tree_id" && (he = W.data.id), De[it] = {
                   operator: "and",
                   constraints: [
                     {
@@ -55025,7 +55025,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
     }, k = (M, re, pe, xe = null) => {
       const z = [];
       return re.forEach((De) => {
-        const ot = De.name.startsWith(".");
+        const it = De.name.startsWith(".");
         z.push({
           title: De.name,
           isLeaf: !1,
@@ -55034,7 +55034,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
             id: De.path,
             path: De.path,
             is_dir: !0,
-            hidden: ot,
+            hidden: it,
             type: "directory",
             size: De.size,
             lastmod: De.lastmod,
@@ -55043,7 +55043,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
           children: []
         });
       }), M.forEach((De) => {
-        const ot = De.name.startsWith("."), he = De.name.split(".").pop().toLowerCase();
+        const it = De.name.startsWith("."), he = De.name.split(".").pop().toLowerCase();
         z.push({
           title: De.name,
           isLeaf: !0,
@@ -55051,7 +55051,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
             id: De.path,
             path: De.path,
             is_dir: !1,
-            hidden: ot,
+            hidden: it,
             type: De.type,
             ext: he,
             size: De.size,
@@ -60592,7 +60592,7 @@ function ik(e, t, n, o, r, i, a, l, s, u, c, f, h, d = {}, g = null, b = null, y
         }
         return;
       }
-      const ot = { ...a.value[l(Number(re.id))] ?? re }, he = { id: re.id, [pe]: De, update_from_row: 1 };
+      const it = { ...a.value[l(Number(re.id))] ?? re }, he = { id: re.id, [pe]: De, update_from_row: 1 };
       try {
         const ue = await e.update(he, { filters: t?.() });
         if (r("get-response", { table: i.table, action: "update", response: ue }), !ue.success) {
@@ -60612,8 +60612,8 @@ function ik(e, t, n, o, r, i, a, l, s, u, c, f, h, d = {}, g = null, b = null, y
         if (ue.data?.row_setting)
           for (const Me in ue.data.row_setting)
             u.value[Me] = ue.data.row_setting[Me];
-        const Oe = ue.data?.object ?? { ...ot, [pe]: xe };
-        k?.({ type: "update", id: re.id, field: pe, dataBefore: ot, dataAfter: Oe, filters: t?.() }), ue.data?.refresh_table == 1 && (Y(3), o(!1));
+        const Oe = ue.data?.object ?? { ...it, [pe]: xe };
+        k?.({ type: "update", id: re.id, field: pe, dataBefore: it, dataAfter: Oe, filters: t?.() }), ue.data?.refresh_table == 1 && (Y(3), o(!1));
       } catch (ue) {
         n("error", { detail: ue.message }, !0);
       }
@@ -60794,42 +60794,38 @@ function dU({ tableName: e, api: t, notify: n, scrollRef: o, actionsRow: r, rowA
       requestAnimationFrame(() => te(ke));
       return;
     }
-    if (!ke) {
-      const ot = performance.now();
-      if (Math.abs(ve - L) < D || ot - R < ee) return;
-      R = ot;
-    }
-    L = ve;
+    if (!ke && (Math.abs(ve - L) < D || performance.now() - R < ee))
+      return;
     const F = (c?.value ?? 32) + 2, q = (f?.value ? 28 : 0) + // __drag__
     38 + // __select__
     (l?.value ? 34 : 0) + // __expand__ (только для table_tree)
     (r.value ? i.value.length * F + (s?.value ? F : 0) + 8 : 0), j = a.value;
     if (!j.length) return;
-    const _ = Math.max(ve - q, j.length * 40), Z = "600 12px system-ui,sans-serif", ce = "13px system-ui,sans-serif", ne = 34, W = 16, ie = /* @__PURE__ */ new Set(["boolean", "html", "autocomplete", "multiautocomplete", "select"]), M = u?.() ?? [], re = j.map((ot) => {
-      const he = Math.ceil(H(ot.label || ot.field, Z)) + ne;
+    const _ = Math.max(ve - q, j.length * 40), Z = "600 12px system-ui,sans-serif", ce = "13px system-ui,sans-serif", ne = 34, W = 16, ie = /* @__PURE__ */ new Set(["boolean", "html", "autocomplete", "multiautocomplete", "select"]), M = u?.() ?? [], re = j.map((it) => {
+      const he = Math.ceil(H(it.label || it.field, Z)) + ne;
       let ue = 0;
-      if (M.length && !ie.has(ot.type)) {
+      if (M.length && !ie.has(it.type)) {
         const Oe = M.length > 100 ? M.slice(0, 100) : M;
         for (const Me of Oe) {
-          const Je = Me[ot.field];
+          const Je = Me[it.field];
           if (Je == null || Je === "") continue;
           const wt = Math.ceil(H(Je, ce));
           wt > ue && (ue = wt);
         }
         ue > 0 && (ue += W);
       }
-      const Ue = $(ot);
+      const Ue = $(it);
       return Math.max(he, ue || 0, Ue, 40);
-    }), pe = re.reduce((ot, he) => ot + he, 0), xe = {}, z = _ / pe;
+    }), pe = re.reduce((it, he) => it + he, 0), xe = {}, z = _ / pe;
     let De = 0;
-    j.forEach((ot, he) => {
+    j.forEach((it, he) => {
       if (he === j.length - 1)
-        xe[ot.field] = Math.max(40, _ - De);
+        xe[it.field] = Math.max(40, _ - De);
       else {
         const ue = Math.max(40, Math.floor(re[he] * z));
-        xe[ot.field] = ue, De += ue;
+        xe[it.field] = ue, De += ue;
       }
-    }), b.value = { ...b.value, ...xe };
+    }), b.value = { ...b.value, ...xe }, L = ve, R = performance.now();
   }, be = async () => {
     const ke = localStorage.getItem(h);
     if (!ke) {
@@ -62427,7 +62423,7 @@ const mU = {
     qt(be, (we) => {
       for (let Pe in we) k.value[Pe] = we[Pe];
     }, { deep: !0 });
-    let M, re, pe, xe, z, De, ot, he, ue = {};
+    let M, re, pe, xe, z, De, it, he, ue = {};
     qt(() => o.filters, () => {
       M && (z?.(), A.value = 0, H.value && (H.value.first = 0), M());
     }, { deep: !0 });
@@ -62848,7 +62844,7 @@ const mU = {
       set(Qe) {
         hl = Qe, Pe();
       }
-    })), so = J(null), Ma = J(!1), C = J(!1), K = J(""), me = J(""), Le = J(1), Ve = J(0), it = J(!1), Re = J(0), Ne = J(0), gt = (we) => {
+    })), so = J(null), Ma = J(!1), C = J(!1), K = J(""), me = J(""), Le = J(1), Ve = J(0), ot = J(!1), Re = J(0), Ne = J(0), gt = (we) => {
       Re.value = we.target.naturalWidth, Ne.value = we.target.naturalHeight;
     }, Be = ct(() => {
       const we = Re.value * Le.value, Pe = Ne.value * Le.value;
@@ -62860,7 +62856,7 @@ const mU = {
         display: "block",
         margin: "auto",
         transform: `rotate(${Ve.value}deg)`,
-        transition: it.value ? "none" : "transform 0.15s ease"
+        transition: ot.value ? "none" : "transform 0.15s ease"
       };
     }), Xe = () => {
       Le.value = 1, Ve.value = 0;
@@ -63078,10 +63074,10 @@ const mU = {
           J(null),
           H
         );
-        pe = bn.filters, xe = bn.topFilters, z = bn.initFilters, De = bn.onSetTopFilter, ot = bn.prepFilters, he = bn.clearFilter, M = fe(i, Te, pe, () => ot(), a, () => o.sorting), qn = M, re = ke(M), z(), Nt = Ug({
+        pe = bn.filters, xe = bn.topFilters, z = bn.initFilters, De = bn.onSetTopFilter, it = bn.prepFilters, he = bn.clearFilter, M = fe(i, Te, pe, () => it(), a, () => o.sorting), qn = M, re = ke(M), z(), Nt = Ug({
           api: i,
           props: o,
-          prepFilters: () => ot(),
+          prepFilters: () => it(),
           refresh: Ue,
           notify: a,
           emit: r,
@@ -63098,7 +63094,7 @@ const mU = {
         }), Pi = Nt.hideModalForm, mi = Nt.submitModalForm;
         const On = ik(
           i,
-          () => ot(),
+          () => it(),
           a,
           Ue,
           r,
@@ -69250,7 +69246,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
       }
       return rt;
     }), { cardRoles: pe, tplComponent: xe, articleComponent: z } = nZ(u, l);
-    let De, ot, he, ue, Ue;
+    let De, it, he, ue, Ue;
     qt(() => o.filters, () => {
       De && (ue?.(), be.value = 0, ye.value && (ye.value.first = 0), De());
     }, { deep: !0 });
@@ -69378,11 +69374,11 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
     }
     const Hn = J(10), kr = ct(() => Hn.value > 0 ? Math.floor(be.value / Hn.value) + 1 : 1), Dr = ct(() => Hn.value > 0 ? Math.ceil(te.value / Hn.value) : 1), Jn = ct(() => o.autoFitHeight ? "100%" : o.scrollHeight || "85vh");
     function Sr() {
-      be.value !== 0 && (be.value = Math.max(0, be.value - Hn.value), ot?.({ first: be.value, rows: Hn.value }), Yr());
+      be.value !== 0 && (be.value = Math.max(0, be.value - Hn.value), it?.({ first: be.value, rows: Hn.value }), Yr());
     }
     function zi() {
       const rt = be.value + Hn.value;
-      rt >= te.value || (be.value = rt, ot?.({ first: be.value, rows: Hn.value }), Yr());
+      rt >= te.value || (be.value = rt, it?.({ first: be.value, rows: Hn.value }), Yr());
     }
     function Yr() {
       o.scrollMode === "container" && A.value ? A.value.scrollTop = 0 : window.scrollTo({ top: Q.value?.offsetTop ?? 0, behavior: "smooth" });
@@ -69441,7 +69437,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
           J(null),
           ye
         );
-        he = _n.filters, ue = _n.initFilters, Ue = _n.prepFilters, De = q(i, ft, he, () => Ue(), a, () => o.sorting), St = De, ot = j(De), ue(), Yn = Ug({
+        he = _n.filters, ue = _n.initFilters, Ue = _n.prepFilters, De = q(i, ft, he, () => Ue(), a, () => o.sorting), St = De, it = j(De), ue(), Yn = Ug({
           api: i,
           props: o,
           prepFilters: () => Ue(),
@@ -70245,7 +70241,7 @@ const PZ = {
     J([]);
     const ie = J(null), M = J(null), re = J([]), pe = J(!1), xe = ct(
       () => ye.value.filter((Re) => Re.modal_only != !0 && Re.type != "hidden" && !(pe.value && Re.field == "id"))
-    ), z = /* @__PURE__ */ new Set(["multiautocomplete", "boolean", "date", "datetime", "html", "view", "file"]), De = J(null), ot = J(!1), he = `pvtables-engine-${r.table}`, ue = J(localStorage.getItem(he) !== "primevue"), Ue = () => {
+    ), z = /* @__PURE__ */ new Set(["multiautocomplete", "boolean", "date", "datetime", "html", "view", "file"]), De = J(null), it = J(!1), he = `pvtables-engine-${r.table}`, ue = J(localStorage.getItem(he) !== "primevue"), Ue = () => {
       ue.value = !ue.value, localStorage.setItem(he, ue.value ? "tanstack" : "primevue");
     }, { useMobileView: Oe, setForceDesktop: Me } = Fb(), Je = ct(() => r.autoFitHeight || r.child ? "container" : "window");
     fo(async () => {
@@ -70263,7 +70259,7 @@ const PZ = {
             if (fe = Re.data.fields, Re.data.limit !== !1 && (H.value = Re.data.limit, y.value.rows = Re.data.limit), Re.data.selects && typeof Re.data.selects == "object")
               for (let Et in Re.data.selects)
                 typeof Re.data.selects[Et] == "object" && Re.data.selects[Et] !== null && (_.value[Et] = Re.data.selects[Et]);
-            Re.data.data_fields && (re.value = Re.data.data_fields), Re.data.form && (vt.value = Re.data.form), Re.data.hide_id == 1 && (pe.value = !0), Re.data.hasOwnProperty("rowGroupMode") && (ie.value = Re.data.rowGroupMode, M.value = Re.data.groupRowsBy), Re.data.hasOwnProperty("actions_frozen") && (De.value = Re.data.actions_frozen), Re.data.hasOwnProperty("enable_virt_scroll") && (ot.value = Re.data.enable_virt_scroll);
+            Re.data.data_fields && (re.value = Re.data.data_fields), Re.data.form && (vt.value = Re.data.form), Re.data.hide_id == 1 && (pe.value = !0), Re.data.hasOwnProperty("rowGroupMode") && (ie.value = Re.data.rowGroupMode, M.value = Re.data.groupRowsBy), Re.data.hasOwnProperty("actions_frozen") && (De.value = Re.data.actions_frozen), Re.data.hasOwnProperty("enable_virt_scroll") && (it.value = Re.data.enable_virt_scroll);
             let Ne = [], gt = [];
             for (let Et in fe) {
               switch (fe[Et].field = Et, fe[Et].hasOwnProperty("label") || (fe[Et].label = Et), Object.prototype.hasOwnProperty.call(fe[Et], "type") || (Et == "id" ? fe[Et].type = "view" : fe[Et].type = "text"), fe[Et].hasOwnProperty("readonly") && (fe[Et].readonly === !0 || fe[Et].readonly == 1 ? fe[Et].readonly = !0 : fe[Et].readonly = !1), _.value[Et] || (_.value[Et] = {}), fe[Et].select_data && (_.value[Et].rows = fe[Et].select_data), fe[Et].type) {
@@ -70358,7 +70354,7 @@ const PZ = {
       lineItems: b,
       dt: te,
       storageKey: `pvtables-virtual-scroll-${r.table}`,
-      enableVirtScroll: ot
+      enableVirtScroll: it
     }), {
       onTab: hi,
       onKeyDown: Bo
@@ -70565,7 +70561,7 @@ const PZ = {
       return gt.length <= Ne ? gt : gt.substring(0, Ne) + "...";
     }, Le = (Re) => {
       !te.value || !te.value.$refs.table || (Li(te.value.$refs.table, ye), te.value.attributeSelector && Oi(ye, te.value.attributeSelector));
-    }, Ve = si(tr), it = (Re) => {
+    }, Ve = si(tr), ot = (Re) => {
       i("get-response", Re);
     };
     return t({
@@ -70959,7 +70955,7 @@ const PZ = {
                   ref: (Xe) => {
                     Xe && (I(Sr)[Be.data._rowKey] = Xe);
                   },
-                  onGetResponse: Ne[19] || (Ne[19] = (Xe) => it(Xe))
+                  onGetResponse: Ne[19] || (Ne[19] = (Xe) => ot(Xe))
                 }, null, 8, ["table", "actions", "filters"])
               ])) : N("", !0),
               I(kr)[Be.data._rowKey].action == "subtabs" ? (p(), w("div", QZ, [
@@ -70973,7 +70969,7 @@ const PZ = {
                   ref: (Xe) => {
                     Xe && (I(Sr)[Be.data._rowKey] = Xe);
                   },
-                  onGetResponse: Ne[21] || (Ne[21] = (Xe) => it(Xe))
+                  onGetResponse: Ne[21] || (Ne[21] = (Xe) => ot(Xe))
                 }, null, 8, ["tabs", "actions", "parent_row", "filters"])
               ])) : N("", !0)
             ]),
@@ -72168,7 +72164,7 @@ const Ep = (function() {
     }, pe = (he) => {
       if (A.value[he.id] && A.value[he.id].class)
         return A.value[he.id].class;
-    }, xe = (he) => he.type, z = J({}), De = (he, ue) => !!(z.value[he.id] && z.value[he.id][ue] && z.value[he.id][ue].readonly == 1), ot = (he, ue) => {
+    }, xe = (he) => he.type, z = J({}), De = (he, ue) => !!(z.value[he.id] && z.value[he.id][ue] && z.value[he.id][ue].readonly == 1), it = (he, ue) => {
       let Ue = "td-body " + he.type, Oe = !1;
       return z.value[ue.id] && z.value[ue.id][he.field] && z.value[ue.id][he.field].readonly == 1 && (Oe = !0), he.readonly || Oe ? Ue + " readonly" : Ue;
     };
@@ -72279,7 +72275,7 @@ const Ep = (function() {
               }, Xi({
                 body: ge(({ data: Me, field: Je }) => [
                   S("div", {
-                    class: je(ot(Oe, Me))
+                    class: je(it(Oe, Me))
                   }, [
                     le(rp, {
                       field: Oe,
