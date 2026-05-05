@@ -12072,7 +12072,7 @@ var fI = function(t) {
       $parentInstance: this
     };
   }
-}, et = {
+}, tt = {
   name: "Button",
   extends: mI,
   inheritAttrs: !1,
@@ -12168,7 +12168,7 @@ function gI(e, t, n, o, r, i) {
     _: 3
   }, 16, ["class"])), [[s]]);
 }
-et.render = gI;
+tt.render = gI;
 var zp = {
   name: "MinusIcon",
   extends: Bn
@@ -13267,7 +13267,7 @@ const HI = /* @__PURE__ */ En(jI, [["render", KI]]), UI = {
   components: {
     DTRadioButton: HI,
     DTCheckbox: DI,
-    Button: et,
+    Button: tt,
     ChevronDownIcon: Ar,
     ChevronRightIcon: il,
     BarsIcon: Vp,
@@ -15175,7 +15175,7 @@ const A8 = {
   },
   components: {
     Select: dc,
-    Button: et,
+    Button: tt,
     Portal: Gr,
     FilterSlashIcon: tb,
     FilterIcon: eb,
@@ -16648,7 +16648,7 @@ const Xw = /* @__PURE__ */ En(w7, [["render", k7]]), S7 = {
   },
   components: {
     Badge: Cu,
-    Button: et,
+    Button: tt,
     Popover: gu,
     Slider: Zw,
     DTHeaderCheckbox: Xw,
@@ -19372,7 +19372,7 @@ var X7 = function(t) {
     focustrap: ef
   },
   components: {
-    Button: et,
+    Button: tt,
     Portal: Gr,
     WindowMinimizeIcon: t2,
     WindowMaximizeIcon: e2,
@@ -27290,7 +27290,7 @@ var Jp = {
   },
   components: {
     InputText: oo,
-    Button: et,
+    Button: tt,
     Portal: Gr,
     CalendarIcon: I2,
     ChevronLeftIcon: ab,
@@ -32414,7 +32414,7 @@ var M2 = {
   components: {
     DTRadioButton: A2,
     DTCheckbox: T2,
-    Button: et,
+    Button: tt,
     ChevronDownIcon: Ar,
     ChevronRightIcon: il,
     BarsIcon: Vp,
@@ -34545,7 +34545,7 @@ var cb = {
   },
   components: {
     Select: dc,
-    Button: et,
+    Button: tt,
     Portal: Gr,
     FilterSlashIcon: tb,
     FilterIcon: eb,
@@ -37706,7 +37706,7 @@ const bc = (e) => (Qi("data-v-597509eb"), e = e(), er(), e), PE = { class: "file
             ]),
             S("div", EE, [
               TE,
-              se(I(et), {
+              se(I(tt), {
                 class: je({ "p-button-outlined": s.value !== "name" }),
                 onClick: E[1] || (E[1] = (A) => y("name"))
               }, {
@@ -37719,7 +37719,7 @@ const bc = (e) => (Qi("data-v-597509eb"), e = e(), er(), e), PE = { class: "file
                 ]),
                 _: 1
               }, 8, ["class"]),
-              se(I(et), {
+              se(I(tt), {
                 class: je({ "p-button-outlined": s.value !== "size" }),
                 onClick: E[2] || (E[2] = (A) => y("size"))
               }, {
@@ -37732,7 +37732,7 @@ const bc = (e) => (Qi("data-v-597509eb"), e = e(), er(), e), PE = { class: "file
                 ]),
                 _: 1
               }, 8, ["class"]),
-              se(I(et), {
+              se(I(tt), {
                 class: je({ "p-button-outlined": s.value !== "lastmod" }),
                 onClick: E[3] || (E[3] = (A) => y("lastmod"))
               }, {
@@ -37750,12 +37750,12 @@ const bc = (e) => (Qi("data-v-597509eb"), e = e(), er(), e), PE = { class: "file
         ]),
         end: ve(() => [
           S("div", AE, [
-            se(I(et), {
+            se(I(tt), {
               icon: "pi pi-th-large",
               class: je([{ "p-button-outlined": l.value !== "grid" }, "mr-2"]),
               onClick: E[4] || (E[4] = (A) => k("grid"))
             }, null, 8, ["class"]),
-            se(I(et), {
+            se(I(tt), {
               icon: "pi pi-list",
               class: je({ "p-button-outlined": l.value !== "list" }),
               onClick: E[5] || (E[5] = (A) => k("list"))
@@ -37964,19 +37964,19 @@ const bc = (e) => (Qi("data-v-597509eb"), e = e(), er(), e), PE = { class: "file
           ])) : N("", !0)
         ]),
         S("div", LT, [
-          se(I(et), {
+          se(I(tt), {
             label: "Скачать",
             icon: "pi pi-download",
             onClick: u,
             class: "mr-2"
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Переименовать",
             icon: "pi pi-pencil",
             onClick: c,
             class: "mr-2"
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Удалить",
             icon: "pi pi-trash",
             class: "p-button-danger",
@@ -38863,7 +38863,7 @@ var YT = function(t) {
     }
   },
   components: {
-    Button: et,
+    Button: tt,
     Badge: Cu,
     TimesIcon: nl
   }
@@ -39244,7 +39244,7 @@ var hb = {
     }
   },
   components: {
-    Button: et,
+    Button: tt,
     ProgressBar: j2,
     Message: z2,
     FileContent: K2,
@@ -39523,7 +39523,7 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
       dismissableMask: !0
     }, {
       footer: ve(() => [
-        se(I(et), {
+        se(I(tt), {
           label: "Закрыть",
           icon: "pi pi-times",
           onClick: l,
@@ -39545,7 +39545,7 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
             header: ve(({ chooseCallback: c, uploadCallback: f, clearCallback: h, files: d }) => [
               S("div", uA, [
                 S("div", cA, [
-                  se(I(et), {
+                  se(I(tt), {
                     onClick: (g) => c(),
                     icon: "pi pi-images",
                     rounded: "",
@@ -39553,7 +39553,7 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
                     severity: "help",
                     label: "Выбрать"
                   }, null, 8, ["onClick"]),
-                  se(I(et), {
+                  se(I(tt), {
                     onClick: (g) => f(),
                     icon: "pi pi-cloud-upload",
                     rounded: "",
@@ -39563,7 +39563,7 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
                     disabled: !d || d.length === 0
                   }, null, 8, ["onClick", "disabled"])
                 ]),
-                se(I(et), {
+                se(I(tt), {
                   onClick: (g) => h(),
                   icon: "pi pi-times",
                   rounded: "",
@@ -39589,7 +39589,7 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
                   ]),
                   S("div", gA, [
                     S("span", null, Ce(i(g.size)), 1),
-                    se(I(et), {
+                    se(I(tt), {
                       onClick: (y) => d(b),
                       icon: "pi pi-times",
                       rounded: "",
@@ -39655,13 +39655,13 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
       dismissableMask: !0
     }, {
       footer: ve(() => [
-        se(I(et), {
+        se(I(tt), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: s,
           class: "p-button-text"
         }),
-        se(I(et), {
+        se(I(tt), {
           label: "Создать",
           icon: "pi pi-check",
           onClick: l,
@@ -39741,13 +39741,13 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
       dismissableMask: !0
     }, {
       footer: ve(() => [
-        se(I(et), {
+        se(I(tt), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: u,
           class: "p-button-text"
         }),
-        se(I(et), {
+        se(I(tt), {
           label: "Переименовать",
           icon: "pi pi-check",
           onClick: s,
@@ -39824,13 +39824,13 @@ const U2 = (e) => (Qi("data-v-ff61e4cf"), e = e(), er(), e), sA = { class: "uplo
       dismissableMask: !0
     }, {
       footer: ve(() => [
-        se(I(et), {
+        se(I(tt), {
           label: "Отмена",
           icon: "pi pi-times",
           onClick: u,
           class: "p-button-text"
         }),
-        se(I(et), {
+        se(I(tt), {
           label: "Удалить",
           icon: "pi pi-trash",
           class: "p-button-danger",
@@ -43007,8 +43007,8 @@ function Jt(e) {
   }, Nt.prototype.toString = function(C) {
     return this.join(" ");
   }, Nt.prototype.inversed = function() {
-    var C = this.sx, K = this.shy, be = this.shx, Oe = this.sy, Ve = this.tx, ot = this.ty, Le = 1 / (C * Oe - K * be), Ne = Oe * Le, gt = -K * Le, Be = -be * Le, Xe = C * Le;
-    return new Nt(Ne, gt, Be, Xe, -Ne * Ve - Be * ot, -gt * Ve - Xe * ot);
+    var C = this.sx, K = this.shy, be = this.shx, Oe = this.sy, Ve = this.tx, ot = this.ty, Le = 1 / (C * Oe - K * be), Ne = Oe * Le, gt = -K * Le, Be = -be * Le, Qe = C * Le;
+    return new Nt(Ne, gt, Be, Qe, -Ne * Ve - Be * ot, -gt * Ve - Qe * ot);
   }, Nt.prototype.applyToPoint = function(C) {
     var K = C.x * this.sx + C.y * this.shx + this.tx, be = C.x * this.shy + C.y * this.sy + this.ty;
     return new ga(K, be);
@@ -43087,10 +43087,10 @@ function Jt(e) {
     c !== null && (Ne = po.encryptor(Le, 0));
     var gt = {};
     be === !0 && (be = ["FlateEncode"]);
-    var Be = C.additionalKeyValues || [], Xe = (gt = Jt.API.processDataByFilters !== void 0 ? Jt.API.processDataByFilters(K, be) : { data: K, reverseChain: [] }).reverseChain + (Array.isArray(Oe) ? Oe.join(" ") : Oe.toString());
-    if (gt.data.length !== 0 && (Be.push({ key: "Length", value: gt.data.length }), Ve === !0 && Be.push({ key: "Length1", value: ot })), Xe.length != 0) if (Xe.split("/").length - 1 == 1) Be.push({ key: "Filter", value: Xe });
+    var Be = C.additionalKeyValues || [], Qe = (gt = Jt.API.processDataByFilters !== void 0 ? Jt.API.processDataByFilters(K, be) : { data: K, reverseChain: [] }).reverseChain + (Array.isArray(Oe) ? Oe.join(" ") : Oe.toString());
+    if (gt.data.length !== 0 && (Be.push({ key: "Length", value: gt.data.length }), Ve === !0 && Be.push({ key: "Length1", value: ot })), Qe.length != 0) if (Qe.split("/").length - 1 == 1) Be.push({ key: "Filter", value: Qe });
     else {
-      Be.push({ key: "Filter", value: "[" + Xe + "]" });
+      Be.push({ key: "Filter", value: "[" + Qe + "]" });
       for (var Pt = 0; Pt < Be.length; Pt += 1) if (Be[Pt].key === "DecodeParms") {
         for (var Et = [], Cn = 0; Cn < gt.reverseChain.split("/").length - 1; Cn += 1) Et.push("null");
         Et.push(Be[Pt].value), Be[Pt].value = "[" + Et.join(" ") + "]";
@@ -43126,8 +43126,8 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
   }, da = function(C, K) {
     K || (K = 21);
     var be = Kn(), Oe = (function(Le, Ne) {
-      var gt, Be = [], Xe = 1 / (Ne - 1);
-      for (gt = 0; gt < 1; gt += Xe) Be.push(gt);
+      var gt, Be = [], Qe = 1 / (Ne - 1);
+      for (gt = 0; gt < 1; gt += Qe) Be.push(gt);
       if (Be.push(1), Le[0].offset != 0) {
         var Pt = { offset: 0, color: Le[0].color };
         Le.unshift(Pt);
@@ -43191,13 +43191,13 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
     return dn.publish("addFont", { font: ot, instance: this }), $e[ot.id] = ot, ci(ot), ot.id;
   }, Jo = d.__private__.pdfEscape = d.pdfEscape = function(C, K) {
     return (function(be, Oe) {
-      var Ve, ot, Le, Ne, gt, Be, Xe, Pt, Et;
+      var Ve, ot, Le, Ne, gt, Be, Qe, Pt, Et;
       if (Le = (Oe = Oe || {}).sourceEncoding || "Unicode", gt = Oe.outputEncoding, (Oe.autoencode || gt) && $e[Tt].metadata && $e[Tt].metadata[Le] && $e[Tt].metadata[Le].encoding && (Ne = $e[Tt].metadata[Le].encoding, !gt && $e[Tt].encoding && (gt = $e[Tt].encoding), !gt && Ne.codePages && (gt = Ne.codePages[0]), typeof gt == "string" && (gt = Ne[gt]), gt)) {
-        for (Xe = !1, Be = [], Ve = 0, ot = be.length; Ve < ot; Ve++) (Pt = gt[be.charCodeAt(Ve)]) ? Be.push(String.fromCharCode(Pt)) : Be.push(be[Ve]), Be[Ve].charCodeAt(0) >> 8 && (Xe = !0);
+        for (Qe = !1, Be = [], Ve = 0, ot = be.length; Ve < ot; Ve++) (Pt = gt[be.charCodeAt(Ve)]) ? Be.push(String.fromCharCode(Pt)) : Be.push(be[Ve]), Be[Ve].charCodeAt(0) >> 8 && (Qe = !0);
         be = Be.join("");
       }
-      for (Ve = be.length; Xe === void 0 && Ve !== 0; ) be.charCodeAt(Ve - 1) >> 8 && (Xe = !0), Ve--;
-      if (!Xe) return be;
+      for (Ve = be.length; Qe === void 0 && Ve !== 0; ) be.charCodeAt(Ve - 1) >> 8 && (Qe = !0), Ve--;
+      if (!Qe) return be;
       for (Be = Oe.noBOM ? [] : [254, 255], Ve = 0, ot = be.length; Ve < ot; Ve++) {
         if ((Et = (Pt = be.charCodeAt(Ve)) >> 8) >> 8) throw new Error("Character at position " + Ve + " of string '" + be + "' exceeds 16bits. Cannot be encoded into UCS-2 BE");
         Be.push(Et), Be.push(Pt - (Et << 8));
@@ -43344,10 +43344,10 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
         throw new Error("The option pdfobjectnewwindow just works in a browser-environment.");
       case "pdfjsnewwindow":
         if (Object.prototype.toString.call(cn) === "[object Window]") {
-          var Xe = K.pdfJsUrl || "examples/PDF.js/web/viewer.html", Pt = cn.open();
+          var Qe = K.pdfJsUrl || "examples/PDF.js/web/viewer.html", Pt = cn.open();
           if (Pt !== null) {
-            var Et = Zo(Pt), Cn = Et.document.createElement("iframe"), xn = Xe.indexOf("?") === -1 ? "?" : "&";
-            Be = this, Cn.id = "pdfViewer", Cn.width = "500px", Cn.height = "400px", Cn.src = Xe + xn + "file=&downloadName=" + encodeURIComponent(K.filename), Cn.onload = function() {
+            var Et = Zo(Pt), Cn = Et.document.createElement("iframe"), xn = Qe.indexOf("?") === -1 ? "?" : "&";
+            Be = this, Cn.id = "pdfViewer", Cn.width = "500px", Cn.height = "400px", Cn.src = Qe + xn + "file=&downloadName=" + encodeURIComponent(K.filename), Cn.onload = function() {
               Pt.document.title = K.filename, Cn.contentWindow.PDFViewerApplication.open(Be.output("bloburl"));
             }, Et.body.appendChild(Cn);
           }
@@ -43443,7 +43443,7 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
   }, d.deletePage = function() {
     return Mr.apply(this, arguments), this;
   }, d.__private__.text = d.text = function(C, K, be, Oe, Ve) {
-    var ot, Le, Ne, gt, Be, Xe, Pt, Et, Cn, xn = (Oe = Oe || {}).scope || this;
+    var ot, Le, Ne, gt, Be, Qe, Pt, Et, Cn, xn = (Oe = Oe || {}).scope || this;
     if (typeof C == "number" && typeof K == "number" && (typeof be == "string" || Array.isArray(be))) {
       var Pn = be;
       be = K, K = C, C = Pn;
@@ -43462,7 +43462,7 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
       var Ao;
       if (typeof Gn == "string") Ao = Xn(Gn)[0];
       else if (Array.isArray(Gn)) {
-        for (var ye, xe, Qe = Gn.concat(), Te = [], tt = Qe.length; tt--; ) typeof (ye = Qe.shift()) == "string" ? Te.push(Xn(ye)[0]) : Array.isArray(ye) && typeof ye[0] == "string" && (xe = Xn(ye[0], ye[1], ye[2]), Te.push([xe[0], xe[1], xe[2]]));
+        for (var ye, xe, et = Gn.concat(), Te = [], Xe = et.length; Xe--; ) typeof (ye = et.shift()) == "string" ? Te.push(Xn(ye)[0]) : Array.isArray(ye) && typeof ye[0] == "string" && (xe = Xn(ye[0], ye[1], ye[2]), Te.push([xe[0], xe[1], xe[2]]));
         Ao = Te;
       }
       return Ao;
@@ -43491,8 +43491,8 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
       case "middle":
         be += Ba / 2 - gl;
     }
-    if ((Xe = Oe.maxWidth || 0) > 0 && (typeof C == "string" ? C = xn.splitTextToSize(C, Xe) : Object.prototype.toString.call(C) === "[object Array]" && (C = C.reduce(function(Gn, Xn) {
-      return Gn.concat(xn.splitTextToSize(Xn, Xe));
+    if ((Qe = Oe.maxWidth || 0) > 0 && (typeof C == "string" ? C = xn.splitTextToSize(C, Qe) : Object.prototype.toString.call(C) === "[object Array]" && (C = C.reduce(function(Gn, Xn) {
+      return Gn.concat(xn.splitTextToSize(Xn, Qe));
     }, []))), ot = { text: C, x: K, y: be, options: Oe, mutex: { pdfEscape: Jo, activeFontKey: Tt, fonts: $e, activeFontSize: ce } }, dn.publish("preProcessText", ot), C = ot.text, Ne = (Oe = ot.options).angle, Cn instanceof Nt == 0 && Ne && typeof Ne == "number") {
       Ne *= Math.PI / 180, Oe.rotationDirection === 0 && (Ne = -Ne), R === L && (Ne = -Ne);
       var ds = Math.cos(Ne), ir = Math.sin(Ne);
@@ -43542,7 +43542,7 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
 ` : Eu !== -1 && (zn += `0 Tr
 `), vi !== -1 && (fs.usedRenderingMode = vi), gt = Oe.align || "left";
     var Ir, gn = ce * vo, _a = xn.internal.pageSize.getWidth(), $o = $e[Tt];
-    Be = Oe.charSpace || cl, Xe = Oe.maxWidth || 0, Pt = Object.assign({ autoencode: !0, noBOM: !0 }, Oe.flags);
+    Be = Oe.charSpace || cl, Qe = Oe.maxWidth || 0, Pt = Object.assign({ autoencode: !0, noBOM: !0 }, Oe.flags);
     var jl = [], ps = function(Gn) {
       return xn.getStringUnitWidth(Gn, { font: $o, charSpace: Be, fontSize: ce, doKerning: !1 }) * ce / Da;
     };
@@ -43560,9 +43560,9 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
         C = [], Qo = Le.length;
         for (var ms = 0; ms < Qo; ms++) C.push(Le[ms]);
       } else if (gt === "justify" && $o.encoding === "Identity-H") {
-        C = [], Qo = Le.length, Xe = Xe !== 0 ? Xe : _a;
+        C = [], Qo = Le.length, Qe = Qe !== 0 ? Qe : _a;
         for (var yl = 0, Vo = 0; Vo < Qo; Vo++) if (ei = Vo === 0 ? Ki(be) : -gn, rr = Vo === 0 ? _r(K) : yl, Vo < Qo - 1) {
-          var wc = ee((Xe - Ir[Vo]) / (Le[Vo].split(" ").length - 1)), ba = Le[Vo].split(" ");
+          var wc = ee((Qe - Ir[Vo]) / (Le[Vo].split(" ").length - 1)), ba = Le[Vo].split(" ");
           C.push([ba[0] + " ", rr, ei]), yl = 0;
           for (var ar = 1; ar < ba.length; ar++) {
             var Na = (ps(ba[ar - 1] + " " + ba[ar]) - ps(ba[ar])) * Da + wc;
@@ -43572,9 +43572,9 @@ Q`), go(Ve, !0), gi({ data: ot, filters: ui(), objectId: Ve }), z("endobj"), Oe;
         C.push(["", yl, 0]);
       } else {
         if (gt !== "justify") throw new Error('Unrecognized alignment option, use "left", "center", "right" or "justify".');
-        for (C = [], Qo = Le.length, Xe = Xe !== 0 ? Xe : _a, Vo = 0; Vo < Qo; Vo++) {
+        for (C = [], Qo = Le.length, Qe = Qe !== 0 ? Qe : _a, Vo = 0; Vo < Qo; Vo++) {
           ei = Vo === 0 ? Ki(be) : -gn, rr = Vo === 0 ? _r(K) : 0;
-          var Js = Le[Vo].split(" ").length - 1, Zs = Js > 0 ? (Xe - Ir[Vo]) / Js : 0;
+          var Js = Le[Vo].split(" ").length - 1, Zs = Js > 0 ? (Qe - Ir[Vo]) / Js : 0;
           Vo < Qo - 1 ? jl.push(G(ee(Zs))) : jl.push(0), C.push([Le[Vo], rr, ei]);
         }
       }
@@ -43706,9 +43706,9 @@ T* `) : C.join(` Tj
     if (isNaN(C) || isNaN(K) || isNaN(be) || isNaN(Oe) || !ft(Ve)) throw new Error("Invalid arguments passed to jsPDF.line");
     return R === P ? this.lines([[be - C, Oe - K]], C, K, [1, 1], Ve || "S") : this.lines([[be - C, Oe - K]], C, K, [1, 1]).stroke();
   }, d.__private__.lines = d.lines = function(C, K, be, Oe, Ve, ot) {
-    var Le, Ne, gt, Be, Xe, Pt, Et, Cn, xn, Pn, Zn, zn;
+    var Le, Ne, gt, Be, Qe, Pt, Et, Cn, xn, Pn, Zn, zn;
     if (typeof C == "number" && (zn = be, be = K, K = C, C = zn), Oe = Oe || [1, 1], ot = ot || !1, isNaN(K) || isNaN(be) || !Array.isArray(C) || !Array.isArray(Oe) || !ft(Ve) || typeof ot != "boolean") throw new Error("Invalid arguments passed to jsPDF.lines");
-    for (xo(K, be), Le = Oe[0], Ne = Oe[1], Be = C.length, Pn = K, Zn = be, gt = 0; gt < Be; gt++) (Xe = C[gt]).length === 2 ? (Pn = Xe[0] * Le + Pn, Zn = Xe[1] * Ne + Zn, Vn(Pn, Zn)) : (Pt = Xe[0] * Le + Pn, Et = Xe[1] * Ne + Zn, Cn = Xe[2] * Le + Pn, xn = Xe[3] * Ne + Zn, Pn = Xe[4] * Le + Pn, Zn = Xe[5] * Ne + Zn, ha(Pt, Et, Cn, xn, Pn, Zn));
+    for (xo(K, be), Le = Oe[0], Ne = Oe[1], Be = C.length, Pn = K, Zn = be, gt = 0; gt < Be; gt++) (Qe = C[gt]).length === 2 ? (Pn = Qe[0] * Le + Pn, Zn = Qe[1] * Ne + Zn, Vn(Pn, Zn)) : (Pt = Qe[0] * Le + Pn, Et = Qe[1] * Ne + Zn, Cn = Qe[2] * Le + Pn, xn = Qe[3] * Ne + Zn, Pn = Qe[4] * Le + Pn, Zn = Qe[5] * Ne + Zn, ha(Pt, Et, Cn, xn, Pn, Zn));
     return ot && St(), hn(Ve), this;
   }, d.path = function(C) {
     for (var K = 0; K < C.length; K++) {
@@ -46860,7 +46860,7 @@ function w0(e) {
     function Be(m, v, O, T, U, Q, ie) {
       for (m = m == null ? 0 : m[v + 0], v = 0; v < ie; ++v) U[Q + v] = m + O[T + v] & 255, m = U[Q + v];
     }
-    function Xe(m, v, O, T, U, Q, ie) {
+    function Qe(m, v, O, T, U, Q, ie) {
       var ue;
       if (m == null) Be(null, null, O, T, U, Q, ie);
       else for (ue = 0; ue < ie; ++ue) U[Q + ue] = m[v + ue] + O[T + ue] & 255;
@@ -46881,7 +46881,7 @@ function w0(e) {
           if (m.ga = new gt(), (ie = m.ga == null) || (ie = v.width * v.o, t(m.Gb.length == 0), m.Gb = i(ie), m.Uc = 0, m.Gb == null ? ie = 0 : (m.mb = m.Gb, m.nb = m.Uc, m.rc = null, ie = 1), ie = !ie), !ie) {
             ie = m.ga;
             var ue = m.Fa, de = m.P, we = m.qc, Fe = m.mb, We = m.nb, ke = de + 1, ze = we - 1, He = ie.l;
-            if (t(ue != null && Fe != null && v != null), vs[0] = null, vs[1] = Be, vs[2] = Xe, vs[3] = Pt, ie.ca = Fe, ie.tb = We, ie.c = v.width, ie.i = v.height, t(0 < ie.c && 0 < ie.i), 1 >= we) v = 0;
+            if (t(ue != null && Fe != null && v != null), vs[0] = null, vs[1] = Be, vs[2] = Qe, vs[3] = Pt, ie.ca = Fe, ie.tb = We, ie.c = v.width, ie.i = v.height, t(0 < ie.c && 0 < ie.i), 1 >= we) v = 0;
             else if (ie.$a = 3 & ue[de + 0], ie.Z = ue[de + 0] >> 2 & 3, ie.Lc = ue[de + 0] >> 4 & 3, de = ue[de + 0] >> 6 & 3, 0 > ie.$a || 1 < ie.$a || 4 <= ie.Z || 1 < ie.Lc || de) v = 0;
             else if (He.put = Nt, He.ac = Bo, He.bc = Pi, He.ma = ie, He.width = v.width, He.height = v.height, He.Da = v.Da, He.v = v.v, He.va = v.va, He.j = v.j, He.o = v.o, ie.$a) e: {
               t(ie.$a == 1), v = lo();
@@ -47316,7 +47316,7 @@ function w0(e) {
     });
     var ms, yl = $.ColorIndexInverseTransform, Vo = $.MapARGB, wc = $.VP8LColorIndexInverseTransformAlpha, ba = $.MapAlpha, ar = $.VP8LPredictorsAdd = [];
     ar.length = 16, ($.VP8LPredictors = []).length = 16, ($.VP8LPredictorsAdd_C = []).length = 16, ($.VP8LPredictors_C = []).length = 16;
-    var Na, Js, Zs, Kl, Hl, Ul, wl, $a, kl, gs, Fi, va, Gn, Xn, Ao, ye, xe, Qe, Te, tt, Rt, qn, bn, On, yo, di, Zr, Nr, Wt = i(511), Sl = i(2041), Xs = i(225), Tu = i(767), kc = 0, Qs = Sl, eu = Xs, Ui = Tu, $r = Wt, tu = 0, cf = 1, fv = 2, df = 3, ff = 4, ph = 5, pv = 6, hh = 7, mh = 8, pf = 9, gh = 10, gS = [2, 3, 7], bS = [3, 3, 11], hv = [280, 256, 256, 256, 40], vS = [0, 1, 1, 1, 0], yS = [17, 18, 0, 1, 2, 3, 4, 5, 16, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], wS = [24, 7, 23, 25, 40, 6, 39, 41, 22, 26, 38, 42, 56, 5, 55, 57, 21, 27, 54, 58, 37, 43, 72, 4, 71, 73, 20, 28, 53, 59, 70, 74, 36, 44, 88, 69, 75, 52, 60, 3, 87, 89, 19, 29, 86, 90, 35, 45, 68, 76, 85, 91, 51, 61, 104, 2, 103, 105, 18, 30, 102, 106, 34, 46, 84, 92, 67, 77, 101, 107, 50, 62, 120, 1, 119, 121, 83, 93, 17, 31, 100, 108, 66, 78, 118, 122, 33, 47, 117, 123, 49, 63, 99, 109, 82, 94, 0, 116, 124, 65, 79, 16, 32, 98, 110, 48, 115, 125, 81, 95, 64, 114, 126, 97, 111, 80, 113, 127, 96, 112], kS = [2954, 2956, 2958, 2962, 2970, 2986, 3018, 3082, 3212, 3468, 3980, 5004], SS = 8, bh = [4, 5, 6, 7, 8, 9, 10, 10, 11, 12, 13, 14, 15, 16, 17, 17, 18, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 93, 95, 96, 98, 100, 101, 102, 104, 106, 108, 110, 112, 114, 116, 118, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 143, 145, 148, 151, 154, 157], vh = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110, 112, 114, 116, 119, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 155, 158, 161, 164, 167, 170, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 234, 239, 245, 249, 254, 259, 264, 269, 274, 279, 284], Sc = null, CS = [[173, 148, 140, 0], [176, 155, 140, 135, 0], [180, 157, 141, 134, 130, 0], [254, 254, 243, 230, 196, 177, 153, 140, 133, 130, 129, 0]], xS = [0, 1, 4, 8, 5, 2, 3, 6, 9, 12, 13, 10, 7, 11, 14, 15], mv = [-0, 1, -1, 2, -2, 3, 4, 6, -3, 5, -4, -5, -6, 7, -7, 8, -8, -9], IS = [[[[128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128]], [[253, 136, 254, 255, 228, 219, 128, 128, 128, 128, 128], [189, 129, 242, 255, 227, 213, 255, 219, 128, 128, 128], [106, 126, 227, 252, 214, 209, 255, 255, 128, 128, 128]], [[1, 98, 248, 255, 236, 226, 255, 255, 128, 128, 128], [181, 133, 238, 254, 221, 234, 255, 154, 128, 128, 128], [78, 134, 202, 247, 198, 180, 255, 219, 128, 128, 128]], [[1, 185, 249, 255, 243, 255, 128, 128, 128, 128, 128], [184, 150, 247, 255, 236, 224, 128, 128, 128, 128, 128], [77, 110, 216, 255, 236, 230, 128, 128, 128, 128, 128]], [[1, 101, 251, 255, 241, 255, 128, 128, 128, 128, 128], [170, 139, 241, 252, 236, 209, 255, 255, 128, 128, 128], [37, 116, 196, 243, 228, 255, 255, 255, 128, 128, 128]], [[1, 204, 254, 255, 245, 255, 128, 128, 128, 128, 128], [207, 160, 250, 255, 238, 128, 128, 128, 128, 128, 128], [102, 103, 231, 255, 211, 171, 128, 128, 128, 128, 128]], [[1, 152, 252, 255, 240, 255, 128, 128, 128, 128, 128], [177, 135, 243, 255, 234, 225, 128, 128, 128, 128, 128], [80, 129, 211, 255, 194, 224, 128, 128, 128, 128, 128]], [[1, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [246, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [255, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128]]], [[[198, 35, 237, 223, 193, 187, 162, 160, 145, 155, 62], [131, 45, 198, 221, 172, 176, 220, 157, 252, 221, 1], [68, 47, 146, 208, 149, 167, 221, 162, 255, 223, 128]], [[1, 149, 241, 255, 221, 224, 255, 255, 128, 128, 128], [184, 141, 234, 253, 222, 220, 255, 199, 128, 128, 128], [81, 99, 181, 242, 176, 190, 249, 202, 255, 255, 128]], [[1, 129, 232, 253, 214, 197, 242, 196, 255, 255, 128], [99, 121, 210, 250, 201, 198, 255, 202, 128, 128, 128], [23, 91, 163, 242, 170, 187, 247, 210, 255, 255, 128]], [[1, 200, 246, 255, 234, 255, 128, 128, 128, 128, 128], [109, 178, 241, 255, 231, 245, 255, 255, 128, 128, 128], [44, 130, 201, 253, 205, 192, 255, 255, 128, 128, 128]], [[1, 132, 239, 251, 219, 209, 255, 165, 128, 128, 128], [94, 136, 225, 251, 218, 190, 255, 255, 128, 128, 128], [22, 100, 174, 245, 186, 161, 255, 199, 128, 128, 128]], [[1, 182, 249, 255, 232, 235, 128, 128, 128, 128, 128], [124, 143, 241, 255, 227, 234, 128, 128, 128, 128, 128], [35, 77, 181, 251, 193, 211, 255, 205, 128, 128, 128]], [[1, 157, 247, 255, 236, 231, 255, 255, 128, 128, 128], [121, 141, 235, 255, 225, 227, 255, 255, 128, 128, 128], [45, 99, 188, 251, 195, 217, 255, 224, 128, 128, 128]], [[1, 1, 251, 255, 213, 255, 128, 128, 128, 128, 128], [203, 1, 248, 255, 255, 128, 128, 128, 128, 128, 128], [137, 1, 177, 255, 224, 255, 128, 128, 128, 128, 128]]], [[[253, 9, 248, 251, 207, 208, 255, 192, 128, 128, 128], [175, 13, 224, 243, 193, 185, 249, 198, 255, 255, 128], [73, 17, 171, 221, 161, 179, 236, 167, 255, 234, 128]], [[1, 95, 247, 253, 212, 183, 255, 255, 128, 128, 128], [239, 90, 244, 250, 211, 209, 255, 255, 128, 128, 128], [155, 77, 195, 248, 188, 195, 255, 255, 128, 128, 128]], [[1, 24, 239, 251, 218, 219, 255, 205, 128, 128, 128], [201, 51, 219, 255, 196, 186, 128, 128, 128, 128, 128], [69, 46, 190, 239, 201, 218, 255, 228, 128, 128, 128]], [[1, 191, 251, 255, 255, 128, 128, 128, 128, 128, 128], [223, 165, 249, 255, 213, 255, 128, 128, 128, 128, 128], [141, 124, 248, 255, 255, 128, 128, 128, 128, 128, 128]], [[1, 16, 248, 255, 255, 128, 128, 128, 128, 128, 128], [190, 36, 230, 255, 236, 255, 128, 128, 128, 128, 128], [149, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128]], [[1, 226, 255, 128, 128, 128, 128, 128, 128, 128, 128], [247, 192, 255, 128, 128, 128, 128, 128, 128, 128, 128], [240, 128, 255, 128, 128, 128, 128, 128, 128, 128, 128]], [[1, 134, 252, 255, 255, 128, 128, 128, 128, 128, 128], [213, 62, 250, 255, 255, 128, 128, 128, 128, 128, 128], [55, 93, 255, 128, 128, 128, 128, 128, 128, 128, 128]], [[128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128]]], [[[202, 24, 213, 235, 186, 191, 220, 160, 240, 175, 255], [126, 38, 182, 232, 169, 184, 228, 174, 255, 187, 128], [61, 46, 138, 219, 151, 178, 240, 170, 255, 216, 128]], [[1, 112, 230, 250, 199, 191, 247, 159, 255, 255, 128], [166, 109, 228, 252, 211, 215, 255, 174, 128, 128, 128], [39, 77, 162, 232, 172, 180, 245, 178, 255, 255, 128]], [[1, 52, 220, 246, 198, 199, 249, 220, 255, 255, 128], [124, 74, 191, 243, 183, 193, 250, 221, 255, 255, 128], [24, 71, 130, 219, 154, 170, 243, 182, 255, 255, 128]], [[1, 182, 225, 249, 219, 240, 255, 224, 128, 128, 128], [149, 150, 226, 252, 216, 205, 255, 171, 128, 128, 128], [28, 108, 170, 242, 183, 194, 254, 223, 255, 255, 128]], [[1, 81, 230, 252, 204, 203, 255, 192, 128, 128, 128], [123, 102, 209, 247, 188, 196, 255, 233, 128, 128, 128], [20, 95, 153, 243, 164, 173, 255, 203, 128, 128, 128]], [[1, 222, 248, 255, 216, 213, 128, 128, 128, 128, 128], [168, 175, 246, 252, 235, 205, 255, 255, 128, 128, 128], [47, 116, 215, 255, 211, 212, 255, 255, 128, 128, 128]], [[1, 121, 236, 253, 212, 214, 255, 255, 128, 128, 128], [141, 84, 213, 252, 201, 202, 255, 219, 128, 128, 128], [42, 80, 160, 240, 162, 185, 255, 205, 128, 128, 128]], [[1, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [244, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [238, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128]]]], PS = [[[231, 120, 48, 89, 115, 113, 120, 152, 112], [152, 179, 64, 126, 170, 118, 46, 70, 95], [175, 69, 143, 80, 85, 82, 72, 155, 103], [56, 58, 10, 171, 218, 189, 17, 13, 152], [114, 26, 17, 163, 44, 195, 21, 10, 173], [121, 24, 80, 195, 26, 62, 44, 64, 85], [144, 71, 10, 38, 171, 213, 144, 34, 26], [170, 46, 55, 19, 136, 160, 33, 206, 71], [63, 20, 8, 114, 114, 208, 12, 9, 226], [81, 40, 11, 96, 182, 84, 29, 16, 36]], [[134, 183, 89, 137, 98, 101, 106, 165, 148], [72, 187, 100, 130, 157, 111, 32, 75, 80], [66, 102, 167, 99, 74, 62, 40, 234, 128], [41, 53, 9, 178, 241, 141, 26, 8, 107], [74, 43, 26, 146, 73, 166, 49, 23, 157], [65, 38, 105, 160, 51, 52, 31, 115, 128], [104, 79, 12, 27, 217, 255, 87, 17, 7], [87, 68, 71, 44, 114, 51, 15, 186, 23], [47, 41, 14, 110, 182, 183, 21, 17, 194], [66, 45, 25, 102, 197, 189, 23, 18, 22]], [[88, 88, 147, 150, 42, 46, 45, 196, 205], [43, 97, 183, 117, 85, 38, 35, 179, 61], [39, 53, 200, 87, 26, 21, 43, 232, 171], [56, 34, 51, 104, 114, 102, 29, 93, 77], [39, 28, 85, 171, 58, 165, 90, 98, 64], [34, 22, 116, 206, 23, 34, 43, 166, 73], [107, 54, 32, 26, 51, 1, 81, 43, 31], [68, 25, 106, 22, 64, 171, 36, 225, 114], [34, 19, 21, 102, 132, 188, 16, 76, 124], [62, 18, 78, 95, 85, 57, 50, 48, 51]], [[193, 101, 35, 159, 215, 111, 89, 46, 111], [60, 148, 31, 172, 219, 228, 21, 18, 111], [112, 113, 77, 85, 179, 255, 38, 120, 114], [40, 42, 1, 196, 245, 209, 10, 25, 109], [88, 43, 29, 140, 166, 213, 37, 43, 154], [61, 63, 30, 155, 67, 45, 68, 1, 209], [100, 80, 8, 43, 154, 1, 51, 26, 71], [142, 78, 78, 16, 255, 128, 34, 197, 171], [41, 40, 5, 102, 211, 183, 4, 1, 221], [51, 50, 17, 168, 209, 192, 23, 25, 82]], [[138, 31, 36, 171, 27, 166, 38, 44, 229], [67, 87, 58, 169, 82, 115, 26, 59, 179], [63, 59, 90, 180, 59, 166, 93, 73, 154], [40, 40, 21, 116, 143, 209, 34, 39, 175], [47, 15, 16, 183, 34, 223, 49, 45, 183], [46, 17, 33, 183, 6, 98, 15, 32, 183], [57, 46, 22, 24, 128, 1, 54, 17, 37], [65, 32, 73, 115, 28, 128, 23, 128, 205], [40, 3, 9, 115, 51, 192, 18, 6, 223], [87, 37, 9, 115, 59, 77, 64, 21, 47]], [[104, 55, 44, 218, 9, 54, 53, 130, 226], [64, 90, 70, 205, 40, 41, 23, 26, 57], [54, 57, 112, 184, 5, 41, 38, 166, 213], [30, 34, 26, 133, 152, 116, 10, 32, 134], [39, 19, 53, 221, 26, 114, 32, 73, 255], [31, 9, 65, 234, 2, 15, 1, 118, 73], [75, 32, 12, 51, 192, 255, 160, 43, 51], [88, 31, 35, 67, 102, 85, 55, 186, 85], [56, 21, 23, 111, 59, 205, 45, 37, 192], [55, 38, 70, 124, 73, 102, 1, 34, 98]], [[125, 98, 42, 88, 104, 85, 117, 175, 82], [95, 84, 53, 89, 128, 100, 113, 101, 45], [75, 79, 123, 47, 51, 128, 81, 171, 1], [57, 17, 5, 71, 102, 57, 53, 41, 49], [38, 33, 13, 121, 57, 73, 26, 1, 85], [41, 10, 67, 138, 77, 110, 90, 47, 114], [115, 21, 2, 10, 102, 255, 166, 23, 6], [101, 29, 16, 10, 85, 128, 101, 196, 26], [57, 18, 10, 102, 102, 213, 34, 20, 43], [117, 20, 15, 36, 163, 128, 68, 1, 26]], [[102, 61, 71, 37, 34, 53, 31, 243, 192], [69, 60, 71, 38, 73, 119, 28, 222, 37], [68, 45, 128, 34, 1, 47, 11, 245, 171], [62, 17, 19, 70, 146, 85, 55, 62, 70], [37, 43, 37, 154, 100, 163, 85, 160, 1], [63, 9, 92, 136, 28, 64, 32, 201, 85], [75, 15, 9, 9, 64, 255, 184, 119, 16], [86, 6, 28, 5, 64, 255, 25, 248, 1], [56, 8, 17, 132, 137, 255, 55, 116, 128], [58, 15, 20, 82, 135, 57, 26, 121, 40]], [[164, 50, 31, 137, 154, 133, 25, 35, 218], [51, 103, 44, 131, 131, 123, 31, 6, 158], [86, 40, 64, 135, 148, 224, 45, 183, 128], [22, 26, 17, 131, 240, 154, 14, 1, 209], [45, 16, 21, 91, 64, 222, 7, 1, 197], [56, 21, 39, 155, 60, 138, 23, 102, 213], [83, 12, 13, 54, 192, 255, 68, 47, 28], [85, 26, 85, 85, 128, 128, 32, 146, 171], [18, 11, 7, 63, 144, 171, 4, 4, 246], [35, 27, 10, 146, 174, 171, 12, 26, 128]], [[190, 80, 35, 99, 180, 80, 126, 54, 45], [85, 126, 47, 87, 176, 51, 41, 20, 32], [101, 75, 128, 139, 118, 146, 116, 128, 85], [56, 41, 15, 176, 236, 85, 37, 9, 62], [71, 30, 17, 119, 118, 255, 17, 18, 138], [101, 38, 60, 138, 55, 70, 43, 26, 142], [146, 36, 19, 30, 171, 255, 97, 27, 20], [138, 45, 61, 62, 219, 1, 81, 188, 64], [32, 41, 20, 117, 151, 142, 20, 21, 163], [112, 19, 12, 61, 195, 128, 48, 4, 24]]], OS = [[[[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[176, 246, 255, 255, 255, 255, 255, 255, 255, 255, 255], [223, 241, 252, 255, 255, 255, 255, 255, 255, 255, 255], [249, 253, 253, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 244, 252, 255, 255, 255, 255, 255, 255, 255, 255], [234, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 246, 254, 255, 255, 255, 255, 255, 255, 255, 255], [239, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 248, 254, 255, 255, 255, 255, 255, 255, 255, 255], [251, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [251, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 253, 255, 254, 255, 255, 255, 255, 255, 255], [250, 255, 254, 255, 254, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]], [[[217, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [225, 252, 241, 253, 255, 255, 254, 255, 255, 255, 255], [234, 250, 241, 250, 253, 255, 253, 254, 255, 255, 255]], [[255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [223, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [238, 253, 254, 254, 255, 255, 255, 255, 255, 255, 255]], [[255, 248, 254, 255, 255, 255, 255, 255, 255, 255, 255], [249, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 255, 255, 255, 255, 255, 255, 255, 255, 255], [247, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 253, 255, 255, 255, 255, 255, 255, 255, 255], [250, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]], [[[186, 251, 250, 255, 255, 255, 255, 255, 255, 255, 255], [234, 251, 244, 254, 255, 255, 255, 255, 255, 255, 255], [251, 251, 243, 253, 254, 255, 254, 255, 255, 255, 255]], [[255, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [236, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [251, 253, 253, 254, 254, 255, 255, 255, 255, 255, 255]], [[255, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [254, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]], [[[248, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [250, 254, 252, 254, 255, 255, 255, 255, 255, 255, 255], [248, 254, 249, 253, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 253, 255, 255, 255, 255, 255, 255, 255, 255], [246, 253, 253, 255, 255, 255, 255, 255, 255, 255, 255], [252, 254, 251, 254, 254, 255, 255, 255, 255, 255, 255]], [[255, 254, 252, 255, 255, 255, 255, 255, 255, 255, 255], [248, 254, 253, 255, 255, 255, 255, 255, 255, 255, 255], [253, 255, 254, 254, 255, 255, 255, 255, 255, 255, 255]], [[255, 251, 254, 255, 255, 255, 255, 255, 255, 255, 255], [245, 251, 254, 255, 255, 255, 255, 255, 255, 255, 255], [253, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 251, 253, 255, 255, 255, 255, 255, 255, 255, 255], [252, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255], [249, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 253, 255, 255, 255, 255, 255, 255, 255, 255], [250, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]]], LS = [0, 1, 2, 3, 6, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 0], bs = [], Va = [], Gl = [], RS = 1, gv = 2, vs = [], ya = [];
+    var Na, Js, Zs, Kl, Hl, Ul, wl, $a, kl, gs, Fi, va, Gn, Xn, Ao, ye, xe, et, Te, Xe, Rt, qn, bn, On, yo, di, Zr, Nr, Wt = i(511), Sl = i(2041), Xs = i(225), Tu = i(767), kc = 0, Qs = Sl, eu = Xs, Ui = Tu, $r = Wt, tu = 0, cf = 1, fv = 2, df = 3, ff = 4, ph = 5, pv = 6, hh = 7, mh = 8, pf = 9, gh = 10, gS = [2, 3, 7], bS = [3, 3, 11], hv = [280, 256, 256, 256, 40], vS = [0, 1, 1, 1, 0], yS = [17, 18, 0, 1, 2, 3, 4, 5, 16, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], wS = [24, 7, 23, 25, 40, 6, 39, 41, 22, 26, 38, 42, 56, 5, 55, 57, 21, 27, 54, 58, 37, 43, 72, 4, 71, 73, 20, 28, 53, 59, 70, 74, 36, 44, 88, 69, 75, 52, 60, 3, 87, 89, 19, 29, 86, 90, 35, 45, 68, 76, 85, 91, 51, 61, 104, 2, 103, 105, 18, 30, 102, 106, 34, 46, 84, 92, 67, 77, 101, 107, 50, 62, 120, 1, 119, 121, 83, 93, 17, 31, 100, 108, 66, 78, 118, 122, 33, 47, 117, 123, 49, 63, 99, 109, 82, 94, 0, 116, 124, 65, 79, 16, 32, 98, 110, 48, 115, 125, 81, 95, 64, 114, 126, 97, 111, 80, 113, 127, 96, 112], kS = [2954, 2956, 2958, 2962, 2970, 2986, 3018, 3082, 3212, 3468, 3980, 5004], SS = 8, bh = [4, 5, 6, 7, 8, 9, 10, 10, 11, 12, 13, 14, 15, 16, 17, 17, 18, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24, 25, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 91, 93, 95, 96, 98, 100, 101, 102, 104, 106, 108, 110, 112, 114, 116, 118, 122, 124, 126, 128, 130, 132, 134, 136, 138, 140, 143, 145, 148, 151, 154, 157], vh = [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110, 112, 114, 116, 119, 122, 125, 128, 131, 134, 137, 140, 143, 146, 149, 152, 155, 158, 161, 164, 167, 170, 173, 177, 181, 185, 189, 193, 197, 201, 205, 209, 213, 217, 221, 225, 229, 234, 239, 245, 249, 254, 259, 264, 269, 274, 279, 284], Sc = null, CS = [[173, 148, 140, 0], [176, 155, 140, 135, 0], [180, 157, 141, 134, 130, 0], [254, 254, 243, 230, 196, 177, 153, 140, 133, 130, 129, 0]], xS = [0, 1, 4, 8, 5, 2, 3, 6, 9, 12, 13, 10, 7, 11, 14, 15], mv = [-0, 1, -1, 2, -2, 3, 4, 6, -3, 5, -4, -5, -6, 7, -7, 8, -8, -9], IS = [[[[128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128]], [[253, 136, 254, 255, 228, 219, 128, 128, 128, 128, 128], [189, 129, 242, 255, 227, 213, 255, 219, 128, 128, 128], [106, 126, 227, 252, 214, 209, 255, 255, 128, 128, 128]], [[1, 98, 248, 255, 236, 226, 255, 255, 128, 128, 128], [181, 133, 238, 254, 221, 234, 255, 154, 128, 128, 128], [78, 134, 202, 247, 198, 180, 255, 219, 128, 128, 128]], [[1, 185, 249, 255, 243, 255, 128, 128, 128, 128, 128], [184, 150, 247, 255, 236, 224, 128, 128, 128, 128, 128], [77, 110, 216, 255, 236, 230, 128, 128, 128, 128, 128]], [[1, 101, 251, 255, 241, 255, 128, 128, 128, 128, 128], [170, 139, 241, 252, 236, 209, 255, 255, 128, 128, 128], [37, 116, 196, 243, 228, 255, 255, 255, 128, 128, 128]], [[1, 204, 254, 255, 245, 255, 128, 128, 128, 128, 128], [207, 160, 250, 255, 238, 128, 128, 128, 128, 128, 128], [102, 103, 231, 255, 211, 171, 128, 128, 128, 128, 128]], [[1, 152, 252, 255, 240, 255, 128, 128, 128, 128, 128], [177, 135, 243, 255, 234, 225, 128, 128, 128, 128, 128], [80, 129, 211, 255, 194, 224, 128, 128, 128, 128, 128]], [[1, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [246, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [255, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128]]], [[[198, 35, 237, 223, 193, 187, 162, 160, 145, 155, 62], [131, 45, 198, 221, 172, 176, 220, 157, 252, 221, 1], [68, 47, 146, 208, 149, 167, 221, 162, 255, 223, 128]], [[1, 149, 241, 255, 221, 224, 255, 255, 128, 128, 128], [184, 141, 234, 253, 222, 220, 255, 199, 128, 128, 128], [81, 99, 181, 242, 176, 190, 249, 202, 255, 255, 128]], [[1, 129, 232, 253, 214, 197, 242, 196, 255, 255, 128], [99, 121, 210, 250, 201, 198, 255, 202, 128, 128, 128], [23, 91, 163, 242, 170, 187, 247, 210, 255, 255, 128]], [[1, 200, 246, 255, 234, 255, 128, 128, 128, 128, 128], [109, 178, 241, 255, 231, 245, 255, 255, 128, 128, 128], [44, 130, 201, 253, 205, 192, 255, 255, 128, 128, 128]], [[1, 132, 239, 251, 219, 209, 255, 165, 128, 128, 128], [94, 136, 225, 251, 218, 190, 255, 255, 128, 128, 128], [22, 100, 174, 245, 186, 161, 255, 199, 128, 128, 128]], [[1, 182, 249, 255, 232, 235, 128, 128, 128, 128, 128], [124, 143, 241, 255, 227, 234, 128, 128, 128, 128, 128], [35, 77, 181, 251, 193, 211, 255, 205, 128, 128, 128]], [[1, 157, 247, 255, 236, 231, 255, 255, 128, 128, 128], [121, 141, 235, 255, 225, 227, 255, 255, 128, 128, 128], [45, 99, 188, 251, 195, 217, 255, 224, 128, 128, 128]], [[1, 1, 251, 255, 213, 255, 128, 128, 128, 128, 128], [203, 1, 248, 255, 255, 128, 128, 128, 128, 128, 128], [137, 1, 177, 255, 224, 255, 128, 128, 128, 128, 128]]], [[[253, 9, 248, 251, 207, 208, 255, 192, 128, 128, 128], [175, 13, 224, 243, 193, 185, 249, 198, 255, 255, 128], [73, 17, 171, 221, 161, 179, 236, 167, 255, 234, 128]], [[1, 95, 247, 253, 212, 183, 255, 255, 128, 128, 128], [239, 90, 244, 250, 211, 209, 255, 255, 128, 128, 128], [155, 77, 195, 248, 188, 195, 255, 255, 128, 128, 128]], [[1, 24, 239, 251, 218, 219, 255, 205, 128, 128, 128], [201, 51, 219, 255, 196, 186, 128, 128, 128, 128, 128], [69, 46, 190, 239, 201, 218, 255, 228, 128, 128, 128]], [[1, 191, 251, 255, 255, 128, 128, 128, 128, 128, 128], [223, 165, 249, 255, 213, 255, 128, 128, 128, 128, 128], [141, 124, 248, 255, 255, 128, 128, 128, 128, 128, 128]], [[1, 16, 248, 255, 255, 128, 128, 128, 128, 128, 128], [190, 36, 230, 255, 236, 255, 128, 128, 128, 128, 128], [149, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128]], [[1, 226, 255, 128, 128, 128, 128, 128, 128, 128, 128], [247, 192, 255, 128, 128, 128, 128, 128, 128, 128, 128], [240, 128, 255, 128, 128, 128, 128, 128, 128, 128, 128]], [[1, 134, 252, 255, 255, 128, 128, 128, 128, 128, 128], [213, 62, 250, 255, 255, 128, 128, 128, 128, 128, 128], [55, 93, 255, 128, 128, 128, 128, 128, 128, 128, 128]], [[128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128], [128, 128, 128, 128, 128, 128, 128, 128, 128, 128, 128]]], [[[202, 24, 213, 235, 186, 191, 220, 160, 240, 175, 255], [126, 38, 182, 232, 169, 184, 228, 174, 255, 187, 128], [61, 46, 138, 219, 151, 178, 240, 170, 255, 216, 128]], [[1, 112, 230, 250, 199, 191, 247, 159, 255, 255, 128], [166, 109, 228, 252, 211, 215, 255, 174, 128, 128, 128], [39, 77, 162, 232, 172, 180, 245, 178, 255, 255, 128]], [[1, 52, 220, 246, 198, 199, 249, 220, 255, 255, 128], [124, 74, 191, 243, 183, 193, 250, 221, 255, 255, 128], [24, 71, 130, 219, 154, 170, 243, 182, 255, 255, 128]], [[1, 182, 225, 249, 219, 240, 255, 224, 128, 128, 128], [149, 150, 226, 252, 216, 205, 255, 171, 128, 128, 128], [28, 108, 170, 242, 183, 194, 254, 223, 255, 255, 128]], [[1, 81, 230, 252, 204, 203, 255, 192, 128, 128, 128], [123, 102, 209, 247, 188, 196, 255, 233, 128, 128, 128], [20, 95, 153, 243, 164, 173, 255, 203, 128, 128, 128]], [[1, 222, 248, 255, 216, 213, 128, 128, 128, 128, 128], [168, 175, 246, 252, 235, 205, 255, 255, 128, 128, 128], [47, 116, 215, 255, 211, 212, 255, 255, 128, 128, 128]], [[1, 121, 236, 253, 212, 214, 255, 255, 128, 128, 128], [141, 84, 213, 252, 201, 202, 255, 219, 128, 128, 128], [42, 80, 160, 240, 162, 185, 255, 205, 128, 128, 128]], [[1, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [244, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128], [238, 1, 255, 128, 128, 128, 128, 128, 128, 128, 128]]]], PS = [[[231, 120, 48, 89, 115, 113, 120, 152, 112], [152, 179, 64, 126, 170, 118, 46, 70, 95], [175, 69, 143, 80, 85, 82, 72, 155, 103], [56, 58, 10, 171, 218, 189, 17, 13, 152], [114, 26, 17, 163, 44, 195, 21, 10, 173], [121, 24, 80, 195, 26, 62, 44, 64, 85], [144, 71, 10, 38, 171, 213, 144, 34, 26], [170, 46, 55, 19, 136, 160, 33, 206, 71], [63, 20, 8, 114, 114, 208, 12, 9, 226], [81, 40, 11, 96, 182, 84, 29, 16, 36]], [[134, 183, 89, 137, 98, 101, 106, 165, 148], [72, 187, 100, 130, 157, 111, 32, 75, 80], [66, 102, 167, 99, 74, 62, 40, 234, 128], [41, 53, 9, 178, 241, 141, 26, 8, 107], [74, 43, 26, 146, 73, 166, 49, 23, 157], [65, 38, 105, 160, 51, 52, 31, 115, 128], [104, 79, 12, 27, 217, 255, 87, 17, 7], [87, 68, 71, 44, 114, 51, 15, 186, 23], [47, 41, 14, 110, 182, 183, 21, 17, 194], [66, 45, 25, 102, 197, 189, 23, 18, 22]], [[88, 88, 147, 150, 42, 46, 45, 196, 205], [43, 97, 183, 117, 85, 38, 35, 179, 61], [39, 53, 200, 87, 26, 21, 43, 232, 171], [56, 34, 51, 104, 114, 102, 29, 93, 77], [39, 28, 85, 171, 58, 165, 90, 98, 64], [34, 22, 116, 206, 23, 34, 43, 166, 73], [107, 54, 32, 26, 51, 1, 81, 43, 31], [68, 25, 106, 22, 64, 171, 36, 225, 114], [34, 19, 21, 102, 132, 188, 16, 76, 124], [62, 18, 78, 95, 85, 57, 50, 48, 51]], [[193, 101, 35, 159, 215, 111, 89, 46, 111], [60, 148, 31, 172, 219, 228, 21, 18, 111], [112, 113, 77, 85, 179, 255, 38, 120, 114], [40, 42, 1, 196, 245, 209, 10, 25, 109], [88, 43, 29, 140, 166, 213, 37, 43, 154], [61, 63, 30, 155, 67, 45, 68, 1, 209], [100, 80, 8, 43, 154, 1, 51, 26, 71], [142, 78, 78, 16, 255, 128, 34, 197, 171], [41, 40, 5, 102, 211, 183, 4, 1, 221], [51, 50, 17, 168, 209, 192, 23, 25, 82]], [[138, 31, 36, 171, 27, 166, 38, 44, 229], [67, 87, 58, 169, 82, 115, 26, 59, 179], [63, 59, 90, 180, 59, 166, 93, 73, 154], [40, 40, 21, 116, 143, 209, 34, 39, 175], [47, 15, 16, 183, 34, 223, 49, 45, 183], [46, 17, 33, 183, 6, 98, 15, 32, 183], [57, 46, 22, 24, 128, 1, 54, 17, 37], [65, 32, 73, 115, 28, 128, 23, 128, 205], [40, 3, 9, 115, 51, 192, 18, 6, 223], [87, 37, 9, 115, 59, 77, 64, 21, 47]], [[104, 55, 44, 218, 9, 54, 53, 130, 226], [64, 90, 70, 205, 40, 41, 23, 26, 57], [54, 57, 112, 184, 5, 41, 38, 166, 213], [30, 34, 26, 133, 152, 116, 10, 32, 134], [39, 19, 53, 221, 26, 114, 32, 73, 255], [31, 9, 65, 234, 2, 15, 1, 118, 73], [75, 32, 12, 51, 192, 255, 160, 43, 51], [88, 31, 35, 67, 102, 85, 55, 186, 85], [56, 21, 23, 111, 59, 205, 45, 37, 192], [55, 38, 70, 124, 73, 102, 1, 34, 98]], [[125, 98, 42, 88, 104, 85, 117, 175, 82], [95, 84, 53, 89, 128, 100, 113, 101, 45], [75, 79, 123, 47, 51, 128, 81, 171, 1], [57, 17, 5, 71, 102, 57, 53, 41, 49], [38, 33, 13, 121, 57, 73, 26, 1, 85], [41, 10, 67, 138, 77, 110, 90, 47, 114], [115, 21, 2, 10, 102, 255, 166, 23, 6], [101, 29, 16, 10, 85, 128, 101, 196, 26], [57, 18, 10, 102, 102, 213, 34, 20, 43], [117, 20, 15, 36, 163, 128, 68, 1, 26]], [[102, 61, 71, 37, 34, 53, 31, 243, 192], [69, 60, 71, 38, 73, 119, 28, 222, 37], [68, 45, 128, 34, 1, 47, 11, 245, 171], [62, 17, 19, 70, 146, 85, 55, 62, 70], [37, 43, 37, 154, 100, 163, 85, 160, 1], [63, 9, 92, 136, 28, 64, 32, 201, 85], [75, 15, 9, 9, 64, 255, 184, 119, 16], [86, 6, 28, 5, 64, 255, 25, 248, 1], [56, 8, 17, 132, 137, 255, 55, 116, 128], [58, 15, 20, 82, 135, 57, 26, 121, 40]], [[164, 50, 31, 137, 154, 133, 25, 35, 218], [51, 103, 44, 131, 131, 123, 31, 6, 158], [86, 40, 64, 135, 148, 224, 45, 183, 128], [22, 26, 17, 131, 240, 154, 14, 1, 209], [45, 16, 21, 91, 64, 222, 7, 1, 197], [56, 21, 39, 155, 60, 138, 23, 102, 213], [83, 12, 13, 54, 192, 255, 68, 47, 28], [85, 26, 85, 85, 128, 128, 32, 146, 171], [18, 11, 7, 63, 144, 171, 4, 4, 246], [35, 27, 10, 146, 174, 171, 12, 26, 128]], [[190, 80, 35, 99, 180, 80, 126, 54, 45], [85, 126, 47, 87, 176, 51, 41, 20, 32], [101, 75, 128, 139, 118, 146, 116, 128, 85], [56, 41, 15, 176, 236, 85, 37, 9, 62], [71, 30, 17, 119, 118, 255, 17, 18, 138], [101, 38, 60, 138, 55, 70, 43, 26, 142], [146, 36, 19, 30, 171, 255, 97, 27, 20], [138, 45, 61, 62, 219, 1, 81, 188, 64], [32, 41, 20, 117, 151, 142, 20, 21, 163], [112, 19, 12, 61, 195, 128, 48, 4, 24]]], OS = [[[[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[176, 246, 255, 255, 255, 255, 255, 255, 255, 255, 255], [223, 241, 252, 255, 255, 255, 255, 255, 255, 255, 255], [249, 253, 253, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 244, 252, 255, 255, 255, 255, 255, 255, 255, 255], [234, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 246, 254, 255, 255, 255, 255, 255, 255, 255, 255], [239, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 248, 254, 255, 255, 255, 255, 255, 255, 255, 255], [251, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [251, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 253, 255, 254, 255, 255, 255, 255, 255, 255], [250, 255, 254, 255, 254, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]], [[[217, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [225, 252, 241, 253, 255, 255, 254, 255, 255, 255, 255], [234, 250, 241, 250, 253, 255, 253, 254, 255, 255, 255]], [[255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [223, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [238, 253, 254, 254, 255, 255, 255, 255, 255, 255, 255]], [[255, 248, 254, 255, 255, 255, 255, 255, 255, 255, 255], [249, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 255, 255, 255, 255, 255, 255, 255, 255, 255], [247, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [252, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [253, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 253, 255, 255, 255, 255, 255, 255, 255, 255], [250, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]], [[[186, 251, 250, 255, 255, 255, 255, 255, 255, 255, 255], [234, 251, 244, 254, 255, 255, 255, 255, 255, 255, 255], [251, 251, 243, 253, 254, 255, 254, 255, 255, 255, 255]], [[255, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [236, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [251, 253, 253, 254, 254, 255, 255, 255, 255, 255, 255]], [[255, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [254, 254, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]], [[[248, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [250, 254, 252, 254, 255, 255, 255, 255, 255, 255, 255], [248, 254, 249, 253, 255, 255, 255, 255, 255, 255, 255]], [[255, 253, 253, 255, 255, 255, 255, 255, 255, 255, 255], [246, 253, 253, 255, 255, 255, 255, 255, 255, 255, 255], [252, 254, 251, 254, 254, 255, 255, 255, 255, 255, 255]], [[255, 254, 252, 255, 255, 255, 255, 255, 255, 255, 255], [248, 254, 253, 255, 255, 255, 255, 255, 255, 255, 255], [253, 255, 254, 254, 255, 255, 255, 255, 255, 255, 255]], [[255, 251, 254, 255, 255, 255, 255, 255, 255, 255, 255], [245, 251, 254, 255, 255, 255, 255, 255, 255, 255, 255], [253, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 251, 253, 255, 255, 255, 255, 255, 255, 255, 255], [252, 253, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 254, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 252, 255, 255, 255, 255, 255, 255, 255, 255, 255], [249, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 254, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 253, 255, 255, 255, 255, 255, 255, 255, 255], [250, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]], [[255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [254, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255], [255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]]]], LS = [0, 1, 2, 3, 6, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 7, 0], bs = [], Va = [], Gl = [], RS = 1, gv = 2, vs = [], ya = [];
     vo("UpsampleRgbLinePair", Fa, 3), vo("UpsampleBgrLinePair", ml, 3), vo("UpsampleRgbaLinePair", ds, 4), vo("UpsampleBgraLinePair", gl, 4), vo("UpsampleArgbLinePair", Ba, 4), vo("UpsampleRgba4444LinePair", Qo, 2), vo("UpsampleRgb565LinePair", Jr, 2);
     var ES = $.UpsampleRgbLinePair, TS = $.UpsampleBgrLinePair, bv = $.UpsampleRgbaLinePair, vv = $.UpsampleBgraLinePair, yv = $.UpsampleArgbLinePair, wv = $.UpsampleRgba4444LinePair, AS = $.UpsampleRgb565LinePair, hf = 16, mf = 1 << hf - 1, Cc = -227, yh = 482, MS = 6, kv = 0, DS = i(256), FS = i(256), BS = i(256), _S = i(256), NS = i(yh - Cc), $S = i(yh - Cc);
     ir("YuvToRgbRow", Fa, 3), ir("YuvToBgrRow", ml, 3), ir("YuvToRgbaRow", ds, 4), ir("YuvToBgraRow", gl, 4), ir("YuvToArgbRow", Ba, 4), ir("YuvToRgba4444Row", Qo, 2), ir("YuvToRgb565Row", Jr, 2);
@@ -47447,7 +47447,7 @@ function w0(e) {
                             for (He = -255; 510 >= He; ++He) Tu[255 + He] = 0 > He ? 0 : 255 < He ? 255 : He;
                             kc = 1;
                           }
-                          wl = Ye, $a = Fr, gs = Ai, Fi = it, va = ft, kl = Ti, Gn = cs, Xn = hl, Ao = Ma, ye = C, xe = Xo, Qe = so, Te = K, tt = be, Rt = Aa, qn = Nl, bn = pl, On = $l, Va[0] = Ml, Va[1] = _n, Va[2] = Us, Va[3] = Gs, Va[4] = qs, Va[5] = _r, Va[6] = Ws, Va[7] = Ki, Va[8] = Lu, Va[9] = Dl, bs[0] = Vn, bs[1] = Mi, bs[2] = Qt, bs[3] = Ta, bs[4] = ha, bs[5] = Br, bs[6] = ma, Gl[0] = Bl, Gl[1] = hn, Gl[2] = ul, Gl[3] = Fl, Gl[4] = us, Gl[5] = cl, Gl[6] = dl, He = 1;
+                          wl = Ye, $a = Fr, gs = Ai, Fi = it, va = ft, kl = Ti, Gn = cs, Xn = hl, Ao = Ma, ye = C, xe = Xo, et = so, Te = K, Xe = be, Rt = Aa, qn = Nl, bn = pl, On = $l, Va[0] = Ml, Va[1] = _n, Va[2] = Us, Va[3] = Gs, Va[4] = qs, Va[5] = _r, Va[6] = Ws, Va[7] = Ki, Va[8] = Lu, Va[9] = Dl, bs[0] = Vn, bs[1] = Mi, bs[2] = Qt, bs[3] = Ta, bs[4] = ha, bs[5] = Br, bs[6] = ma, Gl[0] = Bl, Gl[1] = hn, Gl[2] = ul, Gl[3] = Fl, Gl[4] = us, Gl[5] = cl, Gl[6] = dl, He = 1;
                         } else He = 0;
                       }
                       He && (He = (function(Ln, yi) {
@@ -47511,7 +47511,7 @@ function w0(e) {
                               if (ho != 0) if (t(3 <= ho), Wi.L == 1) 0 < qi && qn(ea, zr, jo, ho + 4), Qr.La && On(ea, zr, jo, ho), 0 < za && Rt(ea, zr, jo, ho + 4), Qr.La && bn(ea, zr, jo, ho);
                               else {
                                 var na = Wi.B, ja = Wi.qa, nu = Wi.ra + 8 * Lr * na + 8 * qi, ql = Wi.Ha, Wi = Wi.Ia + 8 * Lr * na + 8 * qi;
-                                Lr = Qr.ld, 0 < qi && (Xn(ea, zr, jo, ho + 4, ta, Lr), ye(ja, nu, ql, Wi, na, ho + 4, ta, Lr)), Qr.La && (Qe(ea, zr, jo, ho, ta, Lr), tt(ja, nu, ql, Wi, na, ho, ta, Lr)), 0 < za && (Gn(ea, zr, jo, ho + 4, ta, Lr), Ao(ja, nu, ql, Wi, na, ho + 4, ta, Lr)), Qr.La && (xe(ea, zr, jo, ho, ta, Lr), Te(ja, nu, ql, Wi, na, ho, ta, Lr));
+                                Lr = Qr.ld, 0 < qi && (Xn(ea, zr, jo, ho + 4, ta, Lr), ye(ja, nu, ql, Wi, na, ho + 4, ta, Lr)), Qr.La && (et(ea, zr, jo, ho, ta, Lr), Xe(ja, nu, ql, Wi, na, ho, ta, Lr)), 0 < za && (Gn(ea, zr, jo, ho + 4, ta, Lr), Ao(ja, nu, ql, Wi, na, ho + 4, ta, Lr)), Qr.La && (xe(ea, zr, jo, ho, ta, Lr), Te(ja, nu, ql, Wi, na, ho, ta, Lr));
                               }
                             }
                             if (Ut.ia && alert("todo:DitherRow"), Lt.put != null) {
@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-CLW8ZWRM.js")).catch(function(h) {
+  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-3gs1_pzd.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -50322,39 +50322,39 @@ const ll = (e) => (Qi("data-v-19a23a77"), e = e(), er(), e), DF = { class: "phot
               S("div", bB, Ce(s.value), 1)
             ]),
             S("div", vB, [
-              se(I(et), {
+              se(I(tt), {
                 icon: "pi pi-camera",
                 label: "Сфотографировать",
                 class: "mr-2 p-button-info",
                 onClick: R[0] || (R[0] = (M) => u.value = !0)
               }),
-              se(I(et), {
+              se(I(tt), {
                 icon: "pi pi-upload",
                 label: "Загрузить",
                 class: "mr-2",
                 onClick: b
               }),
-              se(I(et), {
+              se(I(tt), {
                 icon: "pi pi-folder",
                 label: "Создать директорию",
                 class: "mr-2",
                 onClick: y
               }),
-              se(I(et), {
+              se(I(tt), {
                 icon: "pi pi-trash",
                 label: "Удалить директорию",
                 class: "mr-2 p-button-danger",
                 onClick: k,
                 disabled: !I(a).selectedFile || !I(a).selectedFile.is_dir
               }, null, 8, ["disabled"]),
-              e.selectionMode ? (p(), V(I(et), {
+              e.selectionMode ? (p(), V(I(tt), {
                 key: 0,
                 icon: "pi pi-check",
                 label: "Выбрать файл",
                 onClick: P,
                 disabled: !I(a).selectedFile || I(a).selectedFile.is_dir
               }, null, 8, ["disabled"])) : N("", !0),
-              e.selectionMode && e.boundPath ? (p(), V(I(et), {
+              e.selectionMode && e.boundPath ? (p(), V(I(tt), {
                 key: 1,
                 icon: "pi pi-eraser",
                 label: "Очистить привязку",
@@ -50373,13 +50373,13 @@ const ll = (e) => (Qi("data-v-19a23a77"), e = e(), er(), e), DF = { class: "phot
           style: { width: "400px" }
         }, {
           footer: ve(() => [
-            se(I(et), {
+            se(I(tt), {
               label: "Отмена",
               icon: "pi pi-times",
               class: "p-button-text",
               onClick: R[2] || (R[2] = (M) => r.value = !1)
             }),
-            se(I(et), {
+            se(I(tt), {
               label: "Очистить",
               icon: "pi pi-eraser",
               class: "p-button-warning",
@@ -50421,7 +50421,7 @@ const ll = (e) => (Qi("data-v-19a23a77"), e = e(), er(), e), DF = { class: "phot
                 "aria-label": "Закрыть"
               }, CB)) : N("", !0),
               I(a).selectedFile && e.selectionMode && !I(a).selectedFile.is_dir ? (p(), w("div", xB, [
-                se(I(et), {
+                se(I(tt), {
                   icon: "pi pi-check",
                   label: "Выбрать этот файл",
                   class: "p-button-success select-main-btn",
@@ -50504,7 +50504,7 @@ const ll = (e) => (Qi("data-v-19a23a77"), e = e(), er(), e), DF = { class: "phot
             disabled: e.disabled,
             class: "w-full"
           }, null, 8, ["modelValue", "placeholder", "disabled"]),
-          se(I(et), {
+          se(I(tt), {
             icon: "pi pi-folder-open",
             onClick: l,
             disabled: e.disabled
@@ -53297,7 +53297,7 @@ var E_ = function(t) {
     }
   },
   components: {
-    PVSButton: et,
+    PVSButton: tt,
     PVSMenu: V5,
     ChevronDownIcon: Ar
   }
@@ -54725,7 +54725,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
               onKeydown: ln(oe, ["enter"]),
               placeholder: "Поиск..."
             }, null, 8, ["modelValue"]),
-            se(I(et), {
+            se(I(tt), {
               icon: "pi pi-refresh",
               class: "p-button-text",
               onClick: L
@@ -54783,13 +54783,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: ae[7] || (ae[7] = (D) => H.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -54813,13 +54813,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: ae[9] || (ae[9] = (D) => ne.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -55350,7 +55350,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
     } }), (D, re) => (p(), w(Ae, null, [
       r.value ? (p(), w("span", gN, "Загрузка")) : (p(), w("div", bN, [
         S("div", vN, [
-          se(I(et), {
+          se(I(tt), {
             icon: "pi pi-refresh",
             class: "p-button-text",
             onClick: re[0] || (re[0] = (he) => y("/"))
@@ -55400,13 +55400,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: re[4] || (re[4] = (he) => J.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -55436,13 +55436,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: re[7] || (re[7] = (he) => G.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Создать",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -55472,13 +55472,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: re[10] || (re[10] = (he) => $.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Создать",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -55508,13 +55508,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: re[12] || (re[12] = (he) => B.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text p-button-danger",
@@ -55537,13 +55537,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: re[14] || (re[14] = (he) => E.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Загрузить",
             icon: "pi pi-upload",
             class: "p-button-text",
@@ -55673,13 +55673,13 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
           S("div", GN, [
             S("h2", qN, Ce(c.value), 1),
             S("div", WN, [
-              se(I(et), {
+              se(I(tt), {
                 icon: "pi pi-download",
                 class: "p-button-text",
                 onClick: g,
                 tooltip: "Скачать файл"
               }),
-              se(I(et), {
+              se(I(tt), {
                 icon: "pi pi-copy",
                 class: "p-button-text",
                 onClick: b,
@@ -55696,7 +55696,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
           S("div", QN, [
             S("div", e$, [
               S("div", null, [
-                se(I(et), {
+                se(I(tt), {
                   icon: "pi pi-save",
                   label: "Сохранить",
                   class: "p-button-sm mr-2",
@@ -55791,7 +55791,7 @@ const Qa = /* @__PURE__ */ En(G_, [["render", uN]]), cN = { key: 0 }, dN = {
           mywatch: d.value,
           form: s.value
         }, null, 8, ["modelValue", "columns", "mywatch", "form"]),
-        se(I(et), {
+        se(I(tt), {
           label: "Сохранить",
           icon: "pi pi-check",
           class: "p-button-text",
@@ -57808,7 +57808,7 @@ const Ob = /* @__PURE__ */ En(fj, [["render", zK], ["__scopeId", "data-v-b8be86b
           S("strong", null, Ce(u(l.value)), 1)
         ])) : N("", !0)
       ]),
-      se(I(et), {
+      se(I(tt), {
         icon: "pi pi-copy",
         label: "Копировать",
         size: "small",
@@ -61349,7 +61349,7 @@ const mU = {
     const n = Kg, o = t;
     return (r, i) => (p(), V(I(pc), { class: "p-mb-4" }, {
       start: ve(() => [
-        (p(!0), w(Ae, null, bt(e.headActions, (a) => (p(), V(I(et), {
+        (p(!0), w(Ae, null, bt(e.headActions, (a) => (p(), V(I(tt), {
           key: a.action,
           icon: a.icon,
           label: a.label,
@@ -61388,7 +61388,7 @@ const mU = {
         ], 64))), 128))
       ]),
       end: ve(() => [
-        Dt(se(I(et), {
+        Dt(se(I(tt), {
           icon: "pi pi-undo",
           disabled: !e.canUndo,
           onClick: i[2] || (i[2] = (a) => o("undo"))
@@ -61400,7 +61400,7 @@ const mU = {
             { bottom: !0 }
           ]
         ]),
-        Dt(se(I(et), {
+        Dt(se(I(tt), {
           icon: "pi pi-undo",
           style: { transform: "scaleX(-1)" },
           disabled: !e.canRedo,
@@ -61413,7 +61413,7 @@ const mU = {
             { bottom: !0 }
           ]
         ]),
-        Dt(se(I(et), {
+        Dt(se(I(tt), {
           icon: "pi pi-check-square",
           class: je(e.cellSelectionMode ? "p-button-info" : "p-button-secondary"),
           onClick: i[4] || (i[4] = (a) => o("toggle-cell-selection"))
@@ -61425,7 +61425,7 @@ const mU = {
             { bottom: !0 }
           ]
         ]),
-        Dt(se(I(et), {
+        Dt(se(I(tt), {
           icon: "pi pi-refresh",
           class: "p-button-success",
           onClick: i[5] || (i[5] = (a) => o("refresh"))
@@ -61437,7 +61437,7 @@ const mU = {
             { bottom: !0 }
           ]
         ]),
-        Dt(se(I(et), {
+        Dt(se(I(tt), {
           icon: "pi pi-filter-slash",
           onClick: i[6] || (i[6] = (a) => o("clear"))
         }, null, 512), [
@@ -61448,7 +61448,7 @@ const mU = {
             { bottom: !0 }
           ]
         ]),
-        Dt(se(I(et), {
+        Dt(se(I(tt), {
           icon: "pi pi-cog",
           onClick: i[7] || (i[7] = (a) => o("settings", a))
         }, null, 512), [
@@ -61459,7 +61459,7 @@ const mU = {
             { bottom: !0 }
           ]
         ]),
-        e.showMobileSwitch ? Dt((p(), V(I(et), {
+        e.showMobileSwitch ? Dt((p(), V(I(tt), {
           key: 0,
           icon: "pi pi-mobile",
           onClick: i[8] || (i[8] = (a) => o("switch-mobile"))
@@ -61471,7 +61471,7 @@ const mU = {
             { bottom: !0 }
           ]
         ]) : N("", !0),
-        Dt(se(I(et), {
+        Dt(se(I(tt), {
           icon: "pi pi-th-large",
           class: "p-button-info",
           onClick: i[9] || (i[9] = (a) => o("switch-engine"))
@@ -61925,7 +61925,7 @@ const mU = {
                 inputId: "tan-autofit-toggle"
               }, null, 8, ["modelValue"]),
               TG,
-              e.autoFitCols ? N("", !0) : (p(), V(I(et), {
+              e.autoFitCols ? N("", !0) : (p(), V(I(tt), {
                 key: 0,
                 size: "small",
                 text: "",
@@ -61935,7 +61935,7 @@ const mU = {
               }))
             ]),
             S("div", AG, [
-              se(I(et), {
+              se(I(tt), {
                 size: "small",
                 outlined: "",
                 icon: "pi pi-save",
@@ -61943,7 +61943,7 @@ const mU = {
                 style: { "justify-content": "flex-start" },
                 onClick: l[4] || (l[4] = (s) => o("save-local"))
               }),
-              se(I(et), {
+              se(I(tt), {
                 size: "small",
                 outlined: "",
                 icon: "pi pi-cloud-upload",
@@ -61951,7 +61951,7 @@ const mU = {
                 style: { "justify-content": "flex-start" },
                 onClick: l[5] || (l[5] = (s) => o("save-server"))
               }),
-              se(I(et), {
+              se(I(tt), {
                 size: "small",
                 outlined: "",
                 severity: "warn",
@@ -61960,7 +61960,7 @@ const mU = {
                 style: { "justify-content": "flex-start" },
                 onClick: l[6] || (l[6] = (s) => o("reset-local"))
               }),
-              se(I(et), {
+              se(I(tt), {
                 size: "small",
                 outlined: "",
                 severity: "danger",
@@ -61988,7 +61988,9 @@ const mU = {
     col: { type: Object, required: !0 },
     initialValue: { default: "" },
     selectSettings: { type: Object, default: () => ({}) },
-    autocompleteSettings: { type: Object, default: () => ({}) }
+    autocompleteSettings: { type: Object, default: () => ({}) },
+    // per-row select_data из customFields[rowId][field].select_data — приоритетнее колоночного
+    customRows: { type: Array, default: null }
   },
   emits: ["save", "cancel", "navigate"],
   setup(e, { emit: t }) {
@@ -61996,7 +61998,7 @@ const mU = {
       const _ = n.initialValue;
       if (_ == null) return "";
       if (n.col.type === "select") {
-        const Z = n.selectSettings?.[n.col.field]?.rows ?? n.col.select_data ?? n.col.rows;
+        const Z = n.customRows ?? n.selectSettings?.[n.col.field]?.rows ?? n.col.select_data ?? n.col.rows;
         if (Z) {
           const pe = Z.find((oe) => String(oe.id) === String(_));
           if (pe) return pe.content;
@@ -62055,7 +62057,7 @@ const mU = {
     }, B = () => {
       R.value = !1, L.value = -1;
     }, E = (_) => {
-      const Z = n.selectSettings?.[n.col.field]?.rows ?? n.col.select_data ?? n.col.rows ?? [], pe = _.trim();
+      const Z = n.customRows ?? n.selectSettings?.[n.col.field]?.rows ?? n.col.select_data ?? n.col.rows ?? [], pe = _.trim();
       if (!pe) {
         k.value = Z;
         return;
@@ -62434,8 +62436,8 @@ const mU = {
       if (!xe || xe == o.table)
         D?.(), ye || r("refresh-table");
       else if (xe && Eo.value)
-        for (let Qe in Eo.value)
-          Eo.value[Qe].refresh?.(!0, xe);
+        for (let et in Eo.value)
+          Eo.value[et].refresh?.(!0, xe);
     }, Pe = Y([]);
     let De, Je, wt, vt, _t, on, Xt, Tt, zt, At, In, _e, $e, Ze, nt;
     const lt = Y([]), mt = Y({}), Ct = Y(!1), It = Y(!1);
@@ -62447,10 +62449,10 @@ const mU = {
     const Oi = ct(() => {
       const ye = {};
       for (const xe in ne.value) {
-        const Qe = ne.value[xe]?.rows;
-        if (Qe && Array.isArray(Qe)) {
+        const et = ne.value[xe]?.rows;
+        if (et && Array.isArray(et)) {
           const Te = /* @__PURE__ */ new Map();
-          for (const tt of Qe) Te.set(String(tt.id), tt.content);
+          for (const Xe of et) Te.set(String(Xe.id), Xe.content);
           ye[xe] = Te;
         }
       }
@@ -62458,10 +62460,10 @@ const mU = {
     }), Li = ct(() => {
       const ye = {};
       for (const xe in ne.value) {
-        const Qe = ne.value[xe]?.rows;
-        if (Qe && Array.isArray(Qe)) {
+        const et = ne.value[xe]?.rows;
+        if (et && Array.isArray(et)) {
           const Te = /* @__PURE__ */ new Map();
-          for (const tt of Qe) Te.set(String(tt.id), tt);
+          for (const Xe of et) Te.set(String(Xe.id), Xe);
           ye[xe] = Te;
         }
       }
@@ -62469,28 +62471,28 @@ const mU = {
     }), Ri = ct(() => {
       const ye = {};
       for (const xe in k.value) {
-        const Qe = k.value[xe]?.rows;
-        if (Qe && Array.isArray(Qe)) {
+        const et = k.value[xe]?.rows;
+        if (et && Array.isArray(et)) {
           const Te = /* @__PURE__ */ new Map();
-          for (const tt of Qe) Te.set(String(tt.id), tt.content ?? tt.label ?? "");
+          for (const Xe of et) Te.set(String(Xe.id), Xe.content ?? Xe.label ?? "");
           ye[xe] = Te;
         }
       }
       return ye;
-    }), ui = (ye, xe) => Oi.value[ye]?.get(String(xe)) ?? "", gi = (ye, xe) => Ri.value[ye]?.get(String(xe)) ?? "", lo = (ye, xe) => xe.includes(".") ? xe.split(".").reduce((Qe, Te) => Qe?.[Te], ye) : ye[xe], bo = (ye) => ye ? ye.split("-").reverse().join(".") : "", _o = (ye) => new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(ye), nr = (ye) => {
+    }), ui = (ye, xe) => Oi.value[ye]?.get(String(xe)) ?? "", gi = (ye, xe) => Ri.value[ye]?.get(String(xe)) ?? "", lo = (ye, xe) => xe.includes(".") ? xe.split(".").reduce((et, Te) => et?.[Te], ye) : ye[xe], bo = (ye) => ye ? ye.split("-").reverse().join(".") : "", _o = (ye) => new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(ye), nr = (ye) => {
       if (!ye) return "";
       const xe = ye.match(/^(\d{4})-(\d{2})-(\d{2})(?: (\d{2}):(\d{2})(?::(\d{2}))?)?$/);
       if (!xe) return ye;
-      const [, Qe, Te, tt, Rt = "", qn = ""] = xe;
-      return Rt ? `${tt}.${Te}.${Qe} ${Rt}:${qn}` : `${tt}.${Te}.${Qe}`;
+      const [, et, Te, Xe, Rt = "", qn = ""] = xe;
+      return Rt ? `${Xe}.${Te}.${et} ${Rt}:${qn}` : `${Xe}.${Te}.${et}`;
     }, da = (ye, xe = 2) => {
       (ye === "" || ye == null) && (ye = 0);
-      const Qe = parseFloat(ye).toFixed(xe).toString().split(".");
-      return Qe[0] = Qe[0].replace(/\B(?=(\d{3})+(?!\d))/g, " "), Qe.join(",");
+      const et = parseFloat(ye).toFixed(xe).toString().split(".");
+      return et[0] = et[0].replace(/\B(?=(\d{3})+(?!\d))/g, " "), et.join(",");
     }, wr = (ye, xe) => {
       if (!ye) return "";
-      const Qe = String(ye);
-      return Qe.length <= xe ? Qe : Qe.slice(0, xe) + "…";
+      const et = String(ye);
+      return et.length <= xe ? et : et.slice(0, xe) + "…";
     }, fa = `tan-scroll-height-${o.table}`, Yo = Y(localStorage.getItem(fa) || o.scrollHeight || "85vh"), ci = Y(o.autoFitHeight || !1);
     qt(Yo, (ye) => {
       try {
@@ -62505,7 +62507,7 @@ const mU = {
     const Vi = () => {
       !ci.value || !Ei.value || setTimeout(() => {
         try {
-          const ye = window.innerHeight, Qe = Ei.value.getBoundingClientRect().top, Te = Ei.value.querySelector(".p-toolbar"), tt = Ei.value.querySelector(".tan-paginator"), Rt = Ei.value.querySelector(".tan-status-bar"), qn = Ei.value.querySelector(".tan-thead"), bn = Te ? Te.offsetHeight : 0, On = tt ? tt.offsetHeight : 0, yo = Rt ? Rt.offsetHeight : 0, Nr = ye - Qe - bn - On - yo - 0 - 20;
+          const ye = window.innerHeight, et = Ei.value.getBoundingClientRect().top, Te = Ei.value.querySelector(".p-toolbar"), Xe = Ei.value.querySelector(".tan-paginator"), Rt = Ei.value.querySelector(".tan-status-bar"), qn = Ei.value.querySelector(".tan-thead"), bn = Te ? Te.offsetHeight : 0, On = Xe ? Xe.offsetHeight : 0, yo = Rt ? Rt.offsetHeight : 0, Nr = ye - et - bn - On - yo - 0 - 20;
           Yo.value = `${Math.max(200, Nr)}px`;
         } catch {
         }
@@ -62541,9 +62543,9 @@ const mU = {
       rowsGetter: () => xo?.getRowModel?.().rows.map((ye) => ye.original) ?? [],
       actionBtnSize: Hn,
       rowDrag: M
-    }), Ti = (ye, xe, Qe) => {
+    }), Ti = (ye, xe, et) => {
       const Te = ye.getValue(xe);
-      return Qe instanceof Set ? Qe.has(String(Te ?? "")) : String(Te ?? "").toLowerCase().includes(String(Qe).toLowerCase());
+      return et instanceof Set ? et.has(String(Te ?? "")) : String(Te ?? "").toLowerCase().includes(String(et).toLowerCase());
     }, Fr = {
       id: "__drag__",
       size: 28,
@@ -62635,8 +62637,8 @@ const mU = {
         enableColumnFilter: ye.type !== "html",
         filterFn: Ti,
         meta: ye,
-        cell: ({ getValue: xe, row: Qe }) => {
-          const Te = xe(), tt = Qe.original;
+        cell: ({ getValue: xe, row: et }) => {
+          const Te = xe(), Xe = et.original;
           if (Te == null && ye.type !== "file") return "";
           switch (ye.type) {
             case "decimal":
@@ -62655,7 +62657,7 @@ const mU = {
                 style: "cursor:pointer;padding:2px 4px;flex-shrink:0;",
                 title: "Выбрать файл",
                 onClick: (On) => {
-                  On.stopPropagation(), Da(ye, tt);
+                  On.stopPropagation(), Da(ye, Xe);
                 }
               });
               return Rt ? fi("div", { class: "tan-file-cell", style: "display:flex;gap:4px;align-items:center;overflow:hidden;" }, [
@@ -62701,7 +62703,7 @@ const mU = {
               return qn.length ? qn.join(" ") : String(Te);
             }
             case "select": {
-              const Rt = me.value[tt.id]?.[ye.field]?.select_data;
+              const Rt = me.value[Xe.id]?.[ye.field]?.select_data;
               if (Rt) {
                 const bn = Rt.find((On) => String(On.id) === String(Te));
                 if (bn) return bn.content ?? bn.label ?? String(Te);
@@ -62835,16 +62837,16 @@ const mU = {
       ci.value && ko(Vi);
     });
     const Hi = (ye) => {
-      const xe = ee.value, Qe = ye.original.id ?? ye.original._rowKey;
-      return xe.findIndex((Te) => (Te.id ?? Te._rowKey) === Qe);
+      const xe = ee.value, et = ye.original.id ?? ye.original._rowKey;
+      return xe.findIndex((Te) => (Te.id ?? Te._rowKey) === et);
     }, Nn = (ye) => G.value.findIndex((xe) => xe.field === ye), cs = /* @__PURE__ */ new Set(["text", "view", "number", "decimal", "boolean", "date", "select", "autocomplete", "textarea"]);
     let hl = null;
     const Xo = lC((ye, xe) => ({
       get() {
         return ye(), hl;
       },
-      set(Qe) {
-        hl = Qe, xe();
+      set(et) {
+        hl = et, xe();
       }
     })), so = Y(null), Ma = Y(!1), C = Y(!1), K = Y(""), be = Y(""), Oe = Y(1), Ve = Y(0), ot = Y(!1), Le = Y(0), Ne = Y(0), gt = (ye) => {
       Le.value = ye.target.naturalWidth, Ne.value = ye.target.naturalHeight;
@@ -62860,17 +62862,17 @@ const mU = {
         transform: `rotate(${Ve.value}deg)`,
         transition: ot.value ? "none" : "transform 0.15s ease"
       };
-    }), Xe = () => {
+    }), Qe = () => {
       Oe.value = 1, Ve.value = 0;
     }, Pt = /* @__PURE__ */ new Set(["jpg", "jpeg", "png", "gif", "webp", "bmp", "svg"]), Et = (ye) => {
       if (!ye) return "";
-      const xe = ye.indexOf("?"), Qe = xe >= 0 ? ye.slice(0, xe) : ye, Te = Qe.lastIndexOf(".");
-      return Te >= 0 ? Qe.slice(Te + 1).toLowerCase() : "";
+      const xe = ye.indexOf("?"), et = xe >= 0 ? ye.slice(0, xe) : ye, Te = et.lastIndexOf(".");
+      return Te >= 0 ? et.slice(Te + 1).toLowerCase() : "";
     }, Cn = async (ye, xe) => {
       if (!ye || /^(https?:)?\/\//i.test(ye)) return ye;
-      const Qe = ye.replace(/^\/+/, ""), Te = Qe.lastIndexOf("/"), tt = Te >= 0 ? "/" + Qe.slice(0, Te) + "/" : "/", Rt = Te >= 0 ? Qe.slice(Te + 1) : Qe;
+      const et = ye.replace(/^\/+/, ""), Te = et.lastIndexOf("/"), Xe = Te >= 0 ? "/" + et.slice(0, Te) + "/" : "/", Rt = Te >= 0 ? et.slice(Te + 1) : et;
       try {
-        const qn = xe || 1, di = ((await (await fetch(`/api/files?path=${encodeURIComponent(tt)}&source=${qn}`, {
+        const qn = xe || 1, di = ((await (await fetch(`/api/files?path=${encodeURIComponent(Xe)}&source=${qn}`, {
           credentials: "include",
           headers: { "X-Requested-With": "XMLHttpRequest" }
         })).json())?.data?.files || []).find((Zr) => Zr.name === Rt);
@@ -62881,8 +62883,8 @@ const mU = {
       return ye;
     }, xn = async (ye, xe) => {
       if (!ye) return;
-      const Qe = await Cn(ye, xe), Te = Et(ye);
-      Pt.has(Te) ? (K.value = Qe, be.value = ye.split("/").pop() || ye, Xe(), C.value = !0) : window.open(Qe, "_blank", "noopener");
+      const et = await Cn(ye, xe), Te = Et(ye);
+      Pt.has(Te) ? (K.value = et, be.value = ye.split("/").pop() || ye, Qe(), C.value = !0) : window.open(et, "_blank", "noopener");
     }, Pn = Y(!1), Zn = Y(1), zn = Y(""), vo = Y(null), Da = (ye, xe) => {
       Zn.value = ye.mediaSource || 1, zn.value = xe?.[ye.field] ?? "", vo.value = { col: ye, data: xe }, Pn.value = !0;
     }, Ys = (ye) => {
@@ -62891,69 +62893,69 @@ const mU = {
     }, Vl = (ye) => {
       const xe = vo.value;
       if (!xe) return;
-      const Qe = xe.data?.[xe.col.field] ?? "";
-      if (!Qe) return;
-      (Qe === ye || Qe.endsWith("/" + (ye.split("/").pop() || ""))) && Ze(xe.data, xe.col.field, "");
+      const et = xe.data?.[xe.col.field] ?? "";
+      if (!et) return;
+      (et === ye || et.endsWith("/" + (ye.split("/").pop() || ""))) && Ze(xe.data, xe.col.field, "");
     }, zl = () => {
       const ye = vo.value;
       Pn.value = !1, ye && (Ze(ye.data, ye.col.field, ""), vo.value = null);
     }, Di = Y(null), Fa = Y(null), ml = (ye, xe) => {
       if (!xe?.id) return ye;
-      const Qe = me.value[xe.id]?.[ye.field];
-      return Qe ? { ...ye, ...Qe, readonly: Qe.readonly == 1 || Qe.readonly === !0 } : ye;
+      const et = me.value[xe.id]?.[ye.field];
+      return et ? { ...ye, ...et, readonly: et.readonly == 1 || et.readonly === !0 } : ye;
     }, Jr = (ye, xe) => {
-      const Qe = ml(ye, xe);
-      return Qe && Qe.field !== "id" && !Qe.readonly && Qe.type !== "html" && Qe.type !== "hidden";
+      const et = ml(ye, xe);
+      return et && et.field !== "id" && !et.readonly && et.type !== "html" && et.type !== "hidden";
     }, Qo = (ye, xe) => {
-      const Qe = ml(ye, xe);
-      return !Qe?.type || cs.has(Qe.type);
+      const et = ml(ye, xe);
+      return !et?.type || cs.has(et.type);
     }, Ba = () => {
       Xo.value = null;
     }, gl = () => {
       Fa.value?.hide(), so.value = null, Di.value = null;
     }, ds = (ye) => {
-      const xe = ye.column.columnDef.meta, Qe = ye.row.original;
-      if (Jr(xe, Qe)) {
-        if (!Qo(xe, Qe)) {
+      const xe = ye.column.columnDef.meta, et = ye.row.original;
+      if (Jr(xe, et)) {
+        if (!Qo(xe, et)) {
           vi(ye);
           return;
         }
-        so.value = null, Xo.value = { cellId: ye.id, col: ml(xe, Qe), data: Qe };
+        so.value = null, Xo.value = { cellId: ye.id, col: ml(xe, et), data: et };
       }
     };
     let ir = !1;
     const vi = (ye, xe) => {
-      const Qe = ye.column.columnDef.meta, Te = ye.row.original;
-      if (!Jr(Qe, Te) || (Xo.value = null, Di.value = ye.row.original[Qe.field] ?? "", so.value = { cellId: ye.id, col: Qe, data: ye.row.original }, !xe)) return;
-      const tt = Fa.value;
-      tt && (tt.visible ? (ir = !0, tt.hide(), ko(() => {
-        tt.show({ currentTarget: xe }, xe);
-      })) : ko(() => tt.show({ currentTarget: xe }, xe)));
+      const et = ye.column.columnDef.meta, Te = ye.row.original;
+      if (!Jr(et, Te) || (Xo.value = null, Di.value = ye.row.original[et.field] ?? "", so.value = { cellId: ye.id, col: et, data: ye.row.original }, !xe)) return;
+      const Xe = Fa.value;
+      Xe && (Xe.visible ? (ir = !0, Xe.hide(), ko(() => {
+        Xe.show({ currentTarget: xe }, xe);
+      })) : ko(() => Xe.show({ currentTarget: xe }, xe)));
     }, Ru = (ye, xe) => {
       if (No.value) return;
-      const Qe = ye.column.columnDef.meta, Te = ye.row.original;
-      if (!(!Qe || !Jr(Qe, Te)) && !(j(Te.id) && !_(Te._rowKey)) && Xo.value?.cellId !== ye.id) {
-        if (Qe.type === "boolean") {
-          const tt = lo(Te, ye.column.id), Rt = tt == 1 || tt === !0 ? 0 : 1;
+      const et = ye.column.columnDef.meta, Te = ye.row.original;
+      if (!(!et || !Jr(et, Te)) && !(j(Te.id) && !_(Te._rowKey)) && Xo.value?.cellId !== ye.id) {
+        if (et.type === "boolean") {
+          const Xe = lo(Te, ye.column.id), Rt = Xe == 1 || Xe === !0 ? 0 : 1;
           Ze(Te, ye.column.id, Rt);
           return;
         }
-        Qe.type !== "file" && (Qo(Qe, Te) ? ds(ye) : vi(ye, xe.currentTarget));
+        et.type !== "file" && (Qo(et, Te) ? ds(ye) : vi(ye, xe.currentTarget));
       }
     }, fs = (ye, xe) => {
-      const Qe = ye.column.columnDef.meta, Te = ye.row.original;
-      !Qe || !Jr(Qe, Te) || j(Te.id) && !_(Te._rowKey) || vi(ye, xe.currentTarget);
+      const et = ye.column.columnDef.meta, Te = ye.row.original;
+      !et || !Jr(et, Te) || j(Te.id) && !_(Te._rowKey) || vi(ye, xe.currentTarget);
     }, Eu = (ye, xe) => {
-      const Qe = G.value.filter((bn) => Jr(bn) && Qo(bn)), Te = xo.getRowModel().rows.filter(
+      const et = G.value.filter((bn) => Jr(bn) && Qo(bn)), Te = xo.getRowModel().rows.filter(
         (bn) => !j(bn.original.id) || _(bn.original._rowKey)
       );
-      let tt = Qe.findIndex((bn) => bn.field === ye.column.id), Rt = Te.findIndex((bn) => bn.id === ye.row.id);
-      tt < 0 && (tt = 0), Rt < 0 && (Rt = 0);
-      const qn = Qe.length * Te.length + 1;
+      let Xe = et.findIndex((bn) => bn.field === ye.column.id), Rt = Te.findIndex((bn) => bn.id === ye.row.id);
+      Xe < 0 && (Xe = 0), Rt < 0 && (Rt = 0);
+      const qn = et.length * Te.length + 1;
       for (let bn = 0; bn < qn; bn++) {
         const On = Rt;
-        if (xe === "next-col" ? tt < Qe.length - 1 ? tt++ : (tt = 0, Rt = Math.min(Rt + 1, Te.length - 1)) : xe === "prev-col" ? tt > 0 ? tt-- : (tt = Qe.length - 1, Rt = Math.max(Rt - 1, 0)) : xe === "next-row" ? Rt = Math.min(Rt + 1, Te.length - 1) : xe === "prev-row" && (Rt = Math.max(Rt - 1, 0)), (xe === "next-row" || xe === "prev-row") && Rt === On) break;
-        const yo = Qe[tt], di = Te[Rt];
+        if (xe === "next-col" ? Xe < et.length - 1 ? Xe++ : (Xe = 0, Rt = Math.min(Rt + 1, Te.length - 1)) : xe === "prev-col" ? Xe > 0 ? Xe-- : (Xe = et.length - 1, Rt = Math.max(Rt - 1, 0)) : xe === "next-row" ? Rt = Math.min(Rt + 1, Te.length - 1) : xe === "prev-row" && (Rt = Math.max(Rt - 1, 0)), (xe === "next-row" || xe === "prev-row") && Rt === On) break;
+        const yo = et[Xe], di = Te[Rt];
         if (!yo || !di) break;
         if (Jr(yo, di.original) && Qo(yo, di.original)) {
           const Zr = di.getVisibleCells().find((Nr) => Nr.column.id === yo.field);
@@ -62984,12 +62986,12 @@ const mU = {
         if (!ye && !Gn)
           or.value && (or.value.scrollTop = 0);
         else if (Xo.value) {
-          const xe = Xo.value.data?.id, Qe = Xo.value.data?._rowKey, Te = Xo.value.col?.field;
+          const xe = Xo.value.data?.id, et = Xo.value.data?._rowKey, Te = Xo.value.col?.field;
           if (xe != null && Te) {
-            let tt;
-            j(xe) && Qe ? tt = xo.getRowModel().rows.find((qn) => qn.original._rowKey === Qe) : tt = xo.getRowModel().rows.find((qn) => qn.original.id == xe);
-            const Rt = tt?.getVisibleCells().find((qn) => qn.column.id === Te);
-            Rt ? (Xo.value = { cellId: Rt.id, col: Xo.value.col, data: tt.original }, ko(() => document.querySelector(".tan-edit-div, .tan-edit-checkbox")?.focus())) : Ba();
+            let Xe;
+            j(xe) && et ? Xe = xo.getRowModel().rows.find((qn) => qn.original._rowKey === et) : Xe = xo.getRowModel().rows.find((qn) => qn.original.id == xe);
+            const Rt = Xe?.getVisibleCells().find((qn) => qn.column.id === Te);
+            Rt ? (Xo.value = { cellId: Rt.id, col: Xo.value.col, data: Xe.original }, ko(() => document.querySelector(".tan-edit-div, .tan-edit-checkbox")?.focus())) : Ba();
           }
         }
       });
@@ -63013,26 +63015,26 @@ const mU = {
     fo(async () => {
       const ye = getComputedStyle(document.documentElement), xe = ye.getPropertyValue("--p-button-icon-only-width").trim();
       if (xe) {
-        const Qe = parseFloat(ye.fontSize);
-        Hn.value = Math.round(parseFloat(xe) * Qe);
+        const et = parseFloat(ye.fontSize);
+        Hn.value = Math.round(parseFloat(xe) * et);
       }
       B.value = !0, H.value = { first: 0, rows: 10, sortField: null, sortOrder: null };
       try {
-        const Qe = await i.options();
-        if (!Qe.data.hasOwnProperty("fields")) {
+        const et = await i.options();
+        if (!et.data.hasOwnProperty("fields")) {
           a("error", { detail: "Поля таблицы не получены" }, !0), B.value = !1;
           return;
         }
-        let Te = Qe.data.fields;
-        if (Qe.data.limit !== !1 && (ae.value = Qe.data.limit, $o.value = Qe.data.limit, H.value.rows = Qe.data.limit), Qe.data.selects)
-          for (let Wt in Qe.data.selects)
-            typeof Qe.data.selects[Wt] == "object" && Qe.data.selects[Wt] !== null && (k.value[Wt] = Qe.data.selects[Wt]);
-        if (Qe.data.data_fields && (y.value = Qe.data.data_fields), Qe.data.form && (te.value = Qe.data.form), Qe.data.hide_id == 1 && (g.value = !0), Qe.data.actions_frozen && (R.value = Qe.data.actions_frozen), Qe.data.row_class_trigger && (P.value = Qe.data.row_class_trigger), Qe.data.table_tree && (b.value = Qe.data.table_tree), Qe.data.row_drag && (M.value = !0), Qe.data.filters) {
-          ce = Qe.data.filters;
+        let Te = et.data.fields;
+        if (et.data.limit !== !1 && (ae.value = et.data.limit, $o.value = et.data.limit, H.value.rows = et.data.limit), et.data.selects)
+          for (let Wt in et.data.selects)
+            typeof et.data.selects[Wt] == "object" && et.data.selects[Wt] !== null && (k.value[Wt] = et.data.selects[Wt]);
+        if (et.data.data_fields && (y.value = et.data.data_fields), et.data.form && (te.value = et.data.form), et.data.hide_id == 1 && (g.value = !0), et.data.actions_frozen && (R.value = et.data.actions_frozen), et.data.row_class_trigger && (P.value = et.data.row_class_trigger), et.data.table_tree && (b.value = et.data.table_tree), et.data.row_drag && (M.value = !0), et.data.filters) {
+          ce = et.data.filters;
           for (let Wt in ce)
             ce[Wt].field = Wt, ce[Wt].default && (ce[Wt].default = String(ce[Wt].default)), ce[Wt].label || (ce[Wt].label = Wt), ce[Wt].rows = [], ce[Wt].type || (ce[Wt].type = "text");
         }
-        let tt = [], Rt = [];
+        let Xe = [], Rt = [];
         for (let Wt in Te) {
           switch (Te[Wt].field = Wt, Te[Wt].label || (Te[Wt].label = Wt), Te[Wt].type || (Te[Wt].type = Wt === "id" ? "view" : "text"), Te[Wt].readonly = Te[Wt].readonly === !0 || Te[Wt].readonly == 1, k.value[Wt] || (k.value[Wt] = {}), Te[Wt].select_data && (k.value[Wt].rows = Te[Wt].select_data), Te[Wt].type) {
             case "view":
@@ -63050,9 +63052,9 @@ const mU = {
             default:
               Te[Wt].dataType = "text";
           }
-          Rt.push(Te[Wt]), tt.push(Wt);
+          Rt.push(Te[Wt]), Xe.push(Wt);
         }
-        if (L.value = tt, d.value = Rt, $.value = Te, Qe.data.fields_style && (kr.value = Qe.data.fields_style), Yr(), o.child && !Jn.value) {
+        if (L.value = Xe, d.value = Rt, $.value = Te, et.data.fields_style && (kr.value = et.data.fields_style), Yr(), o.child && !Jn.value) {
           const Wt = { ...Dr.value }, Sl = Object.values(Wt).reduce((Xs, Tu) => Xs + Tu, 0);
           if (Sl > 0) {
             const Xs = Sl - 120, Tu = Xs / Sl, kc = Object.keys(Wt), Qs = {};
@@ -63126,7 +63128,7 @@ const mU = {
           await Zr(Wt, Sl), Ta.value = { ...yo.expandedRows.value };
         };
         const Nr = Nt.processActions(
-          Qe.data.actions,
+          et.data.actions,
           o.actions,
           {
             editLineItem: on,
@@ -63138,11 +63140,11 @@ const mU = {
             Insert_child: On.Insert_child
           }
         );
-        lt.value = Nr.cur_actions, mt.value = Nr.nemu_actions, Ct.value = Nr.actions_row, It.value = Nr.SpeedDialEnabled, J.value = Qe.data.actions, await D(), ko(() => {
+        lt.value = Nr.cur_actions, mt.value = Nr.nemu_actions, Ct.value = Nr.actions_row, It.value = Nr.SpeedDialEnabled, J.value = et.data.actions, await D(), ko(() => {
           Jn.value && ji();
         }), ci.value && (Vi(), window.addEventListener("resize", Vi));
-      } catch (Qe) {
-        console.error("TanTable init error", Qe), a("error", { detail: Qe.message }, !0), B.value = !1;
+      } catch (et) {
+        console.error("TanTable init error", et), a("error", { detail: et.message }, !0), B.value = !1;
       }
     });
     const wc = () => {
@@ -63186,7 +63188,7 @@ const mU = {
       }, { once: !0 }), Ge();
     }
     return t({ refresh: Ge, recalculateHeight: Vi, scrollToLast: Xn, refreshAndScrollToLast: Ao }), (ye, xe) => {
-      const Qe = Ke("PVTables");
+      const et = Ke("PVTables");
       return p(), w(Ae, null, [
         S("div", {
           ref_key: "rootElRef",
@@ -63204,7 +63206,7 @@ const mU = {
             table: o.table,
             filters: I(he),
             api: I(i),
-            onHeadAction: xe[0] || (xe[0] = (Te, tt) => Te.head_click(tt, o.table, I(he), Pe.value)),
+            onHeadAction: xe[0] || (xe[0] = (Te, Xe) => Te.head_click(Xe, o.table, I(he), Pe.value)),
             onSetTopFilter: xe[1] || (xe[1] = (Te) => I(Me)?.(Te)),
             onClear: wc,
             onRefresh: xe[2] || (xe[2] = (Te) => Ge(!1)),
@@ -63232,41 +63234,41 @@ const mU = {
                 (p(!0), w(Ae, null, bt(I(xo).getHeaderGroups(), (Te) => (p(), w("tr", {
                   key: Te.id
                 }, [
-                  (p(!0), w(Ae, null, bt(Te.headers, (tt) => (p(), w("th", {
-                    key: tt.id,
-                    style: Rn({ width: tt.getSize() + "px" }),
+                  (p(!0), w(Ae, null, bt(Te.headers, (Xe) => (p(), w("th", {
+                    key: Xe.id,
+                    style: Rn({ width: Xe.getSize() + "px" }),
                     class: je(["tan-th", {
-                      "tan-frozen-right": R.value === "right" && tt.id === "__actions__",
-                      "tan-frozen-left": R.value === "left" && tt.id === "__actions__"
+                      "tan-frozen-right": R.value === "right" && Xe.id === "__actions__",
+                      "tan-frozen-left": R.value === "left" && Xe.id === "__actions__"
                     }])
                   }, [
                     S("div", UG, [
                       S("div", {
-                        class: je(["tan-th-text", { "tan-sortable": tt.column.getCanSort() }]),
-                        onClick: (Rt) => tt.column.getToggleSortingHandler()?.(Rt)
+                        class: je(["tan-th-text", { "tan-sortable": Xe.column.getCanSort() }]),
+                        onClick: (Rt) => Xe.column.getToggleSortingHandler()?.(Rt)
                       }, [
-                        tt.isPlaceholder ? N("", !0) : (p(), V(I(I0), {
+                        Xe.isPlaceholder ? N("", !0) : (p(), V(I(I0), {
                           key: 0,
-                          render: tt.column.columnDef.header,
-                          props: tt.getContext()
+                          render: Xe.column.columnDef.header,
+                          props: Xe.getContext()
                         }, null, 8, ["render", "props"])),
-                        tt.column.getIsSorted() === "asc" ? (p(), w("i", qG)) : tt.column.getIsSorted() === "desc" ? (p(), w("i", WG)) : N("", !0)
+                        Xe.column.getIsSorted() === "asc" ? (p(), w("i", qG)) : Xe.column.getIsSorted() === "desc" ? (p(), w("i", WG)) : N("", !0)
                       ], 10, GG)
                     ]),
-                    tt.column.getCanFilter() ? (p(), w("button", {
+                    Xe.column.getCanFilter() ? (p(), w("button", {
                       key: 0,
                       class: je(["tan-filter-btn", {
-                        "tan-filter-btn--active": I(Fl)(tt.column.id),
-                        "tan-filter-btn--open": I(Vn) === tt.column.id
+                        "tan-filter-btn--active": I(Fl)(Xe.column.id),
+                        "tan-filter-btn--open": I(Vn) === Xe.column.id
                       }]),
-                      onClick: kn((Rt) => I(Ml)(Rt, tt.column.id), ["stop"]),
+                      onClick: kn((Rt) => I(Ml)(Rt, Xe.column.id), ["stop"]),
                       title: "Фильтр"
                     }, ZG, 10, YG)) : N("", !0),
-                    tt.column.getCanResize() ? (p(), w("div", {
+                    Xe.column.getCanResize() ? (p(), w("div", {
                       key: 1,
-                      class: je(["tan-resize-handle", { "tan-resizing": tt.column.getIsResizing() }]),
-                      onMousedown: kn((Rt) => I(po)(Rt, tt), ["stop"]),
-                      onTouchstart: kn((Rt) => tt.getResizeHandler()(Rt), ["stop"])
+                      class: je(["tan-resize-handle", { "tan-resizing": Xe.column.getIsResizing() }]),
+                      onMousedown: kn((Rt) => I(po)(Rt, Xe), ["stop"]),
+                      onTouchstart: kn((Rt) => Xe.getResizeHandler()(Rt), ["stop"])
                     }, null, 42, XG)) : N("", !0)
                   ], 6))), 128))
                 ]))), 128))
@@ -63281,8 +63283,8 @@ const mU = {
                   gn.value[Te.index]?.type === "row" ? (p(), w("tr", {
                     key: 0,
                     ref_for: !0,
-                    ref: (tt) => {
-                      tt && I(_a).measureElement(tt);
+                    ref: (Xe) => {
+                      Xe && I(_a).measureElement(Xe);
                     },
                     "data-index": Te.index,
                     style: Rn([{ position: "absolute", top: 0, left: 0, width: "100%", transform: `translateY(${Te.start}px)` }, I(pe)(gn.value[Te.index]?.row.original)]),
@@ -63294,47 +63296,48 @@ const mU = {
                       { "tan-row-drag-over": M.value && I(wl) === gn.value[Te.index]?.row.original?._rowKey }
                     ]]),
                     draggable: M.value && !I(j)(gn.value[Te.index]?.row.original?.id) ? "true" : "false",
-                    onDragstart: (tt) => M.value && I($a)(tt, gn.value[Te.index]?.row.original?._rowKey),
-                    onDragover: (tt) => M.value && I(kl)(tt, gn.value[Te.index]?.row.original?._rowKey),
-                    onDragleave: xe[9] || (xe[9] = (tt) => M.value && I(gs)()),
-                    onDrop: (tt) => M.value && I(Fi)(tt, gn.value[Te.index]?.row.original?._rowKey),
-                    onDragend: xe[10] || (xe[10] = (tt) => M.value && I(va)())
+                    onDragstart: (Xe) => M.value && I($a)(Xe, gn.value[Te.index]?.row.original?._rowKey),
+                    onDragover: (Xe) => M.value && I(kl)(Xe, gn.value[Te.index]?.row.original?._rowKey),
+                    onDragleave: xe[9] || (xe[9] = (Xe) => M.value && I(gs)()),
+                    onDrop: (Xe) => M.value && I(Fi)(Xe, gn.value[Te.index]?.row.original?._rowKey),
+                    onDragend: xe[10] || (xe[10] = (Xe) => M.value && I(va)())
                   }, [
-                    (p(!0), w(Ae, null, bt(gn.value[Te.index]?.row.getVisibleCells(), (tt) => (p(), w("td", {
-                      key: tt.id,
-                      style: Rn([{ width: tt.column.getSize() + "px" }, I(W)(gn.value[Te.index]?.row.original, tt.column.id)]),
+                    (p(!0), w(Ae, null, bt(gn.value[Te.index]?.row.getVisibleCells(), (Xe) => (p(), w("td", {
+                      key: Xe.id,
+                      style: Rn([{ width: Xe.column.getSize() + "px" }, I(W)(gn.value[Te.index]?.row.original, Xe.column.id)]),
                       class: je(["tan-td", [
-                        I(oe)(gn.value[Te.index]?.row.original, tt.column.id),
+                        I(oe)(gn.value[Te.index]?.row.original, Xe.column.id),
                         {
-                          "tan-td-editing": Xo.value?.cellId === tt.id,
-                          "tan-td-selected": I(No) && I(Nl)(Hi(tt.row), Nn(tt.column.id)),
-                          "tan-td-fill-range": I(No) && I(pl)(Hi(tt.row), Nn(tt.column.id)),
-                          "tan-frozen-right": R.value === "right" && tt.column.id === "__actions__",
-                          "tan-frozen-left": R.value === "left" && tt.column.id === "__actions__"
+                          "tan-td-editing": Xo.value?.cellId === Xe.id,
+                          "tan-td-selected": I(No) && I(Nl)(Hi(Xe.row), Nn(Xe.column.id)),
+                          "tan-td-fill-range": I(No) && I(pl)(Hi(Xe.row), Nn(Xe.column.id)),
+                          "tan-frozen-right": R.value === "right" && Xe.column.id === "__actions__",
+                          "tan-frozen-left": R.value === "left" && Xe.column.id === "__actions__"
                         }
                       ]]),
-                      onClick: (Rt) => tt.column.columnDef.meta && Ru(tt, Rt),
-                      onDblclick: (Rt) => tt.column.columnDef.meta && fs(tt, Rt),
-                      onMousedown: (Rt) => I(No) && tt.column.columnDef.meta && I(_l)(Hi(tt.row), Nn(tt.column.id), Rt),
-                      onMouseenter: (Rt) => I(No) && tt.column.columnDef.meta && I(ga)(Hi(tt.row), Nn(tt.column.id))
+                      onClick: (Rt) => Xe.column.columnDef.meta && Ru(Xe, Rt),
+                      onDblclick: (Rt) => Xe.column.columnDef.meta && fs(Xe, Rt),
+                      onMousedown: (Rt) => I(No) && Xe.column.columnDef.meta && I(_l)(Hi(Xe.row), Nn(Xe.column.id), Rt),
+                      onMouseenter: (Rt) => I(No) && Xe.column.columnDef.meta && I(ga)(Hi(Xe.row), Nn(Xe.column.id))
                     }, [
-                      Xo.value?.cellId === tt.id ? (p(), V(VG, {
+                      Xo.value?.cellId === Xe.id ? (p(), V(VG, {
                         key: 0,
                         col: Xo.value.col,
-                        "initial-value": lo(tt.row.original, tt.column.id),
+                        "initial-value": lo(Xe.row.original, Xe.column.id),
                         selectSettings: k.value,
                         autocompleteSettings: I(ne),
+                        customRows: I(me)[Xe.row.original.id]?.[Xe.column.id]?.select_data ?? null,
                         onSave: (Rt) => {
-                          Ba(), I(Ze)(tt.row.original, tt.column.id, Rt);
+                          Ba(), I(Ze)(Xe.row.original, Xe.column.id, Rt);
                         },
                         onCancel: Ba,
-                        onNavigate: (Rt) => Eu(tt, Rt)
-                      }, null, 8, ["col", "initial-value", "selectSettings", "autocompleteSettings", "onSave", "onNavigate"])) : (p(), V(I(I0), {
+                        onNavigate: (Rt) => Eu(Xe, Rt)
+                      }, null, 8, ["col", "initial-value", "selectSettings", "autocompleteSettings", "customRows", "onSave", "onNavigate"])) : (p(), V(I(I0), {
                         key: 1,
-                        render: tt.column.columnDef.cell,
-                        props: tt.getContext()
+                        render: Xe.column.columnDef.cell,
+                        props: Xe.getContext()
                       }, null, 8, ["render", "props"])),
-                      I(Bl) && I(Bl).rowIndex === Hi(tt.row) && I(Bl).colIndex === Nn(tt.column.id) ? (p(), w("div", tq, [
+                      I(Bl) && I(Bl).rowIndex === Hi(Xe.row) && I(Bl).colIndex === Nn(Xe.column.id) ? (p(), w("div", tq, [
                         S("div", {
                           class: "tan-fill-handle",
                           title: "Копировать значение",
@@ -63350,8 +63353,8 @@ const mU = {
                   ], 46, QG)) : gn.value[Te.index]?.type === "expansion" ? (p(), w("tr", {
                     key: 1,
                     ref_for: !0,
-                    ref: (tt) => {
-                      tt && I(_a).measureElement(tt);
+                    ref: (Xe) => {
+                      Xe && I(_a).measureElement(Xe);
                     },
                     "data-index": Te.index,
                     style: Rn({ position: "absolute", top: 0, left: 0, width: I(xo).getTotalSize() + "px", transform: `translateY(${Te.start}px)` }),
@@ -63363,17 +63366,17 @@ const mU = {
                     }, [
                       I(To)?.[gn.value[Te.index]?.row.original._rowKey] ? (p(), w(Ae, { key: 0 }, [
                         I(To)[gn.value[Te.index].row.original._rowKey].action === "subtables" ? (p(), w("div", iq, [
-                          se(Qe, {
+                          se(et, {
                             table: I(To)[gn.value[Te.index].row.original._rowKey].table,
                             actions: e.actions,
                             filters: I(Kn)?.[gn.value[Te.index].row.original._rowKey],
-                            onRefreshTable: xe[11] || (xe[11] = (tt) => Ge(!1)),
+                            onRefreshTable: xe[11] || (xe[11] = (Xe) => Ge(!1)),
                             child: !0,
                             ref_for: !0,
-                            ref: (tt) => {
-                              tt && (Eo.value[gn.value[Te.index].row.original._rowKey] = tt);
+                            ref: (Xe) => {
+                              Xe && (Eo.value[gn.value[Te.index].row.original._rowKey] = Xe);
                             },
-                            onGetResponse: xe[12] || (xe[12] = (tt) => r("get-response", tt))
+                            onGetResponse: xe[12] || (xe[12] = (Xe) => r("get-response", Xe))
                           }, null, 8, ["table", "actions", "filters"])
                         ])) : I(To)[gn.value[Te.index].row.original._rowKey].action === "subtabs" ? (p(), w("div", rq, [
                           se(ss, {
@@ -63381,13 +63384,13 @@ const mU = {
                             actions: e.actions,
                             parent_row: I(ao)?.value ?? {},
                             filters: I(Kn)?.[gn.value[Te.index].row.original._rowKey],
-                            onRefreshTable: xe[13] || (xe[13] = (tt) => Ge(!1)),
+                            onRefreshTable: xe[13] || (xe[13] = (Xe) => Ge(!1)),
                             child: !0,
                             ref_for: !0,
-                            ref: (tt) => {
-                              tt && (Eo.value[gn.value[Te.index].row.original._rowKey] = tt);
+                            ref: (Xe) => {
+                              Xe && (Eo.value[gn.value[Te.index].row.original._rowKey] = Xe);
                             },
-                            onGetResponse: xe[14] || (xe[14] = (tt) => r("get-response", tt))
+                            onGetResponse: xe[14] || (xe[14] = (Xe) => r("get-response", Xe))
                           }, null, 8, ["tabs", "actions", "parent_row", "filters"])
                         ])) : N("", !0)
                       ], 64)) : Ee(ye.$slots, "expansion", {
@@ -63461,13 +63464,13 @@ const mU = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: I(Xt)
               }, null, 8, ["onClick"]),
-              se(I(et), {
+              se(I(tt), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -63496,13 +63499,13 @@ const mU = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: xe[19] || (xe[19] = (Te) => oi(wt) ? wt.value = !1 : wt = !1)
               }),
-              se(I(et), {
+              se(I(tt), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -63525,13 +63528,13 @@ const mU = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: xe[21] || (xe[21] = (Te) => oi(vt) ? vt.value = !1 : vt = !1)
               }),
-              se(I(et), {
+              se(I(tt), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -63551,13 +63554,13 @@ const mU = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: I(Pi)
               }, null, 8, ["onClick"]),
-              se(I(et), {
+              se(I(tt), {
                 label: Mt.value?.modal_form?.buttons?.submit?.label || "Выполнить",
                 icon: Mt.value?.modal_form?.buttons?.submit?.icon || "pi pi-check",
                 class: "p-button-text",
@@ -63596,11 +63599,11 @@ const mU = {
           "onUpdate:operator": xe[28] || (xe[28] = (Te) => {
             I(Br)[I(Vn)] && (I(Br)[I(Vn)].operator = Te);
           }),
-          "onUpdate:constraintValue": xe[29] || (xe[29] = ({ idx: Te, value: tt }) => {
-            I(Br)[I(Vn)]?.constraints[Te] && (I(Br)[I(Vn)].constraints[Te].value = tt);
+          "onUpdate:constraintValue": xe[29] || (xe[29] = ({ idx: Te, value: Xe }) => {
+            I(Br)[I(Vn)]?.constraints[Te] && (I(Br)[I(Vn)].constraints[Te].value = Xe);
           }),
-          "onUpdate:constraintMode": xe[30] || (xe[30] = ({ idx: Te, value: tt }) => {
-            I(Br)[I(Vn)]?.constraints[Te] && (I(Br)[I(Vn)].constraints[Te].matchMode = tt);
+          "onUpdate:constraintMode": xe[30] || (xe[30] = ({ idx: Te, value: Xe }) => {
+            I(Br)[I(Vn)]?.constraints[Te] && (I(Br)[I(Vn)].constraints[Te].matchMode = Xe);
           }),
           onAddConstraint: xe[31] || (xe[31] = (Te) => I(Ki)(I(Vn), Na.value)),
           onRemoveConstraint: xe[32] || (xe[32] = (Te) => I(Dl)(I(Vn), Te)),
@@ -63639,7 +63642,7 @@ const mU = {
           dismissableMask: !0,
           maximizable: !0,
           style: Rn(I(Mr) ? { width: "100vw", height: "100vh", maxHeight: "100vh", margin: 0 } : { width: "80vw", height: "80vh", maxWidth: "95vw", maxHeight: "95vh" }),
-          onHide: Xe
+          onHide: Qe
         }, {
           default: ve(() => [
             S("div", Iq, [
@@ -63696,7 +63699,7 @@ const mU = {
                   type: "button",
                   class: "ctrl",
                   title: "Сбросить",
-                  onClick: Xe
+                  onClick: Qe
                 }, Nq)
               ])
             ])
@@ -64743,7 +64746,7 @@ var iW = function(t) {
     focustrap: ef
   },
   components: {
-    Button: et,
+    Button: tt,
     Portal: Gr,
     TimesIcon: nl
   }
@@ -69537,7 +69540,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
           class: "tan-ml-select-all",
           "onUpdate:modelValue": da
         }, null, 8, ["modelValue", "indeterminate"])) : N("", !0),
-        ao.value.length ? (p(), V(I(et), {
+        ao.value.length ? (p(), V(I(tt), {
           key: 1,
           icon: "pi pi-ellipsis-v",
           text: "",
@@ -69565,7 +69568,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
           _: 1
         }, 8, ["model"]),
         oZ,
-        se(I(et), {
+        se(I(tt), {
           icon: "pi pi-filter",
           text: "",
           rounded: "",
@@ -69583,7 +69586,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
           ]),
           _: 1
         }),
-        se(I(et), {
+        se(I(tt), {
           icon: "pi pi-table",
           text: "",
           rounded: "",
@@ -69743,7 +69746,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
         ], 4)
       ], 512)),
       !I(H) && I(ne) > 0 ? (p(), w("div", fZ, [
-        se(I(et), {
+        se(I(tt), {
           icon: "pi pi-chevron-left",
           text: "",
           rounded: "",
@@ -69751,7 +69754,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
           onClick: Sr
         }, null, 8, ["disabled"]),
         S("span", pZ, Ce(kr.value) + " / " + Ce(Dr.value) + " · " + Ce(I(ne)), 1),
-        se(I(et), {
+        se(I(tt), {
           icon: "pi pi-chevron-right",
           text: "",
           rounded: "",
@@ -69764,7 +69767,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
           _o.value || bo.value ? (p(), w("div", hZ, [
             S("span", mZ, "Выбрано: " + Ce(lo.value.size), 1),
             S("div", gZ, [
-              (p(!0), w(Ae, null, bt(yr.value, (Ye) => (p(), V(I(et), {
+              (p(!0), w(Ae, null, bt(yr.value, (Ye) => (p(), V(I(tt), {
                 key: Ye.label,
                 icon: Ye.icon,
                 label: Ye.label,
@@ -69772,7 +69775,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
                 severity: Ye.class?.includes("danger") ? "danger" : "secondary",
                 onClick: (St) => gi(Ye)
               }, null, 8, ["icon", "label", "severity", "onClick"]))), 128)),
-              se(I(et), {
+              se(I(tt), {
                 icon: "pi pi-times",
                 text: "",
                 rounded: "",
@@ -69793,7 +69796,7 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
         header: ve(() => [
           S("div", bZ, [
             vZ,
-            se(I(et), {
+            se(I(tt), {
               label: "Очистить всё",
               text: "",
               size: "small",
@@ -69862,13 +69865,13 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
         style: { width: "95vw", "max-width": "480px" }
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: sl
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Сохранить",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -69897,13 +69900,13 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: ft[9] || (ft[9] = (Ye) => G.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-text",
@@ -69924,13 +69927,13 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
         style: { width: "95vw", "max-width": "480px" }
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Отмена",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: I(hi)
           }, null, 8, ["onClick"]),
-          se(I(et), {
+          se(I(tt), {
             label: mi.value?.modal_form?.buttons?.submit?.label || "Выполнить",
             icon: mi.value?.modal_form?.buttons?.submit?.icon || "pi pi-check",
             class: "p-button-text",
@@ -69956,13 +69959,13 @@ const yc = (e) => (Qi("data-v-81cdfeb9"), e = e(), er(), e), oZ = /* @__PURE__ *
         modal: ""
       }, {
         footer: ve(() => [
-          se(I(et), {
+          se(I(tt), {
             label: "Нет",
             icon: "pi pi-times",
             class: "p-button-text",
             onClick: ft[13] || (ft[13] = (Ye) => $.value = !1)
           }),
-          se(I(et), {
+          se(I(tt), {
             label: "Да",
             icon: "pi pi-check",
             class: "p-button-danger",
@@ -70289,7 +70292,7 @@ const PZ = {
             }
             j.value = Ne;
             let Be = null;
-            const Xe = qg(
+            const Qe = qg(
               r,
               fe,
               Z,
@@ -70298,7 +70301,7 @@ const PZ = {
               ne,
               y
             );
-            zt = Xe.filters, At = Xe.topFilters, In = Xe.initFilters, _e = Xe.onSetTopFilter, $e = Xe.prepFilters, Ze = Xe.onFilter, nt = Xe.clearFilter, _t = te(a, fe, zt, () => $e(), l, () => r.sorting), Be = _t, on = J(_t), Xt = G(_t), In(), u.value = Le.data.actions;
+            zt = Qe.filters, At = Qe.topFilters, In = Qe.initFilters, _e = Qe.onSetTopFilter, $e = Qe.prepFilters, Ze = Qe.onFilter, nt = Qe.clearFilter, _t = te(a, fe, zt, () => $e(), l, () => r.sorting), Be = _t, on = J(_t), Xt = G(_t), In(), u.value = Le.data.actions;
             const Pt = Ai.processActions(
               Le.data.actions,
               r.actions,
@@ -70323,8 +70326,8 @@ const PZ = {
     }), ua(() => {
       document.removeEventListener("keydown", ga), document.removeEventListener("mouseup", xr), window.removeEventListener("resize", nr);
     });
-    const wt = (Le, Ne, gt, Be, Xe) => {
-      s.value[Le.action] && s.value[Le.action].click && s.value[Le.action].click(Ne, gt, Be, Xe);
+    const wt = (Le, Ne, gt, Be, Qe) => {
+      s.value[Le.action] && s.value[Le.action].click && s.value[Le.action].click(Ne, gt, Be, Qe);
     }, vt = Y({});
     let _t, on, Xt;
     const Tt = (Le, Ne) => {
@@ -70502,7 +70505,7 @@ const PZ = {
       if (!Le) return "";
       const Ne = Le.match(/^(\d{4})-(\d{2})-(\d{2})(?: (\d{2}):(\d{2})(?::(\d{2}))?)?$/);
       if (!Ne) return Le;
-      const [, gt, Be, Xe, Pt = "", Et = ""] = Ne, Cn = `${Xe}.${Be}.${gt}`;
+      const [, gt, Be, Qe, Pt = "", Et = ""] = Ne, Cn = `${Qe}.${Be}.${gt}`;
       return Pt ? `${Cn} ${Pt}:${Et}` : Cn;
     }, Nn = (Le, Ne) => Ne.includes(".") ? Ne.split(".").reduce((gt, Be) => gt?.[Be], Le) : Le[Ne], cs = (Le, Ne) => {
       (Le === "" || Le == null) && (Le = 0);
@@ -70514,7 +70517,7 @@ const PZ = {
         const gt = k.value[Ne]?.rows;
         if (gt && Array.isArray(gt)) {
           const Be = /* @__PURE__ */ new Map();
-          for (const Xe of gt) Be.set(String(Xe.id), Xe.content);
+          for (const Qe of gt) Be.set(String(Qe.id), Qe.content);
           Le[Ne] = Be;
         }
       }
@@ -70525,14 +70528,14 @@ const PZ = {
         const gt = k.value[Ne]?.rows;
         if (gt && Array.isArray(gt)) {
           const Be = /* @__PURE__ */ new Map();
-          for (const Xe of gt) Be.set(String(Xe.id), Xe);
+          for (const Qe of gt) Be.set(String(Qe.id), Qe);
           Le[Ne] = Be;
         }
       }
       return Le;
     }), so = (Le, Ne) => {
       if (!Ne || Ne == 0) return "";
-      const gt = Le.field, Be = hl.value[gt]?.get(String(Ne)) ?? "", Xe = Be !== "" ? [String(Be)] : [], Pt = Xo.value[gt]?.get(String(Ne)), Et = k.value[gt]?.searchFields;
+      const gt = Le.field, Be = hl.value[gt]?.get(String(Ne)) ?? "", Qe = Be !== "" ? [String(Be)] : [], Pt = Xo.value[gt]?.get(String(Ne)), Et = k.value[gt]?.searchFields;
       if (Le.search && Pt)
         for (const Cn in Le.search) {
           const xn = Pt[Cn];
@@ -70543,16 +70546,16 @@ const PZ = {
             const zn = Pn.find((vo) => String(vo.id) === String(xn));
             zn?.content !== void 0 && zn?.content !== null && zn?.content !== "" && (Zn = zn.content);
           }
-          Xe.push(String(Zn));
+          Qe.push(String(Zn));
         }
-      return Xe.length ? Xe.join(" ") : String(Ne);
+      return Qe.length ? Qe.join(" ") : String(Ne);
     }, Ma = ct(() => {
       const Le = {};
       for (const Ne in _.value) {
         const gt = _.value[Ne]?.rows;
         if (gt && Array.isArray(gt)) {
           const Be = /* @__PURE__ */ new Map();
-          for (const Xe of gt) Be.set(String(Xe.id), Xe.content);
+          for (const Qe of gt) Be.set(String(Qe.id), Qe.content);
           Le[Ne] = Be;
         }
       }
@@ -70673,21 +70676,21 @@ const PZ = {
                   $Z
                 ]),
                 S("div", VZ, [
-                  se(I(et), {
+                  se(I(tt), {
                     label: "Сбросить локальные стили",
                     icon: "pi pi-refresh",
                     onClick: Ne[11] || (Ne[11] = () => I(ui)(Tt)),
                     size: "small",
                     severity: "secondary"
                   }),
-                  se(I(et), {
+                  se(I(tt), {
                     label: "Сбросить стили на сервере",
                     icon: "pi pi-server",
                     onClick: Ne[12] || (Ne[12] = () => I(gi)(Tt)),
                     size: "small",
                     severity: "warning"
                   }),
-                  se(I(et), {
+                  se(I(tt), {
                     label: "Сохранить стили на сервере",
                     icon: "pi pi-save",
                     onClick: I(Ri),
@@ -70729,14 +70732,14 @@ const PZ = {
                   S("small", qZ, "Автоопределенная: " + Ce(I(Ct)) + "px", 1)
                 ]),
                 S("div", WZ, [
-                  se(I(et), {
+                  se(I(tt), {
                     label: "Пересчитать",
                     icon: "pi pi-refresh",
                     onClick: I(dn),
                     size: "small",
                     disabled: !I(lt)
                   }, null, 8, ["onClick", "disabled"]),
-                  Dt(se(I(et), {
+                  Dt(se(I(tt), {
                     label: "Сбросить",
                     icon: "pi pi-undo",
                     onClick: I(Yn),
@@ -70757,11 +70760,11 @@ const PZ = {
           }, 512),
           se(I(pc), { class: "p-mb-4" }, {
             start: ve(() => [
-              (p(!0), w(Ae, null, bt(Ie.value, (Be) => (p(), V(I(et), {
+              (p(!0), w(Ae, null, bt(Ie.value, (Be) => (p(), V(I(tt), {
                 icon: Be.icon,
                 label: Be.label,
                 class: je(Be.class),
-                onClick: (Xe) => Be.head_click(Xe, e.table, I(zt), Fr.value)
+                onClick: (Qe) => Be.head_click(Qe, e.table, I(zt), Fr.value)
               }, null, 8, ["icon", "label", "class", "onClick"]))), 256)),
               u.value && u.value.print && u.value.print !== !1 ? (p(), V(H5, {
                 key: 0,
@@ -70781,21 +70784,21 @@ const PZ = {
                   key: 0,
                   field: Be,
                   modelValue: Be.default,
-                  "onUpdate:modelValue": (Xe) => Be.default = Xe,
+                  "onUpdate:modelValue": (Qe) => Be.default = Qe,
                   options: Be.rows,
-                  onSetValue: (Xe) => I(_e)(Be)
+                  onSetValue: (Qe) => I(_e)(Be)
                 }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "options", "onSetValue"])) : Be.type == "multiautocomplete" ? (p(), V(Wp, {
                   key: 1,
                   field: Be,
                   modelValue: Be.default,
-                  "onUpdate:modelValue": (Xe) => Be.default = Xe,
+                  "onUpdate:modelValue": (Qe) => Be.default = Qe,
                   options: Be.rows,
-                  onSetValue: (Xe) => I(_e)(Be)
+                  onSetValue: (Qe) => I(_e)(Be)
                 }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "options", "onSetValue"])) : N("", !0)
               ], 64))), 128))
             ]),
             end: ve(() => [
-              Dt(se(I(et), {
+              Dt(se(I(tt), {
                 icon: I(Ki) ? "pi pi-check-square" : "pi pi-table",
                 class: je(I(Ki) ? "p-button-success" : ""),
                 onClick: I(Bl)
@@ -70807,7 +70810,7 @@ const PZ = {
                   { bottom: !0 }
                 ]
               ]),
-              Dt(se(I(et), {
+              Dt(se(I(tt), {
                 icon: I(Eo) ? "pi pi-moon" : "pi pi-sun",
                 onClick: I(To)
               }, null, 8, ["icon", "onClick"]), [
@@ -70818,7 +70821,7 @@ const PZ = {
                   { bottom: !0 }
                 ]
               ]),
-              Dt(se(I(et), {
+              Dt(se(I(tt), {
                 icon: "pi pi-refresh",
                 class: "p-button-success",
                 onClick: Ne[15] || (Ne[15] = (Be) => Tt(!1))
@@ -70830,7 +70833,7 @@ const PZ = {
                   { bottom: !0 }
                 ]
               ]),
-              Dt(se(I(et), {
+              Dt(se(I(tt), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: Ne[16] || (Ne[16] = (Be) => I(nt)())
@@ -70842,7 +70845,7 @@ const PZ = {
                   { bottom: !0 }
                 ]
               ]),
-              Dt(se(I(et), {
+              Dt(se(I(tt), {
                 type: "button",
                 icon: "pi pi-cog",
                 onClick: Ne[17] || (Ne[17] = (Be) => Mr(Be, me.value))
@@ -70854,7 +70857,7 @@ const PZ = {
                   { bottom: !0 }
                 ]
               ]),
-              Dt(se(I(et), {
+              Dt(se(I(tt), {
                 type: "button",
                 icon: I(lt) ? "pi pi-bolt" : "pi pi-forward",
                 class: je(I(lt) ? "p-button-warning" : ""),
@@ -70867,7 +70870,7 @@ const PZ = {
                   { bottom: !0 }
                 ]
               ]),
-              Dt(se(I(et), {
+              Dt(se(I(tt), {
                 type: "button",
                 icon: "pi pi-th-large",
                 class: je(ce.value ? "p-button-info" : ""),
@@ -70952,12 +70955,12 @@ const PZ = {
                   table: I(kr)[Be.data._rowKey].table,
                   actions: e.actions,
                   filters: I(Dr)[Be.data._rowKey],
-                  onRefreshTable: Ne[18] || (Ne[18] = (Xe) => Tt(!1)),
+                  onRefreshTable: Ne[18] || (Ne[18] = (Qe) => Tt(!1)),
                   child: !0,
-                  ref: (Xe) => {
-                    Xe && (I(Sr)[Be.data._rowKey] = Xe);
+                  ref: (Qe) => {
+                    Qe && (I(Sr)[Be.data._rowKey] = Qe);
                   },
-                  onGetResponse: Ne[19] || (Ne[19] = (Xe) => ot(Xe))
+                  onGetResponse: Ne[19] || (Ne[19] = (Qe) => ot(Qe))
                 }, null, 8, ["table", "actions", "filters"])
               ])) : N("", !0),
               I(kr)[Be.data._rowKey].action == "subtabs" ? (p(), w("div", QZ, [
@@ -70966,12 +70969,12 @@ const PZ = {
                   actions: e.actions,
                   parent_row: I(Jn),
                   filters: I(Dr)[Be.data._rowKey],
-                  onRefreshTable: Ne[20] || (Ne[20] = (Xe) => Tt(!1)),
+                  onRefreshTable: Ne[20] || (Ne[20] = (Qe) => Tt(!1)),
                   child: !0,
-                  ref: (Xe) => {
-                    Xe && (I(Sr)[Be.data._rowKey] = Xe);
+                  ref: (Qe) => {
+                    Qe && (I(Sr)[Be.data._rowKey] = Qe);
                   },
-                  onGetResponse: Ne[21] || (Ne[21] = (Xe) => ot(Xe))
+                  onGetResponse: Ne[21] || (Ne[21] = (Qe) => ot(Qe))
                 }, null, 8, ["tabs", "actions", "parent_row", "filters"])
               ])) : N("", !0)
             ]),
@@ -70982,16 +70985,16 @@ const PZ = {
               }, {
                 body: ve(({ data: Be }) => [
                   Be.gtsapi_children_count > 0 ? (p(), w(Ae, { key: 0 }, [
-                    I(Hn)[Be._rowKey] ? (p(), V(I(et), {
+                    I(Hn)[Be._rowKey] ? (p(), V(I(tt), {
                       key: 0,
                       icon: "pi pi-angle-down",
                       class: "p-button-text",
-                      onClick: (Xe) => I(zi)(Be)
-                    }, null, 8, ["onClick"])) : (p(), V(I(et), {
+                      onClick: (Qe) => I(zi)(Be)
+                    }, null, 8, ["onClick"])) : (p(), V(I(tt), {
                       key: 1,
                       icon: "pi pi-angle-right",
                       class: "p-button-text",
-                      onClick: (Xe) => I(zi)(Be)
+                      onClick: (Qe) => I(zi)(Be)
                     }, null, 8, ["onClick"]))
                   ], 64)) : N("", !0)
                 ]),
@@ -71013,58 +71016,58 @@ const PZ = {
                   frozen: Be.frozen === "left" || Be.frozen === "right",
                   alignFrozen: Be.frozen === "left" ? "left" : Be.frozen === "right" ? "right" : void 0
                 }, Xi({
-                  body: ve(({ data: Xe, field: Pt }) => [
+                  body: ve(({ data: Qe, field: Pt }) => [
                     S("div", {
-                      class: je(I(Kn)(Be, Xe))
+                      class: je(I(Kn)(Be, Qe))
                     }, [
-                      pl(Be, Xe) ? (p(), w(Ae, { key: 0 }, [
+                      pl(Be, Qe) ? (p(), w(Ae, { key: 0 }, [
                         Be.field === "id" ? (p(), w(Ae, { key: 0 }, [
-                          ht(Ce(Xe[Pt]), 1)
+                          ht(Ce(Qe[Pt]), 1)
                         ], 64)) : Be.type === "decimal" ? (p(), w(Ae, { key: 1 }, [
-                          ht(Ce(cs(Nn(Xe, Pt), Be.FractionDigits)), 1)
+                          ht(Ce(cs(Nn(Qe, Pt), Be.FractionDigits)), 1)
                         ], 64)) : Be.type === "number" || Be.type === "view" ? (p(), w(Ae, { key: 2 }, [
-                          ht(Ce(Nn(Xe, Pt)), 1)
+                          ht(Ce(Nn(Qe, Pt)), 1)
                         ], 64)) : Be.type === "autocomplete" ? (p(), w(Ae, { key: 3 }, [
-                          Be.hide_id ? N("", !0) : (p(), w("span", YZ, Ce(Nn(Xe, Pt)), 1)),
-                          ht(" " + Ce(C(Pt, Nn(Xe, Pt))), 1)
+                          Be.hide_id ? N("", !0) : (p(), w("span", YZ, Ce(Nn(Qe, Pt)), 1)),
+                          ht(" " + Ce(C(Pt, Nn(Qe, Pt))), 1)
                         ], 64)) : Be.type === "multiautocomplete" ? (p(), w(Ae, { key: 4 }, [
-                          ht(Ce(so(Be, Nn(Xe, Pt))), 1)
+                          ht(Ce(so(Be, Nn(Qe, Pt))), 1)
                         ], 64)) : Be.type === "select" ? (p(), w(Ae, { key: 5 }, [
-                          ht(Ce(K(Pt, Nn(Xe, Pt))), 1)
+                          ht(Ce(K(Pt, Nn(Qe, Pt))), 1)
                         ], 64)) : Be.type === "html" ? (p(), w("span", {
                           key: 6,
-                          innerHTML: Nn(Xe, Pt)
+                          innerHTML: Nn(Qe, Pt)
                         }, null, 8, JZ)) : Be.type === "boolean" ? (p(), V(I(mr), {
                           key: 7,
-                          modelValue: Nn(Xe, Pt) == 1 || Nn(Xe, Pt) === !0,
+                          modelValue: Nn(Qe, Pt) == 1 || Nn(Qe, Pt) === !0,
                           binary: !0,
                           disabled: ""
                         }, null, 8, ["modelValue"])) : Be.type === "date" ? (p(), w(Ae, { key: 8 }, [
-                          ht(Ce($l(Nn(Xe, Pt))), 1)
+                          ht(Ce($l(Nn(Qe, Pt))), 1)
                         ], 64)) : Be.type === "datetime" ? (p(), w(Ae, { key: 9 }, [
-                          ht(Ce(Hi(Nn(Xe, Pt))), 1)
+                          ht(Ce(Hi(Nn(Qe, Pt))), 1)
                         ], 64)) : (p(), w("span", {
                           key: 10,
-                          title: Be.truncate && Nn(Xe, Pt) && String(Nn(Xe, Pt)).length > Be.truncate ? Nn(Xe, Pt) : ""
-                        }, Ce(Be.truncate && Nn(Xe, Pt) ? be(Nn(Xe, Pt), Be.truncate) : Nn(Xe, Pt)), 9, ZZ))
+                          title: Be.truncate && Nn(Qe, Pt) && String(Nn(Qe, Pt)).length > Be.truncate ? Nn(Qe, Pt) : ""
+                        }, Ce(Be.truncate && Nn(Qe, Pt) ? be(Nn(Qe, Pt), Be.truncate) : Nn(Qe, Pt)), 9, ZZ))
                       ], 64)) : (p(), V(rp, {
                         key: 1,
                         field: Be,
-                        data: Xe,
+                        data: Qe,
                         use_data: !0,
                         autocompleteSettings: I(k)[Pt],
                         selectSettings: _.value[Pt],
-                        onSetValue: (Et) => I(Ml)({ data: Xe, field: Pt, newValue: Et }),
-                        customFields: I(R)[Xe.id]
+                        onSetValue: (Et) => I(Ml)({ data: Qe, field: Pt, newValue: Et }),
+                        customFields: I(R)[Qe.id]
                       }, null, 8, ["field", "data", "autocompleteSettings", "selectSettings", "onSetValue", "customFields"]))
                     ], 2)
                   ]),
-                  filter: ve(({ filterModel: Xe }) => [
+                  filter: ve(({ filterModel: Qe }) => [
                     se(Vs, {
                       field: Be,
                       use_readonly: !1,
-                      modelValue: Xe.value,
-                      "onUpdate:modelValue": (Pt) => Xe.value = Pt,
+                      modelValue: Qe.value,
+                      "onUpdate:modelValue": (Pt) => Qe.value = Pt,
                       autocompleteSettings: I(k)[Be.field],
                       selectSettings: _.value[Be.field],
                       editId: !0
@@ -71074,17 +71077,17 @@ const PZ = {
                 }, [
                   !I(z).has(Be.type) && !Be.readonly ? {
                     name: "editor",
-                    fn: ve(({ data: Xe, field: Pt, index: Et }) => [
+                    fn: ve(({ data: Qe, field: Pt, index: Et }) => [
                       Nl(Et) ? N("", !0) : (p(), V(Vs, {
                         key: 0,
                         field: Be,
-                        modelValue: Xe[Pt],
-                        "onUpdate:modelValue": (Cn) => Xe[Pt] = Cn,
-                        data: Xe,
+                        modelValue: Qe[Pt],
+                        "onUpdate:modelValue": (Cn) => Qe[Pt] = Cn,
+                        data: Qe,
                         use_data: !0,
                         autocompleteSettings: I(k)[Pt],
                         selectSettings: _.value[Pt],
-                        customFields: I(R)[Xe.id],
+                        customFields: I(R)[Qe.id],
                         onTab: I(hi)
                       }, null, 8, ["field", "modelValue", "onUpdate:modelValue", "data", "autocompleteSettings", "selectSettings", "customFields", "onTab"]))
                     ]),
@@ -71100,28 +71103,28 @@ const PZ = {
                 alignFrozen: Me.value === "left" ? "left" : Me.value === "right" ? "right" : void 0
               }, {
                 body: ve((Be) => [
-                  (p(!0), w(Ae, null, bt(F.value, (Xe) => (p(), w(Ae, {
-                    key: Xe.action
+                  (p(!0), w(Ae, null, bt(F.value, (Qe) => (p(), w(Ae, {
+                    key: Qe.action
                   }, [
-                    Xe.compiledTemplate ? (p(), V(Ue(Xe.compiledTemplate), {
+                    Qe.compiledTemplate ? (p(), V(Ue(Qe.compiledTemplate), {
                       key: 0,
                       data: Be.data,
                       columns: me.value,
                       table: e.table,
                       filters: I(zt),
-                      action: Xe,
-                      onActionClick: (Pt) => Xe.click(Be.data, me.value, e.table, I(zt))
-                    }, null, 40, ["data", "columns", "table", "filters", "action", "onActionClick"])) : (p(), V(I(et), {
+                      action: Qe,
+                      onActionClick: (Pt) => Qe.click(Be.data, me.value, e.table, I(zt))
+                    }, null, 40, ["data", "columns", "table", "filters", "action", "onActionClick"])) : (p(), V(I(tt), {
                       key: 1,
-                      icon: Xe.icon,
-                      class: je(Xe.class),
-                      onClick: (Pt) => Xe.click(Be.data, me.value, e.table, I(zt))
+                      icon: Qe.icon,
+                      class: je(Qe.class),
+                      onClick: (Pt) => Qe.click(Be.data, me.value, e.table, I(zt))
                     }, null, 8, ["icon", "class", "onClick"]))
                   ], 64))), 128)),
                   W.value ? (p(), V(Lb, {
                     key: 0,
                     actions: s.value,
-                    onPvtablesMenuAction: (Xe) => wt(Xe, Be.data, me.value, e.table, I(zt))
+                    onPvtablesMenuAction: (Qe) => wt(Qe, Be.data, me.value, e.table, I(zt))
                   }, null, 8, ["actions", "onPvtablesMenuAction"])) : N("", !0)
                 ]),
                 _: 1
@@ -71136,13 +71139,13 @@ const PZ = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: I(ha)
               }, null, 8, ["onClick"]),
-              se(I(et), {
+              se(I(tt), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -71170,13 +71173,13 @@ const PZ = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: Ne[30] || (Ne[30] = (Be) => hn.value = !1)
               }),
-              se(I(et), {
+              se(I(tt), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -71198,13 +71201,13 @@ const PZ = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: Ne[32] || (Ne[32] = (Be) => Mi.value = !1)
               }),
-              se(I(et), {
+              se(I(tt), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -71226,13 +71229,13 @@ const PZ = {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: I(it)
               }, null, 8, ["onClick"]),
-              se(I(et), {
+              se(I(tt), {
                 label: bi.value?.modal_form?.buttons?.submit?.label || "Выполнить",
                 icon: bi.value?.modal_form?.buttons?.submit?.icon || "pi pi-check",
                 class: "p-button-text",
@@ -72176,7 +72179,7 @@ const Ep = (function() {
         S("div", rQ, [
           se(I(pc), { class: "p-mb-4" }, {
             start: ve(() => [
-              (p(!0), w(Ae, null, bt(I(b).filter((Pe) => Pe.head), (Pe) => (p(), V(I(et), {
+              (p(!0), w(Ae, null, bt(I(b).filter((Pe) => Pe.head), (Pe) => (p(), V(I(tt), {
                 icon: Pe.icon,
                 label: Pe.label,
                 class: je(Pe.class),
@@ -72206,7 +72209,7 @@ const Ep = (function() {
                   class: je(["pi", { "pi-moon": r.value, "pi-sun": !r.value }])
                 }, null, 2)
               ]),
-              se(I(et), {
+              se(I(tt), {
                 type: "button",
                 icon: "pi pi-filter-slash",
                 onClick: ce[0] || (ce[0] = (Pe) => u())
@@ -72370,7 +72373,7 @@ const Ep = (function() {
                 style: { "white-space": "nowrap" }
               }, {
                 body: ve((Pe) => [
-                  (p(!0), w(Ae, null, bt(I(b).filter((De) => De.row), (De) => (p(), V(I(et), {
+                  (p(!0), w(Ae, null, bt(I(b).filter((De) => De.row), (De) => (p(), V(I(tt), {
                     icon: De.icon,
                     class: je(De.class),
                     onClick: (Je) => De.click(Pe.data, g.value, e.table, a.value)
@@ -72388,13 +72391,13 @@ const Ep = (function() {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Отмена",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: me
               }),
-              se(I(et), {
+              se(I(tt), {
                 label: "Сохранить",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -72419,13 +72422,13 @@ const Ep = (function() {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: ce[6] || (ce[6] = (Pe) => F.value = !1)
               }),
-              se(I(et), {
+              se(I(tt), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -72447,13 +72450,13 @@ const Ep = (function() {
             modal: ""
           }, {
             footer: ve(() => [
-              se(I(et), {
+              se(I(tt), {
                 label: "Нет",
                 icon: "pi pi-times",
                 class: "p-button-text",
                 onClick: ce[8] || (ce[8] = (Pe) => q.value = !1)
               }),
-              se(I(et), {
+              se(I(tt), {
                 label: "Да",
                 icon: "pi pi-check",
                 class: "p-button-text",
@@ -75417,7 +75420,7 @@ const yee = (e) => (Qi("data-v-ca747bc0"), e = e(), er(), e), wee = { key: 0 }, 
     return t({ refresh: () => {
       f();
     } }), (k, P) => r.value ? (p(), w("span", wee, "Загрузка")) : I(l) ? (p(), w(Ae, { key: 1 }, [
-      se(I(et), {
+      se(I(tt), {
         icon: "pi pi-bars",
         class: "pv-menu-mobile-btn",
         text: "",
@@ -81695,7 +81698,7 @@ var Pm = 3.14159265358979, fS = {
     }
   },
   components: {
-    Button: et,
+    Button: tt,
     PlusIcon: fc
   },
   directives: {
@@ -82036,7 +82039,7 @@ var Une = function(t) {
   components: {
     PlusIcon: fc,
     MinusIcon: zp,
-    Button: et
+    Button: tt
   },
   directives: {
     ripple: io
@@ -82247,7 +82250,7 @@ const Soe = {
   }
 };
 typeof window < "u" && !window.PVTables && (window.PVTables = {
-  Button: et,
+  Button: tt,
   Dialog: Fn,
   ToggleSwitch: Ts,
   Checkbox: mr,
@@ -82363,6 +82366,6 @@ export {
   Pb as v,
   Tee as w,
   Eee as x,
-  et as y,
+  tt as y,
   Fn as z
 };
