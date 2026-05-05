@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-CaBw4R-B.js")).catch(function(h) {
+  return (cn.canvg ? Promise.resolve(cn.canvg) : import("./index.es-CLW8ZWRM.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -62701,14 +62701,13 @@ const mU = {
               return qn.length ? qn.join(" ") : String(Te);
             }
             case "select": {
-              const Rt = gi(ye.field, Te);
-              if (Rt) return Rt;
-              const qn = me.value[tt.id]?.[ye.field]?.select_data;
-              if (qn) {
-                const bn = qn.find((On) => String(On.id) === String(Te));
+              const Rt = me.value[tt.id]?.[ye.field]?.select_data;
+              if (Rt) {
+                const bn = Rt.find((On) => String(On.id) === String(Te));
                 if (bn) return bn.content ?? bn.label ?? String(Te);
               }
-              return String(Te);
+              const qn = gi(ye.field, Te);
+              return qn || String(Te);
             }
             default: {
               const Rt = String(Te);
