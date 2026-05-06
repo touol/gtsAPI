@@ -253,41 +253,49 @@ trait TableExportTrait
 
             $rows = $dataResponse['data']['rows'];
             $autocompletes = $dataResponse['data']['autocomplete'] ?? [];
+            $customFields = $dataResponse['data']['customFields'] ?? [];
             $currentRow = $startRow + 1;
 
             // Записываем данные
             foreach ($rows as $row) {
                 $col = 'A';
-                
+                $rowId = $row['id'] ?? null;
+
                 foreach ($headers as $header) {
                     $value = '';
-                    
-                    switch ($header['type']) {
+                    $fieldName = $header['field'];
+
+                    // customField для конкретной (rowId, fieldName) — может переопределять
+                    // type/bold/прочее. Используется триггерами (например для синтетических
+                    // header/subtotal строк: type='text' + bold=true).
+                    $cf = ($rowId !== null && isset($customFields[$rowId][$fieldName]))
+                        ? $customFields[$rowId][$fieldName] : null;
+
+                    // Если customField задаёт type — он перекрывает header type.
+                    $effectiveType = $cf['type'] ?? $header['type'];
+
+                    switch ($effectiveType) {
                         case 'autocomplete_id':
-                            $value = $row[$header['field']] ?? '';
+                            $value = $row[$fieldName] ?? '';
                             break;
-                            
+
                         case 'autocomplete_display':
-                            $fieldName = $header['field'];
-                            $fieldValue = $row[$fieldName] ?? '';
-                            
-                            if (!empty($fieldValue) && isset($autocompletes[$fieldName])) {
-                                // Ищем значение в загруженных автокомплитах
+                            $fv = $row[$fieldName] ?? '';
+                            if (!empty($fv) && isset($autocompletes[$fieldName])) {
                                 foreach ($autocompletes[$fieldName]['rows'] as $autocompleteRow) {
-                                    if ($autocompleteRow['id'] == $fieldValue) {
-                                        $value = $autocompleteRow['content'] ?? $autocompleteRow['name'] ?? $autocompleteRow['title'] ?? $fieldValue;
+                                    if ($autocompleteRow['id'] == $fv) {
+                                        $value = $autocompleteRow['content'] ?? $autocompleteRow['name'] ?? $autocompleteRow['title'] ?? $fv;
                                         break;
                                     }
                                 }
                             }
                             break;
-                            
+
                         case 'multiautocomplete':
                             $parentField = $header['parent_field'];
                             $searchField = $header['search_field'];
                             $value = $row[$searchField] ?? '';
-                            
-                            // Используем данные из autocompletes для multiautocomplete
+
                             if (!empty($value) && isset($autocompletes[$parentField]['searchFields'][$searchField])) {
                                 foreach ($autocompletes[$parentField]['searchFields'][$searchField]['rows'] as $autocompleteRow) {
                                     if ($autocompleteRow['id'] == $value) {
@@ -297,9 +305,9 @@ trait TableExportTrait
                                 }
                             }
                             break;
-                            
+
                         case 'date':
-                            $value = $row[$header['field']] ?? '';
+                            $value = $row[$fieldName] ?? '';
                             if (!empty($value)) {
                                 // Избегаем TZ-сдвига: строим Excel-serial из Y-m-d без strtotime.
                                 if (preg_match('/^(\d{4})-(\d{2})-(\d{2})/', $value, $m)) {
@@ -312,16 +320,27 @@ trait TableExportTrait
                             break;
 
                         case 'html':
-                            $raw = $row[$header['field']] ?? '';
+                            $raw = $row[$fieldName] ?? '';
                             $value = $this->htmlToPlainText($raw);
                             break;
 
+                        case 'text':
+                            // customField type=text: значение как есть, без преобразований.
+                            $value = $row[$fieldName] ?? '';
+                            break;
+
                         default:
-                            $value = $row[$header['field']] ?? '';
+                            $value = $row[$fieldName] ?? '';
                             break;
                     }
-                    
+
                     $sheet->setCellValue($col . $currentRow, $value);
+
+                    // bold из customField
+                    if ($cf !== null && !empty($cf['bold'])) {
+                        $sheet->getStyle($col . $currentRow)->getFont()->setBold(true);
+                    }
+
                     $col++;
                 }
                 $currentRow++;
