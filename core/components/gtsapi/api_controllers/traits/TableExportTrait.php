@@ -329,6 +329,11 @@ trait TableExportTrait
                             $value = $row[$fieldName] ?? '';
                             break;
 
+                        case 'empty':
+                            // customField type=empty: явно пустая ячейка (синтетические header/итог строки).
+                            $value = '';
+                            break;
+
                         default:
                             $value = $row[$fieldName] ?? '';
                             break;
