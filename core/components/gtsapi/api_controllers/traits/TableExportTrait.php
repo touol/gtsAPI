@@ -102,9 +102,14 @@ trait TableExportTrait
                                         }
                                         
                                         $label = $fieldConfig['label'] ?? $fieldName;
-                                        $sheet->setCellValue('A' . $currentRow, $label . ':');
+                                        if ($label !== '') {
+                                            $sheet->setCellValue('A' . $currentRow, $label . ':');
+                                            $sheet->getStyle('A' . $currentRow)->getFont()->setBold(true);
+                                        }
                                         $sheet->setCellValue('B' . $currentRow, $mainDisplayValue);
-                                        $sheet->getStyle('A' . $currentRow)->getFont()->setBold(true);
+                                        if (!empty($fieldConfig['bold'])) {
+                                            $sheet->getStyle('B' . $currentRow)->getFont()->setBold(true);
+                                        }
                                         $currentRow++;
                                         
                                         // Теперь обрабатываем search поля
@@ -133,9 +138,14 @@ trait TableExportTrait
                                                                     }
                                                                     
                                                                     $searchLabel = $searchFieldConfig['label'] ?? $searchFieldKey;
-                                                                    $sheet->setCellValue('A' . $currentRow, $searchLabel . ':');
+                                                                    if ($searchLabel !== '') {
+                                                                        $sheet->setCellValue('A' . $currentRow, $searchLabel . ':');
+                                                                        $sheet->getStyle('A' . $currentRow)->getFont()->setBold(true);
+                                                                    }
                                                                     $sheet->setCellValue('B' . $currentRow, $searchDisplayValue);
-                                                                    $sheet->getStyle('A' . $currentRow)->getFont()->setBold(true);
+                                                                    if (!empty($searchFieldConfig['bold'])) {
+                                                                        $sheet->getStyle('B' . $currentRow)->getFont()->setBold(true);
+                                                                    }
                                                                     $currentRow++;
                                                                 }
                                                             }
@@ -152,9 +162,14 @@ trait TableExportTrait
                         // Для multiautocomplete не выводим основное поле внизу
                         if (!(isset($fieldConfig['type']) && $fieldConfig['type'] === 'multiautocomplete')) {
                             $label = $fieldConfig['label'] ?? $fieldName;
-                            $sheet->setCellValue('A' . $currentRow, $label . ':');
+                            if ($label !== '') {
+                                $sheet->setCellValue('A' . $currentRow, $label . ':');
+                                $sheet->getStyle('A' . $currentRow)->getFont()->setBold(true);
+                            }
                             $sheet->setCellValue('B' . $currentRow, $value);
-                            $sheet->getStyle('A' . $currentRow)->getFont()->setBold(true);
+                            if (!empty($fieldConfig['bold'])) {
+                                $sheet->getStyle('B' . $currentRow)->getFont()->setBold(true);
+                            }
                             $currentRow++;
                         }
                     }
