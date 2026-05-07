@@ -82,8 +82,10 @@ trait TableFilterTrait
             $fieldExistsInSelect = true;
         }
 
-        // Поля с точкой (например Orgs2ContactLink.org_id) явно ссылаются на join-таблицу — не проверяем по select
-        if (!$fieldExistsInSelect && strpos($name, '.') === false) {
+        // Поля с точкой (например Orgs2ContactLink.org_id) явно ссылаются на join-таблицу — не проверяем по select.
+        // Исключение: 'parents_ids' — спец-фильтр для tree-структур (где: parents_ids LIKE '%#X#%'),
+        // его поле не обязано быть в select.
+        if (!$fieldExistsInSelect && strpos($name, '.') === false && $name !== 'parents_ids') {
             return $where;
         }
         
