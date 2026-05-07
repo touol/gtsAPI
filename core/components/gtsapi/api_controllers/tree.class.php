@@ -870,22 +870,23 @@ class treeAPIController{
             'rows'=>$rows0,
         ];
         if($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
-        
+
         if(empty($rows0)){
             $out['slTree'] = [];
         }else{
             $out['slTree'] = $this->getslTree($slTreeSettings,$rows0,$rootIds);
         }
         $resp = $this->run_triggers($rule, 'after', 'read', $request, $out);
-        
+
         if(!$resp['success']) return $resp;
-        
+
         if(!empty($resp['data']['out'])) $out = $resp['data']['out'];
         if(isset($resp['data']['out']['rows'])){
             $rows0 = $resp['data']['out']['rows'];
             if(empty($rows0)){
                 $out['slTree'] = [];
             }else{
+                $out['rows'] = $rows0;
                 $out['slTree'] = $this->getslTree($slTreeSettings,$rows0,$rootIds);
             }
         }
@@ -961,8 +962,15 @@ class treeAPIController{
         $node = [];
         if(!empty($node0['children'])){
             $children = $node0['children'];
-            usort($children, function ($item1, $item2) {
-                return $item1['menuindex'] >= $item2['menuindex'];
+            // Сначала папки (isLeaf=false), затем листья (isLeaf=true). Внутри группы — по menuindex, потом по id.
+            usort($children, function ($a, $b) {
+                $aLeaf = !empty($a['isLeaf']) ? 1 : 0;
+                $bLeaf = !empty($b['isLeaf']) ? 1 : 0;
+                if ($aLeaf !== $bLeaf) return $aLeaf - $bLeaf;
+                $am = (int)($a['menuindex'] ?? 0);
+                $bm = (int)($b['menuindex'] ?? 0);
+                if ($am !== $bm) return $am - $bm;
+                return ((int)($a['id'] ?? 0)) - ((int)($b['id'] ?? 0));
             });
             unset($node0['children']);
         }
