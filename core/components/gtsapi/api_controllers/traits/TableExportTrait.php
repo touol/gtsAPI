@@ -334,6 +334,19 @@ trait TableExportTrait
                             }
                             break;
 
+                        case 'datetime':
+                            $value = $row[$fieldName] ?? '';
+                            if (!empty($value)) {
+                                if (preg_match('/^(\d{4})-(\d{2})-(\d{2})[\sT](\d{2}):(\d{2}):(\d{2})/', $value, $m)) {
+                                    $value = PHPExcel_Shared_Date::FormattedPHPToExcel(
+                                        (int)$m[1], (int)$m[2], (int)$m[3],
+                                        (int)$m[4], (int)$m[5], (int)$m[6]
+                                    );
+                                    $sheet->getStyle($col . $currentRow)->getNumberFormat()->setFormatCode('dd.mm.yyyy hh:mm:ss');
+                                }
+                            }
+                            break;
+
                         case 'html':
                             $raw = $row[$fieldName] ?? '';
                             $value = $this->htmlToPlainText($raw);
