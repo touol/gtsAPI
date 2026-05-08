@@ -242,11 +242,10 @@ class treeAPIController{
         $class = $rule['class'];
         // Получаем имя таблицы из класса
         $table_name = $this->modx->getTableName($class);
-        
+
         $slTreeSettings = $this->get_slTreeSettings($rule);
         $position = $request['position1'];
         $isCopy  = $request['copy'];
-        // $this->modx->log(1,"nodedrop $isCopy");
 
         if($slTreeSettings['useUniTree']){
             foreach($request['nodes1'] as $node){
@@ -408,8 +407,13 @@ class treeAPIController{
                             }
                         break;
                     }
+
+                    // После перемещения узла дёргаем триггер на классе target'а
+                    // (например osEmployee) — нужно для синков и побочных действий.
+                    // method='nodedrop' — триггер видит что это именно перемещение в дереве.
+                    $this->fireNodedropTrigger($rule, $request, $obj, $slTreeSettings);
                 }
-                
+
             }
 
         }else{
@@ -477,11 +481,35 @@ class treeAPIController{
                             }
                         break;
                     }
+
+                    // Тот же триггер для legacy non-UniTree варианта
+                    $this->fireNodedropTrigger($rule, $request, $source, $slTreeSettings);
                 }
             }
         }
         return $this->success('success');
     }
+    /**
+     * Дёргаем gtsapifunc-триггер на классе target'а узла после nodedrop.
+     * Для UniTree (osTree, osDepartment-tree и т.п.) target класс берётся из
+     * поля classField. Для не-UniTree — это сам класс таблицы дерева.
+     */
+    protected function fireNodedropTrigger($rule, $request, $obj, $slTreeSettings) {
+        if (empty($slTreeSettings['useUniTree'])) {
+            // Не-UniTree: target класс == класс таблицы (нет колонки 'class')
+            $targetClass = $rule['class'];
+            $targetObj = $obj;
+        } else {
+            $targetClass = (string)$obj->get($slTreeSettings['classField']);
+            $targetId    = (int)$obj->get('target_id');
+            if (!$targetClass || !$targetId) return;
+            $targetObj = $this->modx->getObject($targetClass, $targetId);
+            if (!$targetObj) return;
+        }
+        $targetNew = $targetObj->toArray();
+        $this->run_triggers($rule, 'after', 'nodedrop', $request, [], $targetNew, $targetObj, $targetClass);
+    }
+
     public function watch_form($rule,$request){
         try {
             $class = $rule['class'];
