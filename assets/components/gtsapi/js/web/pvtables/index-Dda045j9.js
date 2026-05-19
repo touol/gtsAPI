@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-DgWmHI-J.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-D-xdy-jh.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -61786,7 +61786,7 @@ const mU = {
                     r.value = $;
                   } : void 0,
                   class: "tan-filter-popover-input",
-                  type: e.colType === "date" ? "date" : "text",
+                  type: e.colType === "date" ? "date" : e.colType === "datetime" ? "datetime-local" : "text",
                   value: J.value,
                   placeholder: "Значение…",
                   onInput: ($) => i("update:constraint-value", { idx: G, value: $.target.value }),
