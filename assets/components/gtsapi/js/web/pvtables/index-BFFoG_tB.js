@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-D-xdy-jh.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-CLyWwSKz.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -60915,6 +60915,7 @@ function rk({
     autocomplete: ["equals", "notEquals"],
     select: ["equals", "notEquals"],
     date: ["dateAfter", "dateBefore", "equals"],
+    datetime: ["dateAfter", "dateBefore", "equals"],
     boolean: ["equals"]
   }, P = {
     startsWith: "Начинается с",
