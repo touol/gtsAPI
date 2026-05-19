@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-CEj4MYa-.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-3w91x-ED.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -57388,6 +57388,10 @@ const Lb = /* @__PURE__ */ Tn(fj, [["render", zK], ["__scopeId", "data-v-b8be86b
       type: Boolean,
       default: !1
     },
+    embeddedInRow: {
+      type: Boolean,
+      default: !1
+    },
     class_key: {
       type: [String],
       default: ""
@@ -57591,13 +57595,14 @@ const Lb = /* @__PURE__ */ Tn(fj, [["render", zK], ["__scopeId", "data-v-b8be86b
                     key: ee.key,
                     onRefreshTable: L[1] || (L[1] = (Z) => g(!1)),
                     child: !0,
+                    embeddedInRow: e.embeddedInRow,
                     scrollHeight: e.autoUpdateHeights ? u.value[ee.key] || "400px" : void 0,
                     ref_for: !0,
                     ref: (Z) => {
                       Z && (a.value[ee.key] = Z);
                     },
                     onGetResponse: L[2] || (L[2] = (Z) => b(Z))
-                  }, null, 8, ["table", "actions", "filters", "sorting", "scrollHeight"]))), 128)) : (p(), V(xu, {
+                  }, null, 8, ["table", "actions", "filters", "sorting", "embeddedInRow", "scrollHeight"]))), 128)) : (p(), V(xu, {
                     table: A.table,
                     actions: e.actions,
                     filters: e.filters[A.key],
@@ -57606,13 +57611,14 @@ const Lb = /* @__PURE__ */ Tn(fj, [["render", zK], ["__scopeId", "data-v-b8be86b
                     key: A.key,
                     onRefreshTable: L[3] || (L[3] = (ee) => g(!1)),
                     child: !0,
+                    embeddedInRow: e.embeddedInRow,
                     scrollHeight: e.autoUpdateHeights ? u.value[A.key] || "400px" : void 0,
                     ref_for: !0,
                     ref: (ee) => {
                       ee && (a.value[A.key] = ee);
                     },
                     onGetResponse: L[4] || (L[4] = (ee) => b(ee))
-                  }, null, 8, ["table", "actions", "filters", "sorting", "scrollHeight"]))
+                  }, null, 8, ["table", "actions", "filters", "sorting", "embeddedInRow", "scrollHeight"]))
                 ]),
                 _: 2
               }, 1032, ["value"]))), 256))
@@ -62399,6 +62405,7 @@ const mU = {
     filters: { type: Object, default: () => ({}) },
     sorting: { type: Array, default: () => [] },
     child: { type: Boolean, default: !1 },
+    embeddedInRow: { type: Boolean, default: !1 },
     scrollHeight: { type: String, default: "85vh" },
     autoFitHeight: { type: Boolean, default: !1 },
     emptyRowsCount: { type: Number, default: 0 }
@@ -63062,7 +63069,7 @@ const mU = {
           }
           Zt.push(Te[Xt]), et.push(Xt);
         }
-        if (R.value = et, d.value = Zt, $.value = Te, Qe.data.fields_style && (pl.value = Qe.data.fields_style), or(), i.child && !Li.value) {
+        if (R.value = et, d.value = Zt, $.value = Te, Qe.data.fields_style && (pl.value = Qe.data.fields_style), or(), i.embeddedInRow && !Li.value) {
           const Xt = { ...Hn.value }, Ha = Object.values(Xt).reduce((Pa, es) => Pa + es, 0);
           if (Ha > 0) {
             const Pa = Ha - 120, es = Pa / Ha, iu = Object.keys(Xt), Gi = {};
@@ -63380,6 +63387,7 @@ const mU = {
                             filters: I(to)?.[gn.value[Te.index].row.original._rowKey],
                             onRefreshTable: xe[11] || (xe[11] = (et) => Ge(!1)),
                             child: !0,
+                            embeddedInRow: !0,
                             ref_for: !0,
                             ref: (et) => {
                               et && (Eo.value[gn.value[Te.index].row.original._rowKey] = et);
@@ -63394,6 +63402,7 @@ const mU = {
                             filters: I(to)?.[gn.value[Te.index].row.original._rowKey],
                             onRefreshTable: xe[13] || (xe[13] = (et) => Ge(!1)),
                             child: !0,
+                            embeddedInRow: !0,
                             ref_for: !0,
                             ref: (et) => {
                               et && (Eo.value[gn.value[Te.index].row.original._rowKey] = et);
@@ -70218,7 +70227,13 @@ const LZ = {
     },
     child: {
       type: Boolean,
-      //и не понятно зачем это. Вроде нет использования переменной.
+      // Универсальный «вложенная таблица» — влияет на skip URL filters и mobile scroll
+      default: !1
+    },
+    embeddedInRow: {
+      // Узкая семантика: таблица отрендерена ВНУТРИ row-expansion (subtables/subtabs).
+      // Активирует scale-down ширин в TanTable (-120px). НЕ ставить для PVTabs-табов.
+      type: Boolean,
       default: !1
     },
     styleTable: {
@@ -70632,11 +70647,12 @@ const LZ = {
           scrollHeight: I(po),
           autoFitHeight: I(Do),
           child: e.child,
+          embeddedInRow: e.embeddedInRow,
           emptyRowsCount: e.emptyRowsCount,
           onGetResponse: Ne[3] || (Ne[3] = (Fe) => o("get-response", Fe)),
           onRefreshTable: Ne[4] || (Ne[4] = (Fe) => o("refresh-table", Fe)),
           onSwitchEngine: Ge
-        }, null, 8, ["table", "actions", "filters", "sorting", "scrollHeight", "autoFitHeight", "child", "emptyRowsCount"])) : (p(), w("div", LZ, [
+        }, null, 8, ["table", "actions", "filters", "sorting", "scrollHeight", "autoFitHeight", "child", "embeddedInRow", "emptyRowsCount"])) : (p(), w("div", LZ, [
           le(I(yu), {
             ref_key: "op",
             ref: ai
@@ -70987,6 +71003,7 @@ const LZ = {
                   filters: I(pl)[Fe.data._rowKey],
                   onRefreshTable: Ne[18] || (Ne[18] = (nt) => Et(!1)),
                   child: !0,
+                  embeddedInRow: !0,
                   ref: (nt) => {
                     nt && (I(Li)[Fe.data._rowKey] = nt);
                   },
@@ -71001,6 +71018,7 @@ const LZ = {
                   filters: I(pl)[Fe.data._rowKey],
                   onRefreshTable: Ne[20] || (Ne[20] = (nt) => Et(!1)),
                   child: !0,
+                  embeddedInRow: !0,
                   ref: (nt) => {
                     nt && (I(Li)[Fe.data._rowKey] = nt);
                   },
