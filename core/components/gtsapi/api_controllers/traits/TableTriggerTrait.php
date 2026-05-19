@@ -9,7 +9,7 @@ trait TableTriggerTrait
     /**
      * Запуск триггеров
      */
-    public function run_triggers($rule, $type, $method, $fields, $object_old = [], &$object_new = [], $object = null, $internal_action = '')
+    public function run_triggers(&$rule, $type, $method, &$fields, $object_old = [], &$object_new = [], $object = null, $internal_action = '')
     {
         $class = $rule['class'];
         if (empty($class)) return $this->success('Выполнено успешно');
@@ -48,12 +48,15 @@ trait TableTriggerTrait
             if (isset($triggers[$class]['gtsapifunc']) and isset($triggers[$class]['model'])) {
                 $service = $this->models[$triggers[$class]['model']];
                 if (method_exists($service, $triggers[$class]['gtsapifunc'])) {
+                    // rule и fields передаём по ссылке — triggеры before-read могут
+                    // модифицировать query/leftJoin/where на лету (нужно для дин. подсчётов
+                    // зависящих от внешних параметров типа doc_id из request filters).
                     $params = [
-                        'rule' => $rule,
+                        'rule' => &$rule,
                         'class' => $class,
                         'type' => $type,
                         'method' => $method,
-                        'fields' => $fields,
+                        'fields' => &$fields,
                         'object_old' => $object_old,
                         'object_new' => &$object_new,
                         'object' => &$object,
