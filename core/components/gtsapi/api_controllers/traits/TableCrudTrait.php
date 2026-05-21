@@ -716,11 +716,12 @@ trait TableCrudTrait
                 
                 foreach ($objs as $obj) {
                     $object_old = $obj->toArray();
-                    $resp = $this->run_triggers($rule, 'before', 'delete', [], $object_old);
+                    $emptyFields = []; // run_triggers принимает $fields по ссылке — нужна переменная, не литерал
+                    $resp = $this->run_triggers($rule, 'before', 'delete', $emptyFields, $object_old);
                     if (!$resp['success']) return $resp;
 
                     if ($obj->remove()) {
-                        $resp = $this->run_triggers($rule, 'after', 'delete', [], $object_old);
+                        $resp = $this->run_triggers($rule, 'after', 'delete', $emptyFields, $object_old);
                         if (!$resp['success']) return $resp;
                         $this->writeLog($rule, 'delete', $object_old['id'], $object_old, null);
                     }

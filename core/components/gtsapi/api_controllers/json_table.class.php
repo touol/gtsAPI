@@ -34,7 +34,8 @@ class jsonTableAPIController extends tableAPIController{
             foreach($rows0 as $k1=>$row){
                 if(in_array((string)$row['id'], $ids)){
                     $object_old = $row;
-                    $resp = $this->run_triggers($rule, 'before', 'remove', [], $object_old);
+                    $emptyFields = []; // run_triggers принимает $fields по ссылке — не литерал
+                    $resp = $this->run_triggers($rule, 'before', 'remove', $emptyFields, $object_old);
                     if(!$resp['success']) return $resp;
                     switch(count($keys)){
                         case 0:
@@ -60,7 +61,7 @@ class jsonTableAPIController extends tableAPIController{
             }
             $obj->set($rule['properties']['json_path']['field'],json_encode($rows2));
             if($obj->save()){
-                $resp = $this->run_triggers($rule, 'after', 'remove', [], $object_old);
+                $resp = $this->run_triggers($rule, 'after', 'remove', $emptyFields, $object_old);
                 if(!$resp['success']) return $resp;
                 return $this->success('delete',['ids'=>$request['ids']]);
             }
