@@ -856,6 +856,24 @@ $config = require(dirname(__FILE__) . '/config.inc.php');
 $install = new SkladNarydPackage(MODX_CORE_PATH, $config);
 $builder = $install->process();
 
+// ── Авто-прогон smoke-тестов gtsAPI (только если установлен GtsApiTests, т.е. на dev) ──
+// На прод GtsApiTests не деплоится → файла нет → пропуск.
+// При падении тестов — громкий warning в stderr, но build уже отработал (откатывать поздно).
+$smokePath = MODX_BASE_PATH . 'Extras/GtsApiTests/tests/smoke.php';
+if (file_exists($smokePath)) {
+    echo "\n═══ Прогон GtsApiTests smoke-тестов ═══\n";
+    $phpBin = defined('PHP_BINARY') && PHP_BINARY ? PHP_BINARY : 'php';
+    $cmd = escapeshellarg($phpBin) . ' ' . escapeshellarg($smokePath);
+    passthru($cmd, $smokeExit);
+    if ($smokeExit !== 0) {
+        fwrite(STDERR, "\n⚠️  GtsApiTests smoke FAILED (exit {$smokeExit}). gtsAPI установлен, но регрессии надо чинить ДО push на прод.\n\n");
+    } else {
+        echo "✓ Smoke OK\n";
+    }
+} else {
+    echo "\n(GtsApiTests не установлен — smoke-тесты пропущены, это норма для прода.)\n";
+}
+
 if (!empty($config['download'])) {
     $name = $builder->getSignature() . '.transport.zip';
     if ($content = file_get_contents(MODX_CORE_PATH . '/packages/' . $name)) {
