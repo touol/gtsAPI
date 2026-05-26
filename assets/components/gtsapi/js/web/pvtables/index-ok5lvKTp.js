@@ -49101,7 +49101,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-Dbd5XClH.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-P9itA34U.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -63120,14 +63120,20 @@ const gU = {
       },
       getScrollElement: () => yr.value,
       estimateSize: (ye) => bn.value[ye]?.type === "expansion" ? 250 : 34,
-      measureElement: (ye) => ye?.getBoundingClientRect().height ?? 34,
+      // Защита от h=0 в момент перерисовки/transition: возвращаем минимум 34
+      // (estimate), иначе кеш получит 0 и следующая строка наедет.
+      measureElement: (ye) => {
+        const Ce = ye?.getBoundingClientRect().height ?? 0;
+        return Ce > 0 ? Ce : 34;
+      },
       overscan: 8,
       getItemKey: (ye) => bn.value[ye]?.key ?? String(ye)
     });
     Wt(te, () => {
+      Br.value?.measure?.();
       const ye = ot?.();
       Co(() => {
-        if (Br.value?.measure?.(), !ye && !Du)
+        if (!ye && !Du)
           yr.value && (yr.value.scrollTop = 0);
         else if (C.value) {
           const Ce = C.value.data?.id, Je = C.value.data?._rowKey, Re = C.value.col?.field;
