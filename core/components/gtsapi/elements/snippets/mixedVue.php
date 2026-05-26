@@ -60,7 +60,11 @@ if(!$debug){
         );
     }
     $v = 0;
-    if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => $name_lower])) {
+    $c2 = $modx->newQuery('transport.modTransportPackage');
+    $c2->where(['package_name:LIKE' => $name_lower]);
+    $c2->sortby('updated', 'DESC');
+    $c2->limit(1);
+    if($package = $modx->getObject('transport.modTransportPackage', $c2)) {
         $v = strtotime($package->updated);
     }
     $assets_url = $modx->getOption('assets_url').'components/'

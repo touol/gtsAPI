@@ -2,7 +2,16 @@
 /** @var modX $modx */
 /** @var array $scriptProperties */
 $vapi = 6;
-if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => '%gtsapi%'])) {
+// В modx_transport_packages для одного компонента остаются ВСЕ исторические
+// версии (PK = signature). getObject без сортировки берёт первую по signature ASC →
+// попадает на самую старую версию (например gtsapi-1.0.0-beta от 2024), её updated
+// фиксирован, и cache-buster ?v=... никогда не меняется. Нужно явно сортировать
+// по updated DESC чтобы получить актуальную установленную версию.
+$c = $modx->newQuery('transport.modTransportPackage');
+$c->where(['package_name:LIKE' => '%gtsapi%']);
+$c->sortby('updated', 'DESC');
+$c->limit(1);
+if($package = $modx->getObject('transport.modTransportPackage', $c)) {
     $vapi = strtotime($package->updated);
 }
 if($_SERVER['SERVER_PORT'] == 80){

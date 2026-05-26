@@ -30,7 +30,14 @@ if (isset($enableCache)) {
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/lara-light-green/theme.css');
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/'.'css/web/primevue/primeflex.min.css');
 // $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/css/web/primeicons/primeicons.min.css');
-if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => '%gtsapi%'])) {
+// PK таблицы modx_transport_packages = signature, поэтому без sortby getObject
+// берёт первую (старую) версию пакета — её updated фиксирован, ?v=... не обновляется.
+// Берём актуальную по updated DESC.
+$c = $modx->newQuery('transport.modTransportPackage');
+$c->where(['package_name:LIKE' => '%gtsapi%']);
+$c->sortby('updated', 'DESC');
+$c->limit(1);
+if($package = $modx->getObject('transport.modTransportPackage', $c)) {
     $vapi = strtotime($package->updated);
 }
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/pvtables.css?v='.$vapi);
@@ -58,7 +65,11 @@ if(!$debug){
     }
 
     $v = 0;
-    if($package = $modx->getObject('transport.modTransportPackage', ['package_name:LIKE' => $name_lower])) {
+    $c2 = $modx->newQuery('transport.modTransportPackage');
+    $c2->where(['package_name:LIKE' => $name_lower]);
+    $c2->sortby('updated', 'DESC');
+    $c2->limit(1);
+    if($package = $modx->getObject('transport.modTransportPackage', $c2)) {
         $v = strtotime($package->installed);
     }
     $assets_url = $modx->getOption('assets_url').'components/'
