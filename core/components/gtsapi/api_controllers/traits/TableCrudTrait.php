@@ -634,7 +634,7 @@ trait TableCrudTrait
                     $readRequest['filters'] = $request['filters'];
                 }
                 $readResp = $this->read($rule, $readRequest, null, [], 'update');
-                
+
                 if ($readResp['success'] && !empty($readResp['data']['rows'])) {
                     $resp['data']['object'] = $readResp['data']['rows'][0];
                 } else {
