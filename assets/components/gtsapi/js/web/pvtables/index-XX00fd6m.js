@@ -49131,7 +49131,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-yUOxkExI.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-5GD_YZAX.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -63147,7 +63147,7 @@ const hU = {
       getItemKey: (ge) => vn.value[ge]?.key ?? String(ge)
     }), Mo = () => {
       const ge = Br.value;
-      ge && (ge.measure?.(), ge.measurementsCache = [], ge.pendingMeasuredCacheIndexes = []);
+      ge && (ge.measurementsCache = [], ge.pendingMeasuredCacheIndexes = [], ge.itemSizeCache = new Map(ge.itemSizeCache));
     };
     Gt([Hi, Jr], () => {
       Mo();
