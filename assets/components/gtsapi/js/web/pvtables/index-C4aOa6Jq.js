@@ -49131,7 +49131,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-3zmnj3R_.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-yUOxkExI.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -57769,14 +57769,15 @@ const Eb = /* @__PURE__ */ Ln(pj, [["render", jK], ["__scopeId", "data-v-b8be86b
         key: 0,
         "custom-print-handler": s,
         "page-key": e.pageKey,
+        compact: e.compact,
         onPrintSuccess: u,
         onPrintError: c,
         ref_key: "printBtn",
         ref: i
-      }, null, 40, ["page-key"])) : N("", !0)
+      }, null, 40, ["page-key", "compact"])) : N("", !0)
     ], 2));
   }
-}, Ab = /* @__PURE__ */ Ln(HK, [["__scopeId", "data-v-3fd649aa"]]), Mb = (e) => (Ni("data-v-db933d79"), e = e(), $i(), e), UK = { class: "datatable-status-bar" }, GK = { class: "status-info" }, qK = { class: "status-item" }, WK = /* @__PURE__ */ Mb(() => /* @__PURE__ */ k("i", { class: "pi pi-check-square" }, null, -1)), YK = {
+}, Ab = /* @__PURE__ */ Ln(HK, [["__scopeId", "data-v-6559eb17"]]), Mb = (e) => (Ni("data-v-db933d79"), e = e(), $i(), e), UK = { class: "datatable-status-bar" }, GK = { class: "status-info" }, qK = { class: "status-item" }, WK = /* @__PURE__ */ Mb(() => /* @__PURE__ */ k("i", { class: "pi pi-check-square" }, null, -1)), YK = {
   key: 0,
   class: "status-item"
 }, JK = /* @__PURE__ */ Mb(() => /* @__PURE__ */ k("i", { class: "pi pi-chart-line" }, null, -1)), ZK = {
@@ -60800,7 +60801,7 @@ function cU({ tableName: e, api: t, notify: n, scrollRef: o, actionsRow: r, rowA
       requestAnimationFrame(() => F());
       return;
     }
-    const ue = (c?.value ?? 32) + 2, ae = 80, fe = r.value ? i.value.reduce((ce, Se) => ce + (Se.isRowPrint ? ae : ue) + 5, 0) + (s?.value ? ue : 0) + 8 : 0, me = (f?.value ? 28 : 0) + // __drag__
+    const ue = (c?.value ?? 32) + 2, ae = 65, fe = r.value ? i.value.reduce((ce, Se) => ce + (Se.isRowPrint ? ae : ue) + 5, 0) + (s?.value ? ue : 0) + 8 : 0, me = (f?.value ? 28 : 0) + // __drag__
     38 + // __select__
     (l?.value ? 34 : 0) + // __expand__ (только для table_tree)
     fe, Le = a.value;
@@ -62494,7 +62495,7 @@ const hU = {
 }, tW = {
   key: 0,
   style: { "min-width": "220px", "max-width": "400px" }
-}, nW = 80, oW = {
+}, nW = 65, oW = {
   __name: "TanTable",
   props: {
     table: { type: String, required: !0 },
