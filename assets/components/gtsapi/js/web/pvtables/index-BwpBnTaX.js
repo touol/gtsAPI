@@ -49131,7 +49131,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-Dzeg8LYx.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-DemGQTbT.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -62710,7 +62710,7 @@ const hU = {
     }, Ct = st(() => ({
       id: "__actions__",
       size: _t.value.reduce(
-        (ge, Se) => ge + (Se.isRowPrint ? nW : bi.value + 2),
+        (ge, Se) => ge + (Se.isRowPrint ? nW : bi.value + 2) + 5,
         0
       ) + (tn.value ? bi.value + 2 : 0) + 8,
       minSize: bi.value + 2,
@@ -63497,7 +63497,8 @@ const hU = {
                           "tan-td-selected": I(Gi) && I(hs)(ya(Ze.row), Qr(Ze.column.id)),
                           "tan-td-fill-range": I(Gi) && I(Xr)(ya(Ze.row), Qr(Ze.column.id)),
                           "tan-frozen-right": L.value === "right" && Ze.column.id === "__actions__",
-                          "tan-frozen-left": L.value === "left" && Ze.column.id === "__actions__"
+                          "tan-frozen-left": L.value === "left" && Ze.column.id === "__actions__",
+                          "tan-td-actions": Ze.column.id === "__actions__"
                         }
                       ]]),
                       onClick: (Kt) => Ze.column.columnDef.meta && rr(Ze, Kt),
