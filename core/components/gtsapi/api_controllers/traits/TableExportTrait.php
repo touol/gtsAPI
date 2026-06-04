@@ -659,7 +659,8 @@ trait TableExportTrait
         $html .= '<thead><tr>';
         
         foreach ($headers as $header) {
-            $html .= '<th>' . htmlspecialchars($header['label']) . '</th>';
+            $colClass = 'col-' . htmlspecialchars($header['field'] ?? '');
+            $html .= '<th class="' . $colClass . '">' . htmlspecialchars($header['label']) . '</th>';
         }
         
         $html .= '</tr></thead><tbody>';
@@ -709,7 +710,8 @@ trait TableExportTrait
                         break;
                 }
 
-                $html .= '<td>' . htmlspecialchars($value) . '</td>';
+                $colClass = 'col-' . htmlspecialchars($header['field'] ?? '');
+                $html .= '<td class="' . $colClass . '">' . htmlspecialchars($value) . '</td>';
             }
             
             $html .= '</tr>';
