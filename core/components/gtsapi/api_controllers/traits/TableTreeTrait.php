@@ -107,8 +107,8 @@ trait TableTreeTrait
     /**
      * Изменить порядок строк через drag-and-drop.
      * Принимает $request['order'] — массив ID в новом порядке.
-     * Назначает sortfield = 10, 20, 30... по этому порядку.
-     * Настройка: row_drag: { sortfield: "sortfield", parentsort: "parent_field" }
+     * Назначает sortfield = step, step*2, step*3... по этому порядку (default step=10).
+     * Настройка: row_drag: { sortfield: "sortfield", parentsort: "parent_field", step: 10 }
      */
     public function sortableReorder($rule, $request)
     {
@@ -117,17 +117,19 @@ trait TableTreeTrait
         if (!$rowDragConfig) return $this->error('row_drag не настроен или не является объектом');
 
         $sfField = isset($rowDragConfig['sortfield']) ? $rowDragConfig['sortfield'] : 'sortfield';
+        $sfStep  = (int)($rowDragConfig['step'] ?? 10);
+        if ($sfStep < 1) $sfStep = 10;
         $order   = isset($request['order']) ? $request['order'] : [];
         if (empty($order) || !is_array($order)) return $this->error('Не передан order');
 
-        $sf = 10;
+        $sf = $sfStep;
         foreach ($order as $id) {
             $id = (int)$id;
             if (!$id) continue;
             if ($obj = $this->modx->getObject($rule['class'], $id)) {
                 $obj->set($sfField, $sf);
                 $obj->save();
-                $sf += 10;
+                $sf += $sfStep;
             }
         }
         return $this->success('Порядок сохранён');
@@ -135,7 +137,7 @@ trait TableTreeTrait
 
     /**
      * Вставить пустую строку выше строки с указанным ID.
-     * Сдвигает строки с sortfield >= target на +10, создаёт новую строку на их месте.
+     * Сдвигает строки с sortfield >= target на +step, создаёт новую строку на их месте.
      * Принимает $request['target_id'] (или $request['id']).
      */
     public function sortableInsertAbove($rule, $request)
@@ -146,6 +148,8 @@ trait TableTreeTrait
 
         $sfField  = isset($rowDragConfig['sortfield'])  ? $rowDragConfig['sortfield']  : 'sortfield';
         $psField  = isset($rowDragConfig['parentsort']) ? $rowDragConfig['parentsort'] : null;
+        $sfStep   = (int)($rowDragConfig['step'] ?? 10);
+        if ($sfStep < 1) $sfStep = 10;
 
         $targetId = (int)(isset($request['target_id']) ? $request['target_id'] : (isset($request['id']) ? $request['id'] : 0));
         if (!$targetId) return $this->error('Не указан target_id');
@@ -161,7 +165,7 @@ trait TableTreeTrait
         $whereParent = ($psField && $parentValue !== null)
             ? "AND `{$psField}` = " . (int)$parentValue : '';
         $this->modx->exec(
-            "UPDATE {$table} SET `{$sfField}` = `{$sfField}` + 10
+            "UPDATE {$table} SET `{$sfField}` = `{$sfField}` + {$sfStep}
              WHERE `{$sfField}` >= {$targetSortfield} {$whereParent}"
         );
 

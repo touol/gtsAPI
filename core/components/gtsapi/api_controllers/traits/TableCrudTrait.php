@@ -123,10 +123,13 @@ trait TableCrudTrait
                 }
             }
 
-            // Автоназначение sortfield если row_drag настроен как объект
+            // Автоназначение sortfield если row_drag настроен как объект.
+            // step — шаг приращения (default 10; можно step:1 для последовательной нумерации).
             if (!empty($rule['properties']['row_drag']) && is_array($rule['properties']['row_drag'])) {
                 $sfField = $rule['properties']['row_drag']['sortfield'] ?? 'sortfield';
                 $psField = $rule['properties']['row_drag']['parentsort'] ?? null;
+                $sfStep  = (int)($rule['properties']['row_drag']['step'] ?? 10);
+                if ($sfStep < 1) $sfStep = 10;
                 $sfWhere = ["{$rule['class']}.id:!=" => $obj->get('id')];
                 if ($psField) $sfWhere["{$rule['class']}.{$psField}"] = $obj->get($psField);
                 $this->pdo->setConfig([
@@ -139,7 +142,7 @@ trait TableCrudTrait
                 $sfRes = $this->pdo->run();
                 // Если sortfield явно передан в запросе (восстановление через undo) — не перезаписываем
                 if (empty($request[$sfField])) {
-                    $obj->set($sfField, (int)(isset($sfRes[0]['max_sf']) ? $sfRes[0]['max_sf'] : 0) + 10);
+                    $obj->set($sfField, (int)(isset($sfRes[0]['max_sf']) ? $sfRes[0]['max_sf'] : 0) + $sfStep);
                     $obj->save();
                 }
                 $object = $obj->toArray();
