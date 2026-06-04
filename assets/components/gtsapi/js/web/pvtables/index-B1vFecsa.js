@@ -5345,12 +5345,21 @@ function Jg(e, t, n, o, r, i) {
           }
         }
         if (g && typeof g == "object") {
-          let y = g;
-          g[e.table] && typeof g[e.table] == "object" && !Array.isArray(g[e.table]) && (y = g[e.table]);
-          const S = (P) => P && typeof P == "object" && !Array.isArray(P) && (Array.isArray(P.constraints) || P.hasOwnProperty("matchMode") || P.hasOwnProperty("value"));
-          for (const P in y) {
-            const R = y[P];
-            if (S(R)) {
+          const y = (P) => P && typeof P == "object" && !Array.isArray(P) && (Array.isArray(P.constraints) || P.hasOwnProperty("matchMode") || P.hasOwnProperty("value"));
+          let S = g;
+          if (g[e.table] && typeof g[e.table] == "object" && !Array.isArray(g[e.table]))
+            S = g[e.table];
+          else {
+            const P = Object.keys(g);
+            if (P.length === 1) {
+              const R = P[0], L = g[R];
+              if (L && typeof L == "object" && !Array.isArray(L) && !y(L))
+                throw new Error("skip url filters: namespace mismatch");
+            }
+          }
+          for (const P in S) {
+            const R = S[P];
+            if (y(R)) {
               const L = Array.isArray(R.constraints) ? R.constraints.map((A) => ({
                 value: A && A.value !== void 0 ? A.value : null,
                 matchMode: A && A.matchMode ? A.matchMode : an.EQUALS
@@ -49117,7 +49126,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-BCtIefIa.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-CI4Pa5vj.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
