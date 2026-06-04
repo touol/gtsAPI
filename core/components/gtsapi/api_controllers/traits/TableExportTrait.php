@@ -522,7 +522,8 @@ trait TableExportTrait
                     $headers[] = [
                         'field' => $fieldName,
                         'label' => $label,
-                        'type' => $fieldConfig['type'] ?? 'text'
+                        'type' => $fieldConfig['type'] ?? 'text',
+                        'config' => $fieldConfig
                     ];
                 }
             }
@@ -703,6 +704,16 @@ trait TableExportTrait
 
                     case 'html':
                         $value = $this->htmlToPlainText($row[$header['field']] ?? '');
+                        break;
+
+                    case 'decimal':
+                        $raw = $row[$header['field']] ?? '';
+                        if ($raw === '' || $raw === null) {
+                            $value = '';
+                        } else {
+                            $digits = (int)($header['config']['FractionDigits'] ?? 2);
+                            $value = number_format((float)$raw, $digits, '.', '');
+                        }
                         break;
 
                     default:
