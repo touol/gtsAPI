@@ -49126,7 +49126,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-CI4Pa5vj.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-Ch6ELRdU.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -57619,7 +57619,7 @@ const Eb = /* @__PURE__ */ Ln(pj, [["render", jK], ["__scopeId", "data-v-b8be86b
                     reload: !1,
                     key: te.key,
                     onRefreshTable: L[1] || (L[1] = (J) => b(!1)),
-                    child: !0,
+                    child: e.child,
                     embeddedInRow: e.embeddedInRow,
                     scrollHeight: e.autoUpdateHeights ? u.value[te.key] || "400px" : void 0,
                     ref_for: !0,
@@ -57628,7 +57628,7 @@ const Eb = /* @__PURE__ */ Ln(pj, [["render", jK], ["__scopeId", "data-v-b8be86b
                     },
                     onGetResponse: L[2] || (L[2] = (J) => g(J)),
                     onRowsLoaded: L[3] || (L[3] = (J) => d("rows-loaded", J))
-                  }, null, 8, ["table", "actions", "filters", "sorting", "embeddedInRow", "scrollHeight"]))), 128)) : (p(), j(Pu, {
+                  }, null, 8, ["table", "actions", "filters", "sorting", "child", "embeddedInRow", "scrollHeight"]))), 128)) : (p(), j(Pu, {
                     table: A.table,
                     actions: e.actions,
                     filters: e.filters[A.key],
@@ -57636,7 +57636,7 @@ const Eb = /* @__PURE__ */ Ln(pj, [["render", jK], ["__scopeId", "data-v-b8be86b
                     reload: !1,
                     key: A.key,
                     onRefreshTable: L[4] || (L[4] = (te) => b(!1)),
-                    child: !0,
+                    child: e.child,
                     embeddedInRow: e.embeddedInRow,
                     scrollHeight: e.autoUpdateHeights ? u.value[A.key] || "400px" : void 0,
                     ref_for: !0,
@@ -57645,7 +57645,7 @@ const Eb = /* @__PURE__ */ Ln(pj, [["render", jK], ["__scopeId", "data-v-b8be86b
                     },
                     onGetResponse: L[5] || (L[5] = (te) => g(te)),
                     onRowsLoaded: L[6] || (L[6] = (te) => d("rows-loaded", te))
-                  }, null, 8, ["table", "actions", "filters", "sorting", "embeddedInRow", "scrollHeight"]))
+                  }, null, 8, ["table", "actions", "filters", "sorting", "child", "embeddedInRow", "scrollHeight"]))
                 ]),
                 _: 2
               }, 1032, ["value"]))), 256))
