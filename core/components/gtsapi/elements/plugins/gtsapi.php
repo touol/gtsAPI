@@ -56,14 +56,38 @@ switch ($modx->event->name) {
         $uri = explode('?',$_SERVER['REQUEST_URI']);
         $uri = explode('/',$uri[0]);
         if($uri[1] == 'api'){
-            
+            // Перехват ФАТАЛЬНЫХ ошибок (исчерпание памяти, max_execution_time,
+            // parse) — try/catch их НЕ ловит. Пишем в лог, чтобы найти источник 500.
+            register_shutdown_function(function() use ($modx, $uri) {
+                $e = error_get_last();
+                if ($e && in_array($e['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR])) {
+                    $modx->log(modX::LOG_LEVEL_ERROR,
+                        '[gtsAPI plugin] FATAL: ' . $e['message'] .
+                        ' in ' . $e['file'] . ':' . $e['line'] .
+                        ' | uri=' . implode('/', $uri) . ' | method=' . ($_SERVER['REQUEST_METHOD'] ?? '')
+                    );
+                }
+            });
+
             /* @var gtsAPI $gtsAPI*/
             $gtsAPI = $modx->getService('gtsapi', 'gtsAPI', 
                 $modx->getOption('gtsapi_core_path', $scriptProperties, $modx->getOption('core_path') . 'components/gtsapi/') . 'model/');
             if ($gtsAPI instanceof gtsAPI) {
                 $start_time = microtime(true);
-                $resp = $gtsAPI->route($uri,$_SERVER['REQUEST_METHOD'],$_REQUEST);
-                
+                try {
+                    $resp = $gtsAPI->route($uri,$_SERVER['REQUEST_METHOD'],$_REQUEST);
+                } catch (\Throwable $e) {
+                    // Исключение/ошибка маршрутизации — пишем трассировку в лог
+                    // и отдаём JSON с сообщением вместо «голого» 500.
+                    $modx->log(modX::LOG_LEVEL_ERROR,
+                        '[gtsAPI plugin] EXCEPTION: ' . $e->getMessage() .
+                        ' in ' . $e->getFile() . ':' . $e->getLine() .
+                        ' | uri=' . implode('/', $uri) . ' | method=' . $_SERVER['REQUEST_METHOD'] .
+                        "\nTrace:\n" . $e->getTraceAsString()
+                    );
+                    $resp = ['success' => false, 'message' => 'Ошибка сервера: ' . $e->getMessage()];
+                }
+
                 header("Access-Control-Allow-Credentials: true");
                 header("Access-Control-Allow-Origin: *");
                 header("Access-Control-Allow-Methods: GET, POST, HEAD, OPTIONS, PUT, DELETE, PATCH");
