@@ -21,8 +21,12 @@ trait TableFilterTrait
             $filter = ['value' => $filter, 'matchMode' => 'equals'];
         }
         
-        if ($filter['value'] == null) return $where;
-        
+        // Режимы «пусто/не пусто» (isEmpty/isNotEmpty) работают без значения —
+        // для них ранний выход по пустому value пропускаем.
+        $valuelessModes = ['isEmpty', 'isNotEmpty'];
+        $matchModeEarly = isset($filter['matchMode']) ? $filter['matchMode'] : 'equals';
+        if (!in_array($matchModeEarly, $valuelessModes) && $filter['value'] == null) return $where;
+
         // Проверяем, есть ли поле в select запроса
         $fieldExistsInSelect = false;
         $selectFields = [];
@@ -160,6 +164,20 @@ trait TableFilterTrait
                 break;
             case "dateAfter":
                 $where[$field . ':>='] = date('Y-m-d', strtotime($filter['value']));
+                break;
+            case "isEmpty":
+                // Дата не заполнена: NULL, пустая строка или «нулевая» дата
+                $where[] = [
+                    $field . ':IS' => null,
+                    'OR:' . $field . ':=' => '',
+                    'OR:' . $field . ':IN' => ['0000-00-00', '0000-00-00 00:00:00'],
+                ];
+                break;
+            case "isNotEmpty":
+                // Дата заполнена: не NULL, не пустая и не «нулевая»
+                $where[$field . ':IS NOT'] = null;
+                $where[$field . ':!='] = '';
+                $where[$field . ':NOT IN'] = ['0000-00-00', '0000-00-00 00:00:00'];
                 break;
         }
         return $where;
