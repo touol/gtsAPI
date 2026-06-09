@@ -4964,8 +4964,11 @@ function Dw(e, t) {
   return { rowClass: (l) => {
     if (e.value[l.id]?.class)
       return e.value[l.id].class;
-    if (t.value?.field && l[t.value.field])
-      return t.value.class;
+    const s = t.value;
+    if (s?.field) {
+      const u = l[s.field];
+      if (s.value !== void 0 ? Array.isArray(s.value) ? s.value.some((f) => f == u) : s.value == u : !!u) return s.class;
+    }
   }, rowStyle: (l) => n(e.value[l.id]?.style), cellClass: (l, s) => !l || s == null ? void 0 : e.value[l.id]?.cells?.[s]?.class, cellStyle: (l, s) => {
     if (!l || s == null) return {};
     const u = e.value[l.id]?.cells;
@@ -49131,7 +49134,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-CJNi5Ge1.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-xWXE4w0y.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
