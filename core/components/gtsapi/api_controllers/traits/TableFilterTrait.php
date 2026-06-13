@@ -133,7 +133,16 @@ trait TableFilterTrait
                 if ($name == 'parents_ids') {
                     $where["{$rule['class']}.parents_ids:LIKE"] = '%#' . $filter['value'] . '#%';
                 } else if (isset($filter['where'])) {
-                    $where[100] = "{$filter['where']} = '{$filter['value']}'";
+                    // where-выражение берём ТОЛЬКО из конфига таблицы (доверенный источник),
+                    // игнорируя возможную подмену в клиентском запросе; значение — через quote().
+                    $cfgWhere = $rule['properties']['fields'][$name]['where']
+                        ?? $rule['properties']['filters'][$name]['where']
+                        ?? null;
+                    if ($cfgWhere !== null) {
+                        $where[] = $cfgWhere . ' = ' . $this->modx->quote($filter['value']);
+                    } else {
+                        $where[$field] = $filter['value'];
+                    }
                 } else {
                     $where[$field] = $filter['value'];
                 }

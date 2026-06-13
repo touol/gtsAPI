@@ -100,7 +100,7 @@ class treeAPIController{
         }
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         $action = explode('/',$request['api_action']);
-        if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete','nodedrop']) and isset($rule['properties']['actions'])){
+        if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete','nodedrop'])){
             $api_action = $request['api_action'];
             if($api_action == 'watch_form') $api_action = $request['watch_action'];
 
@@ -1502,10 +1502,11 @@ class treeAPIController{
                 $set_data[$class][$field] = json_encode($set_data[$class][$field]);
             }
         }else{
-            $set_data[$rule['class']] = $request;
+            // Без whitelist полей запись запрещена (mass-assignment — любой столбец из запроса)
+            return $this->error('Запись запрещена: для таблицы "' . $rule['class'] . '" не настроены поля (properties.fields).');
         }
-        
-        
+
+
         $object_old = $obj->toArray();
         if(isset($request['id'])){
             $object = $obj->fromArray($set_data[$rule['class']],'',true);
@@ -1667,9 +1668,10 @@ class treeAPIController{
                     }
                 }
             }else{
-                $set_data[$rule['class']] = $request;
+                // Без whitelist полей запись запрещена (mass-assignment — любой столбец из запроса)
+                return $this->error('Запись запрещена: для таблицы "' . $rule['class'] . '" не настроены поля (properties.fields).');
             }
-            
+
             $object = $obj->fromArray($set_data[$rule['class']]);
             $object_new = $obj->toArray();
             

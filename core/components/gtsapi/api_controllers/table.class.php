@@ -216,7 +216,7 @@ class tableAPIController
         }
         
         $action = explode('/', $request['api_action']);
-        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style', 'sortable_reorder', 'sortable_insert_above']) and isset($rule['properties']['actions'])) {
+        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style', 'sortable_reorder', 'sortable_insert_above'])) {
             $api_action = $request['api_action'];
             if ($api_action == 'watch_form') $api_action = $request['watch_action'];
 

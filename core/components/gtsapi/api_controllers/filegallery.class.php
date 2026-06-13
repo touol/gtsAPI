@@ -380,37 +380,25 @@ class fileGalleryAPIController{
         // Определяем путь загрузки в зависимости от класса объекта
         $uploadPath = $this->getUploadPath($request);
 
-        // Получаем свойства источника медиа
-        $sourceProperties = $this->source->getPropertyList();
-        $basePath = isset($sourceProperties['basePath']) ? $sourceProperties['basePath'] : '';
-        $baseUrl = isset($sourceProperties['baseUrl']) ? $sourceProperties['baseUrl'] : '';
-
-        // Создание полного пути к директории
-        $fullDirectoryPath = rtrim($basePath, '/') . '/' . $uploadPath;
-
-        // Создание директории если не существует
-        if (!is_dir($fullDirectoryPath)) {
-            if (!mkdir($fullDirectoryPath, 0755, true)) {
-                return $this->error('Не удалось создать директорию: ' . $fullDirectoryPath);
-            }
-        }
-
-        // Создание полного пути к файлу
-        $fullFilePath = $fullDirectoryPath . $fileName;
-
-        // Загрузка файла
+        // Читаем содержимое временного файла
         $fileContent = file_get_contents($fileData['tmp_name']);
         if ($fileContent === false) {
             return $this->error('Не удалось прочитать временный файл');
         }
 
-        // Сохранение файла
-        if (file_put_contents($fullFilePath, $fileContent) === false) {
-            return $this->error('Ошибка сохранения файла: ' . $fullFilePath);
+        // Запись через media-source API (как в gtsAPIFile::saveThumbnail):
+        // createContainer создаёт вложенные папки, createObject пишет файл
+        // с контейнментом в базе источника и проверкой allowedFileTypes.
+        $this->source->createContainer($uploadPath, '/');
+        $this->source->errors = array();
+        $created = $this->source->createObject($uploadPath, $fileName, $fileContent);
+        if (empty($created)) {
+            $errors = $this->source->getErrors();
+            return $this->error('Не удалось сохранить файл: ' . (is_array($errors) ? implode(', ', $errors) : $errors));
         }
 
-        // Получаем URL файла
-        $fileUrl = rtrim($baseUrl, '/') . '/' . $uploadPath . $fileName;
+        // URL файла из источника
+        $fileUrl = $this->source->getObjectUrl($uploadPath . $fileName);
 
         // Создание записи в базе данных
         /** @var gtsAPIFile $file */
@@ -702,9 +690,10 @@ class fileGalleryAPIController{
      */
     private function getUploadPath($request)
     {
-        $class = isset($request['class']) ? $request['class'] : 'modResource';
+        // Санитайз: только безопасные символы в сегментах пути (no traversal)
+        $class = isset($request['class']) ? preg_replace('/[^A-Za-z0-9_]/', '', $request['class']) : 'modResource';
         $parentId = isset($request['parent']) ? (int)$request['parent'] : 0;
-        $list = isset($request['list']) ? $request['list'] : 'default';
+        $list = isset($request['list']) ? preg_replace('/[^A-Za-z0-9_-]/', '', $request['list']) : 'default';
         
         $basePath = '';
         

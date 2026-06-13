@@ -53,10 +53,11 @@ trait TableCrudTrait
                 $set_data[$class][$field] = json_encode($set_data[$class][$field]);
             }
         } else {
-            $set_data[$rule['class']] = $request;
+            // Без whitelist полей запись запрещена (иначе mass-assignment — любой столбец из запроса)
+            return $this->error('Запись запрещена: для таблицы "' . $rule['class'] . '" не настроены поля (properties.fields).');
         }
-        
-        
+
+
         $object_old = $obj->toArray();
         if (isset($request['id'])) {
             $object = $obj->fromArray($set_data[$rule['class']], '', true);
@@ -555,9 +556,10 @@ trait TableCrudTrait
                     }
                 }
             } else {
-                $set_data[$rule['class']] = $request;
+                // Без whitelist полей запись запрещена (иначе mass-assignment — любой столбец из запроса)
+                return $this->error('Запись запрещена: для таблицы "' . $rule['class'] . '" не настроены поля (properties.fields).');
             }
-            
+
             $object = $obj->fromArray($set_data[$rule['class']]);
             $object_new = $obj->toArray();
             if (isset($request['filters'])) {

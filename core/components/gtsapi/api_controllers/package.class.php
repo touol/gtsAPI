@@ -53,6 +53,8 @@ class packageAPIController{
         if(empty($request['config'])) return $this->error("empty config");
         $request['config'] = json_decode($request['config'],1);
         if(empty($request['config']['name_lower'])) return $this->error("empty config name_lower",$request);
+        // name_lower идёт в пути файлов/сниппетов — допускаем только безопасные символы (no traversal)
+        if(!preg_match('/^[a-z0-9_]+$/', $request['config']['name_lower'])) return $this->error("bad config name_lower",$request);
         // if(isset($request['action'])){
         //     if($request['action'] == 'set_debug'){
         //         $Setting = $this->modx->getObject('modSystemSetting', $request['config']['name_lower'].'_debug');
