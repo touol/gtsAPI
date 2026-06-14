@@ -227,15 +227,16 @@ trait TableCrudTrait
             }
             $default = array_merge($default, $rule['properties']['query']);
         }
+        // insert_menu_id (контекст дерева): берём из фильтра, иначе 0.
+        // Заменяем ВСЕГДА — иначе на standalone-странице (пустые фильтры) литерал insert_menu_id ломает JOIN.
+        $insert_menu_id = 0;
+        if (isset($request['filters']['insert_menu_id'])) {
+            $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
+            unset($request['filters']['insert_menu_id']);
+        }
+        $default = $this->replaceInsertMenuIdInArray($default, $insert_menu_id);
         if (!empty($request['filters'])) {
             if (empty($default['where'])) $default['where'] = [];
-            if (isset($request['filters']['insert_menu_id'])) {
-                $insert_menu_id = (int)$request['filters']['insert_menu_id']['constraints'][0]['value'];
-                unset($request['filters']['insert_menu_id']);
-                //Замена в значениях в $default в строках содержащих insert_menu_id на значение $insert_menu_id
-                $default = $this->replaceInsertMenuIdInArray($default, $insert_menu_id);
-
-            }
             $default['where'] = array_merge($default['where'], $this->aplyFilters($rule, $request['filters']));
         }
         if (!empty($where)) {
@@ -425,6 +426,9 @@ trait TableCrudTrait
             }
         }
         
+        // Подтягиваем значения m2m-полей (type:multiple) в строки для отображения в колонке
+        $this->attachMultiple($rule['properties']['fields'], $rows0);
+
         $out = [
             'rows' => $rows0,
             'total' => $total,
@@ -957,6 +961,56 @@ trait TableCrudTrait
             $log->save();
         } catch (Exception $e) {
             $this->modx->log(modX::LOG_LEVEL_ERROR, 'gtsAPI writeLog error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Подтягивает значения m2m-полей (type:multiple) в строки для отображения в колонке таблицы.
+     * Батчем: связи из table_link по main_id IN (ids), затем тайтлы из table по slave_id.
+     * Кладёт в $row[fieldName] строку «тайтл1, тайтл2».
+     */
+    protected function attachMultiple($fields, &$rows)
+    {
+        if (empty($fields) || !is_array($fields) || empty($rows)) return;
+        $ids = [];
+        foreach ($rows as $r) { if (isset($r['id'])) $ids[] = (int)$r['id']; }
+        if (empty($ids)) return;
+        $idsList = implode(',', $ids);
+        foreach ($fields as $fname => $f) {
+            if (!is_array($f) || ($f['type'] ?? '') !== 'multiple') continue;
+            if (empty($f['table_link']) || empty($f['table']) || empty($f['main_id']) || empty($f['slave_id'])) continue;
+            try {
+                $linkTable   = $this->modx->getTableName($f['table_link']);
+                $targetTable = $this->modx->getTableName($f['table']);
+                if (empty($linkTable) || empty($targetTable)) continue;
+                $mainId   = preg_replace('/[^a-zA-Z0-9_]/', '', $f['main_id']);
+                $slaveId  = preg_replace('/[^a-zA-Z0-9_]/', '', $f['slave_id']);
+                $titleCol = preg_replace('/[^a-zA-Z0-9_]/', '', !empty($f['title_field']) ? $f['title_field'] : 'name');
+                // связи main_id => [slave_id]
+                $linkMap = []; $slaveSet = [];
+                $stmt = $this->modx->query("SELECT `{$mainId}` mid, `{$slaveId}` sid FROM {$linkTable} WHERE `{$mainId}` IN ({$idsList})");
+                if ($stmt) {
+                    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $lr) { $linkMap[$lr['mid']][] = $lr['sid']; $slaveSet[(int)$lr['sid']] = 1; }
+                }
+                // тайтлы slave
+                $titles = [];
+                if (!empty($slaveSet)) {
+                    $slaveList = implode(',', array_keys($slaveSet));
+                    $tstmt = $this->modx->query("SELECT id, `{$titleCol}` t FROM {$targetTable} WHERE id IN ({$slaveList})");
+                    if ($tstmt) { foreach ($tstmt->fetchAll(PDO::FETCH_ASSOC) as $tr) { $titles[$tr['id']] = $tr['t']; } }
+                }
+                foreach ($rows as &$row) {
+                    $rid = isset($row['id']) ? $row['id'] : null;
+                    $vals = [];
+                    if ($rid !== null && !empty($linkMap[$rid])) {
+                        foreach ($linkMap[$rid] as $sid) { $vals[] = isset($titles[$sid]) ? $titles[$sid] : $sid; }
+                    }
+                    $row[$fname] = implode(', ', $vals);
+                }
+                unset($row);
+            } catch (Exception $e) {
+                $this->modx->log(modX::LOG_LEVEL_ERROR, 'gtsAPI attachMultiple error: ' . $e->getMessage());
+            }
         }
     }
 }

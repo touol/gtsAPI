@@ -49154,7 +49154,7 @@ endobj\r
   var u = s.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, s.width, s.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-DTSrli16.js")).catch(function(h) {
+  return (fn.canvg ? Promise.resolve(fn.canvg) : import("./index.es-DqfhazRK.js")).catch(function(h) {
     return Promise.reject(new Error("Could not load canvg: " + h));
   }).then(function(h) {
     return h.default ? h.default : h;
@@ -72446,6 +72446,7 @@ const zp = (function() {
           actions: {},
           filters: {},
           reload: !1,
+          autoFitHeight: !0,
           key: t.value
         }, null, 8, ["table"]))
       ])) : (p(), k("p", JQ, "Таблица не задана!")),
