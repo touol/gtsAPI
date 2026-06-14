@@ -337,6 +337,9 @@ trait TableFieldsTrait
         if (isset($rule['properties']['row_drag'])) {
             $options['row_drag'] = $rule['properties']['row_drag'];
         }
+        if (!empty($rule['properties']['save_version_row'])) {
+            $options['save_version_row'] = true;
+        }
 
         return $this->success('options', $options);
     }

@@ -9,6 +9,7 @@ require_once __DIR__ . '/traits/TableExportTrait.php';
 require_once __DIR__ . '/traits/TableTriggerTrait.php';
 require_once __DIR__ . '/traits/TableTreeTrait.php';
 require_once __DIR__ . '/traits/TableUtilsTrait.php';
+require_once __DIR__ . '/traits/TableVersionTrait.php';
 
 /**
  * Основной контроллер API для работы с таблицами
@@ -34,6 +35,7 @@ class tableAPIController
     use TableTriggerTrait;
     use TableTreeTrait;
     use TableUtilsTrait;
+    use TableVersionTrait;
 
     public $config = [];
     public $modx;
@@ -216,7 +218,7 @@ class tableAPIController
         }
         
         $action = explode('/', $request['api_action']);
-        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style', 'sortable_reorder', 'sortable_insert_above'])) {
+        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style', 'sortable_reorder', 'sortable_insert_above', 'versions', 'restore_version'])) {
             $api_action = $request['api_action'];
             if ($api_action == 'watch_form') $api_action = $request['watch_action'];
 
@@ -306,6 +308,12 @@ class tableAPIController
             break;
             case 'sortable_insert_above':
                 return $this->sortableInsertAbove($rule, $request);
+            break;
+            case 'versions':
+                return $this->versions($rule, $request);
+            break;
+            case 'restore_version':
+                return $this->restore_version($rule, $request);
             break;
             default:
                 $action = explode('/', $request['api_action']);
