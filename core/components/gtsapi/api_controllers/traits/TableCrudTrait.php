@@ -670,6 +670,37 @@ trait TableCrudTrait
     }
 
     /**
+     * Слияние data after-триггеров при удалении нескольких строк.
+     * rows_delta: upsert мёрджим по id, delete/customFields/row_setting объединяем,
+     * refresh_price/refresh_table — ИЛИ. Прочие ключи — последний выигрывает.
+     */
+    protected function mergeDeleteTriggerData($acc, $data)
+    {
+        foreach ($data as $k => $v) {
+            if ($k === 'rows_delta' && is_array($v)) {
+                if (!isset($acc['rows_delta'])) {
+                    $acc['rows_delta'] = ['upsert' => [], 'delete' => [], 'customFields' => [], 'row_setting' => []];
+                    if (isset($v['table'])) $acc['rows_delta']['table'] = $v['table'];
+                }
+                if (!empty($v['upsert'])) {
+                    $byId = [];
+                    foreach ($acc['rows_delta']['upsert'] as $r) { if (isset($r['id'])) $byId[$r['id']] = $r; }
+                    foreach ($v['upsert'] as $r) { if (isset($r['id'])) $byId[$r['id']] = $r; }
+                    $acc['rows_delta']['upsert'] = array_values($byId);
+                }
+                if (!empty($v['delete']))       $acc['rows_delta']['delete'] = array_values(array_unique(array_merge($acc['rows_delta']['delete'], $v['delete'])));
+                if (!empty($v['customFields']))  $acc['rows_delta']['customFields'] = $acc['rows_delta']['customFields'] + $v['customFields'];
+                if (!empty($v['row_setting']))   $acc['rows_delta']['row_setting']  = $acc['rows_delta']['row_setting'] + $v['row_setting'];
+            } elseif ($k === 'refresh_price' || $k === 'refresh_table') {
+                if (!empty($v)) $acc[$k] = 1;
+            } else {
+                $acc[$k] = $v;
+            }
+        }
+        return $acc;
+    }
+
+    /**
      * Удаление записей
      */
     public function delete($rule, $request, $action)
@@ -722,7 +753,10 @@ trait TableCrudTrait
             
             if (!empty($where)) {
                 $objs = $this->modx->getIterator($rule['class'], $where);
-                
+
+                // Данные after-триггеров (напр. rows_delta/refresh_price при пересчёте родителя)
+                // мёрджим в ответ — как это делает update. Без этого delete отдавал только ids.
+                $triggerData = [];
                 foreach ($objs as $obj) {
                     $object_old = $obj->toArray();
                     $emptyFields = []; // run_triggers принимает $fields по ссылке — нужна переменная, не литерал
@@ -732,10 +766,13 @@ trait TableCrudTrait
                     if ($obj->remove()) {
                         $resp = $this->run_triggers($rule, 'after', 'delete', $emptyFields, $object_old);
                         if (!$resp['success']) return $resp;
+                        if (!empty($resp['data']) && is_array($resp['data'])) {
+                            $triggerData = $this->mergeDeleteTriggerData($triggerData, $resp['data']);
+                        }
                         $this->writeLog($rule, 'delete', $object_old['id'], $object_old, null);
                     }
                 }
-                return $this->success('delete', ['ids' => $request['ids']]);
+                return $this->success('delete', array_merge(['ids' => $request['ids']], $triggerData));
             }
         }
         return $this->error('delete_error');

@@ -63,7 +63,10 @@ class jsonTableAPIController extends tableAPIController{
             if($obj->save()){
                 $resp = $this->run_triggers($rule, 'after', 'remove', $emptyFields, $object_old);
                 if(!$resp['success']) return $resp;
-                return $this->success('delete',['ids'=>$request['ids']]);
+                // Данные after-триггера (rows_delta/refresh_price при пересчёте владельца) — в ответ.
+                $data = ['ids'=>$request['ids']];
+                if(!empty($resp['data']) && is_array($resp['data'])) $data = array_merge($data, $resp['data']);
+                return $this->success('delete',$data);
             }
         }
         return $this->error('delete_error');
