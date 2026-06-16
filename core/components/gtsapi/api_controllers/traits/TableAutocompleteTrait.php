@@ -281,15 +281,19 @@ trait TableAutocompleteTrait
         }
         if (isset($autocomplete['query']) and is_array($autocomplete['query']))
             $default = array_merge($default, $autocomplete['query']);
-        if ($autocomplete['limit'] > 0) {
-            $ids = [];
-            foreach ($rows0 as $row) {
-                if ((int)$row[$autocomplete['field']] > 0) $ids[$row[$autocomplete['field']]] = $row[$autocomplete['field']];
+        // Подстановка лейблов в строки таблицы: грузим ТОЛЬКО значения, реально присутствующие
+        // в строках (rows0) — независимо от limit. Полный список (выпадашка/опции фильтра) идёт
+        // отдельно (get_autocomplete / вызов с пустым rows0). Без этого limit:0-автокомплиты
+        // (напр. продукция, 441 запись) рендерили ВСЕ записи + tpl на КАЖДОЕ чтение таблицы → тормоза.
+        $ids = [];
+        foreach ($rows0 as $row) {
+            if (isset($row[$autocomplete['field']]) && (int)$row[$autocomplete['field']] > 0) {
+                $ids[$row[$autocomplete['field']]] = $row[$autocomplete['field']];
             }
-            if (!empty($ids)) {
-                $default['where'][$autocomplete['class'] . '.id:IN'] = $ids;
-                $default['limit'] = 0;
-            }
+        }
+        if (!empty($ids)) {
+            $default['where'][$autocomplete['class'] . '.id:IN'] = $ids;
+            $default['limit'] = 0;
         }
         $default['setTotal'] = true;
         $this->pdo->setConfig($default);
