@@ -199,7 +199,7 @@ class tableAPIController
                 $rule['properties']['actions']['excel_export'] = [
                     'head' => true,
                     'icon' => 'pi pi-file-excel',
-                    'class' => 'p-button-rounded p-button-success',
+                    'class' => 'p-button-success',
                     'label' => 'Excel'
                 ];
             }
@@ -211,7 +211,7 @@ class tableAPIController
                 $rule['properties']['actions']['print'] = [
                     'head' => true,
                     'icon' => 'pi pi-print',
-                    'class' => 'p-button-rounded p-button-info',
+                    'class' => 'p-button-info',
                     'label' => 'Печать'
                 ];
             }
