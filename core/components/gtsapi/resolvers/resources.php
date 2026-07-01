@@ -9,6 +9,30 @@
 // "Cannot redeclare _addResource()". Объявление до return — потому что conditional-функции
 // НЕ хойстятся (в отличие от безусловных), а до низа файла после return мы бы не дошли.
 
+if (!function_exists('_upsertResSetting')) {
+    /**
+     * Настройка config_name всегда должна указывать на актуальный ресурс: создаём если нет,
+     * чиним если указывает не туда. $setting — уже загруженный объект (или null).
+     */
+    function _upsertResSetting($modx, $setting, $config_name, $package, $resource_id)
+    {
+        if (!$setting) {
+            $setting = $modx->newObject('modSystemSetting');
+            $setting->fromArray([
+                'key' => $config_name,
+                'namespace' => $package,
+                'xtype' => 'textfield',
+                'value' => $resource_id,
+                'area' => $package . '_pages',
+            ], '', true, true);
+            $setting->save();
+        } else if ((int)$setting->get('value') !== (int)$resource_id) {
+            $setting->set('value', $resource_id);
+            $setting->save();
+        }
+    }
+}
+
 if (!function_exists('_addResource')) {
     /**
      * @param modX $modx
@@ -25,28 +49,35 @@ if (!function_exists('_addResource')) {
 
         // Используем config_name из данных, если задан, иначе генерируем автоматически
         $config_name = isset($data['config_name']) ? $data['config_name'] : $package . '_p_' . str_replace('/', '_', $uri);
-        $id = $modx->getOption($config_name, null, 0);
+        // Настройку читаем НАПРЯМУЮ из БД (getObject), а НЕ через getOption: при install
+        // кэш системных настроек бывает холодным → getOption вернёт 0 → резолвер плодит дубли.
+        $setting = $modx->getObject('modSystemSetting', ['key' => $config_name]);
+        $id = $setting ? (int)$setting->get('value') : 0;
         $new = false;
 
-        // Если ресурс существует и update = false, пропускаем обновление
-        if ($id && isset($data['update']) && $data['update'] === false) {
-            $resource = $modx->getObject('modResource', $id);
-            if ($resource) {
-                // Ресурс существует и обновление отключено, обрабатываем только дочерние ресурсы
-                if (!empty($data['resources'])) {
-                    $menuindex = 0;
-                    foreach ($data['resources'] as $alias => $item) {
-                        $item['alias'] = $alias;
-                        $item['context_key'] = $data['context_key'];
-                        $item['menuindex'] = $menuindex++;
-                        _addResource($modx, $item, $uri . '/' . $alias, $resource->id, $package);
-                    }
-                }
-                return;
-            }
+        $resource = $id ? $modx->getObject('modResource', $id) : null;
+        // Fallback: настройка пуста/битая → найти существующий ресурс по parent+alias
+        // и переиспользовать (не создавать новый). Делает дубли невозможными.
+        if (!$resource && !empty($data['alias'])) {
+            $resource = $modx->getObject('modResource', ['parent' => (int)$parent, 'alias' => $data['alias']]);
         }
 
-        if (!$resource = $modx->getObject('modResource', $id)) {
+        // Если ресурс существует и update = false — только дети (но настройку всё равно чиним)
+        if ($resource && isset($data['update']) && $data['update'] === false) {
+            _upsertResSetting($modx, $setting, $config_name, $package, $resource->id);
+            if (!empty($data['resources'])) {
+                $menuindex = 0;
+                foreach ($data['resources'] as $alias => $item) {
+                    $item['alias'] = $alias;
+                    $item['context_key'] = $data['context_key'];
+                    $item['menuindex'] = $menuindex++;
+                    _addResource($modx, $item, $uri . '/' . $alias, $resource->id, $package);
+                }
+            }
+            return;
+        }
+
+        if (!$resource) {
             $resource = $modx->newObject('modResource');
             $new = true;
         }
@@ -85,17 +116,8 @@ if (!function_exists('_addResource')) {
 
         $resource->save();
 
-        if (empty($id)) {
-            $setting = $modx->newObject('modSystemSetting');
-            $setting->fromArray([
-                'key' => $config_name,
-                'namespace' => $package,
-                'xtype' => 'textfield',
-                'value' => $resource->id,
-                'area' => $package . '_pages',
-            ], '', true, true);
-            $setting->save();
-        }
+        // Настройка всегда указывает на актуальный ресурс (создаём или чиним) — не даём ей устареть.
+        _upsertResSetting($modx, $setting, $config_name, $package, $resource->id);
 
         if (!empty($data['groups'])) {
             if (is_string($data['groups'])) {
