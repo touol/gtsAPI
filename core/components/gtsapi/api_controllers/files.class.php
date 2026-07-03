@@ -367,27 +367,51 @@ class filesAPIController{
         
         // Получаем и санитизируем путь
         $path = $this->sanitizePath($request['path']);
-        
+
+        // Распределение по году/месяцу, если включено в настройках источника
+        // (свойство источника distributeByDate = Да). Разбивает большую плоскую
+        // папку на подпапки ГОД/МЕСЯЦ, чтобы файловый браузер не тупил от объёма.
+        $props = $this->source->getPropertyList();
+        $byDate = isset($props['distributeByDate'])
+            && !in_array(strtolower(trim((string)$props['distributeByDate'])), ['', '0', 'false', 'no', 'off'], true);
+        if ($byDate) {
+            $subDir = ltrim(rtrim($path, '/') . '/' . date('Y') . '/' . date('m') . '/', '/');
+            // createContainer создаёт вложенные папки от корня источника
+            $this->source->errors = array();
+            $this->source->createContainer($subDir, '/');
+            $path = $subDir;
+        }
+
         // Загружаем файлы
+        $this->source->errors = array();
         $success = $this->source->uploadObjectsToContainer($path, $_FILES);
-        
+
         // Проверяем наличие ошибок
         if (!$success) {
             $errors = $this->source->getErrors();
             return $this->error(implode("\n", $errors));
         }
-        
-        // Получаем информацию о загруженном файле
+
+        // Получаем информацию о загруженном файле (url — финальный путь, вкл. год/месяц)
         $fileInfo = [];
         foreach ($_FILES as $file) {
+            $name = basename($file['name']);
+            $relPath = ltrim(rtrim($path, '/') . '/' . $name, '/');
+            // url в том же формате, что и листинг getFiles (ведущий '/'),
+            // чтобы сохранённый в записи путь не отличался от прежних.
+            $url = $this->source->getObjectUrl($relPath);
+            if ($url && !preg_match('#^(https?:)?//#i', $url) && $url[0] !== '/') {
+                $url = '/' . ltrim($url, '/');
+            }
             $fileInfo[] = [
-                'name' => basename($file['name']),
-                'path' => rtrim($path, '/') . '/' . basename($file['name']),
+                'name' => $name,
+                'path' => rtrim($path, '/') . '/' . $name,
+                'url'  => $url,
                 'size' => $file['size'],
                 'type' => $file['type']
             ];
         }
-        
+
         return $this->success('Файл успешно загружен', count($fileInfo) === 1 ? $fileInfo[0] : $fileInfo);
     }
     
