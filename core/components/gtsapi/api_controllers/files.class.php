@@ -306,7 +306,13 @@ class filesAPIController{
             ];
         }
         
-        return $this->success('', ['files' => $files, 'directories' => $directories]);
+        // baseUrl источника — фронту нужен, чтобы из полного url файла получить
+        // путь относительно источника (для навигации в подпапку год/месяц).
+        return $this->success('', [
+            'files' => $files,
+            'directories' => $directories,
+            'baseUrl' => ($baseUrl !== '' ? rtrim($baseUrl, '/') . '/' : ''),
+        ]);
     }
     
     /**
