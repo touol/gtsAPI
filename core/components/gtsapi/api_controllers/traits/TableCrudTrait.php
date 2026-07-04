@@ -167,6 +167,9 @@ trait TableCrudTrait
             if (!$resp['success']) return $resp;
 
             $data = $resp['data'];
+            // Подпись автокомплита для свежих строк дельты (напр. только что выбранный продукт),
+            // иначе ячейка покажет пусто до перезагрузки — см. enrichRowsDeltaAutocomplete.
+            $this->enrichRowsDeltaAutocomplete($data, $rule);
 
             $this->writeLog($rule, 'create', $obj->get('id'), $object_old, $object);
 
@@ -657,6 +660,9 @@ trait TableCrudTrait
                 }
                 if (!$resp['success']) return $resp;
                 $data = $resp['data'];
+                // Подпись автокомплита для свежих строк дельты (напр. только что выбранный продукт),
+                // иначе ячейка покажет пусто до перезагрузки — см. enrichRowsDeltaAutocomplete.
+                $this->enrichRowsDeltaAutocomplete($data, $rule);
 
                 $this->writeLog($rule, 'update', $obj->get('id'), $object_old, $object);
 

@@ -180,6 +180,31 @@ trait TableAutocompleteTrait
     }
 
     /**
+     * Обогащает rows_delta опциями автокомплитов под значения upsert-строк.
+     *
+     * rows_delta (точечное обновление таблицы) несёт новые/изменённые строки, в т.ч. со
+     * СВЕЖИМ значением autocomplete-поля (напр. product_id → только что выбранный продукт).
+     * Клиентский справочник опций (autocompleteSettings) этих id ещё не содержит — он грузился
+     * при чтении под товары, которые тогда были в таблице. Без опции ячейка автокомплита не
+     * покажет подпись (имя продукта / путь каталога) до полной перезагрузки таблицы.
+     *
+     * autocomplete() фильтрует опции РОВНО по значениям, присутствующим в переданных строках
+     * (where id:IN), и рендерит content по tpl — то же, что делает read. Кладём результат в
+     * rows_delta.autocomplete; клиент мёрджит его в свой справочник (не заменяя полный список).
+     *
+     * @param array $data  ссылка на data ответа (может содержать rows_delta.upsert)
+     * @param array $rule  правило таблицы, чьи строки в upsert (его fields → autocomplete-поля)
+     */
+    public function enrichRowsDeltaAutocomplete(&$data, $rule)
+    {
+        if (empty($data['rows_delta']['upsert']) || empty($rule['properties']['fields'])) return;
+        // offset=0 — не пропускать limit:0-автокомплиты (напр. продукция); autocomplete() всё равно
+        // ограничит выборку id из upsert-строк, весь каталог рендериться не будет.
+        $ac = $this->autocompletes($rule['properties']['fields'], $data['rows_delta']['upsert'], 0);
+        if (!empty($ac)) $data['rows_delta']['autocomplete'] = $ac;
+    }
+
+    /**
      * Обработка множественных автокомплитов
      */
     public function autocompletes($fields, $rows0, $offset)
