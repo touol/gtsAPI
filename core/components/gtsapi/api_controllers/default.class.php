@@ -107,7 +107,10 @@ class defaultAPIController{
     public function delete($rule,$request,$action){
         if(!empty($request['ids'])){
             if(is_string($request['ids'])) $request['ids'] = explode(',',$request['ids']);
-            $objs = $this->modx->getIterator($rule['class'],['id:IN'=>$request['ids']]);
+            // getCollection, НЕ getIterator: getIterator — живой forward-курсор, и $obj->remove()
+            // внутри цикла мутирует ту же таблицу под курсором → часть строк может проскочить
+            // и не удалиться (cursor-skip). getCollection материализует выборку в память ДО цикла.
+            $objs = $this->modx->getCollection($rule['class'],['id:IN'=>$request['ids']]);
             foreach($objs as $obj){
                 $object_old = $obj->toArray();
                 $resp = $this->run_triggers($rule['class'], 'before', 'remove', [], $object_old);
