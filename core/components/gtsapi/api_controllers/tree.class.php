@@ -1213,8 +1213,11 @@ class treeAPIController{
         if(!empty($request['ids'])){
             $slTreeSettings = $this->get_slTreeSettings($rule);
             if(is_string($request['ids'])) $request['ids'] = explode(',',$request['ids']);
-            $objs = $this->modx->getIterator($rule['class'],['id:IN'=>$request['ids']]);
-            
+            // getCollection, НЕ getIterator: удаление внутри цикла мутирует ту же таблицу
+            // под живым курсором → cursor-skip (часть строк не удаляется). Особенно опасно
+            // здесь из-за вложенного каскадного delete детей ниже.
+            $objs = $this->modx->getCollection($rule['class'],['id:IN'=>$request['ids']]);
+
             foreach($objs as $obj){
                 $object_old = $obj->toArray();
                 $resp = $this->run_triggers($rule, 'before', 'delete', [], $object_old);
@@ -1226,7 +1229,7 @@ class treeAPIController{
                     if($count == 1 and $target = $this->modx->getObject($obj->class,$obj->target_id) and $obj->class != $rule['class']){
                         $target->remove();
                     }
-                    $childs = $this->modx->getIterator($rule['class'],[$slTreeSettings['parentIdField']=>$obj->id]);
+                    $childs = $this->modx->getCollection($rule['class'],[$slTreeSettings['parentIdField']=>$obj->id]);
                     foreach($childs as $child){
                         $this->delete($rule,['ids'=>"{$child->id}"],$action);
                     }
