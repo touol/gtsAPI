@@ -7,6 +7,20 @@
 trait TableCrudTrait
 {
     /**
+     * Нормализация значения поля перед записью в объект.
+     * Пустая строка в поле типа date/datetime → NULL (иначе xPDO кладёт '0000-00-00'
+     * / поле нельзя очистить с фронта — приходила пустая строка, дата не обнулялась).
+     */
+    protected function normalizeFieldValue($value, $desc)
+    {
+        $type = isset($desc['type']) ? $desc['type'] : '';
+        if (($type === 'date' || $type === 'datetime') && $value === '') {
+            return null;
+        }
+        return $value;
+    }
+
+    /**
      * Создание новой записи
      */
     public function create($rule, $request, $action)
@@ -25,10 +39,11 @@ trait TableCrudTrait
                 if (isset($request[$field])) {
                     $field_arr = explode('.', $field);
                     if (count($field_arr) == 1) {
+                        $val = $this->normalizeFieldValue($request[$field], $desc);
                         if (empty($desc['class']) or $desc['class'] == $rule['class']) {
-                            $set_data[$rule['class']][$field] = $request[$field];
+                            $set_data[$rule['class']][$field] = $val;
                         } else {
-                            $set_data[$desc['class']][$field] = $request[$field];
+                            $set_data[$desc['class']][$field] = $val;
                         }
                     } else if (count($field_arr) == 2) {
                         if (empty($desc['class']) or $desc['class'] == $rule['class']) {
@@ -523,10 +538,11 @@ trait TableCrudTrait
                         $field_arr = explode('.', $field);
                         $desc['field'] = $desc['field'] ? $desc['field'] : $field;
                         if (count($field_arr) == 1) {
+                            $val = $this->normalizeFieldValue($request[$field], $desc);
                             if (empty($desc['class']) or $desc['class'] == $rule['class']) {
-                                $set_data[$rule['class']][$desc['field']] = $request[$field];
+                                $set_data[$rule['class']][$desc['field']] = $val;
                             } else {
-                                $set_data[$desc['class']][$desc['field']] = $request[$field];
+                                $set_data[$desc['class']][$desc['field']] = $val;
                             }
                         } else if (count($field_arr) == 2) {
                             if (empty($desc['class']) or $desc['class'] == $rule['class']) {
