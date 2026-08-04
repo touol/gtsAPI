@@ -44698,7 +44698,7 @@ endobj\r
   var c = l.getContext("2d");
   c.fillStyle = "#fff", c.fillRect(0, 0, l.width, l.height);
   var u = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (rn.canvg ? Promise.resolve(rn.canvg) : import("./index.es-ZsC4JkVL.js")).catch(function(m) {
+  return (rn.canvg ? Promise.resolve(rn.canvg) : import("./index.es-l8CzQrp4.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -53756,7 +53756,7 @@ function ok(t, e, n, o, i, r, a, s, l, c, u, f, m, d = {}, v = null, g = null, y
         }
         if (gt.data?.object?.id) {
           const ot = gt.data.object;
-          if (Pt(ot.id), O(ve.id, ot, g?.value ?? {}), H(), a.value = [...a.value], w?.({ type: "insert", insertedId: ot.id, insertedData: ot, filters: e?.() }), gt.data?.customFields)
+          if (Pt(ot.id), O(ve.id, ot, g?.value ?? {}), H(), a.value = [...a.value], gt.data?.autocomplete && K(gt.data.autocomplete), w?.({ type: "insert", insertedId: ot.id, insertedData: ot, filters: e?.() }), gt.data?.customFields)
             for (const wt in gt.data.customFields)
               l.value[wt] = gt.data.customFields[wt];
           if (gt.data?.row_setting)
@@ -53793,7 +53793,7 @@ function ok(t, e, n, o, i, r, a, s, l, c, u, f, m, d = {}, v = null, g = null, y
         for (const gt in it.data.row_setting)
           c.value[gt] = it.data.row_setting[gt];
       const Mt = it.data?.object ?? { ...tt, [me]: He };
-      w?.({ type: "update", id: ve.id, field: me, dataBefore: tt, dataAfter: Mt, filters: e?.() }), it.data?.rows_delta ? D(it.data.rows_delta) : it.data?.refresh_table == 1 && (H(3), o(!1));
+      w?.({ type: "update", id: ve.id, field: me, dataBefore: tt, dataAfter: Mt, filters: e?.() }), it.data?.autocomplete && K(it.data.autocomplete), it.data?.rows_delta ? D(it.data.rows_delta) : it.data?.refresh_table == 1 && (H(3), o(!1));
     } catch (it) {
       n("error", { detail: it.message }, !0);
     }

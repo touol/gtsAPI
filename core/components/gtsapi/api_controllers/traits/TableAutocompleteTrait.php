@@ -197,11 +197,24 @@ trait TableAutocompleteTrait
      */
     public function enrichRowsDeltaAutocomplete(&$data, $rule)
     {
-        if (empty($data['rows_delta']['upsert']) || empty($rule['properties']['fields'])) return;
+        if (empty($rule['properties']['fields'])) return;
         // offset=0 — не пропускать limit:0-автокомплиты (напр. продукция); autocomplete() всё равно
-        // ограничит выборку id из upsert-строк, весь каталог рендериться не будет.
-        $ac = $this->autocompletes($rule['properties']['fields'], $data['rows_delta']['upsert'], 0);
-        if (!empty($ac)) $data['rows_delta']['autocomplete'] = $ac;
+        // ограничит выборку id из строк, весь каталог рендериться не будет.
+
+        // 1) Строки rows_delta (пересчитанное поддерево — напр. update строки или каскад по родителю).
+        if (!empty($data['rows_delta']['upsert'])) {
+            $ac = $this->autocompletes($rule['properties']['fields'], $data['rows_delta']['upsert'], 0);
+            if (!empty($ac)) $data['rows_delta']['autocomplete'] = $ac;
+        }
+
+        // 2) Только что созданная/обновлённая строка (data.object). Для НОВОЙ верхнеуровневой детали
+        // rows_delta пуст (родителя для пересчёта нет), но клиент добавляет строку из data.object —
+        // без подписей product_id/материала ячейки пустуют до F5. Кладём словари в data.autocomplete
+        // (клиент мёрджит так же, как при read). autocomplete() ограничит выборку значениями строки.
+        if (!empty($data['object']) && is_array($data['object'])) {
+            $acObj = $this->autocompletes($rule['properties']['fields'], [$data['object']], 0);
+            if (!empty($acObj)) $data['autocomplete'] = $acObj;
+        }
     }
 
     /**
