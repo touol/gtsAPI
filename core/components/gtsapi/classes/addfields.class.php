@@ -229,10 +229,23 @@ class AddFields
         }
         return $objects;
     }
-    public function updateFields()
+    /**
+     * Синхронизация колонок динамических полей с базой.
+     *
+     * @param bool $allowRemove Сносить ли колонки, которых больше нет в справочнике.
+     *   По умолчанию НЕТ. Метод проходит по ВСЕМ таблицам с add_base=1, а не только по
+     *   тем, что относятся к текущему действию, и «лишней» считает любую колонку, которой
+     *   нет ни в схеме компонента, ни в справочнике полей. Одна колонка, добавленная
+     *   когда-то руками мимо схемы, уезжала при установке любого пакета. Снос теперь —
+     *   отдельная осознанная команда: «Снести удалённые колонки» в админке gtsAPI.
+     *
+     * @return array success/error с отчётом: added / altered / removed / pending_remove
+     */
+    public function updateFields($allowRemove = false)
     {
+        $report = ['added'=>[], 'altered'=>[], 'removed'=>[], 'pending_remove'=>[], 'skipped'=>0];
         $manager = $this->getManager();
-        if(!$manager) return;
+        if(!$manager) return $this->error('Не загружен gtsAPIManager', $report);
 
         $gtsAPIFieldTables = $this->modx->getIterator('gtsAPIFieldTable',['add_base'=>1]);
         $packages = [];
@@ -334,7 +347,7 @@ class AddFields
             
             $datas[$class] = $addFields;
         }
-        if(empty($datas)) return;
+        if(empty($datas)) return $this->success('Динамических полей нет', $report);
 
         // $this->modx->log(1,"updateFields5 datas ".print_r($datas,1));
 
@@ -346,6 +359,7 @@ class AddFields
             }
             // получаем поля в базе
             $fields[$class] = $manager->geTableFields($class);
+            $columns = $this->getTableColumns($class);
             // $this->modx->log(1,"updateFields5 fields ".print_r($fields,1));
             // удаляем те, что есть в начальном конфиге компонента
             if(isset($objects[$class])){
@@ -356,7 +370,17 @@ class AddFields
             }
             foreach($add_fields as $field=>$add_field){
                 if(isset($fields[$class][$field])){
-                    if ($manager->alterField($add_field,$class,'id')) {
+                    // ALTER только если колонка реально расходится с описанием поля.
+                    // Раньше он выполнялся всегда: на каждую установку пакета — по ALTER
+                    // на каждое динамическое поле, с перестройкой и блокировкой таблицы.
+                    // На деве это стоило 35 секунд впустую, на проде — больше.
+                    if($this->sameDefinition($columns, $field, $add_field)){
+                        $report['skipped']++;
+                        if (!$okIndex = $manager->addIndex($add_field,$class)) {
+                            $this->modx->log(1,"gtsAPI err_index_add ");
+                        }
+                    }else if ($manager->alterField($add_field,$class,'id')) {
+                        $report['altered'][] = "{$class}.{$field}";
                         if (!$okIndex = $manager->addIndex($add_field,$class)) {
                             $this->modx->log(1,"gtsAPI err_index_add ");
                         }
@@ -364,6 +388,7 @@ class AddFields
                     unset($fields[$class][$field]);
                 }else{
                     if ($manager->addField($add_field,$class,'id')) {
+                        $report['added'][] = "{$class}.{$field}";
                         if (!$okIndex = $manager->addIndex($add_field,$class)) {
                             $this->modx->log(1,"gtsAPI err_index_add ");
                         }
@@ -371,17 +396,64 @@ class AddFields
                 }
             }
         }
-        if(empty($datas)) return;
+        if(empty($datas)) return $this->success('Динамических полей нет', $report);
 
         // $this->modx->log(1,"updateFields6 ".print_r($fields,1));
-        array_map('unlink', array_filter( 
+        array_map('unlink', array_filter(
             (array) array_merge(glob(MODX_CORE_PATH . 'components/gtsapi/plugins/*'))));
         foreach($fields as $class=>$fs){
             foreach($fs as $k=>$field){
-                $manager->removeField($field,$class);
+                if(!$allowRemove){
+                    // Колонка осталась без описания в справочнике. Не трогаем: снос — только
+                    // по команде. В карту она не попадёт, то есть станет неактивной.
+                    $report['pending_remove'][] = "{$class}.{$field}";
+                    continue;
+                }
+                if($manager->removeField($field,$class)){
+                    $report['removed'][] = "{$class}.{$field}";
+                }
             }
             $this->generateMapDatas($class,$datas);
         }
+
+        return $this->success('Поля синхронизированы', $report);
+    }
+
+    /**
+     * Колонки таблицы с типом и признаком NULL: имя => ['type'=>'varchar(191)','null'=>'YES'].
+     */
+    public function getTableColumns($class)
+    {
+        $out = [];
+        if(!$tableName = $this->modx->getTableName($class)) return $out;
+        if($stmt = $this->modx->query("SHOW FULL COLUMNS FROM {$tableName}")){
+            foreach($stmt->fetchAll(PDO::FETCH_ASSOC) as $col){
+                $out[$col['Field']] = [
+                    'type' => strtolower($col['Type']),
+                    'null' => strtoupper($col['Null']),
+                ];
+            }
+        }
+        return $out;
+    }
+
+    /**
+     * Совпадает ли колонка в базе с описанием поля. Сравниваем тип и NULL — ровно то,
+     * что кладёт в SQL getColumnDef(). DEFAULT не сравниваем: getColumnDef его почти
+     * никогда не выводит, и сверка по нему давала бы вечный ALTER.
+     */
+    public function sameDefinition($columns, $field, $add_field)
+    {
+        if(empty($columns[$field])) return false;
+
+        $type = strtolower(trim($add_field['dbtype']));
+        if($type === '') return false;
+        if(!empty($add_field['dbprecision'])) $type .= '(' . $add_field['dbprecision'] . ')';
+
+        $null = ($add_field['dbnull'] == 'true' or $add_field['dbnull'] == 1 or $add_field['dbnull'] === true)
+            ? 'YES' : 'NO';
+
+        return $columns[$field]['type'] === $type and $columns[$field]['null'] === $null;
     }
     
 

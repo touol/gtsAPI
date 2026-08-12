@@ -72,11 +72,22 @@ if ($transport->xpdo) {
             if(is_array($data)){
                 if(isset($data['gtsapi'])){
                     if(add_data_package($modx,'gtsapi',$data['gtsapi'])){
-                        // $loaded = include_once(MODX_CORE_PATH . 'components/gtsapi/classes/addfields.class.php');
-                        // if ($loaded) {
-                        //     $addFields = new AddFields($modx,[]);
-                        //     $addFields->updateFields();
-                        // }
+                        // Динамические поля gtsAPI применяем прямо при установке, иначе
+                        // строки в справочнике есть, а колонок в базе нет — и их приходится
+                        // добивать вручную (AddFields в gtsAPI).
+                        //
+                        // ⚠️ updateFields() не только добавляет: колонку, которой нет ни в
+                        // схеме компонента, ни в справочнике полей, он ДРОПАЕТ. И проходит он
+                        // по ВСЕМ таблицам с add_base=1 — не только по устанавливаемому пакету.
+                        // Поэтому запуск только тогда, когда файлы схем уже на месте.
+                        $loaded = include_once(MODX_CORE_PATH . 'components/gtsapi/classes/addfields.class.php');
+                        if ($loaded) {
+                            $addFields = new AddFields($modx,[]);
+                            // false — установка только добавляет и правит колонки.
+                            // Снос оставшихся колонок делается вручную: кнопка
+                            // «Снести колонки удалённых полей» в админке gtsAPI.
+                            $addFields->updateFields(false);
+                        }
                     }
                     unset($data['gtsapi']);
                 }

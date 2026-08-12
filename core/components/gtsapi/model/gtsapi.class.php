@@ -299,6 +299,33 @@ class gtsAPI
     public function error($message = "",$data = []){
         return array('success'=>0,'message'=>$message,'data'=>$data);
     }
+    /**
+     * Команда админки: снести колонки, у которых больше нет описания в справочнике полей.
+     *
+     * Обычная синхронизация (установка пакета, правка поля) колонки НЕ удаляет —
+     * см. AddFields::updateFields(). Удаление вынесено сюда, чтобы это было осознанное
+     * действие: метод проходит по всем таблицам с динамическими полями сразу.
+     */
+    public function clean_fields($data = [], $front = false){
+        $loaded = include_once($this->config['corePath'] . 'classes/addfields.class.php');
+        if(!$loaded) return $this->error("Не найден addfields.class.php!");
+
+        $addFields = new AddFields($this->modx, $this->config);
+        $resp = $addFields->updateFields(true);
+        if(empty($resp['success'])) return $resp;
+
+        $removed = !empty($resp['data']['removed']) ? $resp['data']['removed'] : [];
+        $added = !empty($resp['data']['added']) ? $resp['data']['added'] : [];
+        $altered = !empty($resp['data']['altered']) ? $resp['data']['altered'] : [];
+
+        $message = $removed
+            ? 'Снесены колонки (' . count($removed) . '): ' . implode(', ', $removed)
+            : 'Лишних колонок нет — удалять нечего';
+        if($added) $message .= '. Добавлены: ' . implode(', ', $added);
+        if($altered) $message .= '. Изменены: ' . implode(', ', $altered);
+
+        return $this->success($message, $resp['data']);
+    }
     public function gen_fields($data){
         if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
         if(!$gtsAPITable = $this->modx->getObject("gtsAPITable",(int)$data['id'])) 

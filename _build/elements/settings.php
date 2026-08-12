@@ -730,7 +730,14 @@ return [
                     }
                   }
                 },
-                "remove": []
+                "remove": [],
+                "clean_fields": {
+                  "action": "gtsapi/clean_fields",
+                  "title": "Снести колонки удалённых полей",
+                  "cls": "btn btn-danger",
+                  "row": [],
+                  "icon": "glyphicon glyphicon-trash"
+                }
               },
               "pdoTools": {
                 "class": "gtsAPIField"
