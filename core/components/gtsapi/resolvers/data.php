@@ -86,7 +86,16 @@ if ($transport->xpdo) {
                             // false — установка только добавляет и правит колонки.
                             // Снос оставшихся колонок делается вручную: кнопка
                             // «Снести колонки удалённых полей» в админке gtsAPI.
-                            $addFields->updateFields(false);
+                            $resp = $addFields->updateFields(false);
+                            // Отчёт с меткой [DPLOG] возвращается вызывающей стороне в install_log
+                            // (gtsDeploy). Иначе на чужом сайте не видно, что именно сделали с колонками.
+                            $d = isset($resp['data']) ? $resp['data'] : [];
+                            $modx->log(modX::LOG_LEVEL_INFO, '[DPLOG] gtsAPI доп.поля:'
+                                . ' добавлено ' . count($d['added']) . (empty($d['added']) ? '' : ' (' . implode(', ', $d['added']) . ')')
+                                . ', изменено ' . count($d['altered']) . (empty($d['altered']) ? '' : ' (' . implode(', ', $d['altered']) . ')')
+                                . ', без изменений ' . (int)$d['skipped']
+                                . ', владеет схема ' . count($d['in_schema'])
+                                . ', под снос ' . count($d['pending_remove']) . (empty($d['pending_remove']) ? '' : ' (' . implode(', ', $d['pending_remove']) . ')'));
                         }
                     }
                     unset($data['gtsapi']);

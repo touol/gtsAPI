@@ -769,7 +769,13 @@ class SkladNarydPackage
             }
             $package->save();
         }
-        if ($package->install()) {
+        // REMOVE_PREEXISTING: не архивировать то, что уже лежит на сайте.
+        // По умолчанию MODX перед заменой пакует существующие core/ и assets/ в
+        // .preserved.zip — на случай отката при деинсталляции. У gtsAPI в assets лежит
+        // сборка PVTables, и эта перепаковка съедала 15 из 22 секунд установки.
+        // Плата: при удалении пакета файлы не восстановятся, а удалятся. Код в git,
+        // деинсталляций мы не делаем.
+        if ($package->install([xPDOTransport::PREEXISTING_MODE => xPDOTransport::REMOVE_PREEXISTING])) {
             $this->modx->runProcessor('system/clearcache');
         }
     }
