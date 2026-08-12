@@ -733,10 +733,10 @@ return [
                 "remove": [],
                 "clean_fields": {
                   "action": "gtsapi/clean_fields",
-                  "title": "Снести колонки удалённых полей",
-                  "cls": "btn btn-danger",
-                  "row": [],
-                  "icon": "glyphicon glyphicon-trash"
+                  "title": "Снести колонки полей, удалённых из справочника (по всем таблицам)",
+                  "cls": "btn btn-warning",
+                  "multiple": 1,
+                  "icon": "glyphicon glyphicon-erase"
                 }
               },
               "pdoTools": {

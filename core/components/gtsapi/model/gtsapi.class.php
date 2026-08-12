@@ -288,6 +288,9 @@ class gtsAPI
             case 'gen_fields':
                 return $this->gen_fields($data);
             break;
+            case 'clean_fields':
+                return $this->clean_fields($data);
+            break;
             default:
                 return $this->error("Not found action!");
         }
