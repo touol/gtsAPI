@@ -11,6 +11,14 @@ return [
         'value' => '[[+jsUrl]]web/default.js',
         'area' => 'gtsapi_main',
     ],
+    // Короткая метка сайта ('prod', 'office', 'dev' и т.п.). Задаётся один раз на каждой
+    // инсталляции. Пакеты используют её в resources.js, чтобы разложить страницы по сайтам,
+    // НЕ раскрывая реальные адреса в публично распространяемом коде.
+    'site_key' => [
+        'xtype' => 'textfield',
+        'value' => '',
+        'area' => 'gtsapi_main',
+    ],
     'day_exp' => [
       'xtype' => 'textfield',
       'value' => '30',

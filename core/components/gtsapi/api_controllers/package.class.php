@@ -582,11 +582,25 @@ class packageAPIController{
             file_put_contents($path . '/resources.json',$request['resources']);
         }
         if(isset($request['resource_groups'])){
-            
+
             if ( ! is_dir($path)) {
                 mkdir($path, 0666, true);
             }
             file_put_contents($path . '/resource_groups.json',$request['resource_groups']);
+        }
+        if(isset($request['user_groups'])){
+
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
+            }
+            file_put_contents($path . '/user_groups.json',$request['user_groups']);
+        }
+        if(isset($request['permissions'])){
+
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
+            }
+            file_put_contents($path . '/permissions.json',$request['permissions']);
         }
         // if(isset($request['data'])){
         //     $data = json_decode($request['data'],1);
@@ -655,6 +669,14 @@ class packageAPIController{
         //add resources
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'resources.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'resources.php'));
+        }
+        //add user_groups (свои группы пользователей + права на группы ресурсов)
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'user_groups.resolver.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'user_groups.resolver.php'));
+        }
+        //add permissions (шаблон разрешений MODX + разрешения + политики)
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'permissions.resolver.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'permissions.resolver.php'));
         }
         
         $this->builder->putVehicle($vehicle);
