@@ -78,12 +78,26 @@ if ($transport->xpdo) {
             $modx->addPackage($options['namespace'], MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/');
             $manager = $modx->getManager();
             $objects = [];
+            $inherited = [];
+            $parentOf = [];
+            $ownFields = [];
             $schemaFile = MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/schema/'.$options['namespace'].'.mysql.schema.xml';
             if (is_file($schemaFile)) {
                 $schema = new SimpleXMLElement($schemaFile, 0, true);
                 if (isset($schema->object)) {
                     foreach ($schema->object as $obj) {
-                        $objects[] = (string)$obj['class'];
+                        $class = (string)$obj['class'];
+                        $objects[] = $class;
+                        // Класс, наследующий ЧУЖОЙ класс (gsProduct extends modResource),
+                        // сидит в чужой таблице: modx_site_content принадлежит MODX, а не нам.
+                        // Такой таблицей мы управлять не вправе — только доложить свои колонки.
+                        $extends = (string)$obj['extends'];
+                        $inherited[$class] = $extends !== '' && !in_array($extends, ['xPDOObject', 'xPDOSimpleObject']);
+                        $parentOf[$class] = $extends;
+                        $ownFields[$class] = [];
+                        foreach ($obj->field as $f) {
+                            $ownFields[$class][(string)$f['key']] = (string)$f['key'];
+                        }
                     }
                 }
                 unset($schema);
@@ -95,6 +109,10 @@ if ($transport->xpdo) {
                 $newTable = true;
                 if ($stmt->execute() && $stmt->fetchAll()) {
                     $newTable = false;
+                }
+                // Чужая таблица, которой ещё нет: создавать её не наше дело
+                if ($newTable && !empty($inherited[$class])) {
+                    continue;
                 }
                 // If the table is just created
                 if ($newTable) {
@@ -111,7 +129,18 @@ if ($transport->xpdo) {
                         $columns[$cl['Field']] = $cl;
                     }
                     $fieldMeta = $modx->getFieldMeta($class, true);
-                    foreach ($modx->getFields($class) as $field => $v) {
+                    // У наследника чужого класса своими считаем только те поля, которых нет
+                    // у родителя. class_key gsProduct/gsCategory переопределяют ради дефолта
+                    // на уровне xPDO — но колонка-то родительская, одна на все ресурсы, и
+                    // наследники вечно перебивали друг другу её DEFAULT в modx_site_content.
+                    $syncFields = $modx->getFields($class);
+                    if (!empty($inherited[$class])) {
+                        $syncFields = array_diff_key(
+                            array_intersect_key($syncFields, $ownFields[$class]),
+                            $modx->getFields($parentOf[$class])
+                        );
+                    }
+                    foreach ($syncFields as $field => $v) {
                         if (in_array($field, $tableFields)) {
                             unset($tableFields[$field]);
                             // ALTER только если колонка расходится со схемой
@@ -123,10 +152,14 @@ if ($transport->xpdo) {
                             $manager->addField($class, $field);
                         }
                     }
-                    foreach ($tableFields as $field) {
-                        $manager->removeField($class, $field);
+                    // Лишние колонки сносим только в своей таблице
+                    if (empty($inherited[$class])) {
+                        foreach ($tableFields as $field) {
+                            $manager->removeField($class, $field);
+                        }
                     }
-                    // 2. Operate with indexes
+                    // 2. Operate with indexes (в чужой таблице индексы не наши)
+                    if (!empty($inherited[$class])) continue;
                     $indexes = [];
                     $c = $modx->prepare("SHOW INDEX FROM {$modx->getTableName($class)}");
                     $c->execute();
