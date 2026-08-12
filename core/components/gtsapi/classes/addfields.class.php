@@ -243,7 +243,7 @@ class AddFields
      */
     public function updateFields($allowRemove = false)
     {
-        $report = ['added'=>[], 'altered'=>[], 'removed'=>[], 'pending_remove'=>[], 'skipped'=>0];
+        $report = ['added'=>[], 'altered'=>[], 'removed'=>[], 'pending_remove'=>[], 'in_schema'=>[], 'skipped'=>0];
         $manager = $this->getManager();
         if(!$manager) return $this->error('Не загружен gtsAPIManager', $report);
 
@@ -369,6 +369,14 @@ class AddFields
                 }
             }
             foreach($add_fields as $field=>$add_field){
+                // Колонка описана в схеме компонента — ею владеет схема, динамика не лезет.
+                // Так бывает, когда имя доп. поля совпадает с обычным (напр. gsRaschetProduct.count
+                // есть и в схеме gtsShop, и в справочнике). Раньше такое поле каждый раз уходило
+                // в addField, MySQL отвечал «Duplicate column», и ошибка падала в лог.
+                if(isset($objects[$class][$field])){
+                    $report['in_schema'][] = "{$class}.{$field}";
+                    continue;
+                }
                 if(isset($fields[$class][$field])){
                     // ALTER только если колонка реально расходится с описанием поля.
                     // Раньше он выполнялся всегда: на каждую установку пакета — по ALTER
