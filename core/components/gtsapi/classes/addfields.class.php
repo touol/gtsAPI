@@ -477,7 +477,9 @@ class AddFields
                 $key = $manager->getIndex('');
                 $default = $field['dbdefault']=='none'?'':$field['dbdefault'];
                 $defaultType = $this->modx->driver->getPhpType($field['dbtype']);
-                $phpType = $field['xtype'] ? $this->xtypeToPhpType($field['xtype'], $defaultType) : $defaultType;
+                // xtype есть только у полей старого формата (gsAddField). У gtsAPIField такой
+                // колонки нет — обращение к ней сыпало notice на каждое поле при каждой установке.
+                $phpType = !empty($field['xtype']) ? $this->xtypeToPhpType($field['xtype'], $defaultType) : $defaultType;
                 if ($default === 'NULL') {
                     $default = null;
                 }
