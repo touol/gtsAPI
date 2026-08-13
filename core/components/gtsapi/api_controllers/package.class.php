@@ -567,6 +567,13 @@ class packageAPIController{
             }
             file_put_contents($path . '/gtsapipackages.json',$request['gtsapipackages']);
         }
+        if(isset($request['dependencies'])){
+            $path = $this->config['core'];
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
+            }
+            file_put_contents($path . '/dependencies.json',$request['dependencies']);
+        }
         if(isset($request['data'])){
             $path = $this->config['core'];
             if ( ! is_dir($path)) {
@@ -649,6 +656,10 @@ class packageAPIController{
         //     }
         // }
 
+        // Зависимости — ПЕРВЫМИ: без них таблицы и данные ставить бессмысленно
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'dependencies.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver dependencies');
+        }
         //add table
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'tables.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'tables.php'));
