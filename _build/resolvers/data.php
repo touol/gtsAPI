@@ -165,6 +165,11 @@ if ($transport->xpdo) {
         case xPDOTransport::ACTION_UPGRADE:
             // $modx->addPackage($options['namespace'], MODX_CORE_PATH . 'components/'.$options['namespace'].'/model/');
             $file = MODX_CORE_PATH . 'components/'.$options['namespace'].'/data.json';
+            // Пакет может не везти справочных данных вовсе — это норма, а не повод
+            // сыпать PHP warning в лог установки
+            if (!is_file($file)) {
+                break;
+            }
 
             $data = json_decode(file_get_contents($file),1);
             if(is_array($data)){
