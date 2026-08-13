@@ -66,6 +66,86 @@ if (!function_exists('gts_column_matches')) {
         return true;
     }
 }
+/**
+ * Перечитать карту класса с диска, сохранив динамические доп. поля.
+ *
+ * Зачем: файловый резолвер уже разложил свежие файлы модели, но карта класса
+ * закреплена в памяти с начала процесса — новых полей схемы в ней нет, резолвер их
+ * «не видит» и колонки не создаёт. Отсюда ритуал «ставить пакет дважды».
+ * loadClass тут не помогает: файлы модели подключаются через include_once, второй
+ * раз он их не прочитает. Поэтому читаем файл карты напрямую.
+ *
+ * ⚠️ Карту НЕ заменяем, только доливаем недостающие поля: во-первых, xPDO после
+ * подмены перестаёт подключать <класс>_mysql, во-вторых, в карте живут динамические
+ * доп. поля gtsAPI (их домёрдживает плагин на OnMODXInit) — потеряв их, резолвер
+ * счёл бы их колонки лишними и снёс. Так уже терялись данные.
+ */
+if (!function_exists('gts_reload_map')) {
+    function gts_reload_map($modx, $class, $package)
+    {
+        $file = MODX_CORE_PATH . 'components/' . strtolower($package) . '/model/'
+            . strtolower($package) . '/mysql/' . strtolower($class) . '.map.inc.php';
+        if (!is_file($file)) return false;
+
+        $xpdo_meta_map = array();
+        include $file;                       // именно include: include_once уже отработал
+        if (empty($xpdo_meta_map[$class]) || empty($xpdo_meta_map[$class]['fields'])) return false;
+
+        // Только ДОЛИВАЕМ недостающее. Заменять карту целиком нельзя: xPDO считает класс
+        // уже загруженным и перестаёт подключать <класс>_mysql — установка падает
+        // «Class gtsAPIRule_mysql not found».
+        $fresh = $xpdo_meta_map[$class];
+        if (!isset($modx->map[$class])) return false;
+        $added = 0;
+        foreach (array('fields', 'fieldMeta', 'indexes') as $k) {
+            if (empty($fresh[$k]) || !is_array($fresh[$k])) continue;
+            foreach ($fresh[$k] as $name => $v) {
+                if (!isset($modx->map[$class][$k][$name])) {
+                    $modx->map[$class][$k][$name] = $v;
+                    if ($k === 'fields') $added++;
+                }
+            }
+        }
+
+        return $added;
+    }
+}
+
+/**
+ * Колонки, зарегистрированные как динамические доп. поля gtsAPI для этого класса.
+ * Страховка: такие колонки резолвер не удаляет НИКОГДА, даже если карта модели
+ * оказалась неполной. Именно на этом месте когда-то «слетели полбазы».
+ */
+if (!function_exists('gts_dynamic_columns')) {
+    function gts_dynamic_columns($modx, $class)
+    {
+        static $cache = array();
+        if (isset($cache[$class])) return $cache[$class];
+        $out = array();
+        try {
+            $modx->addPackage('gtsapi', MODX_CORE_PATH . 'components/gtsapi/model/');
+            // Прямой SQL, а не xPDOQuery: резолвер работает во время установки, когда
+            // модель gtsAPI может быть недогружена, и построитель запросов падает
+            $sql = 'SELECT f.name'
+                . ' FROM ' . $modx->getTableName('gtsAPIField') . ' f'
+                . ' JOIN ' . $modx->getTableName('gtsAPIFieldGroupLink') . ' l ON l.field_id = f.id'
+                . ' JOIN ' . $modx->getTableName('gtsAPIFieldGroupTableLink') . ' tl ON tl.group_field_id = l.group_field_id'
+                . ' JOIN ' . $modx->getTableName('gtsAPIFieldTable') . ' ft ON ft.id = tl.table_field_id'
+                . ' JOIN ' . $modx->getTableName('gtsAPITable') . ' t ON t.`table` = ft.name_table'
+                . ' WHERE t.class = ? OR t.`table` = ?';
+            $stmt = $modx->prepare($sql);
+            if ($stmt && $stmt->execute(array($class, $class))) {
+                foreach ($stmt->fetchAll(PDO::FETCH_COLUMN) as $name) {
+                    if ($name !== '') $out[$name] = $name;
+                }
+            }
+        } catch (Exception $e) {
+        }
+
+        return $cache[$class] = $out;
+    }
+}
+
 /** @var xPDOTransport $transport */
 /** @var array $options */
 /** @var modX $modx */
@@ -101,6 +181,12 @@ if ($transport->xpdo) {
                     }
                 }
                 unset($schema);
+            }
+            $reloadPackage = $options['namespace'];
+            // Свежие файлы модели уже на месте — перечитываем карту, иначе новые поля
+            // схемы не будут видны до ВТОРОЙ установки пакета
+            foreach ($objects as $class) {
+                gts_reload_map($modx, $class, $reloadPackage);
             }
             foreach ($objects as $class) {
                 $table = $modx->getTableName($class);
@@ -152,9 +238,18 @@ if ($transport->xpdo) {
                             $manager->addField($class, $field);
                         }
                     }
-                    // Лишние колонки сносим только в своей таблице
+                    // Лишние колонки сносим только в своей таблице и никогда — динамические
+                    // доп. поля gtsAPI: их в файлах модели нет, и один сбой карты стоил бы данных
+                    $dynamicCols = gts_dynamic_columns($modx, $class);
+                    // Ключевые колонки не сносим НИКОГДА, что бы ни лежало в карте модели.
+                    // Стоило один раз испортить карту — и resolver снёс `id` у 11 таблиц.
+                    $keyCols = array('id' => 'id');
+                    if ($pk = $modx->getPK($class)) {
+                        foreach ((array)$pk as $pkCol) $keyCols[$pkCol] = $pkCol;
+                    }
                     if (empty($inherited[$class])) {
                         foreach ($tableFields as $field) {
+                            if (isset($keyCols[$field]) || isset($dynamicCols[$field])) continue;
                             $manager->removeField($class, $field);
                         }
                     }
