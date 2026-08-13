@@ -76,6 +76,25 @@ if (!function_exists('gts_dep_download')) {
     }
 }
 
+if (!function_exists('gts_dep_body')) {
+    /**
+     * Тело ответа провайдера. В MODX 2 это modRestClient со свойством ->response,
+     * в MODX 3 — PSR-7 ResponseInterface. Без этой развилки на MODX 3 любой поиск
+     * пакета молча возвращал пустоту и всё выглядело как «пакета нет у провайдера».
+     */
+    function gts_dep_body($response)
+    {
+        if (!is_object($response)) {
+            return '';
+        }
+        if (method_exists($response, 'getBody')) {
+            return (string)$response->getBody();
+        }
+
+        return isset($response->response) ? (string)$response->response : '';
+    }
+}
+
 if (!function_exists('gts_dep_register')) {
     /** Регистрация скачанного transport.zip как пакета и установка */
     function gts_dep_register($modx, $name, $signature, $providerId = 0)
@@ -155,10 +174,11 @@ if (!function_exists('gts_dep_install')) {
         foreach ($providers as $provider) {
             $tried[] = $provider->get('name') ?: $provider->get('service_url');
             $response = $provider->request('package', 'GET', ['supports' => $productVersion, 'query' => $name]);
-            if (empty($response)) {
+            $body = gts_dep_body($response);
+            if ($body === '') {
                 continue;
             }
-            $found = @simplexml_load_string($response->response);
+            $found = @simplexml_load_string($body);
             if (!$found) {
                 continue;
             }

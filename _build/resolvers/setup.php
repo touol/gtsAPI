@@ -63,8 +63,23 @@ $installPackage = function ($packageName, $options = []) use ($modx, $downloadPa
         'query' => $packageName,
     ]);
 
-    if (!empty($response)) {
-        $foundPackages = simplexml_load_string($response->response);
+    // Тело ответа: в MODX 2 это modRestClient со свойством ->response, в MODX 3 —
+    // PSR-7 ResponseInterface. Без развилки на MODX 3 поиск возвращал пустоту,
+    // и это выглядело как «пакета нет в репозитории».
+    $body = '';
+    if (is_object($response)) {
+        $body = method_exists($response, 'getBody')
+            ? (string)$response->getBody()
+            : (isset($response->response) ? (string)$response->response : '');
+    }
+    if ($body !== '') {
+        $foundPackages = @simplexml_load_string($body);
+        if (!$foundPackages) {
+            return [
+                'success' => 0,
+                'message' => "Ответ провайдера по <b>{$packageName}</b> не разобран.",
+            ];
+        }
         foreach ($foundPackages as $foundPackage) {
             /** @var modTransportPackage $foundPackage */
             /** @noinspection PhpUndefinedFieldInspection */
