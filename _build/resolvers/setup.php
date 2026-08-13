@@ -9,7 +9,9 @@ if (!$transport->xpdo || !($transport instanceof xPDOTransport)) {
 $modx =& $transport->xpdo;
 $packages = [
     'getTables' => [
-        'version' => '1.9.3-alpha',
+        // 1.12.2 — первая сборка без create_function: в 1.12.1 он оставался,
+        // и на PHP 8 админка падала
+        'version' => '1.12.2-alpha',
         'service_url' => 'modstore.pro',
     ],
     'pdoTools' => [
