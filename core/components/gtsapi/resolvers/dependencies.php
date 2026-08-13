@@ -128,47 +128,64 @@ if (!function_exists('gts_dep_install')) {
                 : [0, 'скачан, но не установился'];
         }
 
-        // 2. Провайдер (modstore.pro, modx.com…)
-        $provider = null;
-        if (!empty($opt['service_url'])) {
-            $provider = $modx->getObject('transport.modTransportProvider', [
-                'service_url:LIKE' => '%' . $opt['service_url'] . '%',
-            ]);
+        // 2. Провайдеры (modstore.pro, modx.com…). Сначала указанный в конфиге,
+        // потом остальные — пакет может лежать не там, где ждали.
+        $providers = [];
+        $wanted = !empty($opt['service_url']) ? $opt['service_url'] : '';
+        if ($wanted !== '') {
+            if ($p = $modx->getObject('transport.modTransportProvider', ['service_url:LIKE' => '%' . $wanted . '%'])) {
+                $providers[$p->get('id')] = $p;
+            }
         }
-        if (!$provider) {
-            $provider = $modx->getObject('transport.modTransportProvider', 1);
+        foreach ($modx->getIterator('transport.modTransportProvider') as $p) {
+            $providers[$p->get('id')] = $p;
         }
-        if (!$provider) {
-            return [0, 'на сайте не настроен ни один провайдер пакетов'];
+        if (!$providers) {
+            return [0, 'на сайте не подключён ни один провайдер пакетов'];
         }
+        // Указан провайдер, которого на сайте нет — самая частая причина промаха,
+        // и по общему «не найден» её не опознать. Говорим прямо.
+        $wantedMissing = $wanted !== ''
+            && !$modx->getObject('transport.modTransportProvider', ['service_url:LIKE' => '%' . $wanted . '%']);
 
         $modx->getVersionData();
         $productVersion = $modx->version['code_name'] . '-' . $modx->version['full_version'];
-        $response = $provider->request('package', 'GET', ['supports' => $productVersion, 'query' => $name]);
-        if (empty($response)) {
-            return [0, 'провайдер не ответил'];
-        }
+        $tried = [];
 
-        $found = @simplexml_load_string($response->response);
-        if (!$found) {
-            return [0, 'не найден у провайдера'];
-        }
-        foreach ($found as $p) {
-            if ((string)$p->name !== $name) {
+        foreach ($providers as $provider) {
+            $tried[] = $provider->get('name') ?: $provider->get('service_url');
+            $response = $provider->request('package', 'GET', ['supports' => $productVersion, 'query' => $name]);
+            if (empty($response)) {
                 continue;
             }
-            $signature = (string)$p->signature;
-            $dst = MODX_CORE_PATH . 'packages/' . $signature . '.transport.zip';
-            if (!gts_dep_download((string)$p->location, $dst)) {
-                return [0, 'не удалось скачать'];
+            $found = @simplexml_load_string($response->response);
+            if (!$found) {
+                continue;
             }
+            foreach ($found as $p) {
+                if ((string)$p->name !== $name) {
+                    continue;
+                }
+                $signature = (string)$p->signature;
+                $dst = MODX_CORE_PATH . 'packages/' . $signature . '.transport.zip';
+                if (!gts_dep_download((string)$p->location, $dst)) {
+                    return [0, "найден у провайдера {$provider->get('name')}, но не скачался"
+                        . ($provider->get('username') === '' ? ' (у провайдера не заданы логин и ключ)' : '')];
+                }
 
-            return gts_dep_register($modx, $name, $signature, $provider->get('id'))
-                ? [1, "установлен {$signature}"]
-                : [0, 'скачан, но не установился'];
+                return gts_dep_register($modx, $name, $signature, $provider->get('id'))
+                    ? [1, "установлен {$signature} с {$provider->get('name')}"]
+                    : [0, 'скачан, но не установился'];
+            }
         }
 
-        return [0, 'не найден у провайдера'];
+        $where = implode(', ', $tried);
+        if ($wantedMissing) {
+            return [0, "провайдер {$wanted} на этом сайте не подключён (искали у: {$where}). "
+                . "Добавьте его в «Управление пакетами - Провайдеры» или поставьте пакет вручную"];
+        }
+
+        return [0, "не найден ни у одного провайдера ({$where})"];
     }
 }
 
