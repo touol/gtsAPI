@@ -11,7 +11,7 @@ if (!defined('MODX_CORE_PATH')) {
 return [
     'name' => 'gtsAPI',
     'name_lower' => 'gtsapi',
-    'version' => '1.1.6',
+    'version' => '1.1.7',
     'release' => 'beta',
     // Install package to site right after build
     'install' => true,
@@ -26,7 +26,15 @@ return [
         'menus' => true,
         'plugins' => true,
         'resources' => false,
-        'settings' => true,
+        // НЕ перезаписывать настройки при обновлении: в них лежат значения,
+        // выставленные админом сайта, — метка сайта (gtsapi_site_key),
+        // конфигурация страниц админки, флаги. Каждая установка затирала их
+        // значениями из сборки; именно так gtsapi_site_key оказалась пустой
+        // и на деве, и на проде, а вместе с ней перестали ставиться
+        // справочные данные, привязанные к сайту.
+        // На ПЕРВОЙ установке настройки всё равно создаются — этот флаг
+        // управляет только обновлением уже существующих.
+        'settings' => false,
         'snippets' => true,
         'templates' => false,
         'widgets' => false,
