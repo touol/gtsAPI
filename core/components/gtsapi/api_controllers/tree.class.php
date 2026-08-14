@@ -150,22 +150,22 @@ class treeAPIController{
         
         switch($request['api_action']){
             case 'create':
-                return $this->create($rule,$request,$rule['aсtions'][$request['api_action']]);
+                return $this->create($rule,$request,($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'insert':
-                return $this->create($rule,$request,$rule['aсtions'][$request['api_action']]);
+                return $this->create($rule,$request,($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'insert_child':
-                return $this->create($rule,$request,$rule['aсtions'][$request['api_action']]);
+                return $this->create($rule,$request,($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'read':
-                return $this->read($rule,$request,$rule['aсtions'][$request['api_action']]);
+                return $this->read($rule,$request,($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'update':
-                return $this->update($rule,$request,$rule['aсtions'][$request['api_action']]);
+                return $this->update($rule,$request,($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'delete':
-                return $this->delete($rule,$request,$rule['aсtions'][$request['api_action']]);
+                return $this->delete($rule,$request,($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'copy':
                 try {
@@ -190,7 +190,7 @@ class treeAPIController{
                 }
             break;
             case 'options':
-                return $this->options($rule,$request,$rule['aсtions'][$request['api_action']]);
+                return $this->options($rule,$request,($rule['aсtions'][$request['api_action']] ?? null));
             case 'autocomplete':
                 return $this->get_autocomplete($rule,$request);
             break;

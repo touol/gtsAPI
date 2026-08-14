@@ -33,18 +33,14 @@ class gtsAPIFile extends xPDOSimpleObject
         parent::__construct($xpdo);
 
         $this->modx = $xpdo;
-        $corePath = $this->modx->getOption('gtsapi_core_path', null,
-            $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/gtsapi/');
-        
-        /** @var gtsAPI $gtsAPI */
-        $this->gtsAPI = $this->modx->getService(
-            'gtsAPI',
-            'gtsAPI',
-            $corePath . 'model/gtsapi/',
-            array(
-                'core_path' => $corePath
-            )
-        );
+
+        // Здесь поднимался сервис gtsAPI, причём по неверному пути:
+        // класс лежит в model/, а не в model/gtsapi/ (там xPDO-классы объектов).
+        // Сервис не загружался никогда, а каждое создание объекта писало в лог
+        // «Could not load class: gtsAPI from gtsapi» и «Problem getting service».
+        // Свойство $gtsAPI при этом нигде не использовалось — вызов убран,
+        // а не «починен путь»: поднимать целый сервис (pdoFetch, лексиконы, jwt)
+        // на каждый файловый объект незачем.
     }
 
     /**

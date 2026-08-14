@@ -225,7 +225,7 @@ trait TableFieldsTrait
                 $resp = $this->checkPermissions($rule['properties']['actions'][$action]);
 
                 if ($resp['success']) {
-                    if (!$v['hide']) $actions[$action] = $v;
+                    if (empty($v['hide'])) $actions[$action] = $v;
                 }
             }
         }

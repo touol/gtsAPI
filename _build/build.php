@@ -197,6 +197,55 @@ class SkladNarydPackage
 
 
     /**
+     * Таблицы самого gtsAPI: _build/elements/gtsapipackages.php кладём рядом
+     * с исходниками как gtsapipackages.json — оттуда его при установке читает
+     * резолвер, тот же самый, что и у остальных пакетов.
+     *
+     * Вызывается автоматически: сборка обходит _build/elements и запускает
+     * одноимённый метод.
+     */
+    protected function gtsapipackages()
+    {
+        /** @noinspection PhpIncludeInspection */
+        $packages = include($this->config['elements'] . 'gtsapipackages.php');
+        if (!is_array($packages)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in gtsAPI tables');
+
+            return;
+        }
+        $file = $this->config['core'] . 'gtsapipackages.json';
+        file_put_contents($file, json_encode($packages, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+
+        $tables = 0;
+        foreach ($packages as $package) {
+            $tables += count($package['gtsAPITables'] ?? []);
+        }
+        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . $tables . ' gtsAPI tables');
+    }
+
+
+    /**
+     * Справочные данные (списки выбора) — в core/components/gtsapi/data.json,
+     * оттуда их ставит резолвер data.php.
+     */
+    protected function data()
+    {
+        /** @noinspection PhpIncludeInspection */
+        $data = include($this->config['elements'] . 'data.php');
+        if (!is_array($data)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in gtsAPI data');
+
+            return;
+        }
+        file_put_contents(
+            $this->config['core'] . 'data.json',
+            json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        );
+        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in gtsAPI data');
+    }
+
+
+    /**
      * Add settings
      */
     protected function settings()

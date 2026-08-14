@@ -31,14 +31,10 @@ class AddFields
     private function getManager()
     {
         if ($this->manager === null) {
-            //$loaded = include_once($this->config['modelPath'] . 'msfieldsmanager/' . $this->modx->config['dbtype'] . '/manager.class.php');
-            if($this->modx->getVersionData()['version'] == 3){
-                // $loaded = include_once($this->config['corePath'] . 'classes/manager3.class.php');
-                $this->modx->log(xPDO::LOG_LEVEL_ERROR, "gtsAPI not support modx3.");
-            }else{
-                $loaded = include_once($this->config['corePath'] . 'classes/manager.class.php');
-            }
-            
+            // Один файл на обе версии MODX: предок (xPDOGenerator) выбирается
+            // внутри него по тому, какой xPDO доступен.
+            $loaded = include_once($this->config['corePath'] . 'classes/manager.class.php');
+
             if ($loaded) {
                 $managerClass = 'gtsAPIManager_' . $this->modx->config['dbtype'];
                 $this->manager = new $managerClass ($this->modx->getManager());
@@ -229,6 +225,34 @@ class AddFields
         }
         return $objects;
     }
+
+    /**
+     * «Родные» поля класса — те, которыми владеет схема, а не справочник допполей.
+     *
+     * Обычно берутся из xml-схемы компонента. Но у классов ядра MODX (modResource
+     * и прочие) отдельного файла схемы нет: она вкомпилирована в модель. Раньше
+     * такой класс просто выпадал из синхронизации — доп. поле к ресурсам завести
+     * было нельзя вообще, ни на MODX 2, ни на MODX 3.
+     *
+     * Спрашиваем поля у самого xPDO: он одинаково отвечает и на короткое имя
+     * (modResource), и на полное (MODX\Revolution\modResource).
+     *
+     * @param string $class
+     * @return array имя поля => имя поля, либо [] если класс неизвестен
+     */
+    public function getObjectFromModel($class)
+    {
+        $fields = $this->modx->getFields($class);
+        if (!is_array($fields) || !$fields) {
+            return [];
+        }
+        $out = [];
+        foreach (array_keys($fields) as $field) {
+            $out[$field] = $field;
+        }
+
+        return $out;
+    }
     /**
      * Синхронизация колонок динамических полей с базой.
      *
@@ -262,20 +286,31 @@ class AddFields
             }
 
             //Получаем оригинальные таблицы компонента
-            if(!isset($packages[$gtsAPITable->package_id])){
+            if(!isset($objects[$class])){
                 if(!$gtsAPIPackage = $this->modx->getObject('gtsAPIPackage',$gtsAPITable->package_id)) continue;
-                
+
                 $package = $gtsAPIPackage->name;
-                $this->modx->addPackage($package, MODX_CORE_PATH . 'components/'.strtolower($package).'/model/');
+                // У классов ядра (пакет 'modx') каталога модели в components нет —
+                // xPDO ругался бы «Path specified for package modx is not a valid
+                // directory» на каждый вызов. Модель ядра и так загружена.
+                $modelPath = MODX_CORE_PATH . 'components/'.strtolower($package).'/model/';
+                if (is_dir($modelPath)) {
+                    $this->modx->addPackage($package, $modelPath);
+                }
 
                 $objects2 = $this->getObjectFromSchema($package);
                 // $this->modx->log(1,"updateFields objects2 ".print_r($objects2,1));
-                if(!isset($objects2[$class])) continue;
-                
                 foreach($objects2 as $class2=>$v){
                     if(!isset($objects[$class2])) $objects[$class2] = $v;
                 }
-                $packages[$gtsAPITable->package_id] = 1;
+
+                // Классы ядра MODX (modResource и т.п.) отдельного файла схемы
+                // не имеют — спрашиваем поля у модели. Без этого доп. поле
+                // к ресурсам завести было нельзя: класс молча выпадал из обхода.
+                if(!isset($objects[$class])){
+                    $objects[$class] = $this->getObjectFromModel($class);
+                }
+                if(empty($objects[$class])) continue;
             }
 
             
@@ -353,10 +388,12 @@ class AddFields
 
         $fields = [];
         foreach($datas as $class=>$add_fields){
-            if(empty($add_fields)){
-                unset($datas[$class]);
-                continue;
-            }
+            // Таблицу с пустым списком полей раньше выбрасывали из обхода.
+            // Из-за этого удаление ПОСЛЕДНЕГО динамического поля не убирало
+            // колонку никогда: таблица просто переставала проверяться.
+            // Теперь идём и по таким — цикл добавления ниже по пустому списку
+            // всё равно ничего не делает, а колонка попадает в снос.
+
             // получаем поля в базе
             $fields[$class] = $manager->geTableFields($class);
             $columns = $this->getTableColumns($class);
@@ -367,6 +404,11 @@ class AddFields
                     if($field == 'id') unset($fields[$class][$k]);
                     if(isset($objects[$class][$field])) unset($fields[$class][$k]);
                 }
+            }else{
+                // Схему класса прочитать не удалось — неизвестно, какие колонки
+                // «родные». Кандидатов на снос не берём вовсе: удалять по неполным
+                // данным — это терять колонки, которые не наши.
+                $fields[$class] = [];
             }
             foreach($add_fields as $field=>$add_field){
                 // Колонка описана в схеме компонента — ею владеет схема, динамика не лезет.

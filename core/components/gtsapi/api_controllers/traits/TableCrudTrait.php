@@ -276,14 +276,14 @@ trait TableCrudTrait
             $request['offset'] = 0;
         }
         
-        if ($request['setTotal']) {
+        if (!empty($request['setTotal'])) {
             $default['setTotal'] = true;
         }
         
         // Получаем список полей из select для проверки сортировки
         $selectFields = $this->getSelectFieldsList($default, $rule);
         
-        if ($request['sortField']) {
+        if (!empty($request['sortField'])) {
             // Проверяем наличие поля в select
             if (in_array($request['sortField'], $selectFields)) {
                 $default['sortby'] = [
@@ -291,7 +291,7 @@ trait TableCrudTrait
                 ];
             }
         }
-        if ($request['multiSortMeta']) {
+        if (!empty($request['multiSortMeta'])) {
             $default['sortby'] = [];
             foreach ($request['multiSortMeta'] as $sort) {
                 // Проверяем наличие поля в select
@@ -308,7 +308,10 @@ trait TableCrudTrait
         }
         $this->pdo->setConfig($default);
         $rows0 = $this->pdo->run();
-        if ($request['setTotal']) {
+        // Без setTotal общего количества нет — отдаём число строк текущей выборки,
+        // а не неинициализированную переменную (на PHP 8 это warning в каждом чтении)
+        $total = is_array($rows0) ? count($rows0) : 0;
+        if (!empty($request['setTotal'])) {
             $total = (int)$this->modx->getPlaceholder('total');
         }
         
@@ -457,7 +460,7 @@ trait TableCrudTrait
             'log' => $this->pdo->getTime(),
             'filter_list' => $filter_list
         ];
-        if ($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
+        if (!empty($rule['properties']['showLog'])) $out['log'] = $this->pdo->getTime();
         $out['autocomplete'] = $this->autocompletes($rule['properties']['fields'], $rows0, $request['offset']);
         
         if (!empty($rule['properties']['slTree'])) {
@@ -539,7 +542,7 @@ trait TableCrudTrait
                 foreach ($fields as $field => $desc) {
                     if (isset($request[$field])) {
                         $field_arr = explode('.', $field);
-                        $desc['field'] = $desc['field'] ? $desc['field'] : $field;
+                        $desc['field'] = !empty($desc['field']) ? $desc['field'] : $field;
                         if (count($field_arr) == 1) {
                             $val = $this->normalizeFieldValue($request[$field], $desc);
                             if (empty($desc['class']) or $desc['class'] == $rule['class']) {

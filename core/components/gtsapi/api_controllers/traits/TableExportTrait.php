@@ -17,8 +17,12 @@ trait TableExportTrait
             return $this->error('Excel export is disabled');
         }
 
-        // Подключаем PHPExcel
-        require_once MODX_CORE_PATH . '/components/gettables/vendor/PHPOffice/PHPExcel.php';
+        // Подключаем PHPExcel: пакет PHPExcel, а если его нет — старая копия в getTables
+        if (!$phpExcelPath = gtsAPI::phpExcelPath($this->modx)) {
+            return $this->error('Не найдена библиотека PHPExcel. Установите пакет PHPExcel '
+                . 'или проверьте настройку phpexcel_path');
+        }
+        require_once $phpExcelPath . 'PHPExcel.php';
 
         try {
             // Создаем новый объект PHPExcel

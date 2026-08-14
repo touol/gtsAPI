@@ -7,15 +7,18 @@ if (!$transport->xpdo || !($transport instanceof xPDOTransport)) {
 }
 
 $modx =& $transport->xpdo;
+// getTables из зависимостей убран: админка gtsAPI переехала на собственный
+// контроллер и PVTables, а библиотека Excel вынесена в отдельный пакет.
+// Где getTables ещё стоит, gtsAPI с ним уживается — старый интерфейс не мешает.
 $packages = [
-    'getTables' => [
-        // 1.12.2 — первая сборка без create_function: в 1.12.1 он оставался,
-        // и на PHP 8 админка падала
-        'version' => '1.12.2-alpha',
-        'service_url' => 'modstore.pro',
-    ],
+    // pdoTools лежит в официальном репозитории modx.com, не на modstore
     'pdoTools' => [
         'version' => '2.10.0-pl',
+        'service_url' => 'modx.com',
+    ],
+    // Экспорт в Excel
+    'PHPExcel' => [
+        'version' => '1.0.0-pl',
         'service_url' => 'modstore.pro',
     ],
 ];
@@ -48,82 +51,95 @@ $downloadPackage = function ($src, $dst) {
 };
 
 $installPackage = function ($packageName, $options = []) use ($modx, $downloadPackage) {
-    /** @var modTransportProvider $provider */
+    // Ищем сначала у названного провайдера, потом у всех остальных.
+    // Пакеты живут в разных репозиториях: pdoTools — на modx.com, наши —
+    // на modstore.pro. Поиск только в одном давал «не найден» на ровном месте.
+    $providers = [];
     if (!empty($options['service_url'])) {
-        $provider = $modx->getObject('transport.modTransportProvider', [
+        if ($p = $modx->getObject('transport.modTransportProvider', [
             'service_url:LIKE' => '%' . $options['service_url'] . '%',
-        ]);
+        ])) {
+            $providers[$p->get('id')] = $p;
+        }
     }
-    if (empty($provider)) {
-        $provider = $modx->getObject('transport.modTransportProvider', 1);
+    foreach ($modx->getIterator('transport.modTransportProvider') as $p) {
+        $providers[$p->get('id')] = $p;
     }
+    if (!$providers) {
+        return [
+            'success' => 0,
+            'message' => "На сайте не подключён ни один провайдер пакетов, <b>{$packageName}</b> ставить неоткуда.",
+        ];
+    }
+
     $modx->getVersionData();
     $productVersion = $modx->version['code_name'] . '-' . $modx->version['full_version'];
+    $tried = [];
 
-    $response = $provider->request('package', 'GET', [
-        'supports' => $productVersion,
-        'query' => $packageName,
-    ]);
+    foreach ($providers as $provider) {
+        $tried[] = $provider->get('name') ?: $provider->get('service_url');
+        $response = $provider->request('package', 'GET', [
+            'supports' => $productVersion,
+            'query' => $packageName,
+        ]);
 
-    // Тело ответа: в MODX 2 это modRestClient со свойством ->response, в MODX 3 —
-    // PSR-7 ResponseInterface. Без развилки на MODX 3 поиск возвращал пустоту,
-    // и это выглядело как «пакета нет в репозитории».
-    $body = '';
-    if (is_object($response)) {
-        $body = method_exists($response, 'getBody')
-            ? (string)$response->getBody()
-            : (isset($response->response) ? (string)$response->response : '');
-    }
-    if ($body !== '') {
-        $foundPackages = @simplexml_load_string($body);
-        if (!$foundPackages) {
-            return [
-                'success' => 0,
-                'message' => "Ответ провайдера по <b>{$packageName}</b> не разобран.",
-            ];
+        // Тело ответа: в MODX 2 это modRestClient со свойством ->response, в MODX 3 —
+        // PSR-7 ResponseInterface. Без развилки на MODX 3 поиск возвращал пустоту,
+        // и это выглядело как «пакета нет в репозитории».
+        $body = '';
+        if (is_object($response)) {
+            $body = method_exists($response, 'getBody')
+                ? (string)$response->getBody()
+                : (isset($response->response) ? (string)$response->response : '');
         }
-        foreach ($foundPackages as $foundPackage) {
-            /** @var modTransportPackage $foundPackage */
-            /** @noinspection PhpUndefinedFieldInspection */
-            if ($foundPackage->name == $packageName) {
-                $sig = explode('-', $foundPackage->signature);
-                $versionSignature = explode('.', $sig[1]);
+        if ($body !== '') {
+            $foundPackages = @simplexml_load_string($body);
+            if (!$foundPackages) {
+                // Кривой ответ одного провайдера — не повод бросать поиск
+                continue;
+            }
+            foreach ($foundPackages as $foundPackage) {
+                /** @var modTransportPackage $foundPackage */
                 /** @noinspection PhpUndefinedFieldInspection */
-                $url = $foundPackage->location;
+                if ($foundPackage->name == $packageName) {
+                    $sig = explode('-', $foundPackage->signature);
+                    $versionSignature = explode('.', $sig[1]);
+                    /** @noinspection PhpUndefinedFieldInspection */
+                    $url = $foundPackage->location;
 
-                if (!$downloadPackage($url, $modx->getOption('core_path') . 'packages/' . $foundPackage->signature . '.transport.zip')) {
-                    return [
-                        'success' => 0,
-                        'message' => "Could not download package <b>{$packageName}</b>.",
-                    ];
-                }
-
-                // Add in the package as an object so it can be upgraded
-                /** @var modTransportPackage $package */
-                $package = $modx->newObject('transport.modTransportPackage');
-                $package->set('signature', $foundPackage->signature);
-                /** @noinspection PhpUndefinedFieldInspection */
-                $package->fromArray([
-                    'created' => date('Y-m-d h:i:s'),
-                    'updated' => null,
-                    'state' => 1,
-                    'workspace' => 1,
-                    'provider' => $provider->get('id'),
-                    'source' => $foundPackage->signature . '.transport.zip',
-                    'package_name' => $packageName,
-                    'version_major' => $versionSignature[0],
-                    'version_minor' => !empty($versionSignature[1]) ? $versionSignature[1] : 0,
-                    'version_patch' => !empty($versionSignature[2]) ? $versionSignature[2] : 0,
-                ]);
-
-                if (!empty($sig[2])) {
-                    $r = preg_split('/([0-9]+)/', $sig[2], -1, PREG_SPLIT_DELIM_CAPTURE);
-                    if (is_array($r) && !empty($r)) {
-                        $package->set('release', $r[0]);
-                        $package->set('release_index', (isset($r[1]) ? $r[1] : '0'));
-                    } else {
-                        $package->set('release', $sig[2]);
+                    if (!$downloadPackage($url, $modx->getOption('core_path') . 'packages/' . $foundPackage->signature . '.transport.zip')) {
+                        return [
+                            'success' => 0,
+                            'message' => "Could not download package <b>{$packageName}</b>.",
+                        ];
                     }
+
+                    // Add in the package as an object so it can be upgraded
+                    /** @var modTransportPackage $package */
+                    $package = $modx->newObject('transport.modTransportPackage');
+                    $package->set('signature', $foundPackage->signature);
+                    /** @noinspection PhpUndefinedFieldInspection */
+                    $package->fromArray([
+                        'created' => date('Y-m-d h:i:s'),
+                        'updated' => null,
+                        'state' => 1,
+                        'workspace' => 1,
+                        'provider' => $provider->get('id'),
+                        'source' => $foundPackage->signature . '.transport.zip',
+                        'package_name' => $packageName,
+                        'version_major' => $versionSignature[0],
+                        'version_minor' => !empty($versionSignature[1]) ? $versionSignature[1] : 0,
+                        'version_patch' => !empty($versionSignature[2]) ? $versionSignature[2] : 0,
+                    ]);
+
+                    if (!empty($sig[2])) {
+                        $r = preg_split('/([0-9]+)/', $sig[2], -1, PREG_SPLIT_DELIM_CAPTURE);
+                        if (is_array($r) && !empty($r)) {
+                            $package->set('release', $r[0]);
+                            $package->set('release_index', (isset($r[1]) ? $r[1] : '0'));
+                        } else {
+                            $package->set('release', $sig[2]);
+                        }
                 }
 
                 if ($package->save() && $package->install()) {
@@ -140,14 +156,16 @@ $installPackage = function ($packageName, $options = []) use ($modx, $downloadPa
                 break;
             }
         }
-    } else {
-        return [
-            'success' => 0,
-            'message' => "Could not find <b>{$packageName}</b> in MODX repository",
-        ];
+    }
     }
 
-    return true;
+    // Раньше здесь возвращался голый true: вызывающий код читал у него
+    // ['success'] и ['message'], получал null и пустоту — и писал в лог
+    // пустую строку с уровнем ERROR. Отвечаем внятно.
+    return [
+        'success' => 0,
+        'message' => "Пакет <b>{$packageName}</b> не найден у провайдеров: " . implode(', ', $tried),
+    ];
 };
 
 $success = false;

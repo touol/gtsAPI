@@ -44,6 +44,32 @@ return [
       'value' => 1,
       'area' => 'gtsapi_main',
     ],
+    // Новая админка: контроллер gtsAPI разбирает этот JSON и вызывает сниппет.
+    // Ключ верхнего уровня — имя сниппета, значение — его параметры; "title" —
+    // заголовок страницы. Так же описывается любая своя страница в меню MODX:
+    //   &config={"mixVue":{"app":"pvsklad","config":{"module":"BarcodeDocs"}}}
+    'admin_pv' => [
+      'xtype' => 'textarea',
+      'value' => '{
+  "title": "gtsAPI",
+  "PVTabs": {
+    "tabs": {
+      "gtsAPITable":      { "title": "Таблицы АПИ",      "table": "gtsAPITable" },
+      "gtsAPIRule":       { "title": "Правила АПИ",      "table": "gtsAPIRule" },
+      "gtsAPIPackage":    { "title": "Пакеты MODX",      "table": "gtsAPIPackage" },
+      "gtsAPISelect":     { "title": "Селекты",          "table": "gtsAPISelect" },
+      "gtsAPIFieldTable": { "title": "Таблицы допполей", "table": "gtsAPIFieldTable" },
+      "gtsAPIFieldGroup": { "title": "Группы допполей",  "table": "gtsAPIFieldGroup" },
+      "gtsAPIField":      { "title": "Допполя",          "table": "gtsAPIField" },
+      "gtsAPILog":        { "title": "Лог действий",     "table": "gtsAPILog" }
+    }
+  }
+}',
+      'area' => 'gtsapi_main',
+    ],
+    // Легаси-конфиг админки на синтаксисе getTables. Пока остаётся: в нём живут
+    // кнопки, которых в новой админке ещё нет (генерация полей, экспорт правил,
+    // подтаблицы). Меню «gtsAPI (getTables)» ведёт именно сюда.
     'admin' => [
       'xtype' => 'textfield',
       'value' => '{

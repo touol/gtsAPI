@@ -249,22 +249,22 @@ class tableAPIController
         
         switch ($request['api_action']) {
             case 'create':
-                return $this->create($rule, $request, $rule['aсtions'][$request['api_action']]);
+                return $this->create($rule, $request, ($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'insert':
-                return $this->create($rule, $request, $rule['aсtions'][$request['api_action']]);
+                return $this->create($rule, $request, ($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'insert_child':
-                return $this->create($rule, $request, $rule['aсtions'][$request['api_action']]);
+                return $this->create($rule, $request, ($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'read':
-                return $this->read($rule, $request, $rule['aсtions'][$request['api_action']]);
+                return $this->read($rule, $request, ($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'update':
-                return $this->update($rule, $request, $rule['aсtions'][$request['api_action']]);
+                return $this->update($rule, $request, ($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'delete':
-                return $this->delete($rule, $request, $rule['aсtions'][$request['api_action']]);
+                return $this->delete($rule, $request, ($rule['aсtions'][$request['api_action']] ?? null));
             break;
             case 'copy':
                 try {
@@ -284,7 +284,7 @@ class tableAPIController
                 }
             break;
             case 'options':
-                return $this->options($rule, $request, $rule['aсtions'][$request['api_action']]);
+                return $this->options($rule, $request, ($rule['aсtions'][$request['api_action']] ?? null));
             case 'autocomplete':
                 return $this->get_autocomplete($rule, $request);
             break;
@@ -399,7 +399,14 @@ class tableAPIController
                 return $this->error("Компонент $package не найден!");
             }
         } else {
-            $this->modx->addPackage($class, MODX_CORE_PATH . "components/{$class}/model/");
+            // Каталога модели может не быть вовсе (например loadModels: 'modx' —
+            // классы ядра). Молча пропускаем: xPDO иначе пишет в лог
+            // «Path specified for package ... is not a valid directory».
+            $modelPath = MODX_CORE_PATH . "components/{$class}/model/";
+            if (is_dir($modelPath)) {
+                $this->modx->addPackage($class, $modelPath);
+            }
+
             return $this->success("Компонент $package не имеет сервиса!");
         }
         $service = $this->models[$class];

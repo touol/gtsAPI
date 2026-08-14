@@ -1,0 +1,69 @@
+<?php
+/**
+ * Справочные данные gtsAPI — списки выбора для полей собственных таблиц.
+ *
+ * Поле с type=select берёт варианты из gtsAPISelect по имени поля, поэтому
+ * без этих записей выпадашки в админке пустые. Раньше эти же списки лежали
+ * внутри легаси-конфига gtsapi_admin и существовали только там.
+ *
+ * Формат: <пакет> => <таблица> => ['key' => поле поиска, 'rows' => [строки]].
+ * Сборка кладёт это в core/components/gtsapi/data.json, резолвер data.php
+ * заводит записи при установке.
+ */
+
+// gtsAPISelect.rows хранится строкой JSON; резолвер сам кодирует массивы,
+// поэтому пишем нормальными массивами пар [значение, подпись].
+return [
+    'gtsapi' => [
+        'gtsAPISelect' => [
+            'key' => 'field',
+            'rows' => [
+                [
+                    'field' => 'dbtype',
+                    'rows' => [
+                        ['int', 'int'],
+                        ['varchar', 'varchar'],
+                        ['text', 'text'],
+                        ['decimal', 'decimal'],
+                        ['tinyint', 'tinyint'],
+                        ['date', 'date'],
+                        ['datetime', 'datetime'],
+                    ],
+                    'active' => 1,
+                ],
+                [
+                    'field' => 'dbindex',
+                    'rows' => [
+                        ['no', 'no'],
+                        ['INDEX', 'INDEX'],
+                    ],
+                    'active' => 1,
+                ],
+                [
+                    'field' => 'field_type',
+                    'rows' => [
+                        ['text', 'text'],
+                        ['textarea', 'textarea'],
+                        ['number', 'number'],
+                        ['decimal', 'decimal'],
+                        ['autocomplete', 'autocomplete'],
+                        ['select', 'select'],
+                        ['date', 'date'],
+                        ['datetime', 'datetime'],
+                        ['boolean', 'boolean'],
+                    ],
+                    'active' => 1,
+                ],
+                [
+                    'field' => 'type',
+                    'rows' => [
+                        [1, 'Таблица'],
+                        [2, 'JSON'],
+                        [3, 'Дерево'],
+                    ],
+                    'active' => 1,
+                ],
+            ],
+        ],
+    ],
+];

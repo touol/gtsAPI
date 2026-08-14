@@ -1,12 +1,16 @@
 <?php
 
 return [
+    // Админка gtsAPI: свой контроллер, таблицы на синтаксисе gtsAPI,
+    // интерфейс PVTables. Параметр — имя настройки с JSON либо сам JSON.
     'gtsapi' => [
         'text' => 'gtsAPI',
         'action' => 'home',
-        'namespace' => 'gettables',
-        'params' => '&config=gtsapi_admin',
-        //&config=test_gts
-        //'icon' => '<i class="icon icon-large icon-modx"></i>',
+        'namespace' => 'gtsapi',
+        'params' => '&config=gtsapi_admin_pv',
     ],
+    // Пункта на старую админку getTables больше нет: все её действия
+    // (генерация полей и правил, экспорт-импорт, копирование, подтаблицы)
+    // работают в новой. Сам конфиг gtsapi_admin пока остаётся в настройках —
+    // как страховка, если понадобится открыть старый интерфейс вручную.
 ];

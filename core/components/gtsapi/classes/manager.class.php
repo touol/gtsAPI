@@ -1,11 +1,35 @@
 <?php
 /**
- * @package gtsShop
+ * Генератор колонок динамических доп. полей.
+ *
+ * Работает и на MODX 2, и на MODX 3: различаются только предок и способ его
+ * подключения, поэтому предок выбирается на лету, а реализация одна.
+ *
+ * Раньше рядом лежала копия под MODX 3 (manager3.class.php) — форк этого файла,
+ * отставший на несколько правок: в нём NULL распознавался только по строке
+ * 'true', SHOW FULL COLUMNS звали с именем класса вместо имени таблицы,
+ * а alterField писал MODIFY вместо CHANGE. Копию удалили: две реализации
+ * одного и того же расходятся молча, а платят за это колонки в базе.
+ *
+ * @package gtsAPI
  */
 
-include_once(XPDO_CORE_PATH . 'om/' . $this->modx->config['dbtype'] . '/xpdogenerator.class.php');
+if (!class_exists('gtsAPIGeneratorBase_mysql', false)) {
+    $gtsapiDbType = $this->modx->config['dbtype'];
+    if (class_exists('\\xPDO\\Om\\' . $gtsapiDbType . '\\xPDOGenerator')) {
+        // xPDO 3 (MODX 3): классы под автозагрузкой, подключать файл не нужно
+        class gtsAPIGeneratorBase_mysql extends \xPDO\Om\mysql\xPDOGenerator
+        {
+        }
+    } else {
+        include_once(XPDO_CORE_PATH . 'om/' . $gtsapiDbType . '/xpdogenerator.class.php');
+        class gtsAPIGeneratorBase_mysql extends xPDOGenerator_mysql
+        {
+        }
+    }
+}
 
-class gtsAPIManager_mysql extends xPDOGenerator_mysql
+class gtsAPIManager_mysql extends gtsAPIGeneratorBase_mysql
 {
 
     private $after_field = 'cost';
@@ -125,6 +149,25 @@ class gtsAPIManager_mysql extends xPDOGenerator_mysql
      * @param string $path
      * @param string $className
      */
+    /**
+     * Шапка файла карты.
+     *
+     * В xPDO 2 метод есть у предка, в xPDO 3 его нет вовсе — там карты пишутся
+     * иначе. Нам от шапки нужен только открывающий тег: файл карты потом
+     * подключается обычным include и должен вернуть массив.
+     *
+     * @return string
+     */
+    public function getMapHeader()
+    {
+        $parent = get_parent_class($this);
+        if ($parent && method_exists($parent, 'getMapHeader')) {
+            return parent::getMapHeader();
+        }
+
+        return '<?php';
+    }
+
     public function outputMap($path, $className = 'msProductData')
     {
         if (!is_dir($path)) {

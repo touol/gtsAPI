@@ -35,14 +35,30 @@ switch ($modx->event->name) {
                         }
                         if (isset($plugin['map']) && is_array($plugin['map'])) {
                             foreach ($plugin['map'] as $class => $map) {
-                                if (!isset($modx->map[$class])) {
+                                // Ключ карты. На MODX 3 классы лежат под полным именем
+                                // (MODX\Revolution\modResource), на MODX 2 — под коротким.
+                                // loadClass возвращает нужное на обеих версиях; без этого
+                                // на MODX 3 доп. поля в карту не попадали вообще.
+                                $mapKey = $modx->loadClass($class);
+                                if (!$mapKey || !isset($modx->map[$mapKey])) {
                                     $modx->loadClass($class, MODX_CORE_PATH . 'components/'.strtolower($package).'/'.'model/' .strtolower($package). '/');
+                                    $mapKey = $modx->loadClass($class);
+                                    if (!$mapKey) $mapKey = $class;
                                 }
-                                if (isset($modx->map[$class]) && is_array($map)) {
+                                if (isset($modx->map[$mapKey]) && is_array($map)) {
+                                    // В MODX 3 $modx->map — объект xPDOMap (ArrayAccess),
+                                    // и менять вложенный элемент напрямую нельзя.
+                                    // Читаем запись целиком, правим копию, пишем обратно —
+                                    // так работает и с массивом MODX 2.
+                                    $classMap = $modx->map[$mapKey];
                                     foreach ($map as $key => $values) {
-                                        $modx->map[$class][$key] = array_merge($modx->map[$class][$key], $values);
+                                        $classMap[$key] = array_merge(
+                                            isset($classMap[$key]) ? (array)$classMap[$key] : [],
+                                            $values
+                                        );
                                     }
-                                    //$modx->log(1,"loadMap ".print_r($modx->map[$class],1));
+                                    $modx->map[$mapKey] = $classMap;
+                                    //$modx->log(1,"loadMap ".print_r($classMap,1));
                                 }
                             }
                         }

@@ -5,6 +5,21 @@ $name_lower = strtolower($app);
 $debug = false;
 $vapi = 9;
 
+// config может прийти массивом (вызов из Fenom: 'config'=>['module'=>'TLUser'])
+// или строкой JSON (обычный вызов MODX: &config=`{"module":"TLUser"}`).
+// Второй случай — единственный доступный на сайте без pdoParser, и раньше он
+// молча игнорировался: приложение стартовало без конфигурации.
+if (isset($config) && !is_array($config)) {
+    $decoded = json_decode(trim((string)$config), true);
+    if (is_array($decoded)) {
+        $config = $decoded;
+    } else {
+        $modx->log(modX::LOG_LEVEL_ERROR,
+            '[mixVue] параметр config не разобран как JSON: ' . json_last_error_msg() . '; получено: ' . $config);
+        unset($config);
+    }
+}
+
 // Проверяем параметр enableSSR
 $enableSSR = !empty($enableSSR) ? (bool)$enableSSR : false;
 

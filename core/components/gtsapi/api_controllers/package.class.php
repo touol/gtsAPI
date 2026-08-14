@@ -433,6 +433,61 @@ class packageAPIController{
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($settings) . ' System Settings');
     }
     /**
+     * Пункты меню менеджера MODX.
+     *
+     * Формат тот же, что у modExtra (_build/elements/menus.php), только приходит
+     * из _build/configs/menus.js:
+     *
+     *   'totallog' => [
+     *       'text' => 'Журнал запросов',        // подпись пункта
+     *       'action' => 'home',                 // контроллер
+     *       'namespace' => 'gtsapi',            // чей контроллер
+     *       'params' => '&config={"mixVue":…}', // параметры страницы
+     *       'parent' => 'components',           // раздел меню; по умолчанию «Компоненты»
+     *       'description' => '',
+     *       'icon' => '',
+     *       'menuindex' => 0,
+     *   ]
+     *
+     * Ключ массива — имя пункта; оно же уходит в text, если text не задан.
+     * Свой контроллер писать не обязательно: namespace gtsapi + action home —
+     * это страница gtsAPI, которая по &config вызывает нужный сниппет.
+     *
+     * PK у modMenu — text, поэтому пункт с уже занятым названием обновится,
+     * а не задвоится.
+     */
+    protected function menus($menus)
+    {
+        if (!is_array($menus)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not package in Menus');
+
+            return;
+        }
+        $attributes = [
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => !empty($this->config['update']['menus']),
+            xPDOTransport::UNIQUE_KEY => 'text',
+            xPDOTransport::RELATED_OBJECTS => true,
+        ];
+        foreach ($menus as $name => $data) {
+            /** @var modMenu $menu */
+            $menu = $this->modx->newObject('modMenu');
+            $menu->fromArray(array_merge([
+                'text' => $name,
+                'parent' => 'components',
+                'namespace' => $this->config['name_lower'],
+                'icon' => '',
+                'menuindex' => 0,
+                'params' => '',
+                'handler' => '',
+            ], $data), '', true, true);
+            $vehicle = $this->builder->createVehicle($menu, $attributes);
+            $this->builder->putVehicle($vehicle);
+        }
+        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($menus) . ' Menus');
+    }
+
+    /**
      * Add gtsAPI
      */
     protected function gtsapirules($gtsapirules)
@@ -551,6 +606,12 @@ class packageAPIController{
             $settings = json_decode($request['settings'],1);
             if(is_array($settings) and count($settings) > 0){
                 $this->settings($settings);
+            }
+        }
+        if(isset($request['menus'])){
+            $menus = json_decode($request['menus'],1);
+            if(is_array($menus) and count($menus) > 0){
+                $this->menus($menus);
             }
         }
 

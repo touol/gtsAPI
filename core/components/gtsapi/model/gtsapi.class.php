@@ -46,6 +46,38 @@ class gtsAPI
     }
 
     /**
+     * Каталог библиотеки PHPExcel (со слэшем на конце) или '' если её нет.
+     *
+     * Библиотека вынесена из getTables в самостоятельный пакет PHPExcel: одна копия
+     * на сайт вместо копии в каждом компоненте. Порядок поиска:
+     *   1. настройка phpexcel_path — пакет PHPExcel ставит её на себя,
+     *      руками можно указать любой другой каталог;
+     *   2. core/components/phpexcel/ — на случай, если настройку затёрли;
+     *   3. старая копия внутри getTables — сайты, где пакет ещё не поставлен,
+     *      продолжают выгружать Excel как раньше.
+     *
+     * @param modX $modx
+     * @return string
+     */
+    public static function phpExcelPath(modX $modx)
+    {
+        $candidates = [];
+        if ($path = $modx->getOption('phpexcel_path', null, '')) {
+            $candidates[] = rtrim(str_replace('[[+core_path]]', MODX_CORE_PATH, $path), '/\\') . '/';
+        }
+        $candidates[] = MODX_CORE_PATH . 'components/phpexcel/';
+        $candidates[] = MODX_CORE_PATH . 'components/gettables/vendor/PHPOffice/';
+
+        foreach ($candidates as $dir) {
+            if (is_file($dir . 'PHPExcel.php')) {
+                return $dir;
+            }
+        }
+
+        return '';
+    }
+
+    /**
      * Initializes component into different contexts.
      *
      * @param string $ctx The context to load. Defaults to web.
@@ -259,7 +291,14 @@ class gtsAPI
     
     public function handleRequest($action, $data = array())
     {
-        $data = $this->modx->sanitize($data, $this->modx->sanitizePatterns);
+        // Импорт принимает JSON описания таблицы или правила, а в нём законно
+        // встречаются теги MODX ([[…]], [[+…]]) — санитайзер их выкусывает и
+        // ломает сохраняемую конфигурацию. Эти действия доступны только
+        // администратору (groups в конфиге таблицы), поэтому пропускаем как есть.
+        $raw = ['save_table', 'save_rule', 'save_select'];
+        if (!in_array($action, $raw, true)) {
+            $data = $this->modx->sanitize($data, $this->modx->sanitizePatterns);
+        }
         switch($action){
             case 'export_rule':
                 return $this->export_rule($data);
@@ -330,7 +369,7 @@ class gtsAPI
         return $this->success($message, $resp['data']);
     }
     public function gen_fields($data){
-        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        $data['id'] = $this->rowId($data);
         if(!$gtsAPITable = $this->modx->getObject("gtsAPITable",(int)$data['id'])) 
             return $this->error("Таблица api не найдена!");
         if(!$gtsAPIPackage = $this->modx->getObject('gtsAPIPackage',$gtsAPITable->package_id)){
@@ -370,7 +409,7 @@ class gtsAPI
         return $this->success('options',['fields'=>$fields]);
     }
     public function save_rule($data = []){
-        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        $data['id'] = $this->rowId($data);
         if(!$gtsAPIRule = $this->modx->getObject("gtsAPIRule",(int)$data['id'])) 
             return $this->error("Правило api не найдено!");
         $rule = json_decode($data['rule_json'],1);
@@ -390,8 +429,72 @@ class gtsAPI
         }
         return $this->success("Успешно!");
     }
+    /**
+     * Описание модального окна для PVTables.
+     *
+     * PVTables рисует форму по ответу действия: если в data пришёл объект modal
+     * с полями и действием, она показывает окно и по кнопке шлёт данные туда,
+     * куда сказано здесь. Раньше отдавался готовый HTML-чанк модалки getTables —
+     * в интерфейсе на PVTables он не работал, потому что вставлять чужую вёрстку
+     * с её обработчиками некуда.
+     *
+     * @param string $title   заголовок окна
+     * @param string $action  куда слать по кнопке
+     * @param array  $row     запись, которую правим (уходит в values как JSON)
+     * @param string $submit  подпись кнопки
+     * @return array
+     */
+    /**
+     * ID записи, над которой выполняется действие.
+     *
+     * gtsAPI шлёт поля строки как есть, поэтому id лежит прямо в data.
+     * Ключ trs_data — формат старой админки getTables (массив выделенных строк);
+     * @deprecated, НА УДАЛЕНИЕ вместе с интерфейсом на getTables.
+     *
+     * @param array $data
+     * @return int
+     */
+    protected function rowId(array $data)
+    {
+        if (isset($data['id'])) {
+            return (int)$data['id'];
+        }
+        // @deprecated формат getTables
+        if (isset($data['trs_data'][0]['id'])) {
+            return (int)$data['trs_data'][0]['id'];
+        }
+
+        return 0;
+    }
+
+    protected function jsonModal($title, $action, array $row, $submit = 'Импортировать')
+    {
+        return [
+            'title' => $title,
+            'action' => $action,
+            'width' => '70vw',
+            'fields' => [
+                'rule_json' => [
+                    'label' => 'JSON',
+                    'type' => 'textarea',
+                    'rows' => 25,
+                    // Санитайзер MODX выкусывает из JSON теги вида [[…]], которые
+                    // законно встречаются в свойствах таблиц
+                    'skip_sanitize' => 1,
+                ],
+            ],
+            'values' => [
+                'id' => isset($row['id']) ? $row['id'] : 0,
+                'rule_json' => json_encode($row, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+            ],
+            'buttons' => [
+                'submit' => ['label' => $submit, 'icon' => 'pi pi-upload'],
+            ],
+        ];
+    }
+
     public function export_rule($data = []){
-        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        $data['id'] = $this->rowId($data);
         if(!$gtsAPIRule = $this->modx->getObject("gtsAPIRule",(int)$data['id'])) 
             return $this->error("Правило АПИ не найдено!");
         $default = array(
@@ -410,31 +513,23 @@ class gtsAPI
         $gtsAPIActions = $this->pdo->run();
         $rule = $gtsAPIRule->toArray();
         $rule['gtsAPIActions'] = $gtsAPIActions;
-        $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal',[
-            'action'=>'gtsapi/save_rule',
-            'id'=>$rule['id'],
-            'hash'=>$data['hash'],
-            'rule_json'=>json_encode($rule,JSON_PRETTY_PRINT)
-        ]);
-        return $this->success('',['modal'=>$modal]);
+        return $this->success('', ['modal' => $this->jsonModal(
+            'Экспорт-импорт правила: ' . $rule['point'], 'gtsapi/save_rule', $rule
+        )]);
     }
 
     public function export_table($data = []){
-        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        $data['id'] = $this->rowId($data);
         if(!$gtsAPITable = $this->modx->getObject("gtsAPITable",(int)$data['id'])) 
             return $this->error("gtsAPITable не найдено!");
         $rule = $gtsAPITable->toArray();
         $rule['properties'] = json_decode($rule['properties'],1);
-        $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal',[
-            'action'=>'gtsapi/save_table',
-            'id'=>$rule['id'],
-            'hash'=>$data['hash'],
-            'rule_json'=>json_encode($rule,JSON_PRETTY_PRINT)
-        ]);
-        return $this->success('',['modal'=>$modal]);
+        return $this->success('', ['modal' => $this->jsonModal(
+            'Экспорт-импорт таблицы: ' . $rule['table'], 'gtsapi/save_table', $rule
+        )]);
     }
     public function save_table($data = []){
-        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        $data['id'] = $this->rowId($data);
         if(!$gtsAPITable = $this->modx->getObject("gtsAPITable",(int)$data['id'])) 
             return $this->error("gtsAPITable не найдено!");
         $rule = json_decode($data['rule_json'],1);
@@ -445,21 +540,17 @@ class gtsAPI
         return $this->success("Успешно!");
     }
     public function export_select($data = []){
-        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        $data['id'] = $this->rowId($data);
         if(!$gtsAPISelect = $this->modx->getObject("gtsAPISelect",(int)$data['id'])) 
             return $this->error("gtsAPISelect не найдено!");
         $rule = $gtsAPISelect->toArray();
         $rule['rows'] = json_decode($rule['rows'],1);
-        $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal',[
-            'action'=>'gtsapi/save_select',
-            'id'=>$rule['id'],
-            'hash'=>$data['hash'],
-            'rule_json'=>json_encode($rule,JSON_PRETTY_PRINT)
-        ]);
-        return $this->success('',['modal'=>$modal]);
+        return $this->success('', ['modal' => $this->jsonModal(
+            'Экспорт-импорт селекта: ' . $rule['field'], 'gtsapi/save_select', $rule
+        )]);
     }
     public function save_select($data = []){
-        if(isset($data['trs_data'][0]['id'])) $data['id'] = $data['trs_data'][0]['id'];
+        $data['id'] = $this->rowId($data);
         if(!$gtsAPISelect = $this->modx->getObject("gtsAPISelect",(int)$data['id'])) 
             return $this->error("gtsAPISelect не найдено!");
         $rule = json_decode($data['rule_json'],1);
@@ -469,12 +560,24 @@ class gtsAPI
         $gtsAPITable->save();
         return $this->success("Успешно!");
     }
+    /**
+     * Первый шаг генерации правил: спрашиваем пакет.
+     * Ответ на форму уходит в generate_rules — он и создаёт правила.
+     */
     public function gen_rules($data = []){
-        $modal = $this->pdo->getChunk('tpl.gtsAPI.Modal.GenRules',[
-            'id'=>$data['id'],
-            'hash'=>$data['hash']
-        ]);
-        return $this->success('',['modal'=>$modal]);
+        return $this->success('', ['modal' => [
+            'title' => 'Генерация правил АПИ',
+            'action' => 'gtsapi/generate_rules',
+            'fields' => [
+                'package' => [
+                    'label' => 'Пакет MODX',
+                    'type' => 'text',
+                    'desc' => 'Имя пакета в core/components — правила создадутся по его карте классов',
+                ],
+            ],
+            'values' => ['package' => ''],
+            'buttons' => ['submit' => ['label' => 'Сгенерировать', 'icon' => 'pi pi-bolt']],
+        ]]);
     }
     public function generate_rules($data = []){
         if(empty($data['package'])) return $this->error("Empty package!");
@@ -513,26 +616,79 @@ class gtsAPI
         }
         return $this->success('Успешно');
     }
+    /**
+     * Триггеры справочника допполей: любая правка поля, группы или связи
+     * приводит колонки таблиц в соответствие (AddFields::updateFields).
+     *
+     * Ключи:
+     *   gtsapifunc  — интерфейс на gtsAPI/PVTables;
+     *   gtsfunction — старая админка getTables, @deprecated, НА УДАЛЕНИЕ
+     *                 вместе с самой админкой на getTables.
+     * Пока живы оба интерфейса, нужны оба ключа: getTables вызывает только
+     * gtsfunction, gtsAPI — только gtsapifunc.
+     */
     public function regTriggers()
     {
+        $addFields = [
+            'gtsapifunc' => 'triggerAddFieldsAPI',
+            // @deprecated getTables, на удаление
+            'gtsfunction' => 'triggergsAddFields',
+        ];
+
         return [
-            'gtsAPIFieldTable'=>[
-                'gtsfunction'=>'triggergsAddFields',
-            ],
-            'gtsAPIFieldGroupTableLink'=>[
-                'gtsfunction'=>'triggergsAddFields',
-            ],
-            'gtsAPIField'=>[
-                'gtsfunction'=>'triggergsAddFields',
-            ],
-            'gtsAPIFieldGroupLink'=>[
-                'gtsfunction'=>'triggergsAddFields',
-            ],
-            'gtsAPIFieldGroup'=>[
-                'gtsfunction'=>'triggergsAddFields',
-            ],
+            'gtsAPIFieldTable' => $addFields,
+            'gtsAPIFieldGroupTableLink' => $addFields,
+            'gtsAPIField' => $addFields,
+            'gtsAPIFieldGroupLink' => $addFields,
+            'gtsAPIFieldGroup' => $addFields,
         ];
     }
+
+    /**
+     * Тот же триггер в формате gtsAPI: один параметр-массив по ссылке.
+     *
+     * @param array $params rule, class, type, method, fields, object_old,
+     *                      object_new, object, trigger, internal_action
+     * @return array
+     */
+    public function triggerAddFieldsAPI(&$params)
+    {
+        if (($params['type'] ?? '') != 'after') {
+            return $this->success();
+        }
+
+        $class = $params['class'] ?? '';
+        $method = $params['method'] ?? '';
+        $object_old = (array)($params['object_old'] ?? []);
+        $object_new = (array)($params['object_new'] ?? []);
+
+        // Правка поля, не затрагивающая схему базы (название, описание,
+        // порядок), перестройки колонок не требует
+        if ($class == 'gtsAPIField' and $method == 'update') {
+            $dbFields = ['dbtype', 'dbprecision', 'dbnull', 'dbdefault', 'dbindex'];
+            $changed = false;
+            foreach ($dbFields as $field) {
+                if (($object_new[$field] ?? null) != ($object_old[$field] ?? null)) {
+                    $changed = true;
+                    break;
+                }
+            }
+            if (!$changed) {
+                return $this->success();
+            }
+        }
+
+        if (include_once($this->config['corePath'] . 'classes/addfields.class.php')) {
+            $addFields = new AddFields($this->modx, $this->config);
+            $addFields->updateFields();
+        }
+
+        return $this->success();
+    }
+    /**
+     * @deprecated Триггер старой админки getTables — НА УДАЛЕНИЕ вместе с ней.
+     *             Действующая версия: triggerAddFieldsAPI() (формат gtsAPI).
+     */
     public function triggergsAddFields(&$getTables,$class, $type, $method, $fields, $object_old, $object_new){
         if($type == 'after'){
             if($class == 'gtsAPIField' and $method == 'update'){
