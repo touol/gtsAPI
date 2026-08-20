@@ -45470,7 +45470,7 @@ endobj\r
   var c = l.getContext("2d");
   c.fillStyle = "#fff", c.fillRect(0, 0, l.width, l.height);
   var u = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (rn.canvg ? Promise.resolve(rn.canvg) : import("./index.es-DZ8eCkLq.js")).catch(function(m) {
+  return (rn.canvg ? Promise.resolve(rn.canvg) : import("./index.es-mnuhRWk2.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -57686,7 +57686,7 @@ const MU = { style: { padding: "1rem", "min-width": "300px", display: "flex", "f
                 columns: d.value,
                 autocompleteSettings: T(ne),
                 selectSettings: w.value,
-                customFields: T(U)[T(gt)._rowKey],
+                customFields: T(U)[T(gt).id],
                 mywatch: T(xt),
                 form: te.value
               }, null, 8, ["modelValue", "columns", "autocompleteSettings", "selectSettings", "customFields", "mywatch", "form"])
