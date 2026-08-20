@@ -66,7 +66,15 @@ if(!$debug){
     $assets_gtsapi_url = $http1.'://'.$modx->getOption('http_host').$modx->getOption('assets_url').'components/gtsapi/';
     $imports = [];
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
-        $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/vue.esm-browser.js';
+        // Сборка Vue: prod (147 КБ) или dev (478 КБ, с предупреждениями в консоли).
+        // Обе с компилятором шаблонов — он нужен и на проде: на нём держатся
+        // динамические шаблоны (экшены и колонки PVTables приходят строками из
+        // конфига таблицы, vue3-runtime-template-next, чанки Fenom). Компилятора
+        // нет только у runtime-сборок (vue.runtime.*) — их сюда ставить нельзя.
+        $vue_file = $modx->getOption('gtsapi_vue_build', null, 'prod') === 'dev'
+            ? 'vue.esm-browser.js'
+            : 'vue.esm-browser.prod.js';
+        $imports['imports']['vue'] = $assets_gtsapi_url.'js/web/'.$vue_file;
         $pvtables_path = $modx->getOption('assets_path').'components/gtsapi/js/web/pvtables/';
         $imports['imports']['pvtables/dist/pvtables'] = $assets_gtsapi_url.'js/web/pvtables/pvtables.js?v='.$vapi;
     }
