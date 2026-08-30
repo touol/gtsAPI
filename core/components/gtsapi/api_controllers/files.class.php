@@ -50,59 +50,25 @@ class filesAPIController{
      */
     public function checkFilePermissions($action = 'read')
     {
-        $sourceId = $this->source->get('id');
-        
-        // Проверяем, настроены ли ACL для источника медиа
-        $acls = $this->modx->getCollection('sources.modAccessMediaSource', ['target' => $sourceId]);
-        
-        if (!empty($acls)) {
-            switch ($action) {
-            
-            case 'list':
-                return $this->source->checkPolicy('list');
-            case 'download':
-            case 'read':
-            case 'view':
-                return $this->source->checkPolicy('load');
-            case 'upload':
-            case 'create':
-            case 'update':
-                return $this->source->checkPolicy('create');
-            case 'delete':
-            case 'remove':
-                return $this->source->checkPolicy('remove');
-            case 'edit':
-            case 'save':
-                return $this->source->checkPolicy('save');
-            default:
-                return false;
-            }
-        }
-        
-        // Источник без ACL. Раньше здесь чтение (read/download/view) разрешалось ВСЕМ —
-        // это и была дыра: у дефолтного «Filesystem» ACL нет, значит читать мог любой.
-        // Теперь default-DENY: без явной политики файловые операции доступны только
-        // администратору. Хочешь дать доступ конкретной группе — настрой ACL источника
-        // (modAccessMediaSource), сработает ветка выше.
-        if (!$this->modx->user->isMember('Administrator')) {
+        // Единая модель доступа — политики самого медиа-источника (checkPolicy).
+        // Так задумано в MODX: есть ACL (modAccessMediaSource) — политика соблюдается;
+        // ACL нет — источник открыт (checkPolicy вернёт true). Раньше здесь была
+        // самодельная развилка, которая для источника без ACL жёстко возвращала
+        // list=>false — из-за этого дерево и список файлов не грузились ни под кем
+        // (баг был до правок безопасности). А чтение при этом разрешалось всем —
+        // это и была дыра. Теперь оба перекоса убраны: неаутентифицированного держит
+        // гейт в route(), а что можно залогиненному — решает политика источника.
+        $map = [
+            'list'     => 'list',
+            'read'     => 'load',  'download' => 'load', 'view' => 'load',
+            'upload'   => 'create','create'   => 'create','update' => 'create',
+            'delete'   => 'remove','remove'   => 'remove',
+            'edit'     => 'save',  'save'     => 'save',
+        ];
+        if (!isset($map[$action])) {
             return false;
         }
-        switch ($action) {
-            case 'list':
-            case 'read':
-            case 'download':
-            case 'view':
-            case 'upload':
-            case 'create':
-            case 'update':
-            case 'delete':
-            case 'remove':
-            case 'edit':
-            case 'save':
-                return true;
-            default:
-                return false;
-        }
+        return $this->source->checkPolicy($map[$action]);
     }
 
     /**
