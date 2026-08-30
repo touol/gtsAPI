@@ -250,13 +250,40 @@ class filesAPIController{
         
         // Получаем список файлов
         $objectList = $this->source->getObjectsInContainer($path);
-        
+
         // Проверяем наличие ошибок
         if ($objectList === false) {
             $errors = $this->source->getErrors();
             return $this->error(implode("\n", $errors));
         }
-        
+
+        // distributeByDate: загрузка кладёт файлы в подпапки ГОД/МЕСЯЦ, а браузер
+        // (форма счетов снабжения) листает корень источника — и не видит ничего.
+        // Поэтому в корне подмешиваем файлы из подпапок год/месяц: getObjectsInContainer
+        // по каждой найденной паре ГГГГ/ММ. Папки год/месяц ищем прямо по basePath
+        // (getContainerList может не отдать их из-за прав directory_list на разных
+        // контекстах — а чтение файлов, file_list, работает). Всё в пределах источника.
+        $propsDist = $this->source->getPropertyList();
+        $byDate = isset($propsDist['distributeByDate'])
+            && !in_array(strtolower(trim((string)$propsDist['distributeByDate'])), ['', '0', 'false', 'no', 'off'], true);
+        $rootPath = ($path === '' || $path === '/' || rtrim($path, '/') === '');
+        if ($byDate && $rootPath) {
+            $base = method_exists($this->source, 'getBasePath') ? $this->source->getBasePath('') : '';
+            $realBase = $base ? realpath($base) : false;
+            if ($realBase && is_dir($realBase)) {
+                foreach (glob($realBase . '/[0-9][0-9][0-9][0-9]', GLOB_ONLYDIR) ?: [] as $yearDir) {
+                    $year = basename($yearDir);
+                    foreach (glob($yearDir . '/[0-9][0-9]', GLOB_ONLYDIR) ?: [] as $monthDir) {
+                        $sub = $year . '/' . basename($monthDir) . '/';
+                        $subFiles = $this->source->getObjectsInContainer($sub);
+                        if (is_array($subFiles)) {
+                            foreach ($subFiles as $sf) { $objectList[] = $sf; }
+                        }
+                    }
+                }
+            }
+        }
+
         // Формируем ответ
         $files = [];
         $directories = [];
