@@ -65,16 +65,6 @@ class filesAPIController{
         //    Object) на нужный контекст нужной группе.
         //
         // Анонима до сюда не пускает гейт в route(). sudo (админ) проходит обе.
-        $srcMap = [
-            'list'     => 'list',
-            'read'     => 'view',   'download' => 'view',   'view' => 'view',
-            'upload'   => 'create', 'create'   => 'create', 'update' => 'save',
-            'delete'   => 'remove', 'remove'   => 'remove',
-            'edit'     => 'save',   'save'     => 'save',
-            'directory_create' => 'create',
-            'directory_remove' => 'remove',
-            'directory_update' => 'save',
-        ];
         $fileMap = [
             'list'     => 'file_list',
             'read'     => 'file_view',  'download' => 'file_view', 'view' => 'file_view',
@@ -88,9 +78,42 @@ class filesAPIController{
         if (!isset($fileMap[$action])) {
             return false;
         }
-        $srcPerm = isset($srcMap[$action]) ? $srcMap[$action] : 'list';
         // 1) доступ к источнику   2) право на файловую операцию
-        return $this->source->checkPolicy($srcPerm) && $this->modx->hasPermission($fileMap[$action]);
+        return $this->sourceAccessible() && $this->modx->hasPermission($fileMap[$action]);
+    }
+
+    /**
+     * Есть ли у текущего пользователя доступ к ЭТОМУ источнику файлов.
+     *
+     * ⚠ Нельзя полагаться на $source->checkPolicy: modFileMediaSource::findPolicy жёстко
+     * форсит контекст 'mgr', поэтому в WEB-контексте медиа-ACL источника не применяются —
+     * checkPolicy отдаёт true даже тем, кого в ACL нет. Проверяем ACL источника напрямую:
+     *   • у источника нет ACL          → открыт всем (как в MODX);
+     *   • есть ACL и группа юзера в нём → доступ;
+     *   • есть ACL, группы юзера нет    → запрет.
+     * sudo (админ) проходит всегда.
+     *
+     * @return bool
+     */
+    protected function sourceAccessible()
+    {
+        if ($this->modx->user && $this->modx->user->get('sudo')) {
+            return true;
+        }
+        $sourceId = (int)$this->source->get('id');
+        $total = $this->modx->getCount('sources.modAccessMediaSource', ['target' => $sourceId]);
+        if ($total === 0) {
+            return true; // источник без ACL — открыт
+        }
+        $groups = $this->modx->user ? $this->modx->user->getUserGroups() : [];
+        if (empty($groups)) {
+            return false;
+        }
+        return $this->modx->getCount('sources.modAccessMediaSource', [
+            'target' => $sourceId,
+            'principal_class' => 'modUserGroup',
+            'principal:IN' => $groups,
+        ]) > 0;
     }
 
     /**
