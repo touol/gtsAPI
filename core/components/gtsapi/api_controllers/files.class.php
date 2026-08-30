@@ -79,16 +79,19 @@ class filesAPIController{
             }
         }
         
-        // Если права не заданы, применяем дефолтные правила
+        // Источник без ACL. Раньше здесь чтение (read/download/view) разрешалось ВСЕМ —
+        // это и была дыра: у дефолтного «Filesystem» ACL нет, значит читать мог любой.
+        // Теперь default-DENY: без явной политики файловые операции доступны только
+        // администратору. Хочешь дать доступ конкретной группе — настрой ACL источника
+        // (modAccessMediaSource), сработает ветка выше.
+        if (!$this->modx->user->isMember('Administrator')) {
+            return false;
+        }
         switch ($action) {
             case 'list':
-                return false;
             case 'read':
             case 'download':
             case 'view':
-                // Чтение доступно всем
-                return true;
-                
             case 'upload':
             case 'create':
             case 'update':
@@ -96,15 +99,47 @@ class filesAPIController{
             case 'remove':
             case 'edit':
             case 'save':
-                // Редактирование только для группы Administrator
-                if (!$this->modx->user->isMember('Administrator')) {
-                    return false;
-                }
                 return true;
-                
             default:
                 return false;
         }
+    }
+
+    /**
+     * Confinement: путь обязан оставаться ВНУТРИ папки источника.
+     *
+     * Даже с аутентификацией и правами нельзя выпускать файловые операции за пределы
+     * basePath источника. Отдельная проверка нужна потому, что дефолтный «Filesystem»
+     * настроен с пустым basePath = корень сайта: без этой границы `/core/config/config.inc.php`
+     * лежит «внутри источника» и читается штатно.
+     *
+     * @param string $path относительный путь запроса (уже после sanitizePath)
+     * @return true|string true — путь безопасен; строка — текст ошибки
+     */
+    protected function guardPath($path)
+    {
+        $base = method_exists($this->source, 'getBasePath') ? $this->source->getBasePath('') : '';
+        $realBase = $base ? realpath($base) : false;
+
+        // Источник обязан иметь собственную папку. Корень сайта и всё внутри core/ —
+        // запрещены как база: иначе «внутри источника» = весь сайт.
+        $siteRoot = realpath(MODX_BASE_PATH);
+        $coreRoot = realpath(MODX_CORE_PATH);
+        if (!$realBase || $realBase === $siteRoot || ($coreRoot && strpos($realBase, $coreRoot) === 0)) {
+            return 'Источник файлов настроен небезопасно: базовый путь не должен быть корнем сайта';
+        }
+
+        // Целевой абсолютный путь. Для создания файла его ещё нет — проверяем родителя.
+        $rel = ltrim($path, '/');
+        $target = realpath($realBase . '/' . $rel);
+        if ($target === false) {
+            $target = realpath($realBase . '/' . ltrim(dirname($rel), '/'));
+        }
+        $realBaseSlash = rtrim($realBase, '/\\') . DIRECTORY_SEPARATOR;
+        if ($target === false || ($target !== rtrim($realBase, '/\\') && strpos($target, $realBaseSlash) !== 0)) {
+            return 'Путь вне папки источника';
+        }
+        return true;
     }
     /**
      * Инициализация MediaSource
@@ -134,7 +169,17 @@ class filesAPIController{
      */
     public function route($rule, $uri, $method, $request, $id){
         $req = json_decode(file_get_contents('php://input'), true);
-        if(is_array($req)) $request = array_merge($request,$req);   
+        if(is_array($req)) $request = array_merge($request,$req);
+
+        // ⚠ Файловый API — ТОЛЬКО для аутентифицированных. Правило `files` исторически
+        // публичное (authenticated=0), а сам route() раньше отдавал управление действию
+        // без единой проверки прав: любой неаутентифицированный мог прочитать
+        // core/config/config.inc.php (доступы к БД) через ?action=content. Гейт здесь —
+        // единственная точка, через которую проходят ВСЕ действия контроллера.
+        if (!($this->modx->user && $this->modx->user->id > 0)) {
+            return $this->error('Not api authenticated!', ['user_id' => 0]);
+        }
+
         // Получаем ID источника медиа
         $sourceId = isset($request['source']) ? (int)$request['source'] : 1;
         
@@ -225,6 +270,7 @@ class filesAPIController{
         // Получаем путь к директории
         $path = isset($request['path']) ? $request['path'] : '/';
         $path = $this->sanitizePath($path);
+        $__g = $this->guardPath($path); if ($__g !== true) return $this->error($__g);
         
         // Получаем список директорий
         $this->source->setRequestProperties(['dir' => $path]);
@@ -334,6 +380,7 @@ class filesAPIController{
         
         // Получаем и санитизируем параметры
         $parent = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($parent); if ($__g !== true) return $this->error($__g);
         $name = $this->sanitizeName($request['name']);
         
         // Создаем директорию
@@ -373,6 +420,7 @@ class filesAPIController{
         
         // Получаем и санитизируем путь
         $path = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($path); if ($__g !== true) return $this->error($__g);
 
         // Распределение по году/месяцу, если включено в настройках источника
         // (свойство источника distributeByDate = Да). Разбивает большую плоскую
@@ -440,6 +488,7 @@ class filesAPIController{
         
         // Получаем и санитизируем параметры
         $path = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($path); if ($__g !== true) return $this->error($__g);
         $newName = $this->sanitizeName($request['newName']);
         
         // Определяем, является ли объект директорией
@@ -490,6 +539,7 @@ class filesAPIController{
         
         // Получаем и санитизируем путь
         $path = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($path); if ($__g !== true) return $this->error($__g);
         
         // Определяем, является ли объект директорией
         $isDir = substr($path, -1) === '/';
@@ -531,6 +581,7 @@ class filesAPIController{
         
         // Получаем и санитизируем путь
         $path = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($path); if ($__g !== true) return $this->error($__g);
         
         // Получаем содержимое файла
         $fileArray = $this->source->getObjectContents($path);
@@ -609,6 +660,7 @@ class filesAPIController{
         
         // Получаем и санитизируем путь
         $path = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($path); if ($__g !== true) return $this->error($__g);
         
         // Получаем содержимое файла
         $fileArray = $this->source->getObjectContents($path);
@@ -648,6 +700,7 @@ class filesAPIController{
         
         // Получаем и санитизируем путь
         $path = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($path); if ($__g !== true) return $this->error($__g);
         $content = $request['content'];
         
         // Обновляем содержимое файла
@@ -686,6 +739,7 @@ class filesAPIController{
         
         // Получаем и санитизируем параметры
         $directory = $this->sanitizePath($request['path']);
+        $__g = $this->guardPath($directory); if ($__g !== true) return $this->error($__g);
         $name = $this->sanitizeName($request['name']);
         $content = isset($request['content']) ? $request['content'] : '';
         
