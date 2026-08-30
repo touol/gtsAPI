@@ -242,23 +242,6 @@ class filesAPIController{
         $this->source->setRequestProperties(['dir' => $path]);
         $containerList = $this->source->getContainerList($path);
 
-        // [ВРЕМЕННЫЙ ДИАГ] почему директории пустые под юзером: логируем результат
-        // getContainerList, права источника и контекст. Убрать после отладки.
-        $dbgPerms = [];
-        foreach (['directory_list','file_list','list','load','view','create'] as $pm) {
-            $dbgPerms[$pm] = $this->source->hasPermission($pm) ? 1 : 0;
-        }
-        $this->modx->log(modX::LOG_LEVEL_ERROR, '[files DIAG] user=' . $this->modx->user->id .
-            ' ctx=' . ($this->modx->context ? $this->modx->context->get('key') : '?') .
-            ' source=' . $this->source->get('id') .
-            ' path=' . $path .
-            ' basePath=' . (method_exists($this->source,'getBasePath') ? $this->source->getBasePath('') : '?') .
-            ' getContainerList=' . (is_array($containerList) ? count($containerList) . ' шт' : var_export($containerList, true)) .
-            ' perms=' . json_encode($dbgPerms, JSON_UNESCAPED_UNICODE) .
-            ' getPermissions=' . json_encode(array_keys((array)$this->source->getPermissions()), JSON_UNESCAPED_UNICODE) .
-            ' errors=' . implode('|', (array)$this->source->getErrors())
-        );
-
         // Проверяем наличие ошибок
         if ($containerList === false) {
             $errors = $this->source->getErrors();
