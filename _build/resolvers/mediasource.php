@@ -187,16 +187,16 @@ if ($transport->xpdo) {
                     // Находим группу Administrator
                     $adminGroup = $modx->getObject('modUserGroup', array('name' => 'Administrator'));
                     if ($adminGroup) {
-                        // Находим политику "Media Source Admin"
-                        $mediaSourceAdminPolicy = $modx->getObject('modAccessPolicy', array('name' => 'Media Source Admin'));
-                        if ($mediaSourceAdminPolicy) {
+                        // Находим политику "gtsAPIFileAccess"
+                        $gtsAPIFilePolicy = $modx->getObject('modAccessPolicy', array('name' => 'gtsAPIFileAccess'));
+                        if ($gtsAPIFilePolicy) {
                             // Проверяем, существует ли уже ACL
                             $existingAcl = $modx->getObject('sources.modAccessMediaSource', array(
                                 'target' => $mediaSource->get('id'),
                                 'principal_class' => 'modUserGroup',
                                 'principal' => $adminGroup->get('id'),
                                 'authority' => 9999,
-                                'policy' => $mediaSourceAdminPolicy->get('id')
+                                'policy' => $gtsAPIFilePolicy->get('id')
                             ));
                             
                             if (!$existingAcl) {
@@ -207,11 +207,11 @@ if ($transport->xpdo) {
                                     'principal_class' => 'modUserGroup',
                                     'principal' => $adminGroup->get('id'),
                                     'authority' => 9999,
-                                    'policy' => $mediaSourceAdminPolicy->get('id')
+                                    'policy' => $gtsAPIFilePolicy->get('id')
                                 ), '', true, true);
                                 
                                 if ($acl->save()) {
-                                    $modx->log(modX::LOG_LEVEL_INFO, 'Создан ACL для группы Administrator с политикой Media Source Admin');
+                                    $modx->log(modX::LOG_LEVEL_INFO, 'Создан ACL для группы Administrator с политикой gtsAPIFileAccess');
                                 } else {
                                     $modx->log(modX::LOG_LEVEL_ERROR, 'Не удалось создать ACL для группы Administrator');
                                 }
@@ -219,7 +219,7 @@ if ($transport->xpdo) {
                                 $modx->log(modX::LOG_LEVEL_INFO, 'ACL для группы Administrator уже существует');
                             }
                         } else {
-                            $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена политика "Media Source Admin"');
+                            $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена политика "gtsAPIFileAccess"');
                         }
                     } else {
                         $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена группа "Administrator"');
@@ -269,16 +269,16 @@ if ($transport->xpdo) {
                 // Находим группу Administrator
                 $adminGroup = $modx->getObject('modUserGroup', array('name' => 'Administrator'));
                 if ($adminGroup) {
-                    // Находим политику "Media Source Admin"
-                    $mediaSourceAdminPolicy = $modx->getObject('modAccessPolicy', array('name' => 'Media Source Admin'));
-                    if ($mediaSourceAdminPolicy) {
+                    // Находим политику "gtsAPIFileAccess"
+                    $gtsAPIFilePolicy = $modx->getObject('modAccessPolicy', array('name' => 'gtsAPIFileAccess'));
+                    if ($gtsAPIFilePolicy) {
                         // Проверяем, существует ли уже ACL
                         $existingAcl = $modx->getObject('sources.modAccessMediaSource', array(
                             'target' => $mediaSource->get('id'),
                             'principal_class' => 'modUserGroup',
                             'principal' => $adminGroup->get('id'),
                             'authority' => 9999,
-                            'policy' => $mediaSourceAdminPolicy->get('id')
+                            'policy' => $gtsAPIFilePolicy->get('id')
                         ));
                         
                         if (!$existingAcl) {
@@ -289,11 +289,11 @@ if ($transport->xpdo) {
                                 'principal_class' => 'modUserGroup',
                                 'principal' => $adminGroup->get('id'),
                                 'authority' => 9999,
-                                'policy' => $mediaSourceAdminPolicy->get('id')
+                                'policy' => $gtsAPIFilePolicy->get('id')
                             ), '', true, true);
                             
                             if ($acl->save()) {
-                                $modx->log(modX::LOG_LEVEL_INFO, 'Создан ACL для группы Administrator с политикой Media Source Admin (для существующего источника)');
+                                $modx->log(modX::LOG_LEVEL_INFO, 'Создан ACL для группы Administrator с политикой gtsAPIFileAccess (для существующего источника)');
                             } else {
                                 $modx->log(modX::LOG_LEVEL_ERROR, 'Не удалось создать ACL для группы Administrator (для существующего источника)');
                             }
@@ -301,7 +301,7 @@ if ($transport->xpdo) {
                             $modx->log(modX::LOG_LEVEL_INFO, 'ACL для группы Administrator уже существует (для существующего источника)');
                         }
                     } else {
-                        $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена политика "Media Source Admin" (для существующего источника)');
+                        $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена политика "gtsAPIFileAccess" (для существующего источника)');
                     }
                 } else {
                     $modx->log(modX::LOG_LEVEL_ERROR, 'Не найдена группа "Administrator" (для существующего источника)');

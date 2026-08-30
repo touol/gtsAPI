@@ -58,12 +58,21 @@ class filesAPIController{
         // (баг был до правок безопасности). А чтение при этом разрешалось всем —
         // это и была дыра. Теперь оба перекоса убраны: неаутентифицированного держит
         // гейт в route(), а что можно залогиненному — решает политика источника.
+        // Проверяем ФАЙЛОВЫЕ права источника, а не общие объектные. Раньше было
+        // delete=>remove (право «удалять объекты» вообще), upload=>create и т.п. —
+        // слишком широко: для файлового менеджера нужно именно право на операцию
+        // с файлом/папкой (file_remove, file_upload, …). Эти права определены
+        // в MediaSourceTemplate и проверяются политикой доступа источника.
         $map = [
-            'list'     => 'list',
-            'read'     => 'load',  'download' => 'load', 'view' => 'load',
-            'upload'   => 'create','create'   => 'create','update' => 'create',
-            'delete'   => 'remove','remove'   => 'remove',
-            'edit'     => 'save',  'save'     => 'save',
+            'list'     => 'file_list',
+            'read'     => 'file_view',   'download' => 'file_view',   'view' => 'file_view',
+            'upload'   => 'file_upload',  'create'   => 'file_create', 'update' => 'file_update',
+            'delete'   => 'file_remove',  'remove'   => 'file_remove',
+            'edit'     => 'file_update',  'save'     => 'file_update',
+            // операции с директориями (createDirectory/rename/remove каталога)
+            'directory_create' => 'directory_create',
+            'directory_remove' => 'directory_remove',
+            'directory_update' => 'directory_update',
         ];
         if (!isset($map[$action])) {
             return false;
