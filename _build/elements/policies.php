@@ -12,7 +12,7 @@
 return [
     'gtsAPIFileTemplate' => [
         'description' => 'Права доступа к файлам источников gtsAPI: просмотр, загрузка, управление.',
-        'template_group_name' => 'MediaSource',
+        'template_group_name' => 'Object',
         'lexicon' => 'permissions',
         'permissions' => array(
             // директории

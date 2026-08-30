@@ -50,26 +50,22 @@ class filesAPIController{
      */
     public function checkFilePermissions($action = 'read')
     {
-        // Единая модель доступа — политики самого медиа-источника (checkPolicy).
-        // Так задумано в MODX: есть ACL (modAccessMediaSource) — политика соблюдается;
-        // ACL нет — источник открыт (checkPolicy вернёт true). Раньше здесь была
-        // самодельная развилка, которая для источника без ACL жёстко возвращала
-        // list=>false — из-за этого дерево и список файлов не грузились ни под кем
-        // (баг был до правок безопасности). А чтение при этом разрешалось всем —
-        // это и была дыра. Теперь оба перекоса убраны: неаутентифицированного держит
-        // гейт в route(), а что можно залогиненному — решает политика источника.
-        // Проверяем ФАЙЛОВЫЕ права источника, а не общие объектные. Раньше было
-        // delete=>remove (право «удалять объекты» вообще), upload=>create и т.п. —
-        // слишком широко: для файлового менеджера нужно именно право на операцию
-        // с файлом/папкой (file_remove, file_upload, …). Эти права определены
-        // в MediaSourceTemplate и проверяются политикой доступа источника.
+        // Проверяем ФАЙЛОВЫЕ права — и именно так, как их проверяет сам MODX при работе
+        // с файлами: через $modx->hasPermission (КОНТЕКСТНЫЕ права группы). Тот же
+        // источник (modFileMediaSource) внутри getContainerList/getObjectsInContainer
+        // фильтрует папки и файлы по hasPermission('directory_list'/'file_list'), а НЕ по
+        // ACL самого источника (тот про право редактировать объект-источник, к файлам
+        // отношения не имеет). Поэтому и гейт контроллера завязываем на те же
+        // контекстные файловые права — одна модель, без рассинхрона.
+        //
+        // Права выдаются политикой gtsAPIFileTemplate/gtsAPIFileAccess (группа шаблонов
+        // Object) на нужный контекст нужной группе. Анонима держит гейт в route().
         $map = [
             'list'     => 'file_list',
-            'read'     => 'file_view',   'download' => 'file_view',   'view' => 'file_view',
-            'upload'   => 'file_upload',  'create'   => 'file_create', 'update' => 'file_update',
-            'delete'   => 'file_remove',  'remove'   => 'file_remove',
-            'edit'     => 'file_update',  'save'     => 'file_update',
-            // операции с директориями (createDirectory/rename/remove каталога)
+            'read'     => 'file_view',  'download' => 'file_view', 'view' => 'file_view',
+            'upload'   => 'file_upload', 'create'   => 'file_create', 'update' => 'file_update',
+            'delete'   => 'file_remove', 'remove'   => 'file_remove',
+            'edit'     => 'file_update', 'save'     => 'file_update',
             'directory_create' => 'directory_create',
             'directory_remove' => 'directory_remove',
             'directory_update' => 'directory_update',
@@ -77,7 +73,8 @@ class filesAPIController{
         if (!isset($map[$action])) {
             return false;
         }
-        return $this->source->checkPolicy($map[$action]);
+        // sudo (админ) проходит всегда; остальным — по контекстному праву.
+        return $this->modx->hasPermission($map[$action]);
     }
 
     /**
