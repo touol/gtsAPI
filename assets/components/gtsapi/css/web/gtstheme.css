@@ -1,0 +1,197 @@
+/* ============================================================================
+   gtstheme.css — виджет переключателя (сниппет gtsTheme).
+
+   Сам живёт на токенах L0, поэтому перекрашивается вместе со всем остальным.
+   Запасные значения через var(--gts-x, fallback) нужны для страниц, где
+   pvtables.css не подключён: виджет там всё равно должен выглядеть прилично.
+   ========================================================================= */
+
+.gts-ts {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gts-gap-s, 4px);
+}
+
+.gts-ts-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: var(--gts-control-h, 30px);
+  min-width: var(--gts-control-h, 30px);
+  padding: 0 6px;
+  font: inherit;
+  cursor: pointer;
+  color: var(--gts-ink-2, #4A5568);
+  background: var(--gts-surface, #fff);
+  border: 1px solid var(--gts-line-strong, #C3CDDA);
+  border-radius: var(--gts-radius, 6px);
+  transition: background var(--gts-duration, 140ms) ease,
+              color var(--gts-duration, 140ms) ease,
+              border-color var(--gts-duration, 140ms) ease;
+}
+.gts-ts-btn:hover {
+  color: var(--gts-ink, #1F2937);
+  background: var(--gts-surface-2, #F7F9FC);
+}
+.gts-ts-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--gts-focus-ring, 0 0 0 3px rgba(43, 92, 230, .28));
+}
+
+/* --- вариант «на панели»: .gts-ts--ghost ---------------------------------
+   Кнопки становятся прозрачными и берут цвет от родителя. Нужен там, где
+   виджет стоит на цветной или тёмной полосе (navbar админки, шапка сайта):
+   белая плашка на синем navbar выглядит наклейкой.
+
+   Подсветка — полупрозрачный серый: он ложится и на светлую панель, и на
+   тёмную, в отличие от rgba белого или чёрного, которые работают только
+   в одну сторону. */
+.gts-ts--ghost .gts-ts-btn {
+  color: inherit;
+  background: transparent;
+  border-color: transparent;
+  opacity: .85;
+}
+.gts-ts--ghost .gts-ts-btn:hover {
+  color: inherit;
+  background: rgba(127, 127, 127, .28);
+  opacity: 1;
+}
+.gts-ts--ghost .gts-ts-btn:focus-visible {
+  box-shadow: 0 0 0 2px currentColor;
+}
+
+/* Меню остаётся обычной карточкой на токенах: оно всплывает над контентом,
+   а не лежит на панели, и должно читаться само по себе. */
+
+/* --- полоса-контейнер: .gts-topbar ---------------------------------------
+   Минимальная шапка для страниц, у которых своей нет (шаблоны под Vue-
+   приложения). Кладём сюда, а не инлайном в шаблон, чтобы не разводить
+   очередной набор одноразовых стилей. */
+.gts-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--gts-gap, 8px);
+  padding: 6px var(--gts-gap-l, 16px);
+  background: var(--gts-surface, #fff);
+  border-bottom: 1px solid var(--gts-line, #DCE1E8);
+  color: var(--gts-ink, #1A1F27);
+  font-family: var(--gts-font, system-ui, sans-serif);
+}
+.gts-topbar__title {
+  font-weight: var(--gts-weight-head, 600);
+  font-size: var(--gts-size-lg, 1.15rem);
+  letter-spacing: var(--gts-head-tracking, -.01em);
+  margin: 0;
+}
+.gts-topbar__spacer { margin-left: auto; }
+
+/* --- солнце / луна -------------------------------------------------------
+   Обе иконки лежат в кнопке всегда, показывается одна. Так кнопка не
+   меняет ширину при переключении и не дёргает соседей в тулбаре. */
+.gts-ts-i { display: none; }
+.gts-ts-scheme .gts-ts-moon { display: block; }                       /* светлая: предлагаем тёмную */
+.gts-ts-scheme[aria-pressed="true"] .gts-ts-moon { display: none; }
+.gts-ts-scheme[aria-pressed="true"] .gts-ts-sun  { display: block; }  /* тёмная: предлагаем светлую */
+
+/* --- меню тем ------------------------------------------------------------ */
+.gts-ts-menu-wrap { position: relative; }
+
+.gts-ts-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: var(--gts-z-dropdown, 200);
+  min-width: 190px;
+  padding: 4px;
+  background: var(--gts-surface, #fff);
+  border: 1px solid var(--gts-line, #DCE3EC);
+  border-radius: var(--gts-radius-l, 10px);
+  box-shadow: var(--gts-shadow-l, 0 8px 30px rgba(22, 28, 36, .14));
+}
+.gts-ts-menu[hidden] { display: none; }
+
+.gts-ts-item {
+  display: flex;
+  align-items: center;
+  gap: var(--gts-gap, 8px);
+  width: 100%;
+  padding: 7px 10px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  color: var(--gts-ink, #1F2937);
+  background: transparent;
+  border: 0;
+  border-radius: var(--gts-radius-s, 3px);
+}
+.gts-ts-item:hover { background: var(--gts-surface-3, #EDF1F6); }
+.gts-ts-item:focus-visible {
+  outline: none;
+  box-shadow: var(--gts-focus-ring, 0 0 0 3px rgba(43, 92, 230, .28));
+}
+.gts-ts-item[aria-checked="true"] {
+  color: var(--gts-accent, #2B5CE6);
+  background: var(--gts-accent-soft, #E8EDFD);
+  font-weight: var(--gts-weight-med, 500);
+}
+
+/* Кружок с акцентом темы.
+   Сам цвет виджет не знает и знать не должен: его объявляет файл темы
+   правилом .gts-ts-dot--<имя>. Иначе добавить свою тему было бы нельзя,
+   не правя этот файл. Здесь — только форма и нейтральная заглушка на
+   случай темы без такого правила. */
+.gts-ts-dot {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--gts-line-strong, #C2C9D3);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .18);
+}
+[data-gts-scheme="dark"] .gts-ts-dot { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); }
+
+.gts-ts-name { white-space: nowrap; }
+
+/* --- пункт «Сбросить» ---------------------------------------------------- */
+.gts-ts-sep {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--gts-line, #DCE1E8);
+}
+
+/* Кружок здесь несёт иконку, а не цвет темы: сброс — не тема,
+   и красить его в чей-то акцент было бы враньём. */
+.gts-ts-dot--reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin: -1px;
+  background: none;
+  box-shadow: none;
+  color: var(--gts-ink-3, #7B8593);
+}
+
+.gts-ts-reset .gts-ts-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+.gts-ts-hint {
+  font-size: 11px;
+  font-weight: var(--gts-weight-text, 400);
+  color: var(--gts-ink-3, #7B8593);
+}
+
+.gts-ts-reset[disabled] {
+  cursor: default;
+  opacity: .42;
+}
+.gts-ts-reset[disabled]:hover { background: transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gts-ts-btn { transition: none; }
+}

@@ -1,0 +1,113 @@
+/* ============================================================================
+   Тема gtsERP: teal
+   ----------------------------------------------------------------------------
+   Тил — из work/montazh_plan_mobile.html. Плотная холодно-серая подложка.
+   В исходном файле стоял Barlow — у него нет кириллицы, русский текст молча
+   падал в системный запасной шрифт. Golos Text — близкий гротеск с кириллицей.
+
+   Файл темы — данные, а не код: он не участвует в сборке PVTables.
+   Чтобы добавить свою тему, положите такой же файл рядом —
+   сниппет gtsTheme подхватит его сам. Ничего пересобирать не нужно.
+
+   Объявляются только приватные пары --_x-l / --_x-d (светлое и тёмное
+   значение) плюс шрифт и радиусы. Публичные --gts-* собирает §3
+   в PVTables/src/theme/gts-tokens.css — там же эталонный список пар.
+
+   Объявлять весь список не обязательно: недоопределённые пары
+   останутся из нейтральной темы.
+   ========================================================================= */
+
+/* --- шрифт темы ----------------------------------------------------------
+   Файлы лежат рядом, в fonts/, и раздаются с нашего сервера. С Google Fonts
+   их не берём: на замере такой запрос выстраивался в цепочку (сначала CSS,
+   потом css2?family=, потом сами woff2 — полторы секунды), а прод стоит в
+   локальной сети, откуда до gstatic можно и не дойти вовсе.
+
+   Шрифт вариативный: один файл на всю ось насыщенности 400–700, поэтому
+   отдельных файлов под 500 и 600 не нужно.
+
+   Подмножества кириллицы и латиницы объявлены раздельно с unicode-range:
+   браузер скачает только то, чем реально что-то нарисовано. И скачает вообще
+   только эту тему — @font-face загружается лениво, остальные три темы на
+   странице ничего не стоят, пока не выбраны.
+   ---------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/golos-text-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'Golos Text';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/golos-text-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+[data-gts-theme="teal"] {
+  --gts-theme-name: "teal";
+  --gts-font:      "Golos Text", "Segoe UI", system-ui, sans-serif;
+  --gts-font-head: "Golos Text", "Segoe UI", system-ui, sans-serif;
+
+  --gts-radius-s: 4px;
+  --gts-radius:   8px;
+  --gts-radius-l: 12px;
+
+  --_accent-l:   #0F6B7A;  --_accent-d:   #3FB0C2;
+  --_hover-l:    #0B5462;  --_hover-d:    #55C3D4;
+  --_active-l:   #08414C;  --_active-d:   #6DD2E1;
+  --_soft-l:     #DEEFF1;  --_soft-d:     #123038;
+  --_contrast-l: #FFFFFF;  --_contrast-d: #06222A;
+
+  --_bg-l:        #E7EBF0; --_bg-d:        #0B0F14;
+  --_surface-l:   #FFFFFF; --_surface-d:   #161D26;
+  --_surface2-l:  #F5F7F9; --_surface2-d:  #1B232E;
+  --_surface3-l:  #E9EEF2; --_surface3-d:  #212B37;
+  --_line-l:      #DDE3EA; --_line-d:      #28323E;
+  --_lineStr-l:   #C6CFDA; --_lineStr-d:   #3A4859;
+
+  --_ink-l:       #161C24; --_ink-d:       #E8EDF3;
+  --_ink2-l:      #4A5666; --_ink2-d:      #A9B4C1;
+  --_ink3-l:      #7D8A99; --_ink3-d:      #71808F;
+  --_inkInv-l:    #FFFFFF; --_inkInv-d:    #0B0F14;
+
+  --_ring-l: rgba(15, 107, 122, .30);
+  --_ring-d: rgba(63, 176, 194, .34);
+
+  /* Рамки полей ввода в формах расчёта.
+     Обводка уведена в холодную бирюзу — под акцент темы. */
+  --_fBorder-l: #CBD7DA;  --_fBorder-d: #2F3D45;
+  --_fFocus-l:  #4FA3B0;  --_fFocus-d:  #3FB0C2;
+  --_fRO-l:     #C6CFDA;  --_fRO-d:     #3A4859;
+  --_fRing-l: 0 0 0 3px rgba(15, 107, 122, .10);
+  --_fRing-d: 0 0 0 3px rgba(63, 176, 194, .14);
+
+  /* Хром таблицы: рамка, разделители, шапка, состояния строк.
+     Хром таблицы в тон холодной подложке темы. */
+  --gts-table-radius: 12px;
+  --_tBorder-l:     #C6CFDA;  --_tBorder-d:     #3A4859;
+  --_tCellBorder-l: #DDE3EA;  --_tCellBorder-d: #28323E;
+  --_tHeadBg-l:     #E9EEF2;  --_tHeadBg-d:     #212B37;
+  --_tHeadInk-l:    #4A5666;  --_tHeadInk-d:    #A9B4C1;
+  --_tHeadBorder-l: #C6CFDA;  --_tHeadBorder-d: #3A4859;
+  --_tHover-l:      #EFF3F6;  --_tHover-d:      #1B232E;
+  --_tSel-l:        #DEEFF1;  --_tSel-d:        #123038;
+  --_tSelHover-l:   #CDE5E9;  --_tSelHover-d:   #17404A;
+  --_tEmptyHover-l: #F5F7F9;  --_tEmptyHover-d: #161D26;
+
+  /* Боковая панель: на шаг темнее контента в обеих схемах. */
+  --_sideBg-l:  #D2DBE2;  --_sideBg-d:  #1A222C;
+  --_sideInk-l: #33404E;  --_sideInk-d: #C2CDD6;
+}
+
+/* Кружок в меню выбора. Задаётся здесь, а не в виджете: меню обязано
+   показать чужой акцент, пока тема не выбрана, а токены в этот
+   момент отдают цвет текущей. Своя тема — свой такой блок. */
+.gts-ts-dot--teal { background: #0F6B7A; }
+[data-gts-scheme="dark"] .gts-ts-dot--teal { background: #3FB0C2; }

@@ -1,0 +1,285 @@
+/* ============================================================================
+   topbar.css — верхняя строка шаблона naryadflow.
+   ----------------------------------------------------------------------------
+   Повторяет строение навбара gtsShopAdmin: бренд слева, меню ресурсов с
+   выпадающими списками, справа пользователь и переключатель темы.
+
+   Но не на Bootstrap. В gtsShopAdmin навбар держится на bootstrap.min.css +
+   popper + bootstrap.js, а этот шаблон ничего из этого не грузит. Тянуть сюда
+   фреймворк ради одной полосы — ровно то размножение стилей, от которого
+   уходим; вместо этого всё на токенах L0.
+
+   Раскрывается двумя путями сразу:
+     · наведение и фокус — чистым CSS, только на широком экране;
+     · клик — js/topbar.js ставит data-open на <li>, и подменю остаётся
+       открытым после того, как мышь ушла.
+   Клик по пункту с детьми при этом не уводит на страницу раздела.
+   ========================================================================= */
+
+.gts-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--gts-z-sticky, 100);
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: var(--gts-gap, 8px);
+  min-height: 44px;
+  padding: 0 var(--gts-gap-l, 16px);
+  background: var(--gts-accent, #4A5C74);
+  color: var(--gts-accent-contrast, #fff);
+  font-family: var(--gts-font, system-ui, sans-serif);
+  font-size: var(--gts-size-sm, 0.85rem);
+  box-shadow: var(--gts-shadow, 0 1px 2px rgba(22, 28, 36, .06));
+}
+
+/* --- бренд --------------------------------------------------------------- */
+.gts-nav__brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: var(--gts-gap-l, 16px);
+  font-weight: var(--gts-weight-head, 600);
+  font-size: var(--gts-size-lg, 1.15rem);
+  letter-spacing: var(--gts-head-tracking, -.01em);
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.gts-nav__brand:hover { color: inherit; opacity: .85; }
+
+/* --- значок меню (узкий экран) ------------------------------------------- */
+.gts-nav__burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  align-self: center;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgba(127, 127, 127, .45);
+  border-radius: var(--gts-radius, 6px);
+}
+.gts-nav__burger:hover { background: rgba(127, 127, 127, .28); }
+.gts-nav__burger:focus-visible { outline: none; box-shadow: 0 0 0 2px currentColor; }
+.gts-nav__burger .gts-nav__x { display: none; }
+.gts-nav[data-menu-open] .gts-nav__burger .gts-nav__x    { display: block; }
+.gts-nav[data-menu-open] .gts-nav__burger .gts-nav__bars { display: none; }
+
+/* --- меню ---------------------------------------------------------------- */
+/* Переносим пункты, а не прокручиваем: overflow-x:auto заставляет браузер
+   считать overflow-y тоже auto, и выпадающие списки обрезаются по нижней
+   границе полосы — меню ломается ровно там, где пунктов много. */
+.gts-nav__menu {
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  list-style: none;
+}
+
+/* position:relative нужен КАЖДОМУ пункту, а не только верхнему: без него
+   вложенный список третьего уровня позиционировался от пункта первого и
+   уезжал мимо экрана. Из-за этого третий уровень и не работал. */
+.gts-nav__item,
+.gts-nav__subitem {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+.gts-nav__subitem { display: block; }
+
+.gts-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 11px;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: background var(--gts-duration, 140ms) ease;
+}
+.gts-nav__link:hover,
+.gts-nav__link:focus-visible {
+  color: inherit;
+  background: rgba(127, 127, 127, .28);
+}
+.gts-nav__link:focus-visible { outline: none; }
+.gts-nav__item[data-open] > .gts-nav__link { background: rgba(127, 127, 127, .28); }
+
+/* Текущий раздел. pdoMenu вешает active на пункт, внутри которого мы стоим. */
+.gts-nav__item.active > .gts-nav__link {
+  border-bottom-color: currentColor;
+  font-weight: var(--gts-weight-med, 500);
+}
+
+.gts-nav__caret {
+  opacity: .7;
+  font-size: .8em;
+  transition: transform var(--gts-duration, 140ms) ease;
+}
+[data-open] > .gts-nav__link .gts-nav__caret,
+[data-open] > .gts-nav__sublink .gts-nav__caret { transform: rotate(180deg); }
+
+/* --- выпадающий список --------------------------------------------------- */
+.gts-nav__sub {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--gts-z-dropdown, 200);
+  display: none;
+  min-width: 210px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  background: var(--gts-surface, #fff);
+  color: var(--gts-ink, #1A1F27);
+  border: 1px solid var(--gts-line, #DCE1E8);
+  border-radius: var(--gts-radius-l, 10px);
+  box-shadow: var(--gts-shadow-l, 0 8px 30px rgba(22, 28, 36, .14));
+}
+[data-open] > .gts-nav__sub { display: block; }
+
+/* Наведение и фокус — на широком экране. Работают вместе с кликом:
+   наведение показывает, клик фиксирует (data-open остаётся, когда мышь ушла).
+   (hover: hover) отсекает тач-устройства, где hover эмулируется тапом и
+   первое касание раскрывало бы меню вместо перехода.
+   Порог тот же, что у мобильной раскладки ниже. */
+@media (hover: hover) and (min-width: 861px) {
+  .gts-nav__item:hover        > .gts-nav__sub,
+  .gts-nav__subitem:hover     > .gts-nav__sub,
+  .gts-nav__item:focus-within > .gts-nav__sub,
+  .gts-nav__subitem:focus-within > .gts-nav__sub { display: block; }
+
+  .gts-nav__item:hover > .gts-nav__link { background: rgba(127, 127, 127, .28); }
+}
+
+/* Третий уровень уходит вбок, как dropdown-submenu в админке. */
+.gts-nav__sub .gts-nav__sub { top: -5px; left: 100%; }
+
+.gts-nav__sublink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gts-gap, 8px);
+  padding: 6px 10px;
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--gts-radius-s, 3px);
+  white-space: nowrap;
+}
+.gts-nav__sublink:hover,
+.gts-nav__sublink:focus-visible {
+  color: inherit;
+  background: var(--gts-surface-3, #EBEEF2);
+  outline: none;
+}
+.gts-nav__subitem.active > .gts-nav__sublink {
+  color: var(--gts-accent, #4A5C74);
+  background: var(--gts-accent-soft, #E8ECF1);
+  font-weight: var(--gts-weight-med, 500);
+}
+/* Каретка третьего уровня смотрит вбок, пока список раскрывается вбок. */
+.gts-nav__sublink .gts-nav__caret { transform: rotate(-90deg); }
+.gts-nav__subitem[data-open] > .gts-nav__sublink .gts-nav__caret { transform: rotate(0deg); }
+
+/* --- правая часть -------------------------------------------------------- */
+.gts-nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--gts-gap, 8px);
+  margin-left: auto;
+  padding-left: var(--gts-gap-l, 16px);
+  flex: none;
+}
+/* Выпадашка пользователя. Механика общая с разделами меню, отличается только
+   выравниванием: список прижат к правому краю, иначе он вылезал бы за экран. */
+.gts-nav__usermenu > .gts-nav__link { padding: 0 8px; }
+.gts-nav__user { white-space: nowrap; }
+.gts-nav__usericon { flex: none; opacity: .9; }
+
+.gts-nav__sub--right { left: auto; right: 0; }
+
+/* Кнопки виджета тем прозрачные — он стоит на цветной полосе. */
+.gts-nav .gts-ts-btn { color: inherit; }
+
+
+/* ===========================================================================
+   Узкий экран: меню в значок, вложенное — гармошкой.
+
+   Всплывашки сбоку на телефоне не работают: третий уровень уезжает за край,
+   и попасть в него пальцем нечем. Поэтому здесь подменю становится обычным
+   блоком в потоке, с отступом по уровню.
+   ======================================================================== */
+@media (max-width: 860px) {
+  .gts-nav {
+    flex-wrap: wrap;
+    padding: 4px var(--gts-gap, 8px);
+    gap: var(--gts-gap-s, 4px);
+  }
+
+  .gts-nav__brand { font-size: var(--gts-size-sm, .85rem); padding-right: var(--gts-gap, 8px); }
+
+  /* Прячем только имя: значок с кареткой остаётся, иначе выход и главная
+     становятся недоступны с телефона. */
+  .gts-nav__user { display: none; }
+  .gts-nav__usermenu > .gts-nav__link { padding: 8px 6px; }
+  /* Меню разделов на узком экране в потоке, а это — по-прежнему всплывашкой:
+     оно живёт в первой строке рядом со значком, а не внутри списка. */
+  .gts-nav__usermenu .gts-nav__sub { position: absolute; left: auto; right: 0; margin: 0; box-shadow: var(--gts-shadow-l, 0 8px 30px rgba(22, 28, 36, .14)); }
+
+  .gts-nav__burger { display: flex; }
+
+  /* Значок и правая часть остаются в первой строке, меню занимает вторую. */
+  .gts-nav__right { order: 2; padding-left: 0; }
+  .gts-nav__menu  { order: 3; flex-basis: 100%; }
+
+  .gts-nav__menu {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: 4px 0 8px;
+  }
+  .gts-nav[data-menu-open] .gts-nav__menu { display: flex; }
+
+  .gts-nav__item { display: block; }
+
+  .gts-nav__link {
+    justify-content: space-between;
+    padding: 10px 8px;
+    border-bottom: 0;
+    border-radius: var(--gts-radius, 6px);
+  }
+  .gts-nav__item.active > .gts-nav__link { background: rgba(127, 127, 127, .22); }
+
+  /* Подменю в потоке, а не всплывашкой. */
+  .gts-nav__sub,
+  .gts-nav__sub .gts-nav__sub {
+    position: static;
+    min-width: 0;
+    margin: 2px 0 2px 12px;
+    padding: 2px;
+    border-radius: var(--gts-radius, 6px);
+    box-shadow: none;
+  }
+
+  .gts-nav__sublink { padding: 9px 10px; white-space: normal; }
+
+  /* Каретка второго уровня тоже вниз: вбок здесь ничего не открывается. */
+  .gts-nav__sublink .gts-nav__caret { transform: none; }
+  .gts-nav__subitem[data-open] > .gts-nav__sublink .gts-nav__caret { transform: rotate(180deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gts-nav__link, .gts-nav__logout, .gts-nav__caret { transition: none; }
+}

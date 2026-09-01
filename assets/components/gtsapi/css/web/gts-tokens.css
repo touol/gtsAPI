@@ -1,0 +1,435 @@
+/* ============================================================================
+   gts-tokens.css — L0, КОНТРАКТ токенов.
+   ----------------------------------------------------------------------------
+   Здесь нет ни одной темы бренда. Только:
+       §1  инварианты — размеры, отступы, посадка контролов, слои;
+       §2  нейтральная тема по умолчанию, чтобы библиотека работала одна;
+       §3  правило перевода «пара light/dark → публичный токен».
+
+   Сами темы — данные, а не код. Они лежат отдельными CSS-файлами вне сборки
+   (в gtsERP — assets/components/gtsapi/themes/), подключаются сниппетом
+   gtsTheme и НЕ требуют править или пересобирать PVTables. Сторонний
+   разработчик кладёт свой файл рядом — этого достаточно.
+
+   ДВЕ НЕЗАВИСИМЫЕ ОСИ
+   ----------------------------------------------------------------------------
+       тема     любая, из подключённых файлов     тон бренда
+       схема    light · dark                      светлая / тёмная
+
+       <html data-gts-theme="teal" data-gts-scheme="dark">
+
+   Схему можно не указывать — берётся системная (prefers-color-scheme).
+   Тему можно не указывать — работает нейтральная из §2.
+
+       document.documentElement.dataset.gtsTheme  = 'teal'
+       document.documentElement.dataset.gtsScheme = 'dark'   // 'light' | ''
+
+   КАК НАПИСАТЬ СВОЮ ТЕМУ
+   ----------------------------------------------------------------------------
+   Файл темы объявляет ТОЛЬКО приватные пары --_x-l / --_x-d (светлое и
+   тёмное значение) плюс шрифт и радиусы. Публичные --gts-* он не трогает:
+   их собирает §3, выбирая половину пары по текущей схеме.
+
+       [data-gts-theme="ocean"] {
+         --gts-font:   "PT Sans", system-ui, sans-serif;
+         --gts-radius: 6px;
+         --_accent-l:  #12607F;  --_accent-d:  #58B4D6;
+         --_hover-l:   #0D4B64;  --_hover-d:   #74C4E1;
+       }
+
+   Объявлять весь список не обязательно. Нейтральная тема §2 сидит в
+   :where(), то есть с нулевой специфичностью: любой [data-gts-theme="..."]
+   перебивает её независимо от порядка подключения файлов, а недоопределённые
+   пары остаются нейтральными. Хотите поменять только акцент — объявите
+   одну пару.
+
+   Полный список пар — в §2 ниже, это и есть эталон.
+   ========================================================================= */
+
+
+/* ===========================================================================
+   §1. ИНВАРИАНТЫ — не зависят ни от темы, ни от схемы.
+   ======================================================================== */
+:root {
+  /* Шкала. --gts-size-base подставляется в html{font-size}, дальше всё в rem,
+     поэтому одна цифра меняет плотность всего интерфейса. */
+  --gts-size-base:   13px;
+  --gts-size-sm:     0.85rem;
+  --gts-size-lg:     1.15rem;
+  --gts-size-h3:     1.3rem;
+  --gts-size-h2:     1.6rem;
+  --gts-size-h1:     2rem;
+
+  --gts-weight-text: 400;
+  --gts-weight-med:  500;
+  --gts-weight-head: 600;
+
+  --gts-leading:      1.45;
+  --gts-leading-head: 1.15;
+
+  --gts-gap-xs: 2px;
+  --gts-gap-s:  4px;
+  --gts-gap:    8px;
+  --gts-gap-l:  16px;
+  --gts-gap-xl: 24px;
+
+  /* Плотность таблицы — самое частое место правок. */
+  --gts-cell-pad-y: 4px;
+  --gts-cell-pad-x: 6px;
+
+  /* Размеры контролов. Одинаковы во всех темах: это не тон, а посадка.
+     Кнопка, поле ввода и селект обязаны быть одной высоты, иначе тулбар
+     съезжает — поэтому одно значение на всех, а не три. */
+  --gts-control-h:     30px;
+  --gts-control-h-sm:  24px;
+  --gts-control-pad-x: 12px;
+  --gts-icon:          16px;
+
+  --gts-head-tracking: -.01em;
+
+  /* Шкала слоёв. На одном экране живут диалог, drawer, popover, speeddial
+     и тосты — без общей шкалы они дерутся за z-index, и тост уезжает под
+     модалку. */
+  --gts-z-sticky:   100;   /* прилипшая шапка таблицы */
+  --gts-z-dropdown: 200;   /* autocomplete, select    */
+  --gts-z-overlay:  300;   /* drawer, popover         */
+  --gts-z-modal:    400;   /* dialog                  */
+  --gts-z-toast:    500;   /* всегда поверх всего     */
+
+  /* --gts-duration отдельно от --gts-transition: PrimeVue ждёт голую
+     длительность, CSS-правилам удобнее готовый shorthand. */
+  --gts-duration:   140ms;
+  --gts-transition: 140ms ease;
+
+  --gts-font-mono: "IBM Plex Mono", Consolas, monospace;
+}
+
+
+/* ===========================================================================
+   §2. НЕЙТРАЛЬНАЯ ТЕМА — пол, а не выбор.
+
+   Обёрнута в :where() ⇒ специфичность 0. Любой файл темы с селектором
+   [data-gts-theme="..."] перебивает её, в каком бы порядке ни подключился,
+   и переопределять достаточно только нужные пары.
+
+   Это же полный перечень пар: написать свою тему — значит заменить значения
+   отсюда, ничего не переименовывая.
+   ======================================================================== */
+:where(:root) {
+  --gts-theme-name: "base";
+
+  --gts-font:      system-ui, "Segoe UI", Roboto, sans-serif;
+  --gts-font-head: system-ui, "Segoe UI", Roboto, sans-serif;
+
+  --gts-radius-s: 3px;
+  --gts-radius:   6px;
+  --gts-radius-l: 10px;
+
+  /* Акцент, пять ролей. contrast — цвет текста ПОВЕРХ акцентной заливки. */
+  --_accent-l:   #4A5C74;  --_accent-d:   #93A5BD;
+  --_hover-l:    #3A4A5E;  --_hover-d:    #A9B8CC;
+  --_active-l:   #2C3949;  --_active-d:   #BEC9D9;
+  --_soft-l:     #E8ECF1;  --_soft-d:     #1D242E;
+  --_contrast-l: #FFFFFF;  --_contrast-d: #10141A;
+
+  /* Поверхности от ближней к дальней: карточка → полосы → шапка → фон. */
+  --_bg-l:        #F1F3F6; --_bg-d:        #0D1014;
+  --_surface-l:   #FFFFFF; --_surface-d:   #161A21;
+  --_surface2-l:  #F7F8FA; --_surface2-d:  #1B2029;
+  --_surface3-l:  #EBEEF2; --_surface3-d:  #212733;
+  --_line-l:      #DCE1E8; --_line-d:      #262D38;
+  --_lineStr-l:   #C2C9D3; --_lineStr-d:   #384252;
+
+  /* Текст: основной, вторичный, служебный, поверх тёмных плашек. */
+  --_ink-l:       #1A1F27; --_ink-d:       #E5E9F0;
+  --_ink2-l:      #4A5361; --_ink2-d:      #A3ACBA;
+  --_ink3-l:      #7B8593; --_ink3-d:      #6E7887;
+  --_inkInv-l:    #FFFFFF; --_inkInv-d:    #0D1014;
+
+  --_ring-l: rgba(74, 92, 116, .28);
+  --_ring-d: rgba(147, 165, 189, .30);
+
+  /* Рамки полей ввода в формах расчёта. Отдельно от --_lineStr, потому что
+     это не «граница вообще», а обводка поля: она чуть светлее линий таблицы
+     и имеет собственное состояние фокуса и собственный вид у readonly.
+     --_fRing — готовое значение box-shadow, а не цвет: на месте применения
+     удобнее подставить одну переменную, чем собирать тень из частей. */
+  --_fBorder-l: #C2C9D3;  --_fBorder-d: #384252;
+  --_fFocus-l:  #4A5C74;  --_fFocus-d:  #93A5BD;
+  --_fRO-l:     #D3D9E1;  --_fRO-d:     #2C3644;
+  --_fRing-l: 0 0 0 3px rgba(74, 92, 116, .10);
+  --_fRing-d: 0 0 0 3px rgba(147, 165, 189, .14);
+
+  /* Хром таблицы: внешняя рамка, скругление, разделители, шапка и состояния
+     строк. Отдельно от --_line/--_lineStr, потому что в таблице на 300 строк
+     сетка живёт по своим правилам: внешняя рамка может быть заметно темнее
+     внутренних разделителей, а шапка иметь собственный фон.
+     Значения пришли из gsRaschet (макет Артемьева) — там они были прибиты
+     к .rb-card и работали только на одной странице. */
+  --_tBorder-l:     #C2C9D3;  --_tBorder-d:     #384252;
+  --_tCellBorder-l: #DCE1E8;  --_tCellBorder-d: #262D38;
+  --_tHeadBg-l:     #EBEEF2;  --_tHeadBg-d:     #212733;
+  --_tHeadInk-l:    #4A5361;  --_tHeadInk-d:    #A3ACBA;
+  --_tHeadBorder-l: #C2C9D3;  --_tHeadBorder-d: #384252;
+  --_tHover-l:      #F1F3F6;  --_tHover-d:      #1B2029;
+  --_tSel-l:        #E8ECF1;  --_tSel-d:        #1D242E;
+  --_tSelHover-l:   #DCE2EA;  --_tSelHover-d:   #252E3B;
+  --_tEmptyHover-l: #F7F8FA;  --_tEmptyHover-d: #161A21;
+  --gts-table-radius: 12px;
+
+  /* Боковая панель — на шаг темнее соседнего контента, а не тёмная.
+     Нужна собственная пара, а не --gts-surface-3: та почти совпадает
+     с карточкой, и панель с ней сливалась. Здесь шаг заметный,
+     но панель остаётся светлой в светлой схеме. */
+  --_sideBg-l:  #D9DFE8;  --_sideBg-d:  #1A1F27;
+  --_sideInk-l: #38424F;  --_sideInk-d: #C7D0DB;
+}
+
+
+/* ===========================================================================
+   §3. СХЕМЫ — выбирают половину пары и задают всё, что от темы не зависит.
+
+   Семантика (успех / ошибка / внимание) и статусы строк живут здесь, а не в
+   теме: «просрочен» обязан читаться красным при любом тоне бренда. Это
+   отдельная ось от акцента — акцент можно менять свободно, семантику нет.
+
+   Тема технически может переопределить и семантику, но по умолчанию не
+   должна: иначе чужая тема сломает смысл цвета, а не только вид.
+   ======================================================================== */
+
+/* --- светлая: по умолчанию и при явном data-gts-scheme="light" ----------- */
+:root,
+[data-gts-scheme="light"] {
+  --gts-scheme-name: "light";
+
+  /* Родные элементы браузера: скроллбары, выпадашка <select>, календарь
+     <input type=date>, автозаполнение. Они рисуются движком, а не нашим CSS,
+     и без этой строки в тёмной схеме остаются светлыми поверх тёмного экрана. */
+  color-scheme: light;
+
+  --gts-accent:          var(--_accent-l);
+  --gts-accent-hover:    var(--_hover-l);
+  --gts-accent-active:   var(--_active-l);
+  --gts-accent-soft:     var(--_soft-l);
+  --gts-accent-contrast: var(--_contrast-l);
+
+  --gts-bg:        var(--_bg-l);
+  --gts-surface:   var(--_surface-l);
+  --gts-surface-2: var(--_surface2-l);
+  --gts-surface-3: var(--_surface3-l);
+
+  --gts-line:        var(--_line-l);
+  --gts-line-strong: var(--_lineStr-l);
+
+  --gts-ink:        var(--_ink-l);
+  --gts-ink-2:      var(--_ink2-l);
+  --gts-ink-3:      var(--_ink3-l);
+  --gts-ink-invert: var(--_inkInv-l);
+  --gts-head-ink:   var(--_ink-l);
+
+  --gts-link:       var(--_accent-l);
+  --gts-link-hover: var(--_hover-l);
+
+  /* Заблокированное поле. Отдельно от --gts-ink-3: «нельзя трогать» и
+     «второстепенное» — разные вещи, и в таблице их путать нельзя. */
+  --gts-disabled-bg:   #EDEFF2;
+  --gts-disabled-ink:  #A5AEBA;
+  --gts-disabled-line: #D8DDE4;
+
+  --gts-selection-bg:  var(--_soft-l);
+  --gts-selection-ink: var(--_ink-l);
+
+  --gts-ok:     #3E8E5F;  --gts-ok-soft:     #E6F2EA;  --gts-ok-hover:     #34784F;
+  --gts-warn:   #B5651F;  --gts-warn-soft:   #F7EEE1;  --gts-warn-hover:   #995417;
+  --gts-danger: #C7473C;  --gts-danger-soft: #FBEAE8;  --gts-danger-hover: #AE3A30;
+  --gts-info:   #2F6E86;  --gts-info-soft:   #E4EFF3;  --gts-info-hover:   #275C71;
+  --gts-danger-soft-hover: #F6DAD6;
+
+  --gts-shadow:   0 1px 2px rgba(22, 28, 36, .06), 0 4px 14px rgba(22, 28, 36, .05);
+  --gts-shadow-l: 0 8px 30px rgba(22, 28, 36, .14);
+  --gts-focus-ring: 0 0 0 3px var(--_ring-l);
+
+  /* Статусы строк таблицы. У каждого своя пара «фон + цвет текста». */
+  --gts-row-hit:       #E4F3DA;  --gts-row-hit-ink:       #26471A;
+  --gts-row-work:      #D7EDF8;  --gts-row-work-ink:      #123C51;
+  --gts-row-outwork:   #F5F1D0;  --gts-row-outwork-ink:   #4A4415;
+  --gts-row-onsklad:   #F8E2DA;  --gts-row-onsklad-ink:   #632C1B;
+  --gts-row-attention: #F8DAD6;  --gts-row-attention-ink: #7A211A;
+  --gts-row-canceled:  #EDEFF2;  --gts-row-canceled-ink:  #7C8899;
+
+  --gts-cell-selected-border: var(--gts-accent);
+  --gts-cell-selected-bg:     var(--gts-accent-soft);
+
+  --gts-field-border:       var(--_fBorder-l);
+  --gts-field-border-focus: var(--_fFocus-l);
+  --gts-field-border-ro:    var(--_fRO-l);
+  --gts-field-ring:         var(--_fRing-l);
+
+  --gts-table-border:             var(--_tBorder-l);
+  --gts-table-cell-border:        var(--_tCellBorder-l);
+  --gts-table-head-bg:            var(--_tHeadBg-l);
+  --gts-table-head-ink:           var(--_tHeadInk-l);
+  --gts-table-head-border:        var(--_tHeadBorder-l);
+  --gts-table-row-hover:          var(--_tHover-l);
+  --gts-table-row-selected:       var(--_tSel-l);
+  --gts-table-row-selected-hover: var(--_tSelHover-l);
+  --gts-table-row-empty-hover:    var(--_tEmptyHover-l);
+
+  --gts-side-bg:  var(--_sideBg-l);
+  --gts-side-ink: var(--_sideInk-l);
+}
+
+/* --- тёмная: значения одни, применяются из двух мест ---------------------
+   Ниже один и тот же набор повторён дважды, и это намеренно:
+     · @media  — системная тёмная, когда схема не выбрана явно;
+                 :not([data-gts-scheme="light"]) даёт явному светлому выбору
+                 победить над тёмной ОС;
+     · атрибут — явный выбор пользователя, побеждает светлую ОС.
+   Без второго блока переключатель не работал бы на светлой системе,
+   без первого — система игнорировалась бы.
+   ------------------------------------------------------------------------ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-gts-scheme="light"]) {
+    --gts-scheme-name: "dark";
+    color-scheme: dark;
+
+    --gts-accent:          var(--_accent-d);
+    --gts-accent-hover:    var(--_hover-d);
+    --gts-accent-active:   var(--_active-d);
+    --gts-accent-soft:     var(--_soft-d);
+    --gts-accent-contrast: var(--_contrast-d);
+
+    --gts-bg:        var(--_bg-d);
+    --gts-surface:   var(--_surface-d);
+    --gts-surface-2: var(--_surface2-d);
+    --gts-surface-3: var(--_surface3-d);
+
+    --gts-line:        var(--_line-d);
+    --gts-line-strong: var(--_lineStr-d);
+
+    --gts-ink:        var(--_ink-d);
+    --gts-ink-2:      var(--_ink2-d);
+    --gts-ink-3:      var(--_ink3-d);
+    --gts-ink-invert: var(--_inkInv-d);
+    --gts-head-ink:   var(--_ink-d);
+
+    --gts-link:       var(--_accent-d);
+    --gts-link-hover: var(--_hover-d);
+
+    --gts-disabled-bg:   #1F2733;
+    --gts-disabled-ink:  #5C6675;
+    --gts-disabled-line: #2C3644;
+
+    --gts-selection-bg:  var(--_soft-d);
+    --gts-selection-ink: var(--_ink-d);
+
+    --gts-ok:     #6CC199;  --gts-ok-soft:     #14291F;  --gts-ok-hover:     #83CFAA;
+    --gts-warn:   #E0894F;  --gts-warn-soft:   #2A1D12;  --gts-warn-hover:   #EC9C67;
+    --gts-danger: #E08272;  --gts-danger-soft: #2C1A15;  --gts-danger-hover: #EC968A;
+    --gts-info:   #63B3D1;  --gts-info-soft:   #14262F;  --gts-info-hover:   #7CC3DD;
+    --gts-danger-soft-hover: #38211B;
+
+    --gts-shadow:   0 1px 2px rgba(0, 0, 0, .34), 0 6px 18px rgba(0, 0, 0, .30);
+    --gts-shadow-l: 0 10px 34px rgba(0, 0, 0, .46);
+    --gts-focus-ring: 0 0 0 3px var(--_ring-d);
+
+    --gts-row-hit:       #14301C;  --gts-row-hit-ink:       #FFFFFF;
+    --gts-row-work:      #12293A;  --gts-row-work-ink:      #FFFFFF;
+    --gts-row-outwork:   #332C10;  --gts-row-outwork-ink:   #FFFFFF;
+    --gts-row-onsklad:   #35200F;  --gts-row-onsklad-ink:   #FFFFFF;
+    --gts-row-attention: #3A1512;  --gts-row-attention-ink: #FFFFFF;
+    --gts-row-canceled:  #1E262F;  --gts-row-canceled-ink:  #FFFFFF;
+
+    --gts-field-border:       var(--_fBorder-d);
+    --gts-field-border-focus: var(--_fFocus-d);
+    --gts-field-border-ro:    var(--_fRO-d);
+    --gts-field-ring:         var(--_fRing-d);
+
+    --gts-table-border:             var(--_tBorder-d);
+    --gts-table-cell-border:        var(--_tCellBorder-d);
+    --gts-table-head-bg:            var(--_tHeadBg-d);
+    --gts-table-head-ink:           var(--_tHeadInk-d);
+    --gts-table-head-border:        var(--_tHeadBorder-d);
+    --gts-table-row-hover:          var(--_tHover-d);
+    --gts-table-row-selected:       var(--_tSel-d);
+    --gts-table-row-selected-hover: var(--_tSelHover-d);
+    --gts-table-row-empty-hover:    var(--_tEmptyHover-d);
+
+    --gts-side-bg:  var(--_sideBg-d);
+    --gts-side-ink: var(--_sideInk-d);
+  }
+}
+
+[data-gts-scheme="dark"] {
+  --gts-scheme-name: "dark";
+  color-scheme: dark;
+
+  --gts-accent:          var(--_accent-d);
+  --gts-accent-hover:    var(--_hover-d);
+  --gts-accent-active:   var(--_active-d);
+  --gts-accent-soft:     var(--_soft-d);
+  --gts-accent-contrast: var(--_contrast-d);
+
+  --gts-bg:        var(--_bg-d);
+  --gts-surface:   var(--_surface-d);
+  --gts-surface-2: var(--_surface2-d);
+  --gts-surface-3: var(--_surface3-d);
+
+  --gts-line:        var(--_line-d);
+  --gts-line-strong: var(--_lineStr-d);
+
+  --gts-ink:        var(--_ink-d);
+  --gts-ink-2:      var(--_ink2-d);
+  --gts-ink-3:      var(--_ink3-d);
+  --gts-ink-invert: var(--_inkInv-d);
+  --gts-head-ink:   var(--_ink-d);
+
+  --gts-link:       var(--_accent-d);
+  --gts-link-hover: var(--_hover-d);
+
+  --gts-disabled-bg:   #1F2733;
+  --gts-disabled-ink:  #5C6675;
+  --gts-disabled-line: #2C3644;
+
+  --gts-selection-bg:  var(--_soft-d);
+  --gts-selection-ink: var(--_ink-d);
+
+  --gts-ok:     #6CC199;  --gts-ok-soft:     #14291F;  --gts-ok-hover:     #83CFAA;
+  --gts-warn:   #E0894F;  --gts-warn-soft:   #2A1D12;  --gts-warn-hover:   #EC9C67;
+  --gts-danger: #E08272;  --gts-danger-soft: #2C1A15;  --gts-danger-hover: #EC968A;
+  --gts-info:   #63B3D1;  --gts-info-soft:   #14262F;  --gts-info-hover:   #7CC3DD;
+  --gts-danger-soft-hover: #38211B;
+
+  --gts-shadow:   0 1px 2px rgba(0, 0, 0, .34), 0 6px 18px rgba(0, 0, 0, .30);
+  --gts-shadow-l: 0 10px 34px rgba(0, 0, 0, .46);
+  --gts-focus-ring: 0 0 0 3px var(--_ring-d);
+
+  /* Фон глухой тёмный, текст белый. Пастельные заливки светлой схемы здесь
+     не годятся: строка светится, а тёмный текст на ней не читается. Цветные
+     буквы вместо белых тоже пробовали — на 300 строках подряд они сливаются
+     с фоном, статус должен различаться оттенком подложки, а не текстом. */
+  --gts-row-hit:       #14301C;  --gts-row-hit-ink:       #FFFFFF;
+  --gts-row-work:      #12293A;  --gts-row-work-ink:      #FFFFFF;
+  --gts-row-outwork:   #332C10;  --gts-row-outwork-ink:   #FFFFFF;
+  --gts-row-onsklad:   #35200F;  --gts-row-onsklad-ink:   #FFFFFF;
+  --gts-row-attention: #3A1512;  --gts-row-attention-ink: #FFFFFF;
+  --gts-row-canceled:  #1E262F;  --gts-row-canceled-ink:  #FFFFFF;
+
+  --gts-field-border:       var(--_fBorder-d);
+  --gts-field-border-focus: var(--_fFocus-d);
+  --gts-field-border-ro:    var(--_fRO-d);
+  --gts-field-ring:         var(--_fRing-d);
+
+  --gts-table-border:             var(--_tBorder-d);
+  --gts-table-cell-border:        var(--_tCellBorder-d);
+  --gts-table-head-bg:            var(--_tHeadBg-d);
+  --gts-table-head-ink:           var(--_tHeadInk-d);
+  --gts-table-head-border:        var(--_tHeadBorder-d);
+  --gts-table-row-hover:          var(--_tHover-d);
+  --gts-table-row-selected:       var(--_tSel-d);
+  --gts-table-row-selected-hover: var(--_tSelHover-d);
+  --gts-table-row-empty-hover:    var(--_tEmptyHover-d);
+
+  --gts-side-bg:  var(--_sideBg-d);
+  --gts-side-ink: var(--_sideInk-d);
+}

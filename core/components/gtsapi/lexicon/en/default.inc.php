@@ -14,3 +14,10 @@ $_lang['gtsapi_user_reg_phone'] = 'You must indicate your phone number!'; //
 $_lang['gtsapi_user_reg_stepen_id'] = 'You must indicate an Academic Degree!'; //
 $_lang['gtsapi_user_reg_check'] = 'You must accept the user agreement!'; //
 $_lang['gtsapi_user_reg_academic_title'] = 'You must indicate an Academic title!'; //
+
+// Theme labels for the gtsTheme snippet. Key: gtsapi_theme_<theme file name>.
+$_lang['gtsapi_theme_corporate'] = 'Corporate'; //
+$_lang['gtsapi_theme_teal'] = 'Teal'; //
+$_lang['gtsapi_theme_graphite'] = 'Graphite'; //
+$_lang['gtsapi_theme_forest'] = 'Forest'; //
+$_lang['gtsapi_theme_emerald'] = 'Emerald'; //

@@ -32,6 +32,24 @@ return [
         'value' => '',
         'area' => 'gtsapi_main',
     ],
+    // Тема оформления по умолчанию: corporate | teal | graphite | forest.
+    // Имя должно совпадать с блоком в PVTables/src/theme/gts-tokens.css.
+    // Личный выбор пользователя (localStorage) эту настройку перекрывает.
+    'theme_default' => [
+        'xtype' => 'textfield',
+        'value' => 'corporate',
+        'area' => 'gtsapi_main',
+    ],
+    // Схема по умолчанию: auto | light | dark.
+    // auto — следовать системной настройке ОС до первого явного выбора.
+    // Стоит light, а не auto: у части сотрудников в Windows включена тёмная
+    // тема системы, и они получали тёмный интерфейс, не выбирая его.
+    // Личный выбор пользователя (localStorage) эту настройку перекрывает.
+    'scheme_default' => [
+        'xtype' => 'textfield',
+        'value' => 'light',
+        'area' => 'gtsapi_main',
+    ],
     'day_exp' => [
       'xtype' => 'textfield',
       'value' => '30',

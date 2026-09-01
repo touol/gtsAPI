@@ -36,6 +36,57 @@ return [
             
         ],
     ],
+    'gtsTheme' => [
+        'file' => 'gtsTheme',
+        'description' => 'Переключатель схемы (солнце/луна) и темы gtsERP. Ставит data-gts-scheme и data-gts-theme на <html>.',
+        'properties' => [
+            'themes' => [
+                'type' => 'combo-boolean',
+                'value' => false,
+                'desc' => 'Показывать выбор темы. По умолчанию только схема светлая/тёмная',
+            ],
+            'themesPath' => [
+                'type' => 'textfield',
+                'value' => 'components/gtsapi/themes/',
+                'desc' => 'Папки с темами, через запятую, относительно assets. Каждый *.css в них — тема, имя = имя файла',
+            ],
+            'themeFiles' => [
+                'type' => 'textarea',
+                'value' => '',
+                'desc' => 'Явные файлы тем, через запятую: путь к css либо "имя:путь". Перекрывают одноимённые из папок',
+            ],
+            'themeList' => [
+                'type' => 'textfield',
+                'value' => '',
+                'desc' => 'Какие темы показать и в каком порядке. Пусто — все найденные',
+            ],
+            'loadCss' => [
+                'type' => 'combo-boolean',
+                'value' => true,
+                'desc' => 'Подключать CSS тем. 0 — если это уже делает шаблон',
+            ],
+            'defaultTheme' => [
+                'type' => 'textfield',
+                'value' => '',
+                'desc' => 'Тема по умолчанию. Пусто — берётся из настройки gtsapi_theme_default',
+            ],
+            'defaultScheme' => [
+                'type' => 'textfield',
+                'value' => '',
+                'desc' => 'Схема по умолчанию: auto, light или dark. Пусто — из gtsapi_scheme_default',
+            ],
+            'storageKey' => [
+                'type' => 'textfield',
+                'value' => 'gtsTheme',
+                'desc' => 'Ключ localStorage, в котором хранится выбор пользователя',
+            ],
+            'toPlaceholder' => [
+                'type' => 'textfield',
+                'value' => '',
+                'desc' => 'Сохранить результат в плейсхолдер вместо вывода',
+            ],
+        ],
+    ],
     'gtsAPIGallery' => [
         'file' => 'gtsAPIGallery',
         'description' => 'Сниппет для отображения галереи файлов из таблицы gtsAPIFile',

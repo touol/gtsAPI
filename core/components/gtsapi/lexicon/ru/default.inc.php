@@ -15,3 +15,11 @@ $_lang['gtsapi_user_reg_phone'] = 'Вы должны указать Ваш те�
 $_lang['gtsapi_user_reg_stepen_id'] = 'Вы должны указать Ученая степень!'; //You must indicate an Academic Degree
 $_lang['gtsapi_user_reg_check'] = 'Вы должны принять пользовательское соглашение!'; //You must accept the user agreement
 $_lang['gtsapi_user_reg_academic_title'] = 'Вы должны указать Учёное звание!'; //You must indicate an Academic title
+
+// Подписи тем оформления для сниппета gtsTheme. Ключ: gtsapi_theme_<имя файла темы>.
+// Свой пакет добавляет свою строку в свой лексикон и этот файл не трогает.
+$_lang['gtsapi_theme_corporate'] = 'Корпоративная'; //
+$_lang['gtsapi_theme_teal'] = 'Тил'; //
+$_lang['gtsapi_theme_graphite'] = 'Графит'; //
+$_lang['gtsapi_theme_forest'] = 'Зелёная'; //
+$_lang['gtsapi_theme_emerald'] = 'Изумруд'; //
