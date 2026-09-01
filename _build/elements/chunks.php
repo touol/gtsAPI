@@ -13,8 +13,4 @@ return [
         'file' => 'tpl.gtsAPIGallery',
         'description' => 'Шаблон по умолчанию для галереи файлов gtsAPIGallery',
     ],
-    'gtsTopbar' => [
-        'file' => 'gtsTopbar',
-        'description' => 'Верхняя строка: бренд, меню ресурсов, пользователь, переключатель схемы и темы. Параметры: brand, href, parents, level, themes',
-    ],
 ];
