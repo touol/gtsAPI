@@ -78,7 +78,9 @@ trait TableExportTrait
                                     if ($obj = $this->modx->getObject($class, $value)) {
                                         // Проверяем наличие tpl шаблона
                                         if (!empty($properties['autocomplete']['tpl'])) {
-                                            $value = $this->pdoTools->getChunk("@INLINE " . $properties['autocomplete']['tpl'], $obj->toArray());
+                                            $value = $this->htmlToInlineText(
+                                                $this->pdoTools->getChunk("@INLINE " . $properties['autocomplete']['tpl'], $obj->toArray())
+                                            );
                                         } else {
                                             $displayField = 'name';
                                             $value = $obj->get($displayField);
@@ -99,7 +101,9 @@ trait TableExportTrait
                                     if ($obj = $this->modx->getObject($class, $value)) {
                                         // Проверяем наличие tpl шаблона для основного объекта
                                         if (!empty($properties['autocomplete']['tpl'])) {
-                                            $mainDisplayValue = $this->pdoTools->getChunk("@INLINE " . $properties['autocomplete']['tpl'], $obj->toArray());
+                                            $mainDisplayValue = $this->htmlToInlineText(
+                                                $this->pdoTools->getChunk("@INLINE " . $properties['autocomplete']['tpl'], $obj->toArray())
+                                            );
                                         } else {
                                             $displayField = 'name';
                                             $mainDisplayValue = $obj->get($displayField);
@@ -135,7 +139,9 @@ trait TableExportTrait
                                                                 if ($searchObj = $this->modx->getObject($searchClass, $searchValue)) {
                                                                     // Проверяем наличие tpl шаблона
                                                                     if (!empty($searchProperties['autocomplete']['tpl'])) {
-                                                                        $searchDisplayValue = $this->pdoTools->getChunk("@INLINE " . $searchProperties['autocomplete']['tpl'], $searchObj->toArray());
+                                                                        $searchDisplayValue = $this->htmlToInlineText(
+                                                                            $this->pdoTools->getChunk("@INLINE " . $searchProperties['autocomplete']['tpl'], $searchObj->toArray())
+                                                                        );
                                                                     } else {
                                                                         $searchDisplayField = 'name';
                                                                         $searchDisplayValue = $searchObj->get($searchDisplayField);
@@ -369,6 +375,12 @@ trait TableExportTrait
                         default:
                             $value = $row[$fieldName] ?? '';
                             break;
+                    }
+
+                    // Ни одна ячейка не должна получить сырой HTML: значения автокомплитов
+                    // (content = отрендеренный чанк) и tpl-колонки приезжают с тегами.
+                    if (is_string($value) && strpos($value, '<') !== false) {
+                        $value = $this->htmlToInlineText($value);
                     }
 
                     $sheet->setCellValue($col . $currentRow, $value);
@@ -758,5 +770,39 @@ trait TableExportTrait
         $s = preg_replace('/[ \t]+/', ' ', $s);
         $s = preg_replace('/\s*\n\s*/', "\n", $s);
         return trim($s);
+    }
+
+    /**
+     * HTML → текст ОДНОЙ строкой, для ячейки Excel.
+     * Автокомплиты отдают в `content` отрендеренный чанк («<b>Название</b><div
+     * class="gts-ac-path">Путь / Категория</div>»), и он попадал в ячейку сырым.
+     * Границы блоков (<br>, div/p/li/tr и т.п.) склеиваются разделителем $sep,
+     * переносов строки в ячейке не остаётся.
+     */
+    protected function htmlToInlineText($html, $sep = ' — ')
+    {
+        if ($html === null || $html === '') return '';
+        $s = (string)$html;
+        // Не HTML (например «< 100 мм») — не трогаем разметку, только сущности.
+        if (!preg_match('#<\s*/?\s*[a-z!][^>]*>#i', $s)) {
+            return html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        }
+        // Границы блоков → маркер разделителя (\x01 в данных не встречается).
+        $s = preg_replace('#<\s*br\s*/?\s*>#i', "\x01", $s);
+        $s = preg_replace(
+            '#<\s*/?\s*(div|p|li|ul|ol|tr|td|th|h[1-6]|section|article|blockquote|pre|table|thead|tbody)\b[^>]*>#i',
+            "\x01",
+            $s
+        );
+        $s = strip_tags($s);
+        $s = html_entity_decode($s, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        // Все пробельные символы (включая \n из вёрстки и nbsp) → один пробел.
+        $s = str_replace("\xC2\xA0", ' ', $s);
+        $s = preg_replace('/\s+/u', ' ', $s);
+        $parts = array_filter(
+            array_map('trim', explode("\x01", $s)),
+            function ($p) { return $p !== ''; }
+        );
+        return implode($sep, $parts);
     }
 }
