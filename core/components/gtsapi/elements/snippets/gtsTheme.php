@@ -51,6 +51,18 @@ $showThemes = !empty($themes) && !in_array($themes, ['0', 'false', 'no'], true);
 $loadCss    = !isset($loadCss) || !in_array($loadCss, [0, '0', 'false', false, 'no'], true);
 $storageKey = !empty($storageKey) ? (string)$storageKey : 'gtsTheme';
 
+// &widget=`0` — только применить тему, без переключателя. В этом режиме сниппет
+// вызывают mixVue/PVTable/PVTabs, чтобы настройки gtsapi_theme_default и
+// gtsapi_scheme_default работали на страницах, где gtsTheme в шаблон не вписан.
+$showWidget = !isset($widget) || !in_array($widget, [0, '0', 'false', false, 'no'], true);
+
+// Тему применяем один раз за запрос: на странице может быть несколько таблиц,
+// а шаблон вдобавок может вызывать gtsTheme сам ради переключателя.
+$alreadyApplied = (bool)$modx->getPlaceholder('gtsapi_theme_applied');
+if ($alreadyApplied) {
+    $loadCss = false;
+}
+
 $defaultScheme = !empty($defaultScheme)
     ? (string)$defaultScheme
     : $modx->getOption('gtsapi_scheme_default', null, 'light');
@@ -230,6 +242,8 @@ $cfg = json_encode([
       страница успевает мигнуть светлой, прежде чем применится тёмная.
       Поэтому он синхронный, без DOMContentLoaded и без внешнего файла.
    ------------------------------------------------------------------------ */
+if (!$alreadyApplied) {
+$modx->setPlaceholder('gtsapi_theme_applied', 1);
 $modx->regClientStartupHTMLBlock(
 '<script>
 (function(){
@@ -266,6 +280,13 @@ $modx->regClientStartupHTMLBlock(
 })();
 </script>'
 );
+}
+
+// Режим «только применить»: CSS тем и ранний скрипт уже зарегистрированы выше,
+// переключатель и его стили/поведение не нужны.
+if (!$showWidget) {
+    return '';
+}
 
 /* ---------------------------------------------------------------------------
    6. Стили виджета.

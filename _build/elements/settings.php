@@ -50,6 +50,15 @@ return [
         'value' => 'light',
         'area' => 'gtsapi_main',
     ],
+    // Применять тему и схему автоматически на страницах с PVTables (mixVue,
+    // PVTable, PVTabs), не дожидаясь вызова gtsTheme в шаблоне. Без этого
+    // настройки выше не действуют: CSS тем подключает сниппет. 0 — выключить
+    // и управлять темой только явным вызовом gtsTheme.
+    'theme_auto' => [
+        'xtype' => 'combo-boolean',
+        'value' => 1,
+        'area' => 'gtsapi_main',
+    ],
     'day_exp' => [
       'xtype' => 'textfield',
       'value' => '30',

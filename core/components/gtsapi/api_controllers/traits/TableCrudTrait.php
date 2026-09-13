@@ -513,7 +513,11 @@ trait TableCrudTrait
                         $oldValue = $object_old[$field];
                         $newValue = $request[$field];
 
-                        // Нормализация: пустые значения считаются эквивалентными
+                        // Нормализация: пустые значения считаются эквивалентными.
+                        // Булев false отдельно: (string)false даёт '', и readonly-поле
+                        // типа boolean (в базе 0, с клиента false) выглядело изменённым.
+                        if (is_bool($oldValue)) $oldValue = $oldValue ? 1 : 0;
+                        if (is_bool($newValue)) $newValue = $newValue ? 1 : 0;
                         $oldNorm = ($oldValue === null) ? '' : (string)$oldValue;
                         $newNorm = ($newValue === null) ? '' : (string)$newValue;
                         if ($oldNorm === $newNorm) {

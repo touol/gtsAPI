@@ -21,6 +21,16 @@ if($_SERVER['SERVER_PORT'] == 80){
     }
 $modx->regClientCSS($modx->getOption('assets_url').'components/gtsapi/js/web/pvtables/pvtables.css?v='.$vapi);
 
+// Тема и схема по умолчанию (gtsapi_theme_default / gtsapi_scheme_default)
+// применяются и без вызова gtsTheme в шаблоне: сниппет вызывается в режиме
+// widget=0 — только CSS темы и ранний скрипт, без переключателя.
+// Отключается настройкой gtsapi_theme_auto = 0.
+if ($modx->getOption('gtsapi_theme_auto', null, true)
+    && !$modx->getPlaceholder('gtsapi_theme_applied')
+    && $modx->getObject('modSnippet', ['name' => 'gtsTheme'])) {
+    $modx->runSnippet('gtsTheme', ['widget' => 0]);
+}
+
     $assets_gtsapi_url = $http1.'://'.$modx->getOption('http_host').$modx->getOption('assets_url').'components/gtsapi/';
     $imports = [];
     if($load_vue = $modx->getOption('gtsapi_load_vue',null,true)){
