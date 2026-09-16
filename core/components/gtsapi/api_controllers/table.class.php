@@ -10,6 +10,7 @@ require_once __DIR__ . '/traits/TableTriggerTrait.php';
 require_once __DIR__ . '/traits/TableTreeTrait.php';
 require_once __DIR__ . '/traits/TableUtilsTrait.php';
 require_once __DIR__ . '/traits/TableVersionTrait.php';
+require_once __DIR__ . '/traits/TriggerRegistryTrait.php';
 
 /**
  * Основной контроллер API для работы с таблицами
@@ -36,6 +37,7 @@ class tableAPIController
     use TableTreeTrait;
     use TableUtilsTrait;
     use TableVersionTrait;
+    use TriggerRegistryTrait;
 
     public $config = [];
     public $modx;
@@ -173,20 +175,18 @@ class tableAPIController
         // Внутренний механизм триггеров через сервисы
         try {
             $class = $rule['class'];
-            $triggers = $this->triggers;
-            
-            if (isset($triggers[$class]['gtsapi_rule']) and isset($triggers[$class]['model'])) {
-                $service = $this->models[$triggers[$class]['model']];
-                if (method_exists($service, $triggers[$class]['gtsapi_rule'])) {
-                    $params = [
-                        'rule' => &$rule,
-                        'class' => $class,
-                        'request' => $request,
-                        'trigger' => 'gtsapi_rule',
-                    ];
-                    $resp = $service->{$triggers[$class]['gtsapi_rule']}($params);
-                    if (!$resp['success']) return $resp;
-                }
+
+            // Правил на класс может быть несколько (разные компоненты правят свой
+            // кусок конфига) — выполняем все по порядку загрузки.
+            foreach ($this->triggerHandlers($class, 'gtsapi_rule') as $handler) {
+                $params = [
+                    'rule' => &$rule,
+                    'class' => $class,
+                    'request' => $request,
+                    'trigger' => 'gtsapi_rule',
+                ];
+                $resp = $handler['service']->{$handler['method']}($params);
+                if (!$resp['success']) return $resp;
             }
         } catch (Error $e) {
             $this->modx->log(1, 'gtsAPI Ошибка триггера gtsapi_rule ' . $e->getMessage());
@@ -411,13 +411,7 @@ class tableAPIController
         }
         $service = $this->models[$class];
 
-        if (method_exists($service, 'regTriggers')) {
-            $triggers = $service->regTriggers();
-            foreach ($triggers as &$trigger) {
-                $trigger['model'] = $class;
-            }
-            $this->triggers = array_merge($this->triggers, $triggers);
-        }
+        $this->addServiceTriggers($service, $class);
         return $this->success();
     }
 }

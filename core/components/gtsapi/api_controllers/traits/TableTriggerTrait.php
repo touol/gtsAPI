@@ -43,29 +43,42 @@ trait TableTriggerTrait
         }
 
         try {
-            $triggers = $this->triggers;
-            
-            if (isset($triggers[$class]['gtsapifunc']) and isset($triggers[$class]['model'])) {
-                $service = $this->models[$triggers[$class]['model']];
-                if (method_exists($service, $triggers[$class]['gtsapifunc'])) {
-                    // rule и fields передаём по ссылке — triggеры before-read могут
-                    // модифицировать query/leftJoin/where на лету (нужно для дин. подсчётов
-                    // зависящих от внешних параметров типа doc_id из request filters).
-                    $params = [
-                        'rule' => &$rule,
-                        'class' => $class,
-                        'type' => $type,
-                        'method' => $method,
-                        'fields' => &$fields,
-                        'object_old' => $object_old,
-                        'object_new' => &$object_new,
-                        'object' => &$object,
-                        'trigger' => 'gtsapifunc',
-                        'internal_action' => $internal_action,
-                    ];
-                    return $service->{$triggers[$class]['gtsapifunc']}($params);
+            $handlers = $this->triggerHandlers($class, 'gtsapifunc');
+            if (empty($handlers)) return $this->success('Выполнено успешно');
+
+            $data = [];
+            $rows = $object_old; // для after-read — строки, которые обогащают триггеры
+
+            foreach ($handlers as $handler) {
+                // rule и fields по ссылке — before-read триггеры правят query/leftJoin/where
+                // на лету (динамические подсчёты по параметрам запроса).
+                $params = [
+                    'rule' => &$rule,
+                    'class' => $class,
+                    'type' => $type,
+                    'method' => $method,
+                    'fields' => &$fields,
+                    'object_old' => $rows,
+                    'object_new' => &$object_new,
+                    'object' => &$object,
+                    'trigger' => 'gtsapifunc',
+                    'internal_action' => $internal_action,
+                ];
+                $resp = $handler['service']->{$handler['method']}($params);
+
+                // Ошибка любого обработчика прерывает цепочку: для 'before' это
+                // единственный способ отменить операцию.
+                if (empty($resp['success'])) return $resp;
+
+                if (!empty($resp['data']) && is_array($resp['data'])) {
+                    // Обогащение строк передаём дальше по цепочке, иначе второй
+                    // триггер вернул бы исходные строки и затёр работу первого.
+                    if (!empty($resp['data']['out'])) $rows = $resp['data']['out'];
+                    $data = array_merge($data, $resp['data']);
                 }
             }
+            if (!empty($data['out'])) $data['out'] = $rows;
+            return $this->success('Выполнено успешно', $data);
         } catch (Error $e) {
             $this->modx->log(1, 'gtsAPI Ошибка триггера ' . $e->getMessage() . print_r($e->getTrace()[0], 1));
             return $this->error('Ошибка триггера ' . $e->getMessage());
@@ -81,26 +94,27 @@ trait TableTriggerTrait
     {
         try {
             $class = $rule['class'];
-            $triggers = $this->triggers;
-            
-            if (isset($triggers[$class]['gtsapi_watch_form']) and isset($triggers[$class]['model'])) {
-                $service = $this->models[$triggers[$class]['model']];
-                if (method_exists($service, $triggers[$class]['gtsapi_watch_form'])) {
-                    $params = [
-                        'rule' => $rule,
-                        'class' => $class,
-                        'request' => $request,
-                        'fields' => $this->addFields($rule, $rule['properties']['fields'], $request['watch_action'])['properties']['fields'],
-                        'trigger' => 'gtsapi_watch_form',
-                    ];
-                    return $service->{$triggers[$class]['gtsapi_watch_form']}($params);
+            $data = [];
+
+            foreach ($this->triggerHandlers($class, 'gtsapi_watch_form') as $handler) {
+                $params = [
+                    'rule' => $rule,
+                    'class' => $class,
+                    'request' => $request,
+                    'fields' => $this->addFields($rule, $rule['properties']['fields'], $request['watch_action'])['properties']['fields'],
+                    'trigger' => 'gtsapi_watch_form',
+                ];
+                $resp = $handler['service']->{$handler['method']}($params);
+                if (empty($resp['success'])) return $resp;
+                if (!empty($resp['data']) && is_array($resp['data'])) {
+                    $data = array_merge($data, $resp['data']);
                 }
             }
+            return $this->success('', $data);
         } catch (Error $e) {
             $this->modx->log(1, 'gtsAPI Ошибка триггера ' . $e->getMessage());
             return $this->error('Ошибка триггера ' . $e->getMessage());
         }
-        return $this->error('Ошибка триггера 2');
     }
 
     /**

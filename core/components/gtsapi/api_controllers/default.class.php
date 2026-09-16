@@ -1,6 +1,9 @@
 <?php
 
+require_once __DIR__ . '/traits/TriggerRegistryTrait.php';
+
 class defaultAPIController{
+    use TriggerRegistryTrait;
     public $config = [];
     public $modx;
     public $pdo;
@@ -374,13 +377,7 @@ class defaultAPIController{
         }
         $service = $this->models[$package];
 
-        if(!empty($service) and method_exists($service,'regTriggers')){ 
-            $triggers =  $service->regTriggers();
-            foreach($triggers as &$trigger){
-                $trigger['model'] = $package;
-            }
-            $this->triggers = array_merge($this->triggers,$triggers);
-        }
+        $this->addServiceTriggers($service, $package);
         return $this->success();
     }
     public function run_triggers($class, $type, $method, $fields, $object_old, $object_new =[], $object = null)
@@ -407,38 +404,35 @@ class defaultAPIController{
         // }
         // if(!empty($canSave)) return $this->error($canSave);
         
-        $triggers = $this->triggers;
-        if(isset($triggers[$class]['function']) and isset($triggers[$class]['model'])){
-            // $this->modx->log(1,"create triggers $class {$triggers[$class]['function']}");
-            
-            $service = $this->models[$triggers[$class]['model']];
-            if(method_exists($service,$triggers[$class]['function'])){ 
-                // $this->modx->log(1,"create triggers 2 {$triggers[$class]['function']}");
-                return  $service->{$triggers[$class]['function']}($class, $type, $method, $fields, $object_old, $object_new);
-            }
+        // Старые виды триггеров с разными сигнатурами. Обработчиков каждого вида
+        // может быть несколько: ошибка любого прерывает цепочку.
+        $last = null;
+        foreach($this->triggerHandlers($class,'function') as $handler){
+            $last = $handler['service']->{$handler['method']}($class, $type, $method, $fields, $object_old, $object_new);
+            if(is_array($last) and empty($last['success'])) return $last;
         }
-        if(isset($triggers[$class]['gtsfunction']) and isset($triggers[$class]['model'])){
-            $service = $this->models[$triggers[$class]['model']];
-            if(method_exists($service,$triggers[$class]['gtsfunction'])){ 
-                //$this->getTables->addTime("run_triggers gtsfunction");
-                return  $service->{$triggers[$class]['gtsfunction']}(null,$class, $type, $method, $fields, $object_old, $object_new);
-            }
+        if($last !== null) return $last;
+
+        foreach($this->triggerHandlers($class,'gtsfunction') as $handler){
+            $last = $handler['service']->{$handler['method']}(null,$class, $type, $method, $fields, $object_old, $object_new);
+            if(is_array($last) and empty($last['success'])) return $last;
         }
-        if(isset($triggers[$class]['gtsfunction2']) and isset($triggers[$class]['model'])){
-            $service = $this->models[$triggers[$class]['model']];
-            if(method_exists($service,$triggers[$class]['gtsfunction2'])){ 
-                $params = [
-                    'class'=>$class,
-                    'type'=>$type,
-                    'method'=>$method,
-                    'fields'=>$fields,
-                    'object_old'=>$object_old,
-                    'object_new'=>$object_new,
-                    'object'=>&$object,
-                ];
-                return  $service->{$triggers[$class]['gtsfunction2']}($params);
-            }
+        if($last !== null) return $last;
+
+        foreach($this->triggerHandlers($class,'gtsfunction2') as $handler){
+            $params = [
+                'class'=>$class,
+                'type'=>$type,
+                'method'=>$method,
+                'fields'=>$fields,
+                'object_old'=>$object_old,
+                'object_new'=>$object_new,
+                'object'=>&$object,
+            ];
+            $last = $handler['service']->{$handler['method']}($params);
+            if(is_array($last) and empty($last['success'])) return $last;
         }
+        if($last !== null) return $last;
         return $this->success('Выполнено успешно');
     }
 }

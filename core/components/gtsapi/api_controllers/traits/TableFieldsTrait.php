@@ -167,20 +167,17 @@ trait TableFieldsTrait
         
         try {
             $class = $rule['class'];
-            $triggers = $this->triggers;
 
-            if (isset($triggers[$class]['gtsapi_addfields']) and isset($triggers[$class]['model'])) {
-                $service = $this->models[$triggers[$class]['model']];
-                if (method_exists($service, $triggers[$class]['gtsapi_addfields'])) {
-                    $params = [
-                        'rule' => $rule,
-                        'class' => $class,
-                        'method' => $action,
-                        'fields' => &$fields,
-                        'trigger' => 'gtsapi_addfields',
-                    ];
-                    $service->{$triggers[$class]['gtsapi_addfields']}($params);
-                }
+            // Поля могут добавлять несколько компонентов сразу — вызываем всех.
+            foreach ($this->triggerHandlers($class, 'gtsapi_addfields') as $handler) {
+                $params = [
+                    'rule' => $rule,
+                    'class' => $class,
+                    'method' => $action,
+                    'fields' => &$fields,
+                    'trigger' => 'gtsapi_addfields',
+                ];
+                $handler['service']->{$handler['method']}($params);
             }
         } catch (Error $e) {
             $this->modx->log(1, 'gtsAPI Ошибка триггера ' . $e->getMessage());

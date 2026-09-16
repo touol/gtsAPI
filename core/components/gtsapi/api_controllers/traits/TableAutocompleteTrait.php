@@ -227,17 +227,27 @@ trait TableAutocompleteTrait
         foreach ($fields as $field => $desc) {
             if (isset($desc['type'])) {
                 if ($desc['type'] == 'autocomplete' and isset($desc['table'])) {
-                    
-                    if ($gtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $desc['table'], 'active' => 1])) {
-                        $properties = json_decode($gtsAPITable->properties, 1);
-                        if (is_array($properties) and isset($properties['autocomplete'])) {
-                            $this->addPackages($gtsAPITable->package_id);
-                            $autocomplete = $properties['autocomplete'];
-                            if (isset($autocomplete['limit']) and $autocomplete['limit'] == 0 and $offset != 0) continue;
-                            $autocomplete['field'] = $field;
-                            $autocomplete['table'] = $desc['table'];
-                            $autocomplete['class'] = $gtsAPITable->class ? $gtsAPITable->class : $desc['table'];
-                            $autocompletes[$field] = $this->autocomplete($autocomplete, $rows0);
+
+                    // Поле с table_by ссылается на РАЗНЫЕ таблицы в разных строках
+                    // (напр. «Материал»: материалы производства или ТМЦ — смотря какой
+                    // тип закупа). Одним списком опций тут не обойтись: id в разных
+                    // справочниках совпадают, и подписи перепутались бы.
+                    // Поэтому бьём строки по таблицам и грузим опции для каждой.
+                    $byTable = $this->splitRowsByTable($desc, $field, $rows0);
+
+                    foreach ($byTable as $tableName => $tableRows) {
+                        $res = $this->autocompleteForTable($tableName, $field, $tableRows, $offset);
+                        if ($res === null) continue;
+
+                        if ($tableName === $desc['table']) {
+                            // Основная таблица поля — там же, где и раньше: rows
+                            $autocompletes[$field] = isset($autocompletes[$field])
+                                ? array_merge($res, $autocompletes[$field])
+                                : $res;
+                        } else {
+                            // Переключённые таблицы — отдельными наборами
+                            if (!isset($autocompletes[$field])) $autocompletes[$field] = ['rows' => []];
+                            $autocompletes[$field]['by_table'][$tableName] = $res;
                         }
                     }
                 } else if ($desc['type'] == 'multiautocomplete' and isset($desc['table']) and isset($desc['search'])) {
@@ -296,6 +306,62 @@ trait TableAutocompleteTrait
     /**
      * Обработка одного автокомплита
      */
+    /**
+     * Разложить строки по таблицам, на которые ссылается поле.
+     *
+     * Без table_by это одна группа — таблица поля. С table_by таблица берётся по
+     * значению соседнего поля строки (по той же карте, что и на клиенте).
+     *
+     * @return array [имя таблицы => строки]
+     */
+    protected function splitRowsByTable($desc, $field, $rows0)
+    {
+        $default = $desc['table'];
+        if (empty($desc['table_by']['field']) || empty($desc['table_by']['map']) || empty($rows0)) {
+            return [$default => $rows0];
+        }
+
+        $by = $desc['table_by'];
+        $groups = [];
+        foreach ($rows0 as $row) {
+            $table = $default;
+            if (isset($row[$by['field']])) {
+                $key = $row[$by['field']];
+                if (isset($by['map'][$key])) {
+                    $hit = $by['map'][$key];
+                    $table = is_array($hit) ? $hit['table'] : $hit;
+                }
+            }
+            $groups[$table][] = $row;
+        }
+        // Основная таблица должна быть в ответе всегда: клиент ждёт rows
+        if (!isset($groups[$default])) $groups[$default] = [];
+        return $groups;
+    }
+
+    /**
+     * Опции одной таблицы под значения переданных строк.
+     *
+     * @return array|null null — если таблица не зарегистрирована или без autocomplete
+     */
+    protected function autocompleteForTable($tableName, $field, $rows, $offset)
+    {
+        $gtsAPITable = $this->modx->getObject('gtsAPITable', ['table' => $tableName, 'active' => 1]);
+        if (!$gtsAPITable) return null;
+
+        $properties = json_decode($gtsAPITable->properties, 1);
+        if (!is_array($properties) || !isset($properties['autocomplete'])) return null;
+
+        $this->addPackages($gtsAPITable->package_id);
+        $autocomplete = $properties['autocomplete'];
+        if (isset($autocomplete['limit']) and $autocomplete['limit'] == 0 and $offset != 0) return null;
+
+        $autocomplete['field'] = $field;
+        $autocomplete['table'] = $tableName;
+        $autocomplete['class'] = $gtsAPITable->class ? $gtsAPITable->class : $tableName;
+        return $this->autocomplete($autocomplete, $rows);
+    }
+
     public function autocomplete($autocomplete, $rows0)
     {
         if (!isset($autocomplete['limit'])) $autocomplete['limit'] = 15;

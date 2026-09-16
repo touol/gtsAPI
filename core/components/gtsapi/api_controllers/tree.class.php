@@ -1,11 +1,13 @@
 <?php
 require_once __DIR__ . '/traits/TreeCopyTrait.php';
 require_once __DIR__ . '/traits/TableTreeCrudTrait.php';
+require_once __DIR__ . '/traits/TriggerRegistryTrait.php';
 
 class treeAPIController{
     // Подключаем trait для копирования
     use TreeCopyTrait;
     use TableTreeCrudTrait;
+    use TriggerRegistryTrait;
     
     public $config = [];
     public $modx;
@@ -244,22 +246,21 @@ class treeAPIController{
     public function watch_form($rule,$request){
         try {
             $class = $rule['class'];
-            $triggers = $this->triggers;
-            // $this->modx->log(1,'gtsAPI run '.print_r($triggers,1));
-            if(isset($triggers[$class]['gtsapi_watch_form']) and isset($triggers[$class]['model'])){
-                $service = $this->models[$triggers[$class]['model']];
-                if(method_exists($service,$triggers[$class]['gtsapi_watch_form'])){ 
-                    $params = [
-                        'rule'=>$rule,
-                        'class'=>$class,
-                        'request'=>$request,
-                        'fields' => $this->addFields($rule,$rule['properties']['fields'],$request['watch_action'])['properties']['fields'],
-                        'trigger'=>'gtsapi_watch_form',
-                    ];
-                    // $this->modx->log(1,'gtsAPI run '.$triggers[$class]['gtsapifunc']);
-                    return  $service->{$triggers[$class]['gtsapi_watch_form']}($params);
-                }
+            $data = [];
+
+            foreach($this->triggerHandlers($class,'gtsapi_watch_form') as $handler){
+                $params = [
+                    'rule'=>$rule,
+                    'class'=>$class,
+                    'request'=>$request,
+                    'fields' => $this->addFields($rule,$rule['properties']['fields'],$request['watch_action'])['properties']['fields'],
+                    'trigger'=>'gtsapi_watch_form',
+                ];
+                $resp = $handler['service']->{$handler['method']}($params);
+                if(empty($resp['success'])) return $resp;
+                if(!empty($resp['data']) && is_array($resp['data'])) $data = array_merge($data,$resp['data']);
             }
+            if(!empty($data)) return $this->success('',$data);
         } catch (Error $e) {
             $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage());
             return $this->error('Ошибка триггера '.$e->getMessage());
@@ -491,21 +492,16 @@ class treeAPIController{
         }
         try {
             $class = $rule['class'];
-            $triggers = $this->triggers;
 
-            if(isset($triggers[$class]['gtsapi_addfields']) and isset($triggers[$class]['model'])){
-                $service = $this->models[$triggers[$class]['model']];
-                if(method_exists($service,$triggers[$class]['gtsapi_addfields'])){ 
-                    $params = [
-                        'rule'=>$rule,
-                        'class'=>$class,
-                        'method'=>$action,
-                        'fields'=>&$fields,
-                        'trigger'=>'gtsapi_addfields',
-                    ];
-                    // $this->modx->log(1,'gtsAPI run '.$triggers[$class]['gtsapifunc']);
-                    $service->{$triggers[$class]['gtsapi_addfields']}($params);
-                }
+            foreach($this->triggerHandlers($class,'gtsapi_addfields') as $handler){
+                $params = [
+                    'rule'=>$rule,
+                    'class'=>$class,
+                    'method'=>$action,
+                    'fields'=>&$fields,
+                    'trigger'=>'gtsapi_addfields',
+                ];
+                $handler['service']->{$handler['method']}($params);
             }
         } catch (Error $e) {
             $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage());
@@ -1250,13 +1246,7 @@ class treeAPIController{
         }
         $service = $this->models[$class];
 
-        if(method_exists($service,'regTriggers')){ 
-            $triggers =  $service->regTriggers();
-            foreach($triggers as &$trigger){
-                $trigger['model'] = $class;
-            }
-            $this->triggers = array_merge($this->triggers,$triggers);
-        }
+        $this->addServiceTriggers($service, $class);
         // $this->modx->log(1,"getService $package "."test2!".print_r(array_keys($this->models),1));
         return $this->success();
     }
@@ -1292,25 +1282,32 @@ class treeAPIController{
         }
 
         try {
-            $triggers = $this->triggers;
-            
-            if(isset($triggers[$class]['gtsapifunc']) and isset($triggers[$class]['model'])){
-                $service = $this->models[$triggers[$class]['model']];
-                if(method_exists($service,$triggers[$class]['gtsapifunc'])){ 
-                    $params = [
-                        'rule'=>$rule,
-                        'class'=>$class,
-                        'type'=>$type,
-                        'method'=>$method,
-                        'fields'=>$fields,
-                        'object_old'=>$object_old,
-                        'object_new'=>&$object_new,
-                        'object'=>&$object,
-                        'trigger'=>'gtsapifunc',
-                    ];
-                    // $this->modx->log(1,'gtsAPI run '.$triggers[$class]['gtsapifunc']);
-                    return  $service->{$triggers[$class]['gtsapifunc']}($params);
+            $handlers = $this->triggerHandlers($class,'gtsapifunc');
+            $data = [];
+            $rows = $object_old;
+
+            foreach($handlers as $handler){
+                $params = [
+                    'rule'=>$rule,
+                    'class'=>$class,
+                    'type'=>$type,
+                    'method'=>$method,
+                    'fields'=>$fields,
+                    'object_old'=>$rows,
+                    'object_new'=>&$object_new,
+                    'object'=>&$object,
+                    'trigger'=>'gtsapifunc',
+                ];
+                $resp = $handler['service']->{$handler['method']}($params);
+                if(empty($resp['success'])) return $resp;
+                if(!empty($resp['data']) && is_array($resp['data'])){
+                    if(!empty($resp['data']['out'])) $rows = $resp['data']['out'];
+                    $data = array_merge($data,$resp['data']);
                 }
+            }
+            if(!empty($handlers)){
+                if(!empty($data['out'])) $data['out'] = $rows;
+                return $this->success('Выполнено успешно',$data);
             }
         } catch (Error $e) {
             $this->modx->log(1,'gtsAPI Ошибка триггера '.$e->getMessage().print_r($e->getTrace()[0],1));
