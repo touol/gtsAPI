@@ -131,7 +131,10 @@ trait TableFilterTrait
                 break;
             case "equals":
                 if ($name == 'parents_ids') {
-                    $where["{$rule['class']}.parents_ids:LIKE"] = '%#' . $filter['value'] . '#%';
+                    // Дерево может быть присоединённой таблицей, а не основной:
+                    // строка — сотрудник, узел дерева подтянут джойном
+                    $parentsClass = isset($filter['class']) ? $filter['class'] : $rule['class'];
+                    $where["{$parentsClass}.parents_ids:LIKE"] = '%#' . $filter['value'] . '#%';
                 } else if (isset($filter['where'])) {
                     // where-выражение берём ТОЛЬКО из конфига таблицы (доверенный источник),
                     // игнорируя возможную подмену в клиентском запросе; значение — через quote().
