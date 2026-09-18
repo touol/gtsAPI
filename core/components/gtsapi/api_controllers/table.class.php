@@ -196,10 +196,14 @@ class tableAPIController
         // Добавляем действие excel_export если оно не отключено
         if (!isset($rule['properties']['actions']['excel_export']) || $rule['properties']['actions']['excel_export'] !== false) {
             if (!isset($rule['properties']['actions']['excel_export'])) {
+                // Нейтральная, а не 'success': выгрузка в Excel — вспомогательное
+                // действие, а зелёная заливка спорит за внимание с тем, ради
+                // чего на страницу пришли. Раньше страницы перекрашивали её у
+                // себя (в расчёте она была белой) — каждая по-своему.
                 $rule['properties']['actions']['excel_export'] = [
                     'head' => true,
                     'icon' => 'pi pi-file-excel',
-                    'class' => 'p-button-success',
+                    'class' => 'p-button-secondary',
                     'label' => 'Excel'
                 ];
             }
@@ -211,7 +215,7 @@ class tableAPIController
                 $rule['properties']['actions']['print'] = [
                     'head' => true,
                     'icon' => 'pi pi-print',
-                    'class' => 'p-button-info',
+                    'class' => 'p-button-secondary',
                     'label' => 'Печать'
                 ];
             }

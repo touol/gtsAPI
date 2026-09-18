@@ -108,7 +108,14 @@ if(!$debug){
     }
     $assets_url = $modx->getOption('assets_url').'components/'
         .$name_lower.'/';
-    $modx->regClientCSS($assets_url.'web/css/main.css?v='.$v);
+    // CSS подключаем, только если он собран. У приложения без своих стилей
+    // (например gsRaschets) vite не кладёт main.css вовсе, а ссылка всё равно
+    // ставилась — на каждой странице висел красный 404 в консоли, за которым
+    // потом ищут несуществующую поломку.
+    $assets_path = $modx->getOption('assets_path').'components/'.$name_lower.'/';
+    if (is_file($assets_path.'web/css/main.css')) {
+        $modx->regClientCSS($assets_url.'web/css/main.css?v='.$v);
+    }
     if(isset($config) and is_array($config)){
         $modx->regClientHTMLBlock(
             '<script>

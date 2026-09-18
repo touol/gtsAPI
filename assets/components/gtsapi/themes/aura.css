@@ -1,0 +1,128 @@
+/* ============================================================================
+   Тема gtsERP: aura
+   ----------------------------------------------------------------------------
+   Палитра PrimeVue Aura, снятая с самого пресета, а не подобранная на глаз.
+   Источник — @primevue/themes/aura (node_modules PVTables):
+
+       primary   emerald   500 #10B981 · 600 #059669 · 700 #047857
+       surface   light: slate   (#F8FAFC … #020617)
+                 dark:  zinc    (#FAFAFA … #09090B)
+       text      light: surface.700, muted surface.500
+                 dark:  surface.0,   muted surface.400
+       радиусы   sm 4 · md 6 · lg 8 · xl 12
+
+   Зачем она здесь. Акцент Aura — emerald, то есть та же зелёная ось, в
+   которой экран расчёта жил до перевода на токены. Разница с aura-soft
+   только в насыщенности: здесь чистый emerald PrimeVue, там приглушённый
+   зелёный прежнего макета. Держим обе, чтобы выбирать глазами на живом
+   расчёте, а не по хексам в переписке.
+
+   Файл темы — данные, а не код: он не участвует в сборке PVTables.
+   Чтобы добавить свою тему, положите такой же файл рядом —
+   сниппет gtsTheme подхватит его сам. Ничего пересобирать не нужно.
+
+   Объявляются только приватные пары --_x-l / --_x-d (светлое и тёмное
+   значение) плюс шрифт и радиусы. Публичные --gts-* собирает §3
+   в PVTables/src/theme/gts-tokens.css — там же эталонный список пар.
+   ========================================================================= */
+
+/* --- шрифт темы ----------------------------------------------------------
+   Inter — то, на чём PrimeVue показывает саму Aura, и то, что стояло на
+   экране расчёта до 01.09. Файлы лежат рядом, в fonts/, и раздаются с нашего
+   сервера: с Google Fonts их не берём, прод в локальной сети.
+
+   Объявление продублировано здесь намеренно, хотя те же файлы объявляют
+   emerald и graphite: тема обязана быть самодостаточной, иначе её нельзя
+   унести в другой проект одним файлом, а на странице шрифт будет приезжать
+   по случайности — потому что рядом загрузилась чужая тема.
+   ---------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/inter-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('fonts/inter-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+[data-gts-theme="aura"] {
+  --gts-theme-name: "aura";
+  --gts-font:      "Inter", "Segoe UI", system-ui, sans-serif;
+  --gts-font-head: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  /* Радиусы Aura: sm 4 / md 6 / lg 8. Крупный радиус заметно меньше, чем
+     у corporate (10) и emerald (10), — Aura скругляет сдержаннее. */
+  --gts-radius-s: 4px;
+  --gts-radius:   6px;
+  --gts-radius-l: 8px;
+
+  /* Акцент. Светлая берёт primary.500, тёмная — primary.400: так задано
+     в самой Aura, на тёмном фоне 500 читается глухо. */
+  --_accent-l:   #10B981;  --_accent-d:   #34D399;
+  --_hover-l:    #059669;  --_hover-d:    #6EE7B7;
+  --_active-l:   #047857;  --_active-d:   #A7F3D0;
+  --_soft-l:     #ECFDF5;  --_soft-d:     #022C22;
+  --_contrast-l: #FFFFFF;  --_contrast-d: #18181B;
+
+  /* Поверхности. Светлая — slate, тёмная — zinc: у Aura они разные не по
+     недосмотру, а намеренно (холодный серый днём, нейтральный ночью). */
+  --_bg-l:        #F8FAFC; --_bg-d:        #09090B;
+  --_surface-l:   #FFFFFF; --_surface-d:   #18181B;
+  --_surface2-l:  #F8FAFC; --_surface2-d:  #27272A;
+  --_surface3-l:  #F1F5F9; --_surface3-d:  #3F3F46;
+  --_line-l:      #E2E8F0; --_line-d:      #27272A;
+  --_lineStr-l:   #CBD5E1; --_lineStr-d:   #3F3F46;
+
+  /* Текст. В Aura основной — surface.700 (не чёрный), приглушённый —
+     surface.500. В тёмной схеме основной почти белый. */
+  --_ink-l:       #334155; --_ink-d:       #FAFAFA;
+  --_ink2-l:      #64748B; --_ink2-d:      #A1A1AA;
+  --_ink3-l:      #94A3B8; --_ink3-d:      #71717A;
+  --_inkInv-l:    #FFFFFF; --_inkInv-d:    #09090B;
+
+  --_ring-l: rgba(16, 185, 129, .30);
+  --_ring-d: rgba(52, 211, 153, .32);
+
+  /* Рамки полей ввода. У Aura поле обведено surface.300, а в фокусе граница
+     становится акцентной — отсюда зелёный фокус. */
+  --_fBorder-l: #CBD5E1;  --_fBorder-d: #3F3F46;
+  --_fFocus-l:  #10B981;  --_fFocus-d:  #34D399;
+  --_fRO-l:     #E2E8F0;  --_fRO-d:     #27272A;
+  --_fRing-l: 0 0 0 3px rgba(16, 185, 129, .10);
+  --_fRing-d: 0 0 0 3px rgba(52, 211, 153, .14);
+
+  /* Хром таблицы. В Aura у DataTable нет ни чёрной внешней рамки, ни
+     контрастных разделителей: одна и та же линия surface.200 снаружи и
+     внутри, шапка на полтона светлее контента. Выбранная строка — бледный
+     акцент, это тоже штатное поведение Aura (highlight на primary.50). */
+  --gts-table-radius: 8px;
+  --_tBorder-l:     #E2E8F0;  --_tBorder-d:     #27272A;
+  --_tCellBorder-l: #E2E8F0;  --_tCellBorder-d: #27272A;
+  --_tHeadBg-l:     #F8FAFC;  --_tHeadBg-d:     #18181B;
+  --_tHeadInk-l:    #334155;  --_tHeadInk-d:    #FAFAFA;
+  --_tHeadBorder-l: #E2E8F0;  --_tHeadBorder-d: #27272A;
+  --_tHover-l:      #F1F5F9;  --_tHover-d:      #27272A;
+  --_tSel-l:        #ECFDF5;  --_tSel-d:        #022C22;
+  --_tSelHover-l:   #D1FAE5;  --_tSelHover-d:   #064E3B;
+  --_tEmptyHover-l: #F8FAFC;  --_tEmptyHover-d: #18181B;
+
+  /* Боковая панель: на шаг темнее контента в обеих схемах. */
+  --_sideBg-l:  #E2E8F0;  --_sideBg-d:  #111113;
+  --_sideInk-l: #334155;  --_sideInk-d: #D4D4D8;
+}
+
+/* Кружок в меню выбора. Задаётся здесь, а не в виджете: меню обязано
+   показать чужой акцент, пока тема не выбрана, а токены в этот
+   момент отдают цвет текущей. Своя тема — свой такой блок. */
+.gts-ts-dot--aura { background: #10B981; }
+[data-gts-scheme="dark"] .gts-ts-dot--aura { background: #34D399; }

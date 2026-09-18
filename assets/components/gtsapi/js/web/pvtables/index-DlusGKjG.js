@@ -1,5 +1,5 @@
 import * as i3 from "vue";
-import { renderSlot as _e, createBlock as Q, createCommentVNode as G, openBlock as h, Teleport as Jp, ref as q, readonly as a3, getCurrentInstance as s3, onMounted as no, nextTick as Zn, watch as Kt, mergeProps as P, createElementBlock as S, createElementVNode as k, resolveDirective as oo, resolveDynamicComponent as Je, Fragment as Ve, toDisplayString as Pe, normalizeProps as Xs, withDirectives as Dt, resolveComponent as Ze, withCtx as xe, createVNode as fe, TransitionGroup as l3, renderList as St, computed as nt, onBeforeUnmount as Ka, unref as T, defineComponent as Xg, isRef as xl, shallowRef as y2, watchEffect as ba, h as Ao, triggerRef as Dv, onScopeDispose as c3, createTextVNode as wt, normalizeClass as Ke, Transition as kr, vShow as Ii, normalizeStyle as wn, toHandlers as jf, withKeys as en, createSlots as ji, mergeModels as li, useModel as Dl, compile as Xp, withModifiers as fn, reactive as w2, pushScopeId as Mr, popScopeId as Fr, inject as Qp, vModelText as Hs, provide as k2, vModelSelect as zm, createStaticVNode as u3, onErrorCaptured as d3, markRaw as f3, customRef as p3, onUnmounted as S2, guardReactiveProps as h3 } from "vue";
+import { renderSlot as _e, createBlock as Q, createCommentVNode as G, openBlock as h, Teleport as Jp, ref as q, readonly as a3, getCurrentInstance as s3, onMounted as no, nextTick as Zn, watch as Kt, mergeProps as P, createElementBlock as S, createElementVNode as k, resolveDirective as oo, resolveDynamicComponent as Je, Fragment as Ve, toDisplayString as Pe, normalizeProps as Xs, withDirectives as Bt, resolveComponent as Ze, withCtx as xe, createVNode as fe, TransitionGroup as l3, renderList as St, computed as nt, onBeforeUnmount as Ka, unref as T, defineComponent as Xg, isRef as xl, shallowRef as y2, watchEffect as ba, h as Ao, triggerRef as Dv, onScopeDispose as c3, createTextVNode as wt, normalizeClass as Ke, Transition as kr, vShow as Ii, normalizeStyle as wn, toHandlers as jf, withKeys as en, createSlots as ji, mergeModels as li, useModel as Dl, compile as Xp, withModifiers as fn, reactive as w2, pushScopeId as Mr, popScopeId as Fr, inject as Qp, vModelText as Hs, provide as k2, vModelSelect as zm, createStaticVNode as u3, onErrorCaptured as d3, markRaw as f3, customRef as p3, onUnmounted as S2, guardReactiveProps as h3 } from "vue";
 function Hu(t, e) {
   return t ? t.classList ? t.classList.contains(e) : new RegExp("(^| )" + e + "( |$)", "gi").test(t.className) : !1;
 }
@@ -3241,7 +3241,7 @@ function k4(t, e, n, o, i, r) {
     class: t.cx("detail")
   }, t.ptm("detail")), Pe(n.message.detail), 17)], 16)], 64)), n.message.closable !== !1 ? (h(), S("div", Xs(P({
     key: 2
-  }, t.ptm("buttonContainer"))), [Dt((h(), S("button", P({
+  }, t.ptm("buttonContainer"))), [Bt((h(), S("button", P({
     class: t.cx("closeButton"),
     type: "button",
     "aria-label": r.closeAriaLabel,
@@ -7343,7 +7343,7 @@ function hx(t, e, n, o, i, r) {
     key: 1,
     class: Ke(t.cx("root")),
     a11yAttrs: r.a11yAttrs
-  }) : Dt((h(), Q(Je(t.as), P({
+  }) : Bt((h(), Q(Je(t.as), P({
     key: 0,
     class: t.cx("root")
   }, r.attrs), {
@@ -8128,7 +8128,7 @@ function Dx(t, e, n, o, i, r) {
         appear: ""
       }, t.ptm("transition")), {
         default: xe(function() {
-          return [t.visible ? Dt((h(), S("div", P({
+          return [t.visible ? Bt((h(), S("div", P({
             key: 0,
             ref: r.containerRef,
             class: t.cx("root"),
@@ -8610,7 +8610,7 @@ function eI(t, e, n, o, i, r) {
   return h(), S("div", P({
     ref: "list",
     class: t.cx("root")
-  }, t.ptmi("root")), [r.showNavigators && i.isPrevButtonEnabled ? Dt((h(), S("button", P({
+  }, t.ptmi("root")), [r.showNavigators && i.isPrevButtonEnabled ? Bt((h(), S("button", P({
     key: 0,
     ref: "prevButton",
     class: t.cx("prevButton"),
@@ -8639,7 +8639,7 @@ function eI(t, e, n, o, i, r) {
     class: t.cx("activeBar"),
     role: "presentation",
     "aria-hidden": "true"
-  }, t.ptm("activeBar")), null, 16)], 16, Xx)], 16), r.showNavigators && i.isNextButtonEnabled ? Dt((h(), S("button", P({
+  }, t.ptm("activeBar")), null, 16)], 16, Xx)], 16), r.showNavigators && i.isNextButtonEnabled ? Bt((h(), S("button", P({
     key: 1,
     ref: "nextButton",
     class: t.cx("nextButton"),
@@ -8841,7 +8841,7 @@ function rI(t, e, n, o, i, r) {
     active: r.active,
     a11yAttrs: r.a11yAttrs,
     onClick: r.onClick
-  }) : Dt((h(), Q(Je(t.as), P({
+  }) : Bt((h(), Q(Je(t.as), P({
     key: 0,
     class: t.cx("root"),
     onClick: r.onClick
@@ -8978,7 +8978,7 @@ function fI(t, e, n, o, i, r) {
     a11yAttrs: r.a11yAttrs
   }) : (h(), S(Ve, {
     key: 0
-  }, [!((a = r.$pcTabs) !== null && a !== void 0 && a.lazy) || r.active ? Dt((h(), Q(Je(t.as), P({
+  }, [!((a = r.$pcTabs) !== null && a !== void 0 && a.lazy) || r.active ? Bt((h(), Q(Je(t.as), P({
     key: 0,
     class: t.cx("root")
   }, r.attrs), {
@@ -9643,7 +9643,7 @@ function _I(t, e, n, o, i, r) {
         onAfterLeave: r.onAfterLeave
       }, t.ptm("transition")), {
         default: xe(function() {
-          return [i.visible ? Dt((h(), S("div", P({
+          return [i.visible ? Bt((h(), S("div", P({
             key: 0,
             ref: r.containerRef,
             role: "dialog",
@@ -13405,7 +13405,7 @@ function G8(t, e, n, o, i, r) {
             }, t.ptm("calendar")), [k("div", P({
               class: t.cx("header"),
               ref_for: !0
-            }, t.ptm("header")), [_e(t.$slots, "header"), Dt(fe(s, P({
+            }, t.ptm("header")), [_e(t.$slots, "header"), Bt(fe(s, P({
               ref_for: !0,
               ref: r.previousButtonRef,
               class: t.cx("pcPrevButton"),
@@ -13502,7 +13502,7 @@ function G8(t, e, n, o, i, r) {
               years: r.yearPickerValues
             }, function() {
               return [wt(Pe(r.yearPickerValues[0].value) + " - " + Pe(r.yearPickerValues[r.yearPickerValues.length - 1].value), 1)];
-            })], 16)) : G("", !0)], 16), Dt(fe(s, P({
+            })], 16)) : G("", !0)], 16), Bt(fe(s, P({
               ref_for: !0,
               ref: r.nextButtonRef,
               class: t.cx("pcNextButton"),
@@ -13622,7 +13622,7 @@ function G8(t, e, n, o, i, r) {
                   "data-p-today": v.today,
                   "data-p-other-month": v.otherMonth,
                   "data-pc-group-section": "tablebodycell"
-                }), [Dt((h(), S("span", P({
+                }), [Bt((h(), S("span", P({
                   class: t.cx("day", {
                     date: v
                   }),
@@ -13666,7 +13666,7 @@ function G8(t, e, n, o, i, r) {
             key: 0,
             class: t.cx("monthView")
           }, t.ptm("monthView")), [(h(!0), S(Ve, null, St(r.monthPickerValues, function(u, f) {
-            return Dt((h(), S("span", P({
+            return Bt((h(), S("span", P({
               key: u,
               onClick: function(d) {
                 return r.onMonthSelect(d, {
@@ -13707,7 +13707,7 @@ function G8(t, e, n, o, i, r) {
             key: 1,
             class: t.cx("yearView")
           }, t.ptm("yearView")), [(h(!0), S(Ve, null, St(r.yearPickerValues, function(u) {
-            return Dt((h(), S("span", P({
+            return Bt((h(), S("span", P({
               key: u.value,
               onClick: function(m) {
                 return r.onYearSelect(m, u);
@@ -16286,7 +16286,7 @@ function k7(t, e, n, o, i, r) {
                         }, () => [
                           wt(Pe(r.getOptionGroupLabel(x.optionGroup)), 1)
                         ])
-                      ], 16, y7)) : Dt((h(), S("li", P({
+                      ], 16, y7)) : Bt((h(), S("li", P({
                         key: 1,
                         id: i.id + "_" + r.getOptionIndex(O, g),
                         style: { height: y ? y + "px" : void 0 },
@@ -20491,7 +20491,7 @@ function AP(t, e, n, o, i, r) {
                   index: r.getOptionIndex(W, L)
                 }, function() {
                   return [wt(Pe(r.getOptionGroupLabel(te.optionGroup)), 1)];
-                })], 16, PP)) : Dt((h(), S("li", P({
+                })], 16, PP)) : Bt((h(), S("li", P({
                   key: 1,
                   id: i.id + "_" + r.getOptionIndex(W, L),
                   style: {
@@ -22089,7 +22089,7 @@ function ZP(t, e, n, o, i, r) {
                   index: r.getOptionIndex(L, w)
                 }, function() {
                   return [wt(Pe(r.getOptionGroupLabel(O.optionGroup)), 1)];
-                })], 16, WP)) : Dt((h(), S("li", P({
+                })], 16, WP)) : Bt((h(), S("li", P({
                   key: 1,
                   id: i.id + "_" + r.getOptionIndex(L, w),
                   style: {
@@ -22921,7 +22921,7 @@ function u9(t, e, n, o, i, r) {
   }, r.getPTOptions("nodeContent"), {
     "data-p-selected": r.checkboxMode ? r.checked : r.selected,
     "data-p-selectable": r.selectable
-  }), [Dt((h(), S("button", P({
+  }), [Bt((h(), S("button", P({
     type: "button",
     class: t.cx("nodeToggleButton"),
     onClick: e[0] || (e[0] = function() {
@@ -25605,7 +25605,7 @@ function gL(t, e, n, o, i, r) {
                     class: t.cx("optionGroupLabel"),
                     ref_for: !0
                   }, t.ptm("optionGroupLabel")), Pe(r.getOptionGroupLabel(te.optionGroup)), 17)];
-                })], 16, hL)) : Dt((h(), S("li", P({
+                })], 16, hL)) : Bt((h(), S("li", P({
                   key: 1,
                   id: i.id + "_" + r.getOptionIndex(W, L),
                   class: t.cx("option", {
@@ -25888,7 +25888,7 @@ var zw = {
 };
 function LL(t, e, n, o, i, r) {
   var a = oo("ripple");
-  return Dt((h(), S("button", P({
+  return Bt((h(), S("button", P({
     class: t.cx("first"),
     type: "button"
   }, r.getPTOptions("first"), {
@@ -26033,7 +26033,7 @@ var Hw = {
 };
 function EL(t, e, n, o, i, r) {
   var a = oo("ripple");
-  return Dt((h(), S("button", P({
+  return Bt((h(), S("button", P({
     class: t.cx("last"),
     type: "button"
   }, r.getPTOptions("last"), {
@@ -26071,7 +26071,7 @@ var Uw = {
 };
 function RL(t, e, n, o, i, r) {
   var a = oo("ripple");
-  return Dt((h(), S("button", P({
+  return Bt((h(), S("button", P({
     class: t.cx("next"),
     type: "button"
   }, r.getPTOptions("next"), {
@@ -26118,7 +26118,7 @@ function ML(t, e, n, o, i, r) {
   return h(), S("span", P({
     class: t.cx("pages")
   }, t.ptm("pages")), [(h(!0), S(Ve, null, St(n.value, function(s) {
-    return Dt((h(), S("button", P({
+    return Bt((h(), S("button", P({
       key: s,
       class: t.cx("page", {
         pageLink: s
@@ -26164,7 +26164,7 @@ var Gw = {
 };
 function FL(t, e, n, o, i, r) {
   var a = oo("ripple");
-  return Dt((h(), S("button", P({
+  return Bt((h(), S("button", P({
     class: t.cx("prev"),
     type: "button"
   }, r.getPTOptions("prev"), {
@@ -28750,7 +28750,7 @@ function VA(t, e, n, o, i, r) {
   }, r.getColumnPT("reorderableRowHandle")), null, 16)) : (h(), Q(l, P({
     key: 2,
     class: t.cx("reorderableRowHandle")
-  }, r.getColumnPT("reorderableRowHandle")), null, 16, ["class"]))], 64)) : r.columnProp("expander") ? Dt((h(), S("button", P({
+  }, r.getColumnPT("reorderableRowHandle")), null, 16, ["class"]))], 64)) : r.columnProp("expander") ? Bt((h(), S("button", P({
     key: 5,
     class: t.cx("rowToggleButton"),
     type: "button",
@@ -30842,7 +30842,7 @@ function ST(t, e, n, o, i, r) {
         onAfterLeave: r.onOverlayAfterLeave
       }, r.getColumnPT("transition")), {
         default: xe(function() {
-          return [i.overlayVisible ? Dt((h(), S("div", P({
+          return [i.overlayVisible ? Bt((h(), S("div", P({
             key: 0,
             ref: r.overlayRef,
             id: r.overlayId,
@@ -34733,7 +34733,7 @@ function pR(t, e, n, o, i, r) {
     appear: ""
   }, t.ptmi("transition")), {
     default: xe(function() {
-      return [Dt(k("div", P({
+      return [Bt(k("div", P({
         class: t.cx("root"),
         role: "alert",
         "aria-live": "assertive",
@@ -34753,7 +34753,7 @@ function pR(t, e, n, o, i, r) {
       }), t.$slots.default ? (h(), S("div", P({
         key: 0,
         class: ["p-message-text", t.cx("text")]
-      }, t.ptm("text")), [_e(t.$slots, "default")], 16)) : G("", !0), t.closable ? Dt((h(), S("button", P({
+      }, t.ptm("text")), [_e(t.$slots, "default")], 16)) : G("", !0), t.closable ? Bt((h(), S("button", P({
         key: 1,
         class: t.cx("closeButton"),
         "aria-label": r.closeAriaLabel,
@@ -40420,7 +40420,7 @@ var Oi = function(t, e) {
 }, by = function(t) {
   return t * Ab;
 }, fs = function(t) {
-  var e = new ek(), n = Bt.internal.getHeight(t) || 0, o = Bt.internal.getWidth(t) || 0;
+  var e = new ek(), n = Dt.internal.getHeight(t) || 0, o = Dt.internal.getWidth(t) || 0;
   return e.BBox = [0, 0, Number(dn(o)), Number(dn(n))], e;
 }, IF = $o.__acroform__.setBit = function(t, e) {
   if (t = t || 0, e = e || 0, isNaN(t) || isNaN(e)) throw new Error("Invalid arguments passed to jsPDF.API.__acroform__.setBit");
@@ -40460,9 +40460,9 @@ var Oi = function(t, e) {
   }) : i.map(function(R) {
     return [R];
   });
-  var r = n, a = Bt.internal.getHeight(t) || 0;
+  var r = n, a = Dt.internal.getHeight(t) || 0;
   a = a < 0 ? -a : a;
-  var s = Bt.internal.getWidth(t) || 0;
+  var s = Dt.internal.getWidth(t) || 0;
   s = s < 0 ? -s : s;
   var l = function(R, F, z) {
     if (R + 1 < i.length) {
@@ -40567,7 +40567,7 @@ var Oi = function(t, e) {
         var r = !o;
         for (var a in o || (i.internal.newObjectDeferredBegin(i.internal.acroformPlugin.acroFormDictionaryRoot.objId, !0), i.internal.acroformPlugin.acroFormDictionaryRoot.putStream()), o = o || i.internal.acroformPlugin.acroFormDictionaryRoot.Kids) if (o.hasOwnProperty(a)) {
           var s = o[a], l = [], c = s.Rect;
-          if (s.Rect && (s.Rect = LF(s.Rect, i)), i.internal.newObjectDeferredBegin(s.objId, !0), s.DA = Bt.createDefaultAppearanceStream(s), Xn(s) === "object" && typeof s.getKeyValueListForStream == "function" && (l = s.getKeyValueListForStream()), s.Rect = c, s.hasAppearanceStream && !s.appearanceStreamContent) {
+          if (s.Rect && (s.Rect = LF(s.Rect, i)), i.internal.newObjectDeferredBegin(s.objId, !0), s.DA = Dt.createDefaultAppearanceStream(s), Xn(s) === "object" && typeof s.getKeyValueListForStream == "function" && (l = s.getKeyValueListForStream()), s.Rect = c, s.hasAppearanceStream && !s.appearanceStreamContent) {
             var u = AF(s);
             l.push({ key: "AP", value: "<</N " + u + ">>" }), i.internal.acroformPlugin.xForms.push(u);
           }
@@ -41043,7 +41043,7 @@ var Np = function() {
   }, set: function(i) {
     var r = i == null ? "" : i.toString();
     r.substr(0, 1) === "/" && (r = r.substr(1)), n = "/" + uc(r);
-  } }), this.caption = "l", this.appearanceState = "Off", this._AppearanceType = Bt.RadioButton.Circle, this.appearanceStreamContent = this._AppearanceType.createAppearanceStream(this.optionName);
+  } }), this.caption = "l", this.appearanceState = "Off", this._AppearanceType = Dt.RadioButton.Circle, this.appearanceStreamContent = this._AppearanceType.createAppearanceStream(this.optionName);
 };
 Oi(Np, Ua), Zc.prototype.setAppearance = function(t) {
   if (!("createAppearanceStream" in t) || !("getCA" in t)) throw new Error("Couldn't assign Appearance to RadioButton. Appearance was Invalid!");
@@ -41056,7 +41056,7 @@ Oi(Np, Ua), Zc.prototype.setAppearance = function(t) {
   return e.Parent = this, e.optionName = t, this.Kids.push(e), _F.call(this.scope, e), e;
 };
 var xp = function() {
-  vr.call(this), this.fontName = "zapfdingbats", this.caption = "3", this.appearanceState = "On", this.value = "On", this.textAlign = "center", this.appearanceStreamContent = Bt.CheckBox.createAppearanceStream();
+  vr.call(this), this.fontName = "zapfdingbats", this.caption = "3", this.appearanceState = "On", this.value = "On", this.textAlign = "center", this.appearanceStreamContent = Dt.CheckBox.createAppearanceStream();
 };
 Oi(xp, vr);
 var ac = function() {
@@ -41107,89 +41107,89 @@ var Ip = function() {
   } }), this.password = !0;
 };
 Oi(Ip, ac);
-var Bt = { CheckBox: { createAppearanceStream: function() {
-  return { N: { On: Bt.CheckBox.YesNormal }, D: { On: Bt.CheckBox.YesPushDown, Off: Bt.CheckBox.OffPushDown } };
+var Dt = { CheckBox: { createAppearanceStream: function() {
+  return { N: { On: Dt.CheckBox.YesNormal }, D: { On: Dt.CheckBox.YesPushDown, Off: Dt.CheckBox.OffPushDown } };
 }, YesPushDown: function(t) {
   var e = fs(t);
   e.scope = t.scope;
   var n = [], o = t.scope.internal.getFont(t.fontName, t.fontStyle).id, i = t.scope.__private__.encodeColorString(t.color), r = Fg(t, t.caption);
-  return n.push("0.749023 g"), n.push("0 0 " + dn(Bt.internal.getWidth(t)) + " " + dn(Bt.internal.getHeight(t)) + " re"), n.push("f"), n.push("BMC"), n.push("q"), n.push("0 0 1 rg"), n.push("/" + o + " " + dn(r.fontSize) + " Tf " + i), n.push("BT"), n.push(r.text), n.push("ET"), n.push("Q"), n.push("EMC"), e.stream = n.join(`
+  return n.push("0.749023 g"), n.push("0 0 " + dn(Dt.internal.getWidth(t)) + " " + dn(Dt.internal.getHeight(t)) + " re"), n.push("f"), n.push("BMC"), n.push("q"), n.push("0 0 1 rg"), n.push("/" + o + " " + dn(r.fontSize) + " Tf " + i), n.push("BT"), n.push(r.text), n.push("ET"), n.push("Q"), n.push("EMC"), e.stream = n.join(`
 `), e;
 }, YesNormal: function(t) {
   var e = fs(t);
   e.scope = t.scope;
-  var n = t.scope.internal.getFont(t.fontName, t.fontStyle).id, o = t.scope.__private__.encodeColorString(t.color), i = [], r = Bt.internal.getHeight(t), a = Bt.internal.getWidth(t), s = Fg(t, t.caption);
+  var n = t.scope.internal.getFont(t.fontName, t.fontStyle).id, o = t.scope.__private__.encodeColorString(t.color), i = [], r = Dt.internal.getHeight(t), a = Dt.internal.getWidth(t), s = Fg(t, t.caption);
   return i.push("1 g"), i.push("0 0 " + dn(a) + " " + dn(r) + " re"), i.push("f"), i.push("q"), i.push("0 0 1 rg"), i.push("0 0 " + dn(a - 1) + " " + dn(r - 1) + " re"), i.push("W"), i.push("n"), i.push("0 g"), i.push("BT"), i.push("/" + n + " " + dn(s.fontSize) + " Tf " + o), i.push(s.text), i.push("ET"), i.push("Q"), e.stream = i.join(`
 `), e;
 }, OffPushDown: function(t) {
   var e = fs(t);
   e.scope = t.scope;
   var n = [];
-  return n.push("0.749023 g"), n.push("0 0 " + dn(Bt.internal.getWidth(t)) + " " + dn(Bt.internal.getHeight(t)) + " re"), n.push("f"), e.stream = n.join(`
+  return n.push("0.749023 g"), n.push("0 0 " + dn(Dt.internal.getWidth(t)) + " " + dn(Dt.internal.getHeight(t)) + " re"), n.push("f"), e.stream = n.join(`
 `), e;
 } }, RadioButton: { Circle: { createAppearanceStream: function(t) {
-  var e = { D: { Off: Bt.RadioButton.Circle.OffPushDown }, N: {} };
-  return e.N[t] = Bt.RadioButton.Circle.YesNormal, e.D[t] = Bt.RadioButton.Circle.YesPushDown, e;
+  var e = { D: { Off: Dt.RadioButton.Circle.OffPushDown }, N: {} };
+  return e.N[t] = Dt.RadioButton.Circle.YesNormal, e.D[t] = Dt.RadioButton.Circle.YesPushDown, e;
 }, getCA: function() {
   return "l";
 }, YesNormal: function(t) {
   var e = fs(t);
   e.scope = t.scope;
-  var n = [], o = Bt.internal.getWidth(t) <= Bt.internal.getHeight(t) ? Bt.internal.getWidth(t) / 4 : Bt.internal.getHeight(t) / 4;
+  var n = [], o = Dt.internal.getWidth(t) <= Dt.internal.getHeight(t) ? Dt.internal.getWidth(t) / 4 : Dt.internal.getHeight(t) / 4;
   o = Number((0.9 * o).toFixed(5));
-  var i = Bt.internal.Bezier_C, r = Number((o * i).toFixed(5));
-  return n.push("q"), n.push("1 0 0 1 " + kl(Bt.internal.getWidth(t) / 2) + " " + kl(Bt.internal.getHeight(t) / 2) + " cm"), n.push(o + " 0 m"), n.push(o + " " + r + " " + r + " " + o + " 0 " + o + " c"), n.push("-" + r + " " + o + " -" + o + " " + r + " -" + o + " 0 c"), n.push("-" + o + " -" + r + " -" + r + " -" + o + " 0 -" + o + " c"), n.push(r + " -" + o + " " + o + " -" + r + " " + o + " 0 c"), n.push("f"), n.push("Q"), e.stream = n.join(`
+  var i = Dt.internal.Bezier_C, r = Number((o * i).toFixed(5));
+  return n.push("q"), n.push("1 0 0 1 " + kl(Dt.internal.getWidth(t) / 2) + " " + kl(Dt.internal.getHeight(t) / 2) + " cm"), n.push(o + " 0 m"), n.push(o + " " + r + " " + r + " " + o + " 0 " + o + " c"), n.push("-" + r + " " + o + " -" + o + " " + r + " -" + o + " 0 c"), n.push("-" + o + " -" + r + " -" + r + " -" + o + " 0 -" + o + " c"), n.push(r + " -" + o + " " + o + " -" + r + " " + o + " 0 c"), n.push("f"), n.push("Q"), e.stream = n.join(`
 `), e;
 }, YesPushDown: function(t) {
   var e = fs(t);
   e.scope = t.scope;
-  var n = [], o = Bt.internal.getWidth(t) <= Bt.internal.getHeight(t) ? Bt.internal.getWidth(t) / 4 : Bt.internal.getHeight(t) / 4;
+  var n = [], o = Dt.internal.getWidth(t) <= Dt.internal.getHeight(t) ? Dt.internal.getWidth(t) / 4 : Dt.internal.getHeight(t) / 4;
   o = Number((0.9 * o).toFixed(5));
-  var i = Number((2 * o).toFixed(5)), r = Number((i * Bt.internal.Bezier_C).toFixed(5)), a = Number((o * Bt.internal.Bezier_C).toFixed(5));
-  return n.push("0.749023 g"), n.push("q"), n.push("1 0 0 1 " + kl(Bt.internal.getWidth(t) / 2) + " " + kl(Bt.internal.getHeight(t) / 2) + " cm"), n.push(i + " 0 m"), n.push(i + " " + r + " " + r + " " + i + " 0 " + i + " c"), n.push("-" + r + " " + i + " -" + i + " " + r + " -" + i + " 0 c"), n.push("-" + i + " -" + r + " -" + r + " -" + i + " 0 -" + i + " c"), n.push(r + " -" + i + " " + i + " -" + r + " " + i + " 0 c"), n.push("f"), n.push("Q"), n.push("0 g"), n.push("q"), n.push("1 0 0 1 " + kl(Bt.internal.getWidth(t) / 2) + " " + kl(Bt.internal.getHeight(t) / 2) + " cm"), n.push(o + " 0 m"), n.push(o + " " + a + " " + a + " " + o + " 0 " + o + " c"), n.push("-" + a + " " + o + " -" + o + " " + a + " -" + o + " 0 c"), n.push("-" + o + " -" + a + " -" + a + " -" + o + " 0 -" + o + " c"), n.push(a + " -" + o + " " + o + " -" + a + " " + o + " 0 c"), n.push("f"), n.push("Q"), e.stream = n.join(`
+  var i = Number((2 * o).toFixed(5)), r = Number((i * Dt.internal.Bezier_C).toFixed(5)), a = Number((o * Dt.internal.Bezier_C).toFixed(5));
+  return n.push("0.749023 g"), n.push("q"), n.push("1 0 0 1 " + kl(Dt.internal.getWidth(t) / 2) + " " + kl(Dt.internal.getHeight(t) / 2) + " cm"), n.push(i + " 0 m"), n.push(i + " " + r + " " + r + " " + i + " 0 " + i + " c"), n.push("-" + r + " " + i + " -" + i + " " + r + " -" + i + " 0 c"), n.push("-" + i + " -" + r + " -" + r + " -" + i + " 0 -" + i + " c"), n.push(r + " -" + i + " " + i + " -" + r + " " + i + " 0 c"), n.push("f"), n.push("Q"), n.push("0 g"), n.push("q"), n.push("1 0 0 1 " + kl(Dt.internal.getWidth(t) / 2) + " " + kl(Dt.internal.getHeight(t) / 2) + " cm"), n.push(o + " 0 m"), n.push(o + " " + a + " " + a + " " + o + " 0 " + o + " c"), n.push("-" + a + " " + o + " -" + o + " " + a + " -" + o + " 0 c"), n.push("-" + o + " -" + a + " -" + a + " -" + o + " 0 -" + o + " c"), n.push(a + " -" + o + " " + o + " -" + a + " " + o + " 0 c"), n.push("f"), n.push("Q"), e.stream = n.join(`
 `), e;
 }, OffPushDown: function(t) {
   var e = fs(t);
   e.scope = t.scope;
-  var n = [], o = Bt.internal.getWidth(t) <= Bt.internal.getHeight(t) ? Bt.internal.getWidth(t) / 4 : Bt.internal.getHeight(t) / 4;
+  var n = [], o = Dt.internal.getWidth(t) <= Dt.internal.getHeight(t) ? Dt.internal.getWidth(t) / 4 : Dt.internal.getHeight(t) / 4;
   o = Number((0.9 * o).toFixed(5));
-  var i = Number((2 * o).toFixed(5)), r = Number((i * Bt.internal.Bezier_C).toFixed(5));
-  return n.push("0.749023 g"), n.push("q"), n.push("1 0 0 1 " + kl(Bt.internal.getWidth(t) / 2) + " " + kl(Bt.internal.getHeight(t) / 2) + " cm"), n.push(i + " 0 m"), n.push(i + " " + r + " " + r + " " + i + " 0 " + i + " c"), n.push("-" + r + " " + i + " -" + i + " " + r + " -" + i + " 0 c"), n.push("-" + i + " -" + r + " -" + r + " -" + i + " 0 -" + i + " c"), n.push(r + " -" + i + " " + i + " -" + r + " " + i + " 0 c"), n.push("f"), n.push("Q"), e.stream = n.join(`
+  var i = Number((2 * o).toFixed(5)), r = Number((i * Dt.internal.Bezier_C).toFixed(5));
+  return n.push("0.749023 g"), n.push("q"), n.push("1 0 0 1 " + kl(Dt.internal.getWidth(t) / 2) + " " + kl(Dt.internal.getHeight(t) / 2) + " cm"), n.push(i + " 0 m"), n.push(i + " " + r + " " + r + " " + i + " 0 " + i + " c"), n.push("-" + r + " " + i + " -" + i + " " + r + " -" + i + " 0 c"), n.push("-" + i + " -" + r + " -" + r + " -" + i + " 0 -" + i + " c"), n.push(r + " -" + i + " " + i + " -" + r + " " + i + " 0 c"), n.push("f"), n.push("Q"), e.stream = n.join(`
 `), e;
 } }, Cross: { createAppearanceStream: function(t) {
-  var e = { D: { Off: Bt.RadioButton.Cross.OffPushDown }, N: {} };
-  return e.N[t] = Bt.RadioButton.Cross.YesNormal, e.D[t] = Bt.RadioButton.Cross.YesPushDown, e;
+  var e = { D: { Off: Dt.RadioButton.Cross.OffPushDown }, N: {} };
+  return e.N[t] = Dt.RadioButton.Cross.YesNormal, e.D[t] = Dt.RadioButton.Cross.YesPushDown, e;
 }, getCA: function() {
   return "8";
 }, YesNormal: function(t) {
   var e = fs(t);
   e.scope = t.scope;
-  var n = [], o = Bt.internal.calculateCross(t);
-  return n.push("q"), n.push("1 1 " + dn(Bt.internal.getWidth(t) - 2) + " " + dn(Bt.internal.getHeight(t) - 2) + " re"), n.push("W"), n.push("n"), n.push(dn(o.x1.x) + " " + dn(o.x1.y) + " m"), n.push(dn(o.x2.x) + " " + dn(o.x2.y) + " l"), n.push(dn(o.x4.x) + " " + dn(o.x4.y) + " m"), n.push(dn(o.x3.x) + " " + dn(o.x3.y) + " l"), n.push("s"), n.push("Q"), e.stream = n.join(`
+  var n = [], o = Dt.internal.calculateCross(t);
+  return n.push("q"), n.push("1 1 " + dn(Dt.internal.getWidth(t) - 2) + " " + dn(Dt.internal.getHeight(t) - 2) + " re"), n.push("W"), n.push("n"), n.push(dn(o.x1.x) + " " + dn(o.x1.y) + " m"), n.push(dn(o.x2.x) + " " + dn(o.x2.y) + " l"), n.push(dn(o.x4.x) + " " + dn(o.x4.y) + " m"), n.push(dn(o.x3.x) + " " + dn(o.x3.y) + " l"), n.push("s"), n.push("Q"), e.stream = n.join(`
 `), e;
 }, YesPushDown: function(t) {
   var e = fs(t);
   e.scope = t.scope;
-  var n = Bt.internal.calculateCross(t), o = [];
-  return o.push("0.749023 g"), o.push("0 0 " + dn(Bt.internal.getWidth(t)) + " " + dn(Bt.internal.getHeight(t)) + " re"), o.push("f"), o.push("q"), o.push("1 1 " + dn(Bt.internal.getWidth(t) - 2) + " " + dn(Bt.internal.getHeight(t) - 2) + " re"), o.push("W"), o.push("n"), o.push(dn(n.x1.x) + " " + dn(n.x1.y) + " m"), o.push(dn(n.x2.x) + " " + dn(n.x2.y) + " l"), o.push(dn(n.x4.x) + " " + dn(n.x4.y) + " m"), o.push(dn(n.x3.x) + " " + dn(n.x3.y) + " l"), o.push("s"), o.push("Q"), e.stream = o.join(`
+  var n = Dt.internal.calculateCross(t), o = [];
+  return o.push("0.749023 g"), o.push("0 0 " + dn(Dt.internal.getWidth(t)) + " " + dn(Dt.internal.getHeight(t)) + " re"), o.push("f"), o.push("q"), o.push("1 1 " + dn(Dt.internal.getWidth(t) - 2) + " " + dn(Dt.internal.getHeight(t) - 2) + " re"), o.push("W"), o.push("n"), o.push(dn(n.x1.x) + " " + dn(n.x1.y) + " m"), o.push(dn(n.x2.x) + " " + dn(n.x2.y) + " l"), o.push(dn(n.x4.x) + " " + dn(n.x4.y) + " m"), o.push(dn(n.x3.x) + " " + dn(n.x3.y) + " l"), o.push("s"), o.push("Q"), e.stream = o.join(`
 `), e;
 }, OffPushDown: function(t) {
   var e = fs(t);
   e.scope = t.scope;
   var n = [];
-  return n.push("0.749023 g"), n.push("0 0 " + dn(Bt.internal.getWidth(t)) + " " + dn(Bt.internal.getHeight(t)) + " re"), n.push("f"), e.stream = n.join(`
+  return n.push("0.749023 g"), n.push("0 0 " + dn(Dt.internal.getWidth(t)) + " " + dn(Dt.internal.getHeight(t)) + " re"), n.push("f"), e.stream = n.join(`
 `), e;
 } } }, createDefaultAppearanceStream: function(t) {
   var e = t.scope.internal.getFont(t.fontName, t.fontStyle).id, n = t.scope.__private__.encodeColorString(t.color);
   return "/" + e + " " + t.fontSize + " Tf " + n;
 } };
-Bt.internal = { Bezier_C: 0.551915024494, calculateCross: function(t) {
-  var e = Bt.internal.getWidth(t), n = Bt.internal.getHeight(t), o = Math.min(e, n);
+Dt.internal = { Bezier_C: 0.551915024494, calculateCross: function(t) {
+  var e = Dt.internal.getWidth(t), n = Dt.internal.getHeight(t), o = Math.min(e, n);
   return { x1: { x: (e - o) / 2, y: (n - o) / 2 + o }, x2: { x: (e - o) / 2 + o, y: (n - o) / 2 }, x3: { x: (e - o) / 2, y: (n - o) / 2 }, x4: { x: (e - o) / 2 + o, y: (n - o) / 2 + o } };
-} }, Bt.internal.getWidth = function(t) {
+} }, Dt.internal.getWidth = function(t) {
   var e = 0;
   return Xn(t) === "object" && (e = by(t.Rect[2])), e;
-}, Bt.internal.getHeight = function(t) {
+}, Dt.internal.getHeight = function(t) {
   var e = 0;
   return Xn(t) === "object" && (e = by(t.Rect[3])), e;
 };
@@ -41198,7 +41198,7 @@ var _F = $o.addField = function(t) {
   var e;
   return (e = t).scope.internal.acroformPlugin.printedOut && (e.scope.internal.acroformPlugin.printedOut = !1, e.scope.internal.acroformPlugin.acroFormDictionaryRoot = null), e.scope.internal.acroformPlugin.acroFormDictionaryRoot.Fields.push(e), t.page = t.scope.internal.getCurrentPageInfo().pageNumber, this;
 };
-$o.AcroFormChoiceField = Gc, $o.AcroFormListBox = Wc, $o.AcroFormComboBox = Yc, $o.AcroFormEditBox = Sp, $o.AcroFormButton = vr, $o.AcroFormPushButton = Cp, $o.AcroFormRadioButton = Zc, $o.AcroFormCheckBox = xp, $o.AcroFormTextField = ac, $o.AcroFormPasswordField = Ip, $o.AcroFormAppearance = Bt, $o.AcroForm = { ChoiceField: Gc, ListBox: Wc, ComboBox: Yc, EditBox: Sp, Button: vr, PushButton: Cp, RadioButton: Zc, CheckBox: xp, TextField: ac, PasswordField: Ip, Appearance: Bt }, Gt.AcroForm = { ChoiceField: Gc, ListBox: Wc, ComboBox: Yc, EditBox: Sp, Button: vr, PushButton: Cp, RadioButton: Zc, CheckBox: xp, TextField: ac, PasswordField: Ip, Appearance: Bt };
+$o.AcroFormChoiceField = Gc, $o.AcroFormListBox = Wc, $o.AcroFormComboBox = Yc, $o.AcroFormEditBox = Sp, $o.AcroFormButton = vr, $o.AcroFormPushButton = Cp, $o.AcroFormRadioButton = Zc, $o.AcroFormCheckBox = xp, $o.AcroFormTextField = ac, $o.AcroFormPasswordField = Ip, $o.AcroFormAppearance = Dt, $o.AcroForm = { ChoiceField: Gc, ListBox: Wc, ComboBox: Yc, EditBox: Sp, Button: vr, PushButton: Cp, RadioButton: Zc, CheckBox: xp, TextField: ac, PasswordField: Ip, Appearance: Dt }, Gt.AcroForm = { ChoiceField: Gc, ListBox: Wc, ComboBox: Yc, EditBox: Sp, Button: vr, PushButton: Cp, RadioButton: Zc, CheckBox: xp, TextField: ac, PasswordField: Ip, Appearance: Dt };
 Gt.AcroForm;
 function nk(t) {
   return t.reduce(function(e, n, o) {
@@ -45490,7 +45490,7 @@ endobj\r
   var c = l.getContext("2d");
   c.fillStyle = "#fff", c.fillRect(0, 0, l.width, l.height);
   var u = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-BSXgfHwq.js")).catch(function(m) {
+  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-pFSBU7eD.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -46500,7 +46500,7 @@ const Ga = (t) => (Mr("data-v-cc08319f"), t = t(), Fr(), t), iD = { class: "phot
       default: xe(() => [
         k("div", iD, [
           r.value === "idle" || r.value === "loading-camera" ? (h(), S("div", aD, " Инициализация камеры… ")) : r.value === "error" ? (h(), S("div", sD, " Ошибка: " + Pe(a.value), 1)) : r.value === "uploading" ? (h(), S("div", lD, Pe(s.value || "Загрузка на сервер…"), 1)) : G("", !0),
-          Dt(k("div", cD, [
+          Bt(k("div", cD, [
             k("video", {
               ref_key: "videoEl",
               ref: l,
@@ -46512,7 +46512,7 @@ const Ga = (t) => (Mr("data-v-cc08319f"), t = t(), Fr(), t), iD = { class: "phot
           ], 512), [
             [Ii, r.value === "ready"]
           ]),
-          Dt(k("div", {
+          Bt(k("div", {
             class: "stage editor",
             ref_key: "stageEl",
             ref: c
@@ -46571,7 +46571,7 @@ const Ga = (t) => (Mr("data-v-cc08319f"), t = t(), Fr(), t), iD = { class: "phot
             }, hD),
             k("label", mD, [
               gD,
-              Dt(k("input", {
+              Bt(k("input", {
                 type: "range",
                 min: "1",
                 max: "3",
@@ -46829,7 +46829,7 @@ const Ga = (t) => (Mr("data-v-cc08319f"), t = t(), Fr(), t), iD = { class: "phot
                 ], 8, ZD)
               ])) : G("", !0)
             ], 64)) : G("", !0),
-            Dt(fe(tR, null, null, 512), [
+            Bt(fe(tR, null, null, 512), [
               [Ii, !u.value || f.value]
             ])
           ], 2)
@@ -47839,7 +47839,7 @@ var SB = function(e) {
 }, OB = ["tabindex", "disabled", "aria-pressed", "data-p-checked", "data-p-disabled"];
 function PB(t, e, n, o, i, r) {
   var a = oo("ripple");
-  return Dt((h(), S("button", P({
+  return Bt((h(), S("button", P({
     type: "button",
     class: t.cx("root"),
     tabindex: t.tabindex,
@@ -48286,7 +48286,7 @@ function $B(t, e, n, o, i, r) {
           hasSubmenu: r.getItemProp(c, "items"),
           label: r.getItemLabel(c),
           props: r.getMenuItemProps(c, u)
-        }, null, 8, ["item", "hasSubmenu", "label", "props"])) : Dt((h(), S("a", P({
+        }, null, 8, ["item", "hasSubmenu", "label", "props"])) : Bt((h(), S("a", P({
           key: 0,
           href: r.getItemProp(c, "url"),
           class: t.cx("itemLink"),
@@ -49711,7 +49711,7 @@ const Bg = {
               })
             }, null, 36)
           ], 2))), 256)),
-          w.value ? Dt((h(), S("div", {
+          w.value ? Bt((h(), S("div", {
             key: 0,
             ref_key: "dragInfoRef",
             ref: r,
@@ -51517,7 +51517,7 @@ function X$(t, e, n, o, i, r) {
         k("div", H$, [
           k("div", U$, [
             q$,
-            Dt(k("textarea", {
+            Bt(k("textarea", {
               id: "description",
               "onUpdate:modelValue": e[7] || (e[7] = (a) => i.description = a),
               class: "form-control",
@@ -51778,7 +51778,7 @@ function rz(t, e, n, o, i, r) {
         }, [
           k("div", wV, [
             kV,
-            Dt(k("input", {
+            Bt(k("input", {
               id: "fileName",
               "onUpdate:modelValue": e[2] || (e[2] = (a) => i.editData.name = a),
               type: "text",
@@ -51791,7 +51791,7 @@ function rz(t, e, n, o, i, r) {
           ]),
           k("div", CV, [
             xV,
-            Dt(k("textarea", {
+            Bt(k("textarea", {
               id: "fileDescription",
               "onUpdate:modelValue": e[3] || (e[3] = (a) => i.editData.description = a),
               class: "form-control",
@@ -51804,7 +51804,7 @@ function rz(t, e, n, o, i, r) {
           k("div", IV, [
             k("div", OV, [
               PV,
-              Dt(k("input", {
+              Bt(k("input", {
                 id: "fileRank",
                 "onUpdate:modelValue": e[4] || (e[4] = (a) => i.editData.rank = a),
                 type: "number",
@@ -51821,7 +51821,7 @@ function rz(t, e, n, o, i, r) {
             ]),
             k("div", LV, [
               AV,
-              Dt(k("select", {
+              Bt(k("select", {
                 id: "fileActive",
                 "onUpdate:modelValue": e[5] || (e[5] = (a) => i.editData.active = a),
                 class: "form-control"
@@ -51835,7 +51835,7 @@ function rz(t, e, n, o, i, r) {
             k("div", FV, [
               k("div", DV, [
                 BV,
-                Dt(k("select", {
+                Bt(k("select", {
                   id: "parentClass",
                   "onUpdate:modelValue": e[6] || (e[6] = (a) => i.editData.class = a),
                   class: "form-control",
@@ -51846,7 +51846,7 @@ function rz(t, e, n, o, i, r) {
               ]),
               i.editData.class ? (h(), S("div", jV, [
                 KV,
-                Dt(k("input", {
+                Bt(k("input", {
                   id: "parentId",
                   "onUpdate:modelValue": e[8] || (e[8] = (a) => i.editData.parent = a),
                   type: "number",
@@ -51865,7 +51865,7 @@ function rz(t, e, n, o, i, r) {
             ]),
             i.editData.class ? (h(), S("div", HV, [
               UV,
-              Dt(k("input", {
+              Bt(k("input", {
                 id: "listName",
                 "onUpdate:modelValue": e[9] || (e[9] = (a) => i.editData.list = a),
                 type: "text",
@@ -52580,7 +52580,7 @@ function YK(t, e, n, o, i, r) {
       k("div", Lj, [
         k("div", Aj, [
           Tj,
-          Dt(k("input", {
+          Bt(k("input", {
             "onUpdate:modelValue": e[2] || (e[2] = (c) => i.filters.search = c),
             onInput: e[3] || (e[3] = (...c) => i.debouncedSearch && i.debouncedSearch(...c)),
             type: "text",
@@ -52592,7 +52592,7 @@ function YK(t, e, n, o, i, r) {
         ]),
         k("div", Ej, [
           Rj,
-          Dt(k("select", {
+          Bt(k("select", {
             "onUpdate:modelValue": e[4] || (e[4] = (c) => i.filters.type = c),
             onChange: e[5] || (e[5] = (...c) => r.loadFiles && r.loadFiles(...c)),
             class: "form-control"
@@ -53091,17 +53091,17 @@ const Bb = /* @__PURE__ */ Oo(wj, [["render", YK], ["__scopeId", "data-v-b8be86b
   },
   emits: ["pvtables-menu-action"],
   setup(t, { emit: e }) {
-    const n = t, o = q([]), i = e;
-    for (let r in n.actions)
+    const n = t, o = q([]), i = e, r = (a) => typeof a == "string" && a.indexOf("danger") > -1;
+    for (let a in n.actions)
       o.value.push({
-        label: n.actions[r].label ? n.actions[r].label : "Удалить",
-        icon: n.actions[r].icon ? n.actions[r].icon : "pi pi-trash",
-        class: "flex flex-col items-center justify-between gap-2 p-2 border " + n.actions[r].class,
+        label: n.actions[a].label ? n.actions[a].label : "Удалить",
+        icon: n.actions[a].icon ? n.actions[a].icon : "pi pi-trash",
+        class: "pv-menu-item" + (r(n.actions[a].class) ? " pv-menu-item--danger" : ""),
         command: () => {
-          i("pvtables-menu-action", { action: r });
+          i("pvtables-menu-action", { action: a });
         }
       });
-    return (r, a) => (h(), Q(T(Ih), {
+    return (a, s) => (h(), Q(T(Ih), {
       model: o.value,
       class: "split-button"
     }, null, 8, ["model"]));
@@ -53458,43 +53458,43 @@ function yk({
       let K = { ...A[Ee] }, ze = !0;
       switch (Ee) {
         case "update":
-          K.action = Ee, K.hasOwnProperty("row") || (K.row = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-pencil"), K.hasOwnProperty("class") || (K.class = " p-button-success"), K.hasOwnProperty("click") || (K.click = (we) => pe(we, K));
+          K.action = Ee, K.hasOwnProperty("row") || (K.row = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-pencil"), K.hasOwnProperty("class") || (K.class = ""), K.hasOwnProperty("click") || (K.click = (we) => pe(we, K));
           break;
         case "delete":
           K.hasOwnProperty("row") || (K.row = !0), K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-trash"), K.hasOwnProperty("class") || (K.class = " p-button-danger"), K.hasOwnProperty("click") || (K.click = (we) => V(we)), K.hasOwnProperty("head_click") || (K.head_click = () => ne()), K.hasOwnProperty("label") || (K.label = "Удалить");
           break;
         case "create":
-          K.action = Ee, K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-plus"), K.hasOwnProperty("class") || (K.class = " p-button-success"), K.hasOwnProperty("head_click") || (K.head_click = () => ie(K)), K.hasOwnProperty("label") || (K.label = "Создать");
+          K.action = Ee, K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-plus"), K.hasOwnProperty("class") || (K.class = ""), K.hasOwnProperty("head_click") || (K.head_click = () => ie(K)), K.hasOwnProperty("label") || (K.label = "Создать");
           break;
         case "insert":
-          K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-plus"), K.hasOwnProperty("class") || (K.class = " p-button-success"), K.hasOwnProperty("head_click") || (K.head_click = () => X()), K.hasOwnProperty("label") || (K.label = "Вставить"), document.addEventListener("keyup", function(we) {
+          K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-plus"), K.hasOwnProperty("class") || (K.class = ""), K.hasOwnProperty("head_click") || (K.head_click = () => X()), K.hasOwnProperty("label") || (K.label = "Вставить"), document.addEventListener("keyup", function(we) {
             !we.ctrlKey || !we.shiftKey || we.code !== "KeyZ" || X();
           }, !0);
           break;
         case "insert_child":
-          K.hasOwnProperty("row") || (K.row = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-plus"), K.hasOwnProperty("class") || (K.class = " p-button-success"), K.hasOwnProperty("click") || (K.click = (we) => de(we)), K.hasOwnProperty("label") || (K.label = "Вставить");
+          K.hasOwnProperty("row") || (K.row = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-plus"), K.hasOwnProperty("class") || (K.class = ""), K.hasOwnProperty("click") || (K.click = (we) => de(we)), K.hasOwnProperty("label") || (K.label = "Вставить");
           break;
         case "copy":
-          K.hasOwnProperty("row") || (K.row = !0), K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-copy"), K.hasOwnProperty("class") || (K.class = " p-button-info"), K.hasOwnProperty("click") || (K.click = (we) => be(we, K)), K.hasOwnProperty("head_click") || (K.head_click = () => ke(K)), K.hasOwnProperty("label") || (K.label = "Копировать");
+          K.hasOwnProperty("row") || (K.row = !0), K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-copy"), K.hasOwnProperty("class") || (K.class = ""), K.hasOwnProperty("click") || (K.click = (we) => be(we, K)), K.hasOwnProperty("head_click") || (K.head_click = () => ke(K)), K.hasOwnProperty("label") || (K.label = "Копировать");
           break;
         case "subtables":
           ze = !1;
           for (let we in A[Ee]) {
             let le = { action: Ee, ...A[Ee][we] };
-            le.table = we, le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-angle-right"), le.hasOwnProperty("class") || (le.class = " p-button-success"), le.hasOwnProperty("click") || (le.click = (Ce) => D(Ce, le)), Re = !0, Ae.push(le);
+            le.table = we, le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-angle-right"), le.hasOwnProperty("class") || (le.class = ""), le.hasOwnProperty("click") || (le.click = (Ce) => D(Ce, le)), Re = !0, Ae.push(le);
           }
           break;
         case "subtabs":
           ze = !1;
           for (let we in A[Ee]) {
             let le = { action: Ee, tabs: { ...A[Ee][we] } };
-            le.table = we, le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-angle-right"), le.hasOwnProperty("class") || (le.class = " p-button-success"), le.hasOwnProperty("click") || (le.click = (Ce) => D(Ce, le)), Re = !0, Ae.push(le);
+            le.table = we, le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-angle-right"), le.hasOwnProperty("class") || (le.class = ""), le.hasOwnProperty("click") || (le.click = (Ce) => D(Ce, le)), Re = !0, Ae.push(le);
           }
           break;
         case "read":
           break;
         case "excel_export":
-          K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-file-excel"), K.hasOwnProperty("class") || (K.class = " p-button-success"), K.hasOwnProperty("head_click") || (K.head_click = () => he()), K.hasOwnProperty("label") || (K.label = "Excel");
+          K.hasOwnProperty("head") || (K.head = !0), K.hasOwnProperty("icon") || (K.icon = "pi pi-file-excel"), K.hasOwnProperty("class") || (K.class = " p-button-secondary"), K.hasOwnProperty("head_click") || (K.head_click = () => he()), K.hasOwnProperty("label") || (K.label = "Excel");
           break;
         case "print":
           ze = !1;
@@ -53505,7 +53505,7 @@ function yk({
           K.row = !0, K.isRowPrint = !0, K.printAction = K.action || "print";
           break;
         default:
-          K.hasOwnProperty("class") || (K.class = " p-button-success"), K.head_click || K.click || (K.head && (K.head_click = () => ce(K)), K.row && (K.click = (we) => Le(we, K)));
+          K.hasOwnProperty("class") || (K.class = ""), K.head_click || K.click || (K.head && (K.head_click = () => ce(K)), K.row && (K.click = (we) => Le(we, K)));
       }
       K.action || (K.action = Ee), K.hasOwnProperty("menu") && K.menu == 1 && (st = !0, N[Ee] = K), K.template_row && (K.compiledTemplate = te(K.template_row)), ze && (K.hasOwnProperty("row") && (Re = !0), Ae.push(K));
     }
@@ -55017,9 +55017,10 @@ const rH = {
         ], 64))), 128))
       ]),
       end: xe(() => [
-        Dt(fe(T(dt), {
+        Bt(fe(T(dt), {
           icon: "pi pi-undo",
           disabled: !t.canUndo,
+          class: "tan-tool-btn",
           onClick: r[2] || (r[2] = (a) => o("undo"))
         }, null, 8, ["disabled"]), [
           [
@@ -55029,10 +55030,11 @@ const rH = {
             { bottom: !0 }
           ]
         ]),
-        Dt(fe(T(dt), {
+        Bt(fe(T(dt), {
           icon: "pi pi-undo",
           style: { transform: "scaleX(-1)" },
           disabled: !t.canRedo,
+          class: "tan-tool-btn",
           onClick: r[3] || (r[3] = (a) => o("redo"))
         }, null, 8, ["disabled"]), [
           [
@@ -55042,11 +55044,11 @@ const rH = {
             { bottom: !0 }
           ]
         ]),
-        Dt(fe(T(dt), {
+        Bt(fe(T(dt), {
           icon: "pi pi-check-square",
-          class: Ke(t.cellSelectionMode ? "p-button-info" : "p-button-secondary"),
+          severity: t.cellSelectionMode ? void 0 : "secondary",
           onClick: r[4] || (r[4] = (a) => o("toggle-cell-selection"))
-        }, null, 8, ["class"]), [
+        }, null, 8, ["severity"]), [
           [
             T(n),
             "Выделение ячеек (Ctrl+Shift+S)",
@@ -55054,9 +55056,8 @@ const rH = {
             { bottom: !0 }
           ]
         ]),
-        Dt(fe(T(dt), {
+        Bt(fe(T(dt), {
           icon: "pi pi-refresh",
-          class: "p-button-success",
           onClick: r[5] || (r[5] = (a) => o("refresh"))
         }, null, 512), [
           [
@@ -55066,8 +55067,9 @@ const rH = {
             { bottom: !0 }
           ]
         ]),
-        Dt(fe(T(dt), {
+        Bt(fe(T(dt), {
           icon: "pi pi-filter-slash",
+          class: "tan-tool-btn",
           onClick: r[6] || (r[6] = (a) => o("clear"))
         }, null, 512), [
           [
@@ -55077,8 +55079,9 @@ const rH = {
             { bottom: !0 }
           ]
         ]),
-        Dt(fe(T(dt), {
+        Bt(fe(T(dt), {
           icon: "pi pi-cog",
+          class: "tan-tool-btn",
           onClick: r[7] || (r[7] = (a) => o("settings", a))
         }, null, 512), [
           [
@@ -55088,9 +55091,10 @@ const rH = {
             { bottom: !0 }
           ]
         ]),
-        t.showMobileSwitch ? Dt((h(), Q(T(dt), {
+        t.showMobileSwitch ? Bt((h(), Q(T(dt), {
           key: 0,
           icon: "pi pi-mobile",
+          class: "tan-tool-btn",
           onClick: r[8] || (r[8] = (a) => o("switch-mobile"))
         }, null, 512)), [
           [
@@ -55099,24 +55103,12 @@ const rH = {
             void 0,
             { bottom: !0 }
           ]
-        ]) : G("", !0),
-        Dt(fe(T(dt), {
-          icon: "pi pi-th-large",
-          class: "p-button-info",
-          onClick: r[9] || (r[9] = (a) => o("switch-engine"))
-        }, null, 512), [
-          [
-            T(n),
-            "Движок: TanStack Table — нажать для PrimeVue",
-            void 0,
-            { bottom: !0 }
-          ]
-        ])
+        ]) : G("", !0)
       ]),
       _: 1
     }));
   }
-}, aH = /* @__PURE__ */ Oo(iH, [["__scopeId", "data-v-040d0a9a"]]), sH = { class: "tan-paginator" }, lH = { class: "tan-pag-rpp" }, cH = /* @__PURE__ */ k("span", { class: "tan-pag-rpp-label" }, "Строк:", -1), uH = ["value"], dH = ["value"], fH = { class: "tan-pag-nav" }, pH = ["disabled"], hH = /* @__PURE__ */ k("i", { class: "pi pi-angle-double-left" }, null, -1), mH = [
+}, aH = /* @__PURE__ */ Oo(iH, [["__scopeId", "data-v-7a24c065"]]), sH = { class: "tan-paginator" }, lH = { class: "tan-pag-rpp" }, cH = /* @__PURE__ */ k("span", { class: "tan-pag-rpp-label" }, "Строк:", -1), uH = ["value"], dH = ["value"], fH = { class: "tan-pag-nav" }, pH = ["disabled"], hH = /* @__PURE__ */ k("i", { class: "pi pi-angle-double-left" }, null, -1), mH = [
   hH
 ], gH = ["disabled"], bH = /* @__PURE__ */ k("i", { class: "pi pi-angle-left" }, null, -1), vH = [
   bH
@@ -58004,7 +57996,7 @@ const VU = { style: { padding: "1rem", "min-width": "300px", display: "flex", "f
                   title: "Уменьшить",
                   onClick: ge[40] || (ge[40] = (Oe) => jr.value = Math.max(0.1, jr.value - 0.25))
                 }, aG),
-                Dt(k("input", {
+                Bt(k("input", {
                   type: "range",
                   min: "0.1",
                   max: "5",
@@ -58392,7 +58384,7 @@ function SG(t, e, n, o, i, r) {
     item: n.item,
     label: r.label(),
     props: r.getMenuItemProps(n.item)
-  }, null, 8, ["item", "label", "props"])) : G("", !0) : Dt((h(), S("a", P({
+  }, null, 8, ["item", "label", "props"])) : G("", !0) : Bt((h(), S("a", P({
     key: 0,
     href: n.item.url,
     class: t.cx("itemLink"),
@@ -59108,7 +59100,7 @@ function BG(t, e, n, o, i, r) {
         appear: ""
       }, t.ptm("transition")), {
         default: xe(function() {
-          return [t.visible ? Dt((h(), S("div", P({
+          return [t.visible ? Bt((h(), S("div", P({
             key: 0,
             ref: r.containerRef,
             class: t.cx("root"),
@@ -59234,7 +59226,7 @@ function zG(t, e, n, o, i, r) {
     name: "p-toggleable-content"
   }, t.ptm("transition", r.ptParams)), {
     default: xe(function() {
-      return [!r.$pcAccordion.lazy || r.$pcAccordionPanel.active ? Dt((h(), Q(Je(t.as), P({
+      return [!r.$pcAccordion.lazy || r.$pcAccordionPanel.active ? Bt((h(), Q(Je(t.as), P({
         key: 0,
         class: t.cx("root")
       }, r.attrs), {
@@ -59408,7 +59400,7 @@ function UG(t, e, n, o, i, r) {
     active: r.$pcAccordionPanel.active,
     a11yAttrs: r.a11yAttrs,
     onClick: r.onClick
-  }) : Dt((h(), Q(Je(t.as), P({
+  }) : Bt((h(), Q(Je(t.as), P({
     key: 0,
     class: t.cx("root"),
     onClick: r.onClick
@@ -65439,26 +65431,26 @@ const Yp = (function() {
           let le = { ...ze[we] }, Ce = !0;
           switch (le.action = we, we) {
             case "update":
-              le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-pencil"), le.hasOwnProperty("class") || (le.class = " p-button-success"), le.hasOwnProperty("click") || (le.click = (De) => he(De));
+              le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-pencil"), le.hasOwnProperty("class") || (le.class = ""), le.hasOwnProperty("click") || (le.click = (De) => he(De));
               break;
             case "delete":
               le.hasOwnProperty("row") || (le.row = !0), le.hasOwnProperty("head") || (le.head = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-trash"), le.hasOwnProperty("class") || (le.class = " p-button-danger"), le.hasOwnProperty("click") || (le.click = (De) => Z(De)), le.hasOwnProperty("head_click") || (le.head_click = () => V()), le.hasOwnProperty("label") || (le.label = "Удалить");
               break;
             case "create":
-              le.hasOwnProperty("head") || (le.head = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-plus"), le.hasOwnProperty("class") || (le.class = " p-button-success"), le.hasOwnProperty("head_click") || (le.head_click = () => ke()), le.hasOwnProperty("label") || (le.label = "Создать");
+              le.hasOwnProperty("head") || (le.head = !0), le.hasOwnProperty("icon") || (le.icon = "pi pi-plus"), le.hasOwnProperty("class") || (le.class = ""), le.hasOwnProperty("head_click") || (le.head_click = () => ke()), le.hasOwnProperty("label") || (le.label = "Создать");
               break;
             case "subtables":
               Ce = !1;
               for (let De in ze[we]) {
                 let We = { action: we, ...ze[we][De] };
-                We.table = De, We.hasOwnProperty("row") || (We.row = !0), We.hasOwnProperty("icon") || (We.icon = "pi pi-angle-right"), We.hasOwnProperty("class") || (We.class = " p-button-success"), We.hasOwnProperty("click") || (We.click = (lt) => Y(lt, We)), w.value = !0, g.value.push(We);
+                We.table = De, We.hasOwnProperty("row") || (We.row = !0), We.hasOwnProperty("icon") || (We.icon = "pi pi-angle-right"), We.hasOwnProperty("class") || (We.class = " p-button-secondary"), We.hasOwnProperty("click") || (We.click = (lt) => Y(lt, We)), w.value = !0, g.value.push(We);
               }
               break;
             case "subtabs":
               Ce = !1;
               for (let De in ze[we]) {
                 let We = { action: we, tabs: { ...ze[we][De] } };
-                We.table = De, We.hasOwnProperty("row") || (We.row = !0), We.hasOwnProperty("icon") || (We.icon = "pi pi-angle-right"), We.hasOwnProperty("class") || (We.class = " p-button-success"), We.hasOwnProperty("click") || (We.click = (lt) => Y(lt, We)), w.value = !0, g.value.push(We);
+                We.table = De, We.hasOwnProperty("row") || (We.row = !0), We.hasOwnProperty("icon") || (We.icon = "pi pi-angle-right"), We.hasOwnProperty("class") || (We.class = " p-button-secondary"), We.hasOwnProperty("click") || (We.click = (lt) => Y(lt, We)), w.value = !0, g.value.push(We);
               }
               break;
           }
@@ -66906,7 +66898,7 @@ const TX = { name: "UniTree2NodeMenu" }, Zg = /* @__PURE__ */ Object.assign(TX, 
           ref: d
         }, [
           a.value ? (h(), S("div", RX, "Загрузка…")) : c.value.length ? G("", !0) : (h(), S("div", _X, Pe(x.value ? "Ничего не найдено" : "Пусто"), 1)),
-          Dt(fe(T(Rb), {
+          Bt(fe(T(Rb), {
             modelValue: c.value,
             "onUpdate:modelValue": Ce[7] || (Ce[7] = (De) => c.value = De),
             ref_key: "slVueTree",
@@ -67164,7 +67156,7 @@ const TX = { name: "UniTree2NodeMenu" }, Zg = /* @__PURE__ */ Object.assign(TX, 
             })) : G("", !0)
           ])) : G("", !0),
           k("div", jX, [
-            (h(!0), S(Ve, null, St(a.value, (_) => Dt((h(), S("div", {
+            (h(!0), S(Ve, null, St(a.value, (_) => Bt((h(), S("div", {
               key: _,
               class: "utp2__tabpane"
             }, [
@@ -67767,7 +67759,7 @@ function fQ(t, e, n, o, i, r) {
       hasSubmenu: r.getItemProp(l, "items"),
       label: r.getItemLabel(l),
       props: r.getMenuItemProps(l, c)
-    }, null, 8, ["item", "root", "hasSubmenu", "label", "props"])) : Dt((h(), S("a", P({
+    }, null, 8, ["item", "root", "hasSubmenu", "label", "props"])) : Bt((h(), S("a", P({
       key: 0,
       href: r.getItemProp(l, "url"),
       class: t.cx("itemLink"),
@@ -68789,7 +68781,7 @@ function OQ(t, e, n, o, i, r) {
       hasSubmenu: r.isItemGroup(l),
       label: r.getItemLabel(l),
       props: r.getMenuItemProps(l, c)
-    }, null, 8, ["item", "active", "hasSubmenu", "label", "props"])) : Dt((h(), S("a", P({
+    }, null, 8, ["item", "active", "hasSubmenu", "label", "props"])) : Bt((h(), S("a", P({
       key: 0,
       href: r.getItemProp(l, "url"),
       class: t.cx("itemLink"),
@@ -68824,7 +68816,7 @@ function OQ(t, e, n, o, i, r) {
       ref_for: !0
     }, t.ptm("transition")), {
       default: xe(function() {
-        return [Dt(k("div", P({
+        return [Bt(k("div", P({
           class: t.cx("contentContainer"),
           ref_for: !0
         }, t.ptm("contentContainer")), [r.isItemVisible(l) && r.isItemGroup(l) ? (h(), Q(a, P({
@@ -69547,7 +69539,7 @@ function zQ(t, e, n, o, i, r) {
       ref_for: !0
     }, t.ptm("transition")), {
       default: xe(function() {
-        return [Dt(k("div", P({
+        return [Bt(k("div", P({
           id: r.getContentId(l),
           class: t.cx("contentContainer"),
           role: "region",
@@ -75986,7 +75978,7 @@ function lne(t, e, n, o, i, r) {
       toggleCallback: function(f) {
         return r.onItemClick(f, l);
       }
-    }, null, 8, ["item", "onClick", "toggleCallback"])) : Dt((h(), Q(a, P({
+    }, null, 8, ["item", "onClick", "toggleCallback"])) : Bt((h(), Q(a, P({
       key: 0,
       tabindex: -1,
       role: "menuitem",
@@ -76285,7 +76277,7 @@ function wne(t, e, n, o, i, r) {
     name: "p-toggleable-content"
   }, t.ptm("transition")), {
     default: xe(function() {
-      return [Dt(k("div", P({
+      return [Bt(k("div", P({
         id: i.id + "_content",
         class: t.cx("contentContainer"),
         role: "region",
@@ -76634,7 +76626,10 @@ const One = {
   components: {
     button: {
       root: {
-        borderRadius: "var(--gts-radius)",
+        // Кнопки скруглены отдельным токеном: в макете расчёта у них
+        // было 10 px против 8 у полей ввода, и на глаз это заметно.
+        // По умолчанию токен падает на общий --gts-radius.
+        borderRadius: "var(--gts-radius-btn, var(--gts-radius))",
         paddingX: "var(--gts-control-pad-x)",
         label: { fontWeight: "var(--gts-weight-med)" }
       },

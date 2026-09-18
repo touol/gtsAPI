@@ -23,3 +23,5 @@ $_lang['gtsapi_theme_teal'] = 'Тил'; //
 $_lang['gtsapi_theme_graphite'] = 'Графит'; //
 $_lang['gtsapi_theme_forest'] = 'Зелёная'; //
 $_lang['gtsapi_theme_emerald'] = 'Изумруд'; //
+$_lang['gtsapi_theme_aura'] = 'Aura'; //
+$_lang['gtsapi_theme_aura-soft'] = 'Aura мягкая'; //

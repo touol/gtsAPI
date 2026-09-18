@@ -37,7 +37,7 @@ return [
     // Личный выбор пользователя (localStorage) эту настройку перекрывает.
     'theme_default' => [
         'xtype' => 'textfield',
-        'value' => 'corporate',
+        'value' => 'aura-soft',
         'area' => 'gtsapi_main',
     ],
     // Схема по умолчанию: auto | light | dark.

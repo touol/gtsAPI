@@ -233,6 +233,12 @@
 
   /* Заблокированное поле. Отдельно от --gts-ink-3: «нельзя трогать» и
      «второстепенное» — разные вещи, и в таблице их путать нельзя. */
+  /* Обводка чекбокса — не обычная линия: коробка 2 px должна читаться
+     на светлом фоне формы, поэтому цвет заметно темнее линий таблицы.
+     В макете расчёта тут стоял почти чёрный #333. Тема задаёт свой тон
+     парой --_cbBorder, по умолчанию берётся вторичный текст. */
+  --gts-checkbox-border: var(--_cbBorder-l, var(--_ink2-l));
+
   --gts-disabled-bg:   #EDEFF2;
   --gts-disabled-ink:  #A5AEBA;
   --gts-disabled-line: #D8DDE4;
@@ -278,6 +284,27 @@
 
   --gts-side-bg:  var(--_sideBg-l);
   --gts-side-ink: var(--_sideInk-l);
+
+  /* Круглая кнопка на краю боковой панели. Наведение у неё исторически
+     синее — так было в исходном макете (hover:bg-blue-500), и это
+     осознанное исключение: сама кнопка в тон панели, а синий нужен, чтобы
+     реакция читалась и на светлой панели, и на тёмной. Через отдельный
+     токен, а не через --gts-info: тот описывает смысл «информация»
+     и не обязан быть ярким. */
+  --gts-side-fab-hover: var(--_sideFab-l, #3B82F6);
+
+  /* Верхняя строка (шапка с меню). По умолчанию это ПОВЕРХНОСТЬ, а не акцент:
+     так устроены менюбары PrimeVue, и так строка не спорит с таблицей за
+     внимание — цветная полоса во всю ширину перетягивает взгляд на себя,
+     а нажимают в ней редко.
+
+     Пары --_navBg / --_navInk не объявлены ни в нейтральной теме, ни в
+     большинстве файлов тем — и это намеренно: var() берёт запасное значение,
+     то есть поверхность. Тема, которой нужна цветная шапка, объявляет пару
+     у себя (например --_navBg-l: #2B5CE6) и ничего больше не трогает. */
+  --gts-nav-bg:     var(--_navBg-l,  var(--_surface-l));
+  --gts-nav-ink:    var(--_navInk-l, var(--_ink-l));
+  --gts-nav-active: var(--_navActive-l, var(--_accent-l));
 }
 
 /* --- тёмная: значения одни, применяются из двух мест ---------------------
@@ -317,6 +344,8 @@
 
     --gts-link:       var(--_accent-d);
     --gts-link-hover: var(--_hover-d);
+
+    --gts-checkbox-border: var(--_cbBorder-d, var(--_ink2-d));
 
     --gts-disabled-bg:   #1F2733;
     --gts-disabled-ink:  #5C6675;
@@ -359,6 +388,11 @@
 
     --gts-side-bg:  var(--_sideBg-d);
     --gts-side-ink: var(--_sideInk-d);
+    --gts-side-fab-hover: var(--_sideFab-d, #60A5FA);
+
+    --gts-nav-bg:     var(--_navBg-d,  var(--_surface-d));
+    --gts-nav-ink:    var(--_navInk-d, var(--_ink-d));
+    --gts-nav-active: var(--_navActive-d, var(--_accent-d));
   }
 }
 
@@ -388,6 +422,8 @@
 
   --gts-link:       var(--_accent-d);
   --gts-link-hover: var(--_hover-d);
+
+  --gts-checkbox-border: var(--_cbBorder-d, var(--_ink2-d));
 
   --gts-disabled-bg:   #1F2733;
   --gts-disabled-ink:  #5C6675;
@@ -434,4 +470,9 @@
 
   --gts-side-bg:  var(--_sideBg-d);
   --gts-side-ink: var(--_sideInk-d);
+  --gts-side-fab-hover: var(--_sideFab-d, #60A5FA);
+
+  --gts-nav-bg:     var(--_navBg-d,  var(--_surface-d));
+  --gts-nav-ink:    var(--_navInk-d, var(--_ink-d));
+  --gts-nav-active: var(--_navActive-d, var(--_accent-d));
 }
