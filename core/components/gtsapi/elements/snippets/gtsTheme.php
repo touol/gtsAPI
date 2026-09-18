@@ -349,7 +349,13 @@ $modx->regClientHTMLBlock(
     // Сбрасывать нечего, пока в localStorage пусто: гасим пункт, а не прячем,
     // чтобы меню не прыгало по высоте при каждом переключении.
     var reset = root.querySelector("[data-gts-reset]");
-    if (reset) reset.disabled = !stored();
+    // Активен, когда есть что сбрасывать: либо в localStorage лежит выбор,
+    // либо текущая тема/схема разошлась с настройками сайта — так бывает
+    // после смены умолчания на сервере: личный выбор остался прежним,
+    // а «как на сайте» уже другое.
+    if (reset) reset.disabled = !(stored()
+      || st.theme  !== st.defaults.theme
+      || st.scheme !== st.defaults.scheme);
   }
 
   function stored() {
