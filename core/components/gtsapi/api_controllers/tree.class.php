@@ -233,6 +233,7 @@ class treeAPIController{
             'makeUrl'=>$rule['properties']['makeUrl']?$rule['properties']['makeUrl']:0,
             'level'=>$rule['properties']['level']?$rule['properties']['level']:0,
             'activeField'=>$rule['properties']['activeField']?$rule['properties']['activeField']:'active',
+            'nodeSort'=>!empty($rule['properties']['nodeSort'])?$rule['properties']['nodeSort']:[],
         ];
         if(!$rule['properties']['useUniTree'] and $rule['properties']['extendedModResource']){
             $slTreeSettings['titleField'] = $rule['properties']['titleField']?$rule['properties']['titleField']:'pagetitle';
@@ -544,11 +545,14 @@ class treeAPIController{
         $resp = $this->read($rule,$request,$action);
         if(!$resp['success']) return $resp;
         if(empty($rule['properties']['nodeclick'])) $rule['properties']['nodeclick'] = [];
+        $slTreeSettings = $this->get_slTreeSettings($rule);
         return $this->success('options',[
             'actions'=>$actions,
             'nodeclick'=>$rule['properties']['nodeclick'],
             'fields'=>$fields,
             'gtsAPIUniTreeClass'=>$rule['gtsAPIUniTreeClass'],
+            // порядок детей узла — клиент зеркалит его при локальных вставках узлов
+            'nodeSort'=>$slTreeSettings['nodeSort'],
             // 'useUniTree'=>$rule['properties']['useUniTree']?$rule['properties']['useUniTree']:false,
             'out'=>$resp['data'],
         ]);
@@ -713,20 +717,74 @@ class treeAPIController{
         // }
         return $tree;
     }
+    /**
+     * Порядок детей одного узла.
+     * По умолчанию — папки (isLeaf=false) выше листьев, внутри группы — по menuindex, потом по id.
+     * Настраивается свойством nodeSort в properties таблицы-дерева:
+     *   nodeSort: {
+     *       foldersFirst: true,                  // папки выше листьев (дефолт true)
+     *       default: ['menuindex','id'],         // порядок по умолчанию
+     *       classes: { osEmployee: ['title'] },  // порядок для узлов конкретного класса
+     *   }
+     * Префикс '-' у имени поля — по убыванию: ['-menuindex'].
+     * Правило из classes берётся, только когда оба сравниваемые узла одного класса,
+     * иначе (разные классы в одном узле) — default.
+     */
+    public function sortTreeChildren(&$children, $nodeSort = []){
+        $foldersFirst = isset($nodeSort['foldersFirst']) ? (bool)$nodeSort['foldersFirst'] : true;
+        $default = !empty($nodeSort['default']) ? (array)$nodeSort['default'] : ['menuindex','id'];
+        $classes = !empty($nodeSort['classes']) ? (array)$nodeSort['classes'] : [];
+        $ctrl = $this;
+        usort($children, function ($a, $b) use ($foldersFirst, $default, $classes, $ctrl) {
+            if($foldersFirst){
+                $aLeaf = !empty($a['isLeaf']) ? 1 : 0;
+                $bLeaf = !empty($b['isLeaf']) ? 1 : 0;
+                if ($aLeaf !== $bLeaf) return $aLeaf - $bLeaf;
+            }
+            $fields = $default;
+            $aClass = isset($a['class']) ? (string)$a['class'] : '';
+            $bClass = isset($b['class']) ? (string)$b['class'] : '';
+            if($aClass !== '' and $aClass === $bClass and !empty($classes[$aClass])){
+                $fields = (array)$classes[$aClass];
+            }
+            foreach($fields as $field){
+                $dir = 1;
+                if(substr($field,0,1) === '-'){
+                    $dir = -1;
+                    $field = substr($field,1);
+                }
+                $cmp = $ctrl->compareNodeField($a,$b,$field);
+                if($cmp !== 0) return $dir * $cmp;
+            }
+            return ((int)($a['id'] ?? 0)) - ((int)($b['id'] ?? 0));
+        });
+    }
+    /**
+     * Сравнение двух узлов по одному полю: числа — числами, текст — без учёта регистра
+     * и с натуральным порядком чисел внутри строки ('Цех 2' раньше 'Цех 10').
+     */
+    public function compareNodeField($a, $b, $field){
+        $av = isset($a[$field]) ? $a[$field] : null;
+        $bv = isset($b[$field]) ? $b[$field] : null;
+        if(is_numeric($av) and is_numeric($bv)){
+            if((float)$av == (float)$bv) return 0;
+            return (float)$av < (float)$bv ? -1 : 1;
+        }
+        return strnatcmp($this->nodeSortKey($av),$this->nodeSortKey($bv));
+    }
+    /**
+     * Ключ сортировки текста: нижний регистр + «ё» → «е».
+     * Без замены «ё» уезжает за «я»: в UTF-8 её код (U+0451) выше всего алфавита.
+     */
+    public function nodeSortKey($v){
+        $v = function_exists('mb_strtolower') ? mb_strtolower((string)$v,'UTF-8') : strtolower((string)$v);
+        return str_replace('ё','е',$v);
+    }
     public function prepareTree($node0,$slTreeSettings = []){
         $node = [];
         if(!empty($node0['children'])){
             $children = $node0['children'];
-            // Сначала папки (isLeaf=false), затем листья (isLeaf=true). Внутри группы — по menuindex, потом по id.
-            usort($children, function ($a, $b) {
-                $aLeaf = !empty($a['isLeaf']) ? 1 : 0;
-                $bLeaf = !empty($b['isLeaf']) ? 1 : 0;
-                if ($aLeaf !== $bLeaf) return $aLeaf - $bLeaf;
-                $am = (int)($a['menuindex'] ?? 0);
-                $bm = (int)($b['menuindex'] ?? 0);
-                if ($am !== $bm) return $am - $bm;
-                return ((int)($a['id'] ?? 0)) - ((int)($b['id'] ?? 0));
-            });
+            $this->sortTreeChildren($children, !empty($slTreeSettings['nodeSort']) ? $slTreeSettings['nodeSort'] : []);
             unset($node0['children']);
         }
         
