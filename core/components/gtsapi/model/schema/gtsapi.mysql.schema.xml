@@ -163,6 +163,24 @@
         <field key="group_field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
         <field key="field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
 
+        <!--
+            Переопределения показа для ЭТОЙ группы. Само поле (gsParam, gtsAPIField)
+            несёт свои rank и флаги, но они одни на весь проект, а одно и то же поле
+            в разных таблицах ведёт себя по-разному: «Базовая цена» у изделий лежит
+            в модалке строки, а у товаров это видимая колонка, и порядок колонок свой.
+            Пусто (NULL) — берём как у поля, иначе связка перебивает.
+        -->
+        <!-- Выключить поле в этой группе, не теряя rank и флаги: снять галочку
+             проще, чем удалить связку и набивать её заново. -->
+        <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="1"/>
+        <!-- После какой колонки встать. Позицию поля задаёт именно это,
+             а rank лишь упорядочивает поля с одинаковым after_field. -->
+        <field key="after_field" dbtype="varchar" precision="191" phptype="string" null="true"/>
+        <field key="rank" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true"/>
+        <field key="modal_only" dbtype="tinyint" precision="1" phptype="boolean" null="true"/>
+        <field key="table_only" dbtype="tinyint" precision="1" phptype="boolean" null="true"/>
+        <field key="internal_only" dbtype="tinyint" precision="1" phptype="boolean" null="true"/>
+
         <index alias="group_field_id" name="group_field_id" primary="false" unique="false" type="BTREE">
             <column key="group_field_id" length="" collation="A" null="false"/>
         </index>
@@ -175,6 +193,18 @@
     <object class="gtsAPIFieldGroupLink" table="gtsapi_field_group_links" extends="xPDOSimpleObject">
         <field key="group_field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
         <field key="field_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+
+        <!-- Переопределения показа для этой группы — см. gtsAPIFieldShopGroupLink. -->
+        <!-- Выключить поле в этой группе, не теряя rank и флаги: снять галочку
+             проще, чем удалить связку и набивать её заново. -->
+        <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="1"/>
+        <!-- После какой колонки встать. Позицию поля задаёт именно это,
+             а rank лишь упорядочивает поля с одинаковым after_field. -->
+        <field key="after_field" dbtype="varchar" precision="191" phptype="string" null="true"/>
+        <field key="rank" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true"/>
+        <field key="modal_only" dbtype="tinyint" precision="1" phptype="boolean" null="true"/>
+        <field key="table_only" dbtype="tinyint" precision="1" phptype="boolean" null="true"/>
+        <field key="internal_only" dbtype="tinyint" precision="1" phptype="boolean" null="true"/>
 
         <index alias="group_field_id" name="group_field_id" primary="false" unique="false" type="BTREE">
             <column key="group_field_id" length="" collation="A" null="false"/>

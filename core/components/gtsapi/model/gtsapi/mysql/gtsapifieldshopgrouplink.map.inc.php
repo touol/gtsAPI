@@ -12,6 +12,12 @@ $xpdo_meta_map['gtsAPIFieldShopGroupLink']= array (
   array (
     'group_field_id' => 0,
     'field_id' => 0,
+    'active' => 1,
+    'after_field' => NULL,
+    'rank' => NULL,
+    'modal_only' => NULL,
+    'table_only' => NULL,
+    'internal_only' => NULL,
   ),
   'fieldMeta' => 
   array (
@@ -32,6 +38,50 @@ $xpdo_meta_map['gtsAPIFieldShopGroupLink']= array (
       'phptype' => 'integer',
       'null' => true,
       'default' => 0,
+    ),
+    'active' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+      'default' => 1,
+    ),
+    'after_field' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '191',
+      'phptype' => 'string',
+      'null' => true,
+    ),
+    'rank' => 
+    array (
+      'dbtype' => 'int',
+      'precision' => '10',
+      'attributes' => 'unsigned',
+      'phptype' => 'integer',
+      'null' => true,
+    ),
+    'modal_only' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+    ),
+    'table_only' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+    ),
+    'internal_only' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
     ),
   ),
   'indexes' => 

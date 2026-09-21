@@ -68,18 +68,51 @@ trait TableFieldsTrait
                             'where' => [
                                 $gtsAPIFieldGroup->link_group_table . '.group_field_id' => $gtsAPIFieldGroup->id
                             ],
+                            // Порядок задаёт связка, а не само поле: в разных
+                            // таблицах колонки идут по-разному. Не задан — падаем
+                            // на rank поля, как было раньше.
                             'sortby' => [
+                                $gtsAPIFieldGroup->link_group_table . '.rank' => 'ASC',
                                 $gtsAPIFieldGroup->from_table . '.rank' => 'ASC'
                             ],
                             'select' => [
-                                $gtsAPIFieldGroup->from_table => '*'
+                                $gtsAPIFieldGroup->from_table => '*',
+                                // Под своими именами, иначе перетрут одноимённые
+                                // колонки поля ещё до того, как мы их сравним.
+                                $gtsAPIFieldGroup->link_group_table => implode(',', [
+                                    $gtsAPIFieldGroup->link_group_table . '.active as link_active',
+                                    $gtsAPIFieldGroup->link_group_table . '.after_field as link_after_field',
+                                    $gtsAPIFieldGroup->link_group_table . '.rank as link_rank',
+                                    $gtsAPIFieldGroup->link_group_table . '.modal_only as link_modal_only',
+                                    $gtsAPIFieldGroup->link_group_table . '.table_only as link_table_only',
+                                    $gtsAPIFieldGroup->link_group_table . '.internal_only as link_internal_only',
+                                ]),
                             ],
                             'return' => 'data',
                             'limit' => 0
                         ]);
                         $rows = $this->pdo->run();
-                        
+
                         foreach ($rows as $row) {
+                            // Связка выключена — поле в этой группе не отдаём.
+                            // Снятая галочка вместо удаления связки: rank и флаги
+                            // остаются, включить обратно можно не набивая заново.
+                            if (array_key_exists('link_active', $row)
+                                && $row['link_active'] !== null
+                                && !$row['link_active']) {
+                                continue;
+                            }
+                            unset($row['link_active']);
+                            // Переопределения связки поверх свойств поля.
+                            // NULL — значения нет, берём как у поля; 0 это значение.
+                            foreach (['after_field', 'rank', 'modal_only', 'table_only', 'internal_only'] as $ovr) {
+                                if (array_key_exists('link_' . $ovr, $row)
+                                    && $row['link_' . $ovr] !== null
+                                    && $row['link_' . $ovr] !== '') {
+                                    $row[$ovr] = $row['link_' . $ovr];
+                                }
+                                unset($row['link_' . $ovr]);
+                            }
                             $addFields[$row['name']] = $row;
                             if ($gtsAPIFieldTable->only_text) {
                                 $addFields[$row['name']]['field_type'] = 'text';
@@ -351,6 +384,32 @@ trait TableFieldsTrait
     {
         $selects = [];
         foreach ($fields as $field => $v) {
+            // Варианты из справочника опций ПАРАМЕТРА: select_from_param => 'pay_form'.
+            //
+            // Нужно там, где одно и то же перечисление встречается у поля-параметра
+            // и у поля обычной таблицы: форма расчёта есть и у позиции расчёта,
+            // и у строки расходов, и у счёта. Раньше список приходилось копировать
+            // в конфиг каждой таблицы, и добавление четвёртой формы расчёта
+            // означало правку в трёх местах, про два из которых забудут.
+            //
+            // Значение — НАЗВАНИЕ опции («ндс»), а не её id: именно так оно лежит
+            // в gsRaschetProduct.pay_form, и формулы сравнивают названия.
+            if (!empty($v['select_from_param'])) {
+                $modelPath = $this->modx->getOption('core_path') . 'components/gtsshop/model/';
+                if (is_dir($modelPath)) $this->modx->addPackage('gtsshop', $modelPath);
+                if ($gsParam = $this->modx->getObject('gsParam', ['name' => $v['select_from_param']])) {
+                    $c = $this->modx->newQuery('gsParamListSelect');
+                    $c->where(['param_id' => $gsParam->get('id')]);
+                    $c->sortby('id', 'ASC');
+                    $rows = [];
+                    foreach ($this->modx->getIterator('gsParamListSelect', $c) as $option) {
+                        $name = $option->get('name');
+                        $rows[] = ['id' => $name, 'content' => $name];
+                    }
+                    if ($rows) $selects[$field]['rows'] = $rows;
+                }
+                continue;
+            }
             if ($v['type'] == 'select') {
                 if ($gtsAPISelect = $this->modx->getObject('gtsAPISelect', ['field' => $field])) {
                     $rows0 = json_decode($gtsAPISelect->rows, 1);
