@@ -233,6 +233,27 @@ class jsonTableAPIController extends tableAPIController{
         return $this->error('update_error',['action'=>$action,'rule'=>$rule,'request'=>$request]);
     }
     
+    /**
+     * Сравнение двух строк JSON-таблицы по полю.
+     *
+     * Значения в снимках лежат строками, поэтому числа сравниваем числами
+     * (иначе «600» больше «1800»), а пустые уводим в конец: строка «ИТОГО»
+     * с пустым размером не должна возглавлять список.
+     */
+    protected function compareJsonRows($a, $b, $field){
+        $va = isset($a[$field]) ? $a[$field] : null;
+        $vb = isset($b[$field]) ? $b[$field] : null;
+        $ea = ($va === null or $va === '');
+        $eb = ($vb === null or $vb === '');
+        if($ea and $eb) return 0;
+        if($ea) return 1;
+        if($eb) return -1;
+        if(is_numeric($va) and is_numeric($vb)){
+            return (float)$va <=> (float)$vb;
+        }
+        return strnatcasecmp((string)$va, (string)$vb);
+    }
+
     public function read($rule,$request,$action, $where = [], $internal_action = ''){
         $resp = $this->run_triggers($rule, 'before', 'read', $request);
         if(!$resp['success']) return $resp;
@@ -277,17 +298,31 @@ class jsonTableAPIController extends tableAPIController{
             }
         }
         $where = $this->aplyFilters($rule,$request['filters']);
-        if($request['multiSortMeta']){
+        // Сортировка задаётся либо запросом (клик по заголовку), либо конфигом
+        // таблицы: properties.sortby = { поле: 'ASC'|'DESC' } — порядок ключей
+        // и есть порядок сравнения.
+        $sorts = [];
+        if(!empty($request['multiSortMeta']) and is_array($request['multiSortMeta'])){
             foreach($request['multiSortMeta'] as $sort){
-                // $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
-                usort($rows0, function($a, $b) use ($sort) {
-                    if($sort['order'] == 1){
-                        return $a[$sort['field']] <= $b[$sort['field']];
-                    }else{
-                        return $a[$sort['field']] > $b[$sort['field']];
-                    }
-                });
+                if(empty($sort['field'])) continue;
+                $sorts[] = ['field'=>$sort['field'], 'desc'=>((int)$sort['order'] !== 1)];
             }
+        }elseif(!empty($rule['properties']['sortby']) and is_array($rule['properties']['sortby'])){
+            foreach($rule['properties']['sortby'] as $field => $dir){
+                $sorts[] = ['field'=>$field, 'desc'=>(strtoupper((string)$dir) === 'DESC')];
+            }
+        }
+        if(!empty($sorts)){
+            // Один компаратор на все поля: цепочка usort по полю затирала
+            // предыдущий порядок (и usort в PHP 7 нестабилен), поэтому
+            // мультисортировка сводилась к сортировке по последнему полю.
+            usort($rows0, function($a, $b) use ($sorts) {
+                foreach($sorts as $sort){
+                    $cmp = $this->compareJsonRows($a, $b, $sort['field']);
+                    if($cmp !== 0) return $sort['desc'] ? -$cmp : $cmp;
+                }
+                return 0;
+            });
         }
         $k = 1;
         $total = 0;
