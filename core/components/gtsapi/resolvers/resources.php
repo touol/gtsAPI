@@ -222,11 +222,9 @@ if (!function_exists('_addResource')) {
         if ($resource && isset($data['update']) && $data['update'] === false) {
             _upsertResSetting($modx, $setting, $config_name, $package, $resource->id);
             if (!empty($data['resources'])) {
-                $menuindex = 0;
                 foreach ($data['resources'] as $alias => $item) {
                     $item['alias'] = $alias;
                     $item['context_key'] = $data['context_key'];
-                    $item['menuindex'] = $menuindex++;
                     _addResource($modx, $item, $uri . '/' . $alias, $resource->id, $package);
                 }
             }
@@ -272,6 +270,22 @@ if (!function_exists('_addResource')) {
                 $content = _getContent(MODX_CORE_PATH . 'components/' . $package . '/elements/resources/' . $file . '.md');
             }
         }
+        // Порядок в меню. Раньше резолвер нумеровал страницы пакета 0, 1, 2… при КАЖДОЙ
+        // установке: у одного родителя страницы разных пакетов получали одинаковые
+        // номера, меню перетасовывалось, ручная сортировка в менеджере сбрасывалась.
+        // Теперь: задан в конфиге — берём его; страница уже есть — не трогаем (как
+        // отсортировали, так и стоит); новая — в конец списка родителя.
+        if (!isset($data['menuindex'])) {
+            if ($new) {
+                $q = $modx->newQuery('modResource', ['parent' => (int)$parent]);
+                $q->select('MAX(menuindex)');
+                $max = ($q->prepare() && $q->stmt->execute()) ? $q->stmt->fetchColumn() : null;
+                $data['menuindex'] = $max === null || $max === false ? 0 : (int)$max + 1;
+            }
+        } else {
+            $data['menuindex'] = (int)$data['menuindex'];
+        }
+
         $resource->fromArray(array_merge([
             'parent' => $parent,
             'published' => true,
@@ -312,11 +326,9 @@ if (!function_exists('_addResource')) {
             }
         }
         if (!empty($data['resources'])) {
-            $menuindex = 0;
             foreach ($data['resources'] as $alias => $item) {
                 $item['alias'] = $alias;
                 $item['context_key'] = $data['context_key'];
-                $item['menuindex'] = $menuindex++;
                 _addResource($modx, $item, $uri . '/' . $alias, $resource->id, $package);
             }
         }
@@ -361,11 +373,9 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                 // Конфиг может быть разбит по сайтам: { "host1,host2": { "<context>": ... } }
                 $resourcesData = _pickSiteResources($modx, $resourcesData, $packageName);
                 foreach ($resourcesData as $context => $items) {
-                    $menuindex = 0;
                     foreach ($items as $alias => $item) {
                         $item['alias'] = $alias;
                         $item['context_key'] = $context;
-                        $item['menuindex'] = $menuindex++;
                         // Родитель верхнего уровня: parent_setting → parent_alias → корень
                         $parent = _resolveParentRes($modx, $item, $context);
                         _addResource($modx, $item, $alias, $parent, $packageName);
