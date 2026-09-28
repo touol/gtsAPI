@@ -11,6 +11,7 @@ require_once __DIR__ . '/traits/TableTreeTrait.php';
 require_once __DIR__ . '/traits/TableUtilsTrait.php';
 require_once __DIR__ . '/traits/TableVersionTrait.php';
 require_once __DIR__ . '/traits/TriggerRegistryTrait.php';
+require_once __DIR__ . '/traits/TablePasteTrait.php';
 require_once __DIR__ . '/traits/ServiceActionAuditTrait.php';
 
 /**
@@ -39,6 +40,7 @@ class tableAPIController
     use TableUtilsTrait;
     use TableVersionTrait;
     use TriggerRegistryTrait;
+    use TablePasteTrait;
     use ServiceActionAuditTrait;
 
     public $config = [];
@@ -224,7 +226,7 @@ class tableAPIController
         }
         
         $action = explode('/', $request['api_action']);
-        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style', 'sortable_reorder', 'sortable_insert_above', 'versions', 'restore_version'])) {
+        if (count($action) == 1 and !in_array($request['api_action'], ['options', 'autocomplete', 'save_fields_style', 'reset_fields_style', 'sortable_reorder', 'sortable_insert_above', 'versions', 'restore_version', 'paste', 'paste_bulk'])) {
             $api_action = $request['api_action'];
             if ($api_action == 'watch_form') $api_action = $request['watch_action'];
 
@@ -320,6 +322,14 @@ class tableAPIController
             break;
             case 'restore_version':
                 return $this->restore_version($rule, $request);
+            break;
+            case 'paste':
+                // Права проверяет сам paste: по действиям create/update таблицы
+                return $this->paste($rule, $request, $method);
+            break;
+            case 'paste_bulk':
+                // Откат/повтор вставки одним запросом, права проверяет сам
+                return $this->paste_bulk($rule, $request, $method);
             break;
             default:
                 $action = explode('/', $request['api_action']);

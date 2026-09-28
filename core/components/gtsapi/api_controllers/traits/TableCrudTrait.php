@@ -9,6 +9,9 @@ require_once __DIR__ . '/TableLogTrait.php';
 trait TableCrudTrait
 {
     use TableLogTrait;
+
+    /** Не перечитывать строку после create/update (пакетные операции, см. create()). */
+    protected $skipReadAfterSave = false;
     /**
      * Нормализация значения поля перед записью в объект.
      * Пустая строка в поле типа date/datetime → NULL (иначе xPDO кладёт '0000-00-00'
@@ -168,9 +171,17 @@ trait TableCrudTrait
             }
 
             $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, $object_old, $object, $obj);
-            $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
-            $readRequest['filters'] = $request['filters'];
-            $readResp = $this->read($rule, $readRequest, null, [], 'create');
+            // Пакетные операции (вставка из Excel) перечитывают таблицу целиком
+            // после всех строк — читать каждую строку ещё и здесь незачем (у части
+            // таблиц чтение дорогое: after-read триггеры ходят по сети).
+            // Флаг — свойство контроллера, из запроса его не выставить.
+            if (!empty($this->skipReadAfterSave)) {
+                $readResp = ['success' => 1, 'data' => ['rows' => [$obj->toArray()]]];
+            } else {
+                $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+                $readRequest['filters'] = $request['filters'];
+                $readResp = $this->read($rule, $readRequest, null, [], 'create');
+            }
             if ($readResp['success'] && !empty($readResp['data']['rows'])) {
                 $resp['data']['object'] = $readResp['data']['rows'][0];
             } else {
@@ -667,11 +678,16 @@ trait TableCrudTrait
 
                 $resp = $this->run_triggers($rule, 'after', 'update', $request, $object_old, $object, $obj);
 
-                $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
-                if (isset($request['filters'])) {
-                    $readRequest['filters'] = $request['filters'];
+                if (!empty($this->skipReadAfterSave)) {
+                    // см. create(): пакетная операция перечитает таблицу сама
+                    $readResp = ['success' => 1, 'data' => ['rows' => [$obj->toArray()]]];
+                } else {
+                    $readRequest = ['ids' => $obj->get('id'), 'setTotal' => false, 'limit' => 1];
+                    if (isset($request['filters'])) {
+                        $readRequest['filters'] = $request['filters'];
+                    }
+                    $readResp = $this->read($rule, $readRequest, null, [], 'update');
                 }
-                $readResp = $this->read($rule, $readRequest, null, [], 'update');
 
                 if ($readResp['success'] && !empty($readResp['data']['rows'])) {
                     $resp['data']['object'] = $readResp['data']['rows'][0];
