@@ -43,29 +43,37 @@ trait TableAutocompleteTrait
             
             // Обработка стандартных where условий
             if (isset($autocomplete['where'])) {
+                // Условие с числовым ключом — сырой SQL («... LIKE '%query%'»):
+                // текст поиска туда только экранированным, иначе это SQL-инъекция
+                // (было: «zzz%' OR 1=1 OR '» отдавало всю таблицу, без логина).
+                // Условие «поле => значение» xPDO передаёт параметром — там как есть.
+                $quotedQuery = isset($request['query']) ? substr($this->modx->quote((string)$request['query']), 1, -1) : '';
                 foreach ($autocomplete['where'] as $field => $value) {
                     if (strpos($value, 'query') !== false) {
                         if (!empty($request['query'])) {
-                            $value = str_replace('query', $request['query'], $value);
+                            $value = str_replace('query', is_int($field) ? $quotedQuery : $request['query'], $value);
                             $where[$field] = $value;
                         }
                     } else {
                         $where[$field] = $value;
                     }
-                    if (!empty($request['parent'])) {
+                    // Значение родителя — только в именованное условие (параметром),
+                    // в сырой SQL (числовой ключ) клиентское значение не подставляем.
+                    if (!empty($request['parent']) and is_array($request['parent']) and !is_int($field)) {
                         foreach ($request['parent'] as $pfield => $pval) {
-                            if ($value == $pfield) {
+                            if ($value == $pfield and is_scalar($pval)) {
                                 $where[$field] = $pval;
                             }
                         }
                     }
                 }
             }
-            
+
             // Обработка множественных полей поиска для multiautocomplete
-            if (!empty($request['search'])) {
+            if (!empty($request['search']) and is_array($request['search'])) {
                 foreach ($request['search'] as $searchField => $searchConfig) {
-                    if (isset($searchConfig['value']) && !empty($searchConfig['value'])) {
+                    if (!$this->isSafeWhereKey($searchField)) continue;
+                    if (isset($searchConfig['value']) && !empty($searchConfig['value']) && is_scalar($searchConfig['value'])) {
                         $where[$searchField] = $searchConfig['value'];
                     }
                 }
@@ -95,8 +103,16 @@ trait TableAutocompleteTrait
 
         // Обработка where из запроса (только модификатор date для безопасности)
         if (!empty($request['where']) && is_array($request['where'])) {
-            $requestWhere = $request['where'];
-            
+            // От клиента — только «поле[:оператор] => простое значение»: такие
+            // условия xPDO передаёт параметром. Числовой ключ — это сырой SQL
+            // (было: where ["1=0"] доходило до запроса без логина), массивы — вложенные
+            // группы с теми же ключами. И то и другое отбрасываем.
+            $requestWhere = [];
+            foreach ($request['where'] as $key => $value) {
+                if (!$this->isSafeWhereKey($key) or !is_scalar($value)) continue;
+                $requestWhere[$key] = $value;
+            }
+
             // Обработка Fenom-шаблонов в значениях where (только модификатор date)
             foreach ($requestWhere as $key => $value) {
                 if (is_string($value) && preg_match('/^\{[^}]*\|\s*date\s*:\s*["\'][^"\']*["\']\s*\}$/', $value)) {
@@ -117,33 +133,37 @@ trait TableAutocompleteTrait
             $default['where']["{$rule['class']}.id"] = $request['id'];
         }
         if (!empty($request['show_id']) and isset($autocomplete['show_id_where'])) {
-            $default['where'][1001] = "({$rule['class']}.id = {$request['show_id']} or {$autocomplete['show_id_where']} = {$request['show_id']})";
+            // Сырой SQL — только целое число (было: show_id подставлялся как есть)
+            $showId = (int)$request['show_id'];
+            $default['where'][1001] = "({$rule['class']}.id = {$showId} or {$autocomplete['show_id_where']} = {$showId})";
         }
         if (isset($autocomplete['limit'])) {
             $default['limit'] = $autocomplete['limit'];
         }
         if (isset($request['offset'])) {
-            $default['offset'] = $request['offset'];
+            $default['offset'] = (int)$request['offset'];
         } else {
             $request['offset'] = 0;
         }
-        
+
         // Добавляем поддержку limit из запроса для виртуального скроллинга
         if (isset($request['limit'])) {
-            $default['limit'] = $request['limit'];
+            $default['limit'] = (int)$request['limit'];
         }
-        
+
         $default['setTotal'] = true;
-        
-        if ($request['sortField']) {
+
+        // Сортировка уходит в ORDER BY как есть — только имя поля
+        if (!empty($request['sortField']) and $this->isSafeWhereKey($request['sortField'], false)) {
             $default['sortby'] = [
-                "{$request['sortField']}" => $request['sortOrder'] == 1 ? 'ASC' : 'DESC',
+                "{$request['sortField']}" => ($request['sortOrder'] ?? 0) == 1 ? 'ASC' : 'DESC',
             ];
         }
-        if ($request['multiSortMeta']) {
+        if (!empty($request['multiSortMeta']) and is_array($request['multiSortMeta'])) {
             $default['sortby'] = [];
             foreach ($request['multiSortMeta'] as $sort) {
-                $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ? 'ASC' : 'DESC';
+                if (!is_array($sort) or empty($sort['field']) or !$this->isSafeWhereKey($sort['field'], false)) continue;
+                $default['sortby']["{$sort['field']}"] = ($sort['order'] ?? 0) == 1 ? 'ASC' : 'DESC';
             }
         }
         $this->pdo->setConfig($default);
@@ -177,6 +197,19 @@ trait TableAutocompleteTrait
         if ($rule['properties']['showLog']) $out['log'] = $this->pdo->getTime();
 
         return $this->success('', $out);
+    }
+
+    /**
+     * Безопасный ключ условия/сортировки от клиента: «поле», «Класс.поле»,
+     * с оператором xPDO («поле:LIKE», «поле:>=») если $withOperator.
+     * Всё остальное (числовой ключ = сырой SQL, скобки, пробелы) — нет.
+     */
+    protected function isSafeWhereKey($key, $withOperator = true)
+    {
+        if (!is_string($key)) return false;
+        $ident = '[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)?';
+        $op = $withOperator ? '(:(=|!=|<>|>|<|>=|<=|LIKE|NOT LIKE|IN|NOT IN|IS|IS NOT))?' : '';
+        return (bool)preg_match('/^' . $ident . $op . '$/i', $key);
     }
 
     /**

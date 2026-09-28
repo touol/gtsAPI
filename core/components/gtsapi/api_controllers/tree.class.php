@@ -298,18 +298,21 @@ class treeAPIController{
         if(isset($request['query']) or !empty($request['parent'])){
             if(empty($default['where'])) $default['where'] = [];
             $where = [];
+            // Числовой ключ — сырой SQL: текст поиска туда только экранированным,
+            // значение родителя — не подставляем вовсе (см. TableAutocompleteTrait).
+            $quotedQuery = isset($request['query']) ? substr($this->modx->quote((string)$request['query']), 1, -1) : '';
             foreach($autocomplete['where'] as $field=>$value){
                 if(strpos($value,'query') !== false){
                     if(!empty($request['query'])){
-                        $value = str_replace('query',$request['query'],$value);
+                        $value = str_replace('query', is_int($field) ? $quotedQuery : $request['query'], $value);
                         $where[$field] = $value;
                     }
                 }else{
                     $where[$field] = $value;
                 }
-                if(!empty($request['parent'])){
+                if(!empty($request['parent']) and is_array($request['parent']) and !is_int($field)){
                     foreach($request['parent'] as $pfield=>$pval){
-                        if($value == $pfield){
+                        if($value == $pfield and is_scalar($pval)){
                             $where[$field] = $pval;
                         }
                     }
@@ -326,29 +329,33 @@ class treeAPIController{
             $default['where']["{$rule['class']}.id"] = $request['id'];
         }
         if(!empty($request['show_id']) and isset($autocomplete['show_id_where'])){
-            $default['where'][1001] = "({$rule['class']}.id = {$request['show_id']} or {$autocomplete['show_id_where']} = {$request['show_id']})";
+            $showId = (int)$request['show_id'];
+            $default['where'][1001] = "({$rule['class']}.id = {$showId} or {$autocomplete['show_id_where']} = {$showId})";
         }
         if(isset($autocomplete['limit'])){
             $default['limit'] = $autocomplete['limit'];
         }
         if(isset($request['offset'])){
-            $default['offset'] = $request['offset'];
+            $default['offset'] = (int)$request['offset'];
         }else{
             $request['offset'] = 0;
         }
-        
-        
+
+
         $default['setTotal'] = true;
-        
-        if($request['sortField']){
+
+        // Сортировка уходит в ORDER BY как есть — только имя поля
+        $sortKey = '/^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)?$/';
+        if(!empty($request['sortField']) and is_string($request['sortField']) and preg_match($sortKey, $request['sortField'])){
             $default['sortby'] = [
-                "{$request['sortField']}" => $request['sortOrder'] == 1 ?'ASC':'DESC',
+                "{$request['sortField']}" => ($request['sortOrder'] ?? 0) == 1 ?'ASC':'DESC',
             ];
         }
-        if($request['multiSortMeta']){
+        if(!empty($request['multiSortMeta']) and is_array($request['multiSortMeta'])){
             $default['sortby'] = [];
             foreach($request['multiSortMeta'] as $sort){
-                $default['sortby']["{$sort['field']}"] = $sort['order'] == 1 ?'ASC':'DESC';
+                if(!is_array($sort) or empty($sort['field']) or !is_string($sort['field']) or !preg_match($sortKey, $sort['field'])) continue;
+                $default['sortby']["{$sort['field']}"] = ($sort['order'] ?? 0) == 1 ?'ASC':'DESC';
             }
         }
         $this->pdo->setConfig($default);

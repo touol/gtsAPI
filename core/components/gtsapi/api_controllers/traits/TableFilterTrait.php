@@ -93,6 +93,16 @@ trait TableFilterTrait
             return $where;
         }
         
+        // Имя поля из запроса уходит ключом в SQL — только «поле» или «Класс.поле».
+        if (!is_string($name) or !preg_match('/^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)?$/', $name)) return $where;
+
+        // От клиента берём только значение и режим. class/field/as/where задают,
+        // КАКОЕ поле попадёт в SQL, — это только из конфига. Раньше клиентские
+        // перекрывали конфиг (array_merge), и подменённый field/class
+        // («id` = -1 OR 1=1 OR `id») отдавал всю таблицу.
+        if (is_array($filter)) {
+            $filter = array_intersect_key($filter, ['value' => 1, 'matchMode' => 1]);
+        }
         if (isset($rule['properties']['filters'][$name]) and is_array($rule['properties']['filters'][$name])) {
             if (is_array($filter)) {
                 $filter = array_merge($rule['properties']['filters'][$name], $filter);
@@ -110,6 +120,8 @@ trait TableFilterTrait
         
 
         if (strpos($name, '.') !== false) $field = $name;
+        // Страховка: что бы ни пришло из конфига, в ключ SQL — только «Класс.поле»
+        if (!preg_match('/^[A-Za-z_][A-Za-z0-9_]*\.[A-Za-z_][A-Za-z0-9_]*$/', $field)) return $where;
 
         if ($filter['value'] == 'true') {
             $filter['value'] = 1;
