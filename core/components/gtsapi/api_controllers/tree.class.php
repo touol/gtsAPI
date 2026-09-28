@@ -2,12 +2,14 @@
 require_once __DIR__ . '/traits/TreeCopyTrait.php';
 require_once __DIR__ . '/traits/TableTreeCrudTrait.php';
 require_once __DIR__ . '/traits/TriggerRegistryTrait.php';
+require_once __DIR__ . '/traits/ServiceActionAuditTrait.php';
 
 class treeAPIController{
     // Подключаем trait для копирования
     use TreeCopyTrait;
     use TableTreeCrudTrait;
     use TriggerRegistryTrait;
+    use ServiceActionAuditTrait;
     
     public $config = [];
     public $modx;
@@ -207,7 +209,8 @@ class treeAPIController{
                 // $this->modx->log(1,"route_post {$request['api_action']}");
                 // return $this->error("test11!".print_r(array_keys($this->models),1));
                 if(count($action) == 2 and isset($this->models[strtolower($action[0])])){
-                    
+                    // Пока только учёт (см. ServiceActionAuditTrait)
+                    $this->auditServiceAction($rule, $request['api_action']);
                     $service = $this->models[strtolower($action[0])];
 
                     if(method_exists($service,'handleRequest')){ 

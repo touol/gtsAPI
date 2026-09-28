@@ -11,6 +11,7 @@ require_once __DIR__ . '/traits/TableTreeTrait.php';
 require_once __DIR__ . '/traits/TableUtilsTrait.php';
 require_once __DIR__ . '/traits/TableVersionTrait.php';
 require_once __DIR__ . '/traits/TriggerRegistryTrait.php';
+require_once __DIR__ . '/traits/ServiceActionAuditTrait.php';
 
 /**
  * Основной контроллер API для работы с таблицами
@@ -38,6 +39,7 @@ class tableAPIController
     use TableUtilsTrait;
     use TableVersionTrait;
     use TriggerRegistryTrait;
+    use ServiceActionAuditTrait;
 
     public $config = [];
     public $modx;
@@ -322,6 +324,9 @@ class tableAPIController
             default:
                 $action = explode('/', $request['api_action']);
                 if (count($action) == 2) {
+                    // Пока только учёт: вызов метода без объявления в actions таблицы
+                    // (см. ServiceActionAuditTrait). Блокировка — после разбора сводки.
+                    $this->auditServiceAction($rule, $request['api_action']);
                     $resp = $this->getService(strtolower($action[0]));
                     if (!$resp['success']) {
                         return $resp;
