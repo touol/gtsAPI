@@ -45490,7 +45490,7 @@ endobj\r
   var c = l.getContext("2d");
   c.fillStyle = "#fff", c.fillRect(0, 0, l.width, l.height);
   var u = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-Bin5gVni.js")).catch(function(m) {
+  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-Ba-7iXwn.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -53365,7 +53365,7 @@ function wk(t, e, n, o, i, r) {
             d[y] = {
               operator: fr.AND,
               constraints: [
-                { value: null, matchMode: an.STARTS_WITH }
+                { value: null, matchMode: an.CONTAINS }
               ]
             };
         }
@@ -54584,9 +54584,11 @@ function Ik({
   // callback(colId, checkedSet) — для серверного режима
 }) {
   const b = U(null), v = U({ top: 0, left: 0 }), w = {
-    text: ["startsWith", "contains", "equals", "notEquals"],
-    textarea: ["startsWith", "contains", "equals", "notEquals"],
-    view: ["startsWith", "contains", "equals", "notEquals"],
+    // «Содержит» первым — он же по умолчанию: номер счёта, артикул, кусок
+    // названия ищут в середине строки, «Начинается с» не находило (Ксения, 29.09).
+    text: ["contains", "startsWith", "equals", "notEquals"],
+    textarea: ["contains", "startsWith", "equals", "notEquals"],
+    view: ["contains", "startsWith", "equals", "notEquals"],
     number: ["equals", "notEquals", "gt", "gte", "lt", "lte"],
     decimal: ["equals", "notEquals", "gt", "gte", "lt", "lte"],
     autocomplete: ["equals", "notEquals"],
@@ -65858,7 +65860,7 @@ const Jp = (function() {
               Te[Q] = {
                 operator: fr.AND,
                 constraints: [
-                  { value: null, matchMode: an.STARTS_WITH }
+                  { value: null, matchMode: an.CONTAINS }
                 ]
               };
           }
