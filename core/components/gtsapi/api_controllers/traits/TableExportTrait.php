@@ -262,8 +262,9 @@ trait TableExportTrait
                 $col++;
             }
 
-            // Применяем автофильтр к заголовкам
-            $lastCol = chr(ord('A') + count($headers) - 1);
+            // Применяем автофильтр к заголовкам.
+            // Буква колонки — через PHPExcel: chr(ord('A')+n) после Z даёт '[' вместо 'AA'.
+            $lastCol = PHPExcel_Cell::stringFromColumnIndex(max(count($headers), 1) - 1);
             $sheet->setAutoFilter('A' . $startRow . ':' . $lastCol . $startRow);
 
             // Получаем данные с limit = 0
@@ -397,7 +398,6 @@ trait TableExportTrait
 
             // Применяем границы к ячейкам
             $lastRow = $currentRow - 1;
-            $lastCol = chr(ord('A') + count($headers) - 1);
             $range = 'A' . $startRow . ':' . $lastCol . $lastRow;
             
             $styleArray = [

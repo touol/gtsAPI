@@ -874,12 +874,58 @@ class gtsAPIManager_mysql extends gtsAPIGeneratorBase_mysql
             $path .= strtr($this->model['package'], '.', '/');
             $path .= '/';
         }
-        $this->outputMeta($path);
-        $this->outputClasses($path);
-        $this->outputMaps($path);
-        if ($compile) $this->compile($path, $this->model, $this->classes, $this->maps);
+        if (class_exists('\\xPDO\\Om\\mysql\\xPDOGenerator')) {
+            // xPDO 3 (MODX 3): у предка outputMeta/outputClasses пишут новый формат (mysql/DSItem.php),
+            // а outputMaps нет вовсе. Пишем старый формат — его подключает addPackage() и на MODX 3
+            // (так лежат и таблицы самого gtsAPI). 06.10.2026, первый PVExtra со схемой на MODX 3 — dnevnikStore.
+            $this->legacyMeta($path);
+            $this->legacyClasses($path);
+            $this->legacyMaps($path);
+        } else {
+            $this->outputMeta($path);
+            $this->outputClasses($path);
+            $this->outputMaps($path);
+            if ($compile) $this->compile($path, $this->model, $this->classes, $this->maps);
+        }
         unset($this->model, $this->classes, $this->map);
         return true;
     }
 
+    // --- старый формат модели для xPDO 3 (см. parseSchema) ---
+    protected function legacyWrite($fileName, $content)
+    {
+        $dir = dirname($fileName);
+        if (!is_dir($dir)) mkdir($dir, 0777, true);
+        if (file_put_contents($fileName, $content) === false) {
+            $this->manager->xpdo->log(xPDO::LOG_LEVEL_ERROR, "Could not write to file: {$fileName}");
+        }
+    }
+
+    // metadata.mysql.php: классы по родителю
+    protected function legacyMeta($path)
+    {
+        $meta = array();
+        foreach ($this->classes as $class => $info) $meta[$info['extends']][] = $class;
+        $this->legacyWrite($path . 'metadata.mysql.php', "<?php\n\n\$xpdo_meta_map = " . var_export($meta, true) . ";\n");
+    }
+
+    // <класс>.class.php и mysql/<класс>.class.php — пустые классы; существующие не перезаписываем (там может быть код)
+    protected function legacyClasses($path)
+    {
+        foreach ($this->classes as $class => $info) {
+            $lower = strtolower($class);
+            $base = $path . $lower . '.class.php';
+            if (!is_file($base)) $this->legacyWrite($base, "<?php\nclass {$class} extends {$info['extends']} {}");
+            $platform = $path . 'mysql/' . $lower . '.class.php';
+            if (!is_file($platform)) $this->legacyWrite($platform, "<?php\nrequire_once (dirname(__DIR__) . '/{$lower}.class.php');\nclass {$class}_mysql extends {$class} {}");
+        }
+    }
+
+    // mysql/<класс>.map.inc.php — карта полей; перезаписывается всегда (её источник — схема)
+    protected function legacyMaps($path)
+    {
+        foreach ($this->map as $class => $map) {
+            $this->legacyWrite($path . 'mysql/' . strtolower($class) . '.map.inc.php', "<?php\n\$xpdo_meta_map['{$class}']= " . var_export($map, true) . ";\n");
+        }
+    }
 }

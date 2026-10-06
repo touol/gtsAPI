@@ -31,7 +31,7 @@ class securityAPIController{
                     'rememberme' => 0,
                     'login_context' => 'web',
                 );
-                $response = $this->modx->runProcessor('/security/login', $data);
+                $response = $this->modx->runProcessor('security/login', $data);
                 if ($response->isError()) {
                     header('HTTP/1.1 404 Not found');
                     return $this->error("Not found user!");
@@ -76,12 +76,12 @@ class securityAPIController{
                         $gtsAPITokens = $query->stmt->fetchAll(PDO::FETCH_ASSOC);
                         if(is_array($gtsAPITokens) and count($gtsAPITokens) == 1){
                             $query= new xPDOCriteria($this->modx, 
-                                "UPDATE * {$table} SET `active` = 0 WHERE `user_id` = :user_id AND `token` = :token", [
+                                "UPDATE {$table} SET `active` = 0 WHERE `user_id` = :user_id AND `token` = :token", [
                                 ':user_id' => $this->modx->user->id,
                                 ':token' => $jwt,
                             ]);
                             if ($query->prepare() && $query->stmt->execute()) {
-                                $resp = $this->modx->runProcessor('/security/logout');
+                                $resp = $this->modx->runProcessor('security/logout');
                                 return $this->success();
                             }
                         }

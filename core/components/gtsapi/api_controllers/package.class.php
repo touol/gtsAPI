@@ -107,8 +107,17 @@ class packageAPIController{
 
         /** @var xPDOManager $manager */
         $manager = $this->modx->getManager();
+        // Генератор gtsAPI (classes/manager.class.php, один файл на MODX 2 и 3) пишет классы в формате, который
+        // подключает addPackage() на обеих версиях. Генератор ядра MODX 3 писал новый формат (mysql/DSSale.php) —
+        // addPackage его не находил: «Could not load class: DSSale from mysql.dssale», таблицы не создавались
+        // (06.10.2026, первый PVExtra со своей схемой на MODX 3 — dnevnikStore).
+        $generator = null;
+        if (include_once(MODX_CORE_PATH . 'components/gtsapi/classes/manager.class.php')) {
+            $generatorClass = 'gtsAPIManager_' . $this->modx->config['dbtype'];
+            if (class_exists($generatorClass)) $generator = new $generatorClass($manager);
+        }
         /** @var xPDOGenerator $generator */
-        $generator = $manager->getGenerator();
+        if (!$generator) $generator = $manager->getGenerator();
         $generator->parseSchema(
             $this->config['core'] . 'model/schema/' . $this->config['name_lower'] . '.mysql.schema.xml',
             $this->config['core'] . 'model/'
