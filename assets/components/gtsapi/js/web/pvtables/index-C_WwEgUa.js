@@ -45490,7 +45490,7 @@ endobj\r
   var c = l.getContext("2d");
   c.fillStyle = "#fff", c.fillRect(0, 0, l.width, l.height);
   var u = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-Ba-7iXwn.js")).catch(function(m) {
+  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-BvBQzxfS.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -53213,7 +53213,10 @@ const $b = /* @__PURE__ */ vo(gj, [["render", UK], ["__scopeId", "data-v-b8be86b
     for (let i in e)
       switch (e[i].type) {
         case "boolean":
-          o.hasOwnProperty(i) && (o[i] == null || o[i] === "0" ? o[i] = !1 : o[i] = !0);
+          if (o.hasOwnProperty(i)) {
+            const r = o[i];
+            o[i] = !(r == null || r === "" || r === !1 || r == 0);
+          }
           break;
       }
     n.push(o);
