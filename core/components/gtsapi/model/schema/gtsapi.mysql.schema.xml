@@ -93,6 +93,14 @@
         <field key="autocomplete_field" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
         <field key="fields_style" dbtype="text" phptype="string" null="true"/>
 
+        <!-- Видит ли таблицу ИИ (шлюз gtsAI). По умолчанию НЕТ: таблицы
+             открываются по одной и осознанно. Даже с флагом доступ остаётся
+             в пределах прав текущего пользователя — флаг только сужает. -->
+        <field key="ai" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
+        <!-- Описание таблицы для ИИ: что в ней лежит и чем она отличается от
+             похожих. Без описания модель гадает по именам полей. -->
+        <field key="description" dbtype="text" phptype="string" null="true"/>
+
         <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="0"/>
         <field key="version" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
 
@@ -386,14 +394,23 @@
     <object class="gtsAPILog" table="gtsapi_log" extends="xPDOSimpleObject">
         <field key="user_id" dbtype="int" precision="10" phptype="integer" null="true" default="0"/>
         <field key="log_table" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
-        <field key="log_action" dbtype="varchar" precision="20" phptype="string" null="false" default=""/>
+        <!-- 191, а не 20: двадцати хватало ровно на create/update/delete, а имена
+             кастомных действий (newsmena/naryads_table) молча обрезались. -->
+        <field key="log_action" dbtype="varchar" precision="191" phptype="string" null="false" default=""/>
         <field key="object_id" dbtype="int" precision="10" phptype="integer" null="true" default="0"/>
         <field key="data_before" dbtype="text" phptype="string" null="true"/>
         <field key="data_after" dbtype="text" phptype="string" null="true"/>
+        <!-- batch_id: один жест пользователя (или один ответ ИИ) порождает N
+             правок. Id приходит ИЗВНЕ — от клиента или шлюза gtsAI, сервер его
+             не генерит. По нему откатывается весь жест, а не одна строка. -->
+        <field key="batch_id" dbtype="varchar" precision="40" phptype="string" null="false" default=""/>
         <field key="created_at" dbtype="datetime" phptype="datetime" null="true"/>
 
         <index alias="log_table" name="log_table" primary="false" unique="false" type="BTREE">
             <column key="log_table" length="" collation="A" null="false"/>
+        </index>
+        <index alias="batch_id" name="batch_id" primary="false" unique="false" type="BTREE">
+            <column key="batch_id" length="" collation="A" null="false"/>
         </index>
         <index alias="created_at" name="created_at" primary="false" unique="false" type="BTREE">
             <column key="created_at" length="" collation="A" null="false"/>

@@ -8,6 +8,21 @@
 trait TableLogTrait
 {
     /**
+     * Идентификатор пакета правок: один жест пользователя или один ответ ИИ.
+     * Приходит ИЗВНЕ (клиент или шлюз gtsAI) и просто складывается в лог —
+     * сервер его не генерит. По нему откатывается весь жест целиком.
+     */
+    public $batchId = '';
+
+    /** Взять batch_id из запроса. Зовётся один раз при маршрутизации. */
+    protected function pickBatchId($request)
+    {
+        $id = isset($request['batch_id']) ? (string)$request['batch_id'] : '';
+        // Лишнее режем: в лог идёт varchar(40), и мусор там не нужен.
+        $this->batchId = substr(preg_replace('/[^a-zA-Z0-9_\-]/', '', $id), 0, 40);
+    }
+
+    /**
      * Запись действия в лог gtsAPILog.
      * Отключается через properties: { log: false } в gtsapipackages.
      * Срок хранения задаётся системной настройкой gtsapi_log_retention_days (по умолчанию 30 дней).
@@ -37,6 +52,7 @@ trait TableLogTrait
             $log->set('object_id',   (int)$objectId);
             $log->set('data_before', $dataBefore ? json_encode($dataBefore, JSON_UNESCAPED_UNICODE) : null);
             $log->set('data_after',  $dataAfter  ? json_encode($dataAfter,  JSON_UNESCAPED_UNICODE) : null);
+            $log->set('batch_id',    $this->batchId);
             $log->set('created_at',  date('Y-m-d H:i:s'));
             $log->save();
         } catch (Exception $e) {

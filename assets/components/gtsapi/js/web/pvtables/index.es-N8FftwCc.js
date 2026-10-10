@@ -1,8 +1,5 @@
-import { _ as Va } from "./index-4hUQZnbh.js";
-var La = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : typeof global < "u" ? global : typeof self < "u" ? self : {};
-function il(n) {
-  return n && n.__esModule && Object.prototype.hasOwnProperty.call(n, "default") ? n.default : n;
-}
+import { c as Va, g as il } from "./_commonjsHelpers-DaMA6jEr.js";
+import { _ as La } from "./index-DSBbSLVs.js";
 var fn = {}, cn = {}, cr, vn;
 function Q() {
   if (vn) return cr;
@@ -12,7 +9,7 @@ function Q() {
   };
   return cr = // eslint-disable-next-line es/no-global-this -- safe
   n(typeof globalThis == "object" && globalThis) || n(typeof window == "object" && window) || // eslint-disable-next-line no-restricted-globals -- safe
-  n(typeof self == "object" && self) || n(typeof La == "object" && La) || n(typeof cr == "object" && cr) || // eslint-disable-next-line no-new-func -- fallback
+  n(typeof self == "object" && self) || n(typeof Va == "object" && Va) || n(typeof cr == "object" && cr) || // eslint-disable-next-line no-new-func -- fallback
   /* @__PURE__ */ (function() {
     return this;
   })() || Function("return this")(), cr;
@@ -2225,18 +2222,18 @@ function Zh() {
 }
 Zh();
 function Jh(n, e) {
-  if (Va(n) != "object" || !n) return n;
+  if (La(n) != "object" || !n) return n;
   var r = n[Symbol.toPrimitive];
   if (r !== void 0) {
     var t = r.call(n, e);
-    if (Va(t) != "object") return t;
+    if (La(t) != "object") return t;
     throw new TypeError("@@toPrimitive must return a primitive value.");
   }
   return (e === "string" ? String : Number)(n);
 }
 function ef(n) {
   var e = Jh(n, "string");
-  return Va(e) == "symbol" ? e : e + "";
+  return La(e) == "symbol" ? e : e + "";
 }
 function un(n, e, r) {
   return (e = ef(e)) in n ? Object.defineProperty(n, e, {
@@ -2402,7 +2399,7 @@ var Ou;
 function uf() {
   if (Ou) return vr.exports;
   Ou = 1;
-  for (var n = of(), e = typeof window > "u" ? La : window, r = ["moz", "webkit"], t = "AnimationFrame", i = e["request" + t], a = e["cancel" + t] || e["cancelRequest" + t], s = 0; !i && s < r.length; s++)
+  for (var n = of(), e = typeof window > "u" ? Va : window, r = ["moz", "webkit"], t = "AnimationFrame", i = e["request" + t], a = e["cancel" + t] || e["cancelRequest" + t], s = 0; !i && s < r.length; s++)
     i = e[r[s] + "Request" + t], a = e[r[s] + "Cancel" + t] || e[r[s] + "CancelRequest" + t];
   if (!i || !a) {
     var o = 0, u = 0, l = [], h = 1e3 / 60;
@@ -3293,7 +3290,7 @@ function Nf(n) {
     createImage: r.loadImage
   };
 }
-var Gc = /* @__PURE__ */ Object.freeze({
+var $c = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   offscreen: If,
   node: Nf
@@ -6686,7 +6683,7 @@ export {
   Df as normalizeAttributeName,
   Vf as normalizeColor,
   Ll as parseExternalUrl,
-  Gc as presets,
+  $c as presets,
   me as toNumbers,
   _f as trimLeft,
   Mf as trimRight,

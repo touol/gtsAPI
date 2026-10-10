@@ -554,8 +554,25 @@ trait TableCrudTrait
             if (!empty($rule['properties']['fields'])) {
                 $fields = $rule['properties']['fields'];
                 $ext_fields = [];
+                // Какие колонки класса допускают NULL — нужно ниже, чтобы
+                // явный null не уехал в NOT NULL колонку.
+                $nullMeta = $this->modx->getFieldMeta($rule['class']);
                 foreach ($fields as $field => $desc) {
-                    if (isset($request[$field])) {
+                    // array_key_exists, а НЕ isset: присланный null — это «очисти
+                    // поле», и его надо писать. На isset откат к версии с пустым
+                    // полем молча не срабатывал (restore_version отдавал успех,
+                    // а значение оставалось старым).
+                    //
+                    // Защита от обратной стороны: null пишем только в колонку,
+                    // которая его допускает. Для NOT NULL колонки null в запросе
+                    // игнорируем, как раньше, — иначе клиент, присылающий строку
+                    // целиком с нулями, ронял бы запись.
+                    if (array_key_exists($field, $request)) {
+                        if ($request[$field] === null) {
+                            $col = !empty($desc['field']) ? $desc['field'] : $field;
+                            $nullable = isset($nullMeta[$col]['null']) ? (bool)$nullMeta[$col]['null'] : false;
+                            if (!$nullable) continue;
+                        }
                         $field_arr = explode('.', $field);
                         $desc['field'] = !empty($desc['field']) ? $desc['field'] : $field;
                         if (count($field_arr) == 1) {

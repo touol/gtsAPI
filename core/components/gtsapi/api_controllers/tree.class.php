@@ -35,7 +35,10 @@ class treeAPIController{
     }
     public function route($gtsAPITable, $uri, $method, $request){
         $req = json_decode(file_get_contents('php://input'), true);
-        if(is_array($req)) $request = array_merge($request,$req);    
+        // В режиме ИИ тело запроса — это сообщение пользователя шлюзу /gtsai,
+        // а не параметры вызова: иначе клиент перебил бы api_action.
+        if (!empty($this->config['ai_mode'])) $req = null;
+        if(is_array($req)) $request = array_merge($request,$req);
         switch($method){
             case 'GET':
                 // if($id and empty($request['ids'])) $request['ids'] = [$id];
@@ -104,6 +107,8 @@ class treeAPIController{
         }else{
             $rule['properties'] = [];
         }
+        // batch_id в лог: дерево пишет его так же, как обычные таблицы.
+        $this->pickBatchId($request);
         // $this->modx->log(1,"route_post ".print_r($rule['properties'],1).print_r($request,1));
         $action = explode('/',$request['api_action']);
         if(count($action) == 1 and !in_array($request['api_action'],['options','autocomplete','nodedrop'])){

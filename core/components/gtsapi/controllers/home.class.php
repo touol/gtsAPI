@@ -151,6 +151,20 @@ class gtsAPIHomeManagerController extends modExtraManagerController
         $url = MODX_ASSETS_URL . 'components/gtsapi/admin.php?config='
             . rawurlencode($this->rawConfig);
 
+        // Версия пакета в адресе рамки.
+        //
+        // Без неё обновление страницы менеджера (даже Ctrl+F5) не перечитывает
+        // содержимое рамки: браузер отдаёт её из кэша вместе со старым
+        // бандлом PVTables. После выкладки правок приложение в рамке
+        // оставалось прежним, и это выглядело как «правка не доехала».
+        $c = $this->modx->newQuery('transport.modTransportPackage');
+        $c->where(['package_name:LIKE' => '%gtsapi%']);
+        $c->sortby('updated', 'DESC');
+        $c->limit(1);
+        if ($package = $this->modx->getObject('transport.modTransportPackage', $c)) {
+            $url .= '&v=' . strtotime($package->get('updated'));
+        }
+
         // Высота рамки — ровно то, что осталось от окна под шапкой менеджера.
         // Фиксированный calc() тут не годится: высота шапки зависит от темы,
         // от строки версии MODX и от того, свёрнуто ли меню. Отсюда и вторая

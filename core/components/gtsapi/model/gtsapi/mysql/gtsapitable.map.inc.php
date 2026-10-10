@@ -22,6 +22,8 @@ $xpdo_meta_map['gtsAPITable']= array (
     'properties' => '',
     'autocomplete_field' => '',
     'fields_style' => NULL,
+    'ai' => 0,
+    'description' => NULL,
     'active' => 0,
     'version' => 0,
   ),
@@ -114,6 +116,20 @@ $xpdo_meta_map['gtsAPITable']= array (
       'default' => '',
     ),
     'fields_style' => 
+    array (
+      'dbtype' => 'text',
+      'phptype' => 'string',
+      'null' => true,
+    ),
+    'ai' => 
+    array (
+      'dbtype' => 'tinyint',
+      'precision' => '1',
+      'phptype' => 'boolean',
+      'null' => true,
+      'default' => 0,
+    ),
+    'description' => 
     array (
       'dbtype' => 'text',
       'phptype' => 'string',

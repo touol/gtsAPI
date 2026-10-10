@@ -75,6 +75,11 @@ class tableAPIController
     public function route($gtsAPITable, $uri, $method, $request)
     {
         $req = json_decode(file_get_contents('php://input'), true);
+        // В режиме ИИ тело запроса принадлежит шлюзу /gtsai — там лежит сообщение
+        // пользователя, а не параметры этого вызова. Подмешивать его нельзя:
+        // клиент протащил бы «api_action: delete» мимо инструмента, ведь при
+        // array_merge ниже тело перебивает всё, что собрал инструмент.
+        if (!empty($this->config['ai_mode'])) $req = null;
         if (isset($req['filters']) and isset($request['filters'])) $req['filters'] = array_merge($req['filters'], $request['filters']);
         if (isset($request['is_virtual'])) $req['is_virtual'] = $request['is_virtual'];
         if (is_array($req)) $request = array_merge($request, $req);
@@ -138,6 +143,19 @@ class tableAPIController
         } else {
             $rule['properties'] = [];
         }
+
+        // batch_id приходит с запросом и просто складывается в лог: по нему
+        // откатывается весь жест, а не одна строка.
+        $this->pickBatchId($request);
+
+        // Запрос пришёл из шлюза ИИ (/gtsai) — тот же путь и те же права, но
+        // дополнительно сужаем. Права пользователя остаются потолком, этот
+        // режим может только отнять.
+        if (!empty($this->config['ai_mode'])) {
+            $resp = $this->checkAIAccess($rule, $request);
+            if (!$resp['success']) return $resp;
+        }
+
         $this->addPackages($rule['package_id']);
         
         if (isset($rule['properties']['loadModels'])) {
@@ -349,6 +367,113 @@ class tableAPIController
                 }
         }
         return $this->error("Не найдено действие!");
+    }
+
+    /**
+     * Ограничения режима ИИ. Вызывается только когда запрос пришёл из шлюза
+     * /gtsai (config.ai_mode). Права пользователя проверяются как обычно, этот
+     * метод их НЕ расширяет — он только отнимает.
+     *
+     * Что можно — решают ДВА разрешения, и нужны оба:
+     *   1. таблица помечена `ai = 1` — этим она открывается ИИ на чтение
+     *      (read/options/autocomplete/versions) и больше ни на что;
+     *   2. конкретное действие помечено в конфиге таблицы:
+     *      actions: { update: {'ai': 1} } — вот это ИИ уже может.
+     *      Права самого действия (groups/permissions) проверяются как обычно,
+     *      поэтому ИИ физически не может больше, чем этот пользователь руками.
+     *
+     * config.ai_mode — рубильники уровня чата, они только отнимают:
+     *   ['write' => bool]     разрешены ли чату пишущие действия вообще
+     *   ['rollback' => bool]  restore_version (откат делает сам шлюз по кнопке
+     *                         пользователя, модели это действие не достаётся)
+     *
+     * ⚠️ Удаление откату НЕ подлежит: restore_version делает update по
+     * object_id, а удалённую строку обновлять нечем. Ставить delete: {'ai': 1}
+     * стоит только там, где это осознанно не страшно.
+     */
+    public function checkAIAccess($rule, $request)
+    {
+        $mode   = (array)$this->config['ai_mode'];
+        $action = isset($request['api_action']) ? $request['api_action'] : '';
+
+        if (empty($rule['ai'])) {
+            return $this->error("ИИ не допущен к таблице {$rule['table']}.");
+        }
+
+        // Чтение таблицы и её конфига даёт сам флаг ai — это и есть «по
+        // умолчанию только читать».
+        $read = ['read', 'options', 'autocomplete', 'versions'];
+        if (in_array($action, $read, true)) return $this->success();
+
+        // Откат — действие шлюза по кнопке пользователя, а не модели.
+        if ($action === 'restore_version') {
+            if (empty($mode['rollback'])) {
+                return $this->error('Откат доступен только по кнопке пользователя.');
+            }
+            return $this->success();
+        }
+
+        // Удаление в режиме отката — это отмена строки, которую ИИ сам же и
+        // создал: вернуть её «как было» нечем, restore_version правит
+        // существующую. Модели это недоступно: режим отката включает шлюз, и
+        // только для строк из своего пакета правок.
+        if ($action === 'delete' && !empty($mode['rollback'])) {
+            return $this->success();
+        }
+
+        // Всё остальное — только если действие помечено в конфиге таблицы:
+        // actions: { update: {'ai': 1} }. Нет пометки — нет действия.
+        if (!$this->actionAllowsAI($rule, $action)) {
+            return $this->error("Действие {$action} не открыто ИИ в таблице {$rule['table']}.");
+        }
+
+        // ⚠️ Правку ИИ пускаем только туда, откуда её можно откатить.
+        // На этом уже наступили: запись в строки расчёта прошла, а откат
+        // ответил «версионирование не включено» — и правка осталась навсегда.
+        if ($action === 'update' && empty($rule['properties']['save_version_row'])) {
+            return $this->error(
+                "Правка таблицы {$rule['table']} закрыта для ИИ: не включено версионирование "
+                . "(properties.save_version_row), откат был бы невозможен."
+            );
+        }
+        if (empty($mode['write'])) {
+            return $this->error('Этому чату ИИ разрешено только чтение.');
+        }
+        if (strpos($action, '/') === false) return $this->success();
+
+        // Вызов «пакет/метод». Главная причина, по которой этот метод вообще
+        // существует: такой вызов проверяет права ТОЛЬКО той таблицы, через
+        // которую пришёл (см. ServiceActionAuditTrait), то есть через любую
+        // доступную таблицу можно дёрнуть метод любого компонента. Людям это
+        // пока только логируется, а ИИ перебрал бы методы — поэтому здесь
+        // блокировка жёсткая: метод должен быть объявлен в actions этой таблицы
+        // и пройти права по объявлению.
+        // Вызов «пакет/метод» вдобавок обязан быть объявлен в actions этой
+        // таблицы и пройти права по объявлению: иначе через любую доступную
+        // таблицу дёргается метод любого компонента (см. ServiceActionAuditTrait).
+        if ($this->serviceActionStatus($rule, $action) !== 'ok') {
+            return $this->error("Действие {$action} не объявлено для таблицы {$rule['table']} — ИИ его не вызывает.");
+        }
+        return $this->success();
+    }
+
+    /**
+     * Помечено ли действие как доступное ИИ в конфиге таблицы.
+     * Ищем и в actions, и в hide_actions, и по ключу, и по полю action
+     * (действие может быть объявлено как ['action' => 'пакет/метод']).
+     */
+    protected function actionAllowsAI($rule, $action)
+    {
+        foreach (['actions', 'hide_actions'] as $key) {
+            if (empty($rule['properties'][$key]) || !is_array($rule['properties'][$key])) continue;
+            foreach ($rule['properties'][$key] as $name => $cfg) {
+                if (!is_array($cfg)) continue;
+                $match = ($name === $action)
+                    || (isset($cfg['action']) && $cfg['action'] === $action);
+                if ($match && !empty($cfg['ai'])) return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -100,13 +100,29 @@ trait TableVersionTrait
             return $this->error('У версии нет снимка данных (' . $which . ')');
         }
 
+        // NULL из снимка update() теперь пишет сам (array_key_exists вместо
+        // isset), но только в колонку, которая NULL допускает. Если поле было
+        // NULL, а колонка объявлена NOT NULL, вернуть его нечем — сообщаем
+        // честно, вместо тихого «успешно».
+        $meta = $this->modx->getFieldMeta($rule['class']);
+        $notRestored = [];
+        foreach ($snapshot as $f => $v) {
+            if ($v !== null) continue;
+            $nullable = isset($meta[$f]['null']) ? (bool)$meta[$f]['null'] : false;
+            if (!$nullable) $notRestored[] = $f;
+        }
+
         // Готовим запрос как обычный update: значения полей из снимка, id записи из лога.
         $restoreReq = array_merge($request, $snapshot);
         $restoreReq['id'] = (int)$log['object_id'];
         $restoreReq['api_action'] = 'update';
         unset($restoreReq['version_id'], $restoreReq['which']);
 
-        return $this->update($rule, $restoreReq, []);
+        $resp = $this->update($rule, $restoreReq, []);
+        if ($notRestored && is_array($resp)) {
+            $resp['not_restored'] = $notRestored;
+        }
+        return $resp;
     }
 
     /**
