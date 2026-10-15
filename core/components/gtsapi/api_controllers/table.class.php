@@ -436,7 +436,12 @@ class tableAPIController
                 . "(properties.save_version_row), откат был бы невозможен."
             );
         }
-        if (empty($mode['write'])) {
+        // Действие может быть объявлено читающим: actions: { product_params:
+        // {'ai':1, 'ai_read':1} }. Тогда право записи у чата не требуется -
+        // справочник одинаково нужен и чату, которому писать нельзя вовсе.
+        // Отвечает за это объявление автор таблицы: пометил читающим - значит
+        // метод данные не меняет.
+        if (!$this->actionIsAIRead($rule, $action) && empty($mode['write'])) {
             return $this->error('Этому чату ИИ разрешено только чтение.');
         }
         if (strpos($action, '/') === false) return $this->success();
@@ -455,6 +460,20 @@ class tableAPIController
             return $this->error("Действие {$action} не объявлено для таблицы {$rule['table']} — ИИ его не вызывает.");
         }
         return $this->success();
+    }
+
+    /** Объявлено ли действие читающим (ai_read) - тогда запись не нужна. */
+    protected function actionIsAIRead($rule, $action)
+    {
+        foreach (['actions', 'hide_actions'] as $key) {
+            if (empty($rule['properties'][$key]) || !is_array($rule['properties'][$key])) continue;
+            foreach ($rule['properties'][$key] as $name => $cfg) {
+                if (!is_array($cfg)) continue;
+                $match = ($name === $action) || (isset($cfg['action']) && $cfg['action'] === $action);
+                if ($match && !empty($cfg['ai']) && !empty($cfg['ai_read'])) return true;
+            }
+        }
+        return false;
     }
 
     /**
