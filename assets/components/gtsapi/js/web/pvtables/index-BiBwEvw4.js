@@ -45485,7 +45485,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-HWYHMfvf.js")).catch(function(m) {
+  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-BzqiMBml.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -57165,7 +57165,7 @@ const xj = {
         ...Qr.value.map(
           (ce) => ce.isRowPrint ? Lo(bk, {
             table: o.table,
-            filters: z,
+            filters: z?.value,
             api: r,
             action: ce.printAction || "print",
             row_id: le.original.id,
