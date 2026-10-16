@@ -45485,7 +45485,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-BzqiMBml.js")).catch(function(m) {
+  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-DzVcuoQW.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -71229,6 +71229,10 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
       } catch {
       }
     }, $ = () => {
+      if (o.fill) {
+        c.value = "inline";
+        return;
+      }
       try {
         const X = JSON.parse(localStorage.getItem(V.value) || "null");
         if (!X) return;
@@ -71321,7 +71325,7 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
       ])
     ], 6)) : Y("", !0);
   }
-}, RJ = /* @__PURE__ */ so(EJ, [["__scopeId", "data-v-d650dd55"]]);
+}, RJ = /* @__PURE__ */ so(EJ, [["__scopeId", "data-v-ee6a994c"]]);
 var MJ = {
   loader: {
     mask: {
