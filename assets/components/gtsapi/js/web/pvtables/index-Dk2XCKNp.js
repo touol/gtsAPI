@@ -45485,7 +45485,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-DxyVQyEr.js")).catch(function(m) {
+  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-Dn7JDuJu.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -46854,7 +46854,10 @@ const SD = { class: "photo-capture" }, CD = {
     modelValue: { type: String, default: "" },
     placeholder: { type: String, default: "Выберите файл" },
     disabled: { type: Boolean, default: !1 },
-    mediaSource: { type: Number, default: 1 }
+    // ⚠️ НЕ 1: источник №1 - «Filesystem» с базой в корне сайта, и браузер
+    // файлов на нём отвечает «источник настроен небезопасно». Не задан источник -
+    // пусть это будет видно сразу, а не превращается в попытку открыть весь сайт.
+    mediaSource: { type: Number, default: 0 }
   },
   emits: ["update:modelValue", "fileSelected"],
   setup(t, { emit: e }) {
@@ -46922,7 +46925,7 @@ const SD = { class: "photo-capture" }, CD = {
       }, 8, ["visible", "style"])
     ]));
   }
-}, Cb = /* @__PURE__ */ so(QD, [["__scopeId", "data-v-fc622ab0"]]), eB = {
+}, Cb = /* @__PURE__ */ so(QD, [["__scopeId", "data-v-f8d1b9e7"]]), eB = {
   key: 1,
   class: "w-full",
   autocomplete: "off"

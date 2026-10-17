@@ -136,7 +136,13 @@ class filesAPIController{
         // запрещены как база: иначе «внутри источника» = весь сайт.
         $siteRoot = realpath(MODX_BASE_PATH);
         $coreRoot = realpath(MODX_CORE_PATH);
-        if (!$realBase || $realBase === $siteRoot || ($coreRoot && strpos($realBase, $coreRoot) === 0)) {
+        if (!$realBase) {
+            // Папки просто нет на диске. Раньше этот случай отвечал «настроен
+            // небезопасно», и человек искал ошибку в правах, а надо было
+            // создать каталог.
+            return 'Папка источника файлов не найдена: ' . ($base !== '' ? $base : '(базовый путь пуст)');
+        }
+        if ($realBase === $siteRoot || ($coreRoot && strpos($realBase, $coreRoot) === 0)) {
             return 'Источник файлов настроен небезопасно: базовый путь не должен быть корнем сайта';
         }
 
