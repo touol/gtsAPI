@@ -171,7 +171,31 @@ class filesAPIController{
             return false;
         }
         $this->source->initialize();
+        $this->applySourceFileTypes();
         return true;
+    }
+
+    /**
+     * Список разрешённых расширений — из свойств источника.
+     *
+     * Грабля ядра MODX 2.8: modFileMediaSource::checkFiletype() берёт список
+     * через xPDOObject::getOption(), а тот смотрит в _options объекта и в
+     * системные настройки, но НЕ в свойства источника. Из-за этого свойство
+     * «Разрешенные типы файлов» при загрузке и переименовании молча
+     * игнорируется и работают глобальные upload_files/upload_images/
+     * upload_media/upload_flash — отсюда «Расширение файла `xlsm` не
+     * допускается» у источника, где xlsm разрешён. Докладываем сами.
+     */
+    protected function applySourceFileTypes()
+    {
+        $props = $this->source->getPropertyList();
+        $allowed = isset($props['allowedFileTypes']) ? $props['allowedFileTypes'] : '';
+        if (!is_array($allowed)) {
+            $allowed = array_filter(array_map('trim', explode(',', (string)$allowed)));
+        }
+        if ($allowed) {
+            $this->source->setOption('allowedFileTypes', $allowed);
+        }
     }
     
     /**
