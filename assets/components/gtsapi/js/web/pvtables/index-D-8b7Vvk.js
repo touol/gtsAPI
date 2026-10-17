@@ -17957,22 +17957,22 @@ zo.getAdapter = b2.getAdapter;
 zo.HttpStatusCode = rg;
 zo.default = zo;
 const {
-  Axios: cQ,
-  AxiosError: dQ,
-  CanceledError: fQ,
-  isCancel: pQ,
-  CancelToken: hQ,
-  VERSION: mQ,
-  all: gQ,
-  Cancel: bQ,
-  isAxiosError: vQ,
-  spread: yQ,
-  toFormData: wQ,
-  AxiosHeaders: kQ,
-  HttpStatusCode: SQ,
-  formToJSON: CQ,
-  getAdapter: xQ,
-  mergeConfig: IQ
+  Axios: pQ,
+  AxiosError: hQ,
+  CanceledError: mQ,
+  isCancel: gQ,
+  CancelToken: bQ,
+  VERSION: vQ,
+  all: yQ,
+  Cancel: wQ,
+  isAxiosError: kQ,
+  spread: SQ,
+  toFormData: CQ,
+  AxiosHeaders: xQ,
+  HttpStatusCode: IQ,
+  formToJSON: OQ,
+  getAdapter: PQ,
+  mergeConfig: LQ
 } = zo, fo = (t, e = 6e4) => {
   const o = {
     baseURL: `/api/${t}`,
@@ -45485,7 +45485,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-DzVcuoQW.js")).catch(function(m) {
+  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-DxyVQyEr.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -70634,43 +70634,43 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
 }, HY = ["value"], UY = ["value"], qY = {
   key: 0,
   class: "gtsai-text"
-}, GY = {
-  key: 1,
+}, GY = ["href"], WY = { class: "gtsai-file-out-name" }, YY = { class: "gtsai-file-out-size" }, JY = {
+  key: 2,
   class: "gtsai-md"
-}, WY = {
+}, ZY = {
   key: 0,
   class: "gtsai-tools"
-}, YY = ["title"], JY = { class: "gtsai-tool-name" }, ZY = {
+}, XY = ["title"], QY = { class: "gtsai-tool-name" }, eJ = {
   key: 0,
   class: "gtsai-tool-args"
-}, XY = { class: "gtsai-text" }, QY = {
-  key: 2,
-  class: "gtsai-card"
-}, eJ = { class: "gtsai-card-head" }, tJ = {
-  key: 0,
-  class: "gtsai-card-reason"
-}, nJ = { class: "gtsai-diff" }, oJ = { class: "gtsai-diff-id" }, rJ = { class: "gtsai-card-foot" }, iJ = ["disabled", "onClick"], aJ = ["disabled", "onClick"], sJ = {
-  key: 0,
-  class: "gtsai-card-state"
-}, lJ = {
+}, tJ = { class: "gtsai-text" }, nJ = {
   key: 3,
   class: "gtsai-card"
-}, uJ = { class: "gtsai-card-head" }, cJ = { class: "gtsai-card-foot" }, dJ = ["disabled", "onClick"], fJ = {
+}, oJ = { class: "gtsai-card-head" }, rJ = {
+  key: 0,
+  class: "gtsai-card-reason"
+}, iJ = { class: "gtsai-diff" }, aJ = { class: "gtsai-diff-id" }, sJ = { class: "gtsai-card-foot" }, lJ = ["disabled", "onClick"], uJ = ["disabled", "onClick"], cJ = {
   key: 0,
   class: "gtsai-card-state"
-}, pJ = {
+}, dJ = {
   key: 4,
+  class: "gtsai-card"
+}, fJ = { class: "gtsai-card-head" }, pJ = { class: "gtsai-card-foot" }, hJ = ["disabled", "onClick"], mJ = {
+  key: 0,
+  class: "gtsai-card-state"
+}, gJ = {
+  key: 5,
   class: "gtsai-text"
-}, hJ = {
+}, bJ = {
   key: 0,
   class: "gtsai-error"
-}, mJ = {
+}, vJ = {
   key: 0,
   class: "gtsai-files"
-}, gJ = { class: "gtsai-file-size" }, bJ = ["onClick"], vJ = ["disabled"], yJ = { class: "gtsai-box-foot" }, wJ = ["disabled"], kJ = ["value"], SJ = {
+}, yJ = { class: "gtsai-file-size" }, wJ = ["onClick"], kJ = ["disabled"], SJ = { class: "gtsai-box-foot" }, CJ = ["disabled"], xJ = ["value"], IJ = {
   key: 1,
   class: "gtsai-chip"
-}, CJ = ["disabled", "title"], xJ = ["disabled"], IJ = ["disabled"], OJ = {
+}, OJ = ["disabled", "title"], PJ = ["disabled"], LJ = ["disabled"], AJ = {
   __name: "GtsAIChat",
   props: {
     /** Имя настроек чата (gtsAISetting.name): промпт, права, модель, лимиты. */
@@ -70886,7 +70886,7 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
       } catch {
         return;
       }
-      B === "delta" ? (Fe.content += Ae.text || "", N(Fe), D()) : B === "tool" ? (Fe.tools || (Fe.tools = []), Fe.tools.push({ name: Ae.name, input: Ae.input }), D()) : B === "error" ? v.value = Ae.message || "Ошибка ИИ" : B === "confirm" ? (f.value.push({ role: "confirm", data: Ae, done: null }), D()) : B === "applied" ? (Ae.success ? (f.value.push({ role: "applied", data: Ae, done: null }), o("changed", { table: Ae.table, ids: Ae.updated, batch_id: Ae.batch_id })) : v.value = Ae.message || "Правка не применилась", D()) : (B === "done" || B === "start") && Ae.chat_id && (g.value = Ae.chat_id);
+      B === "delta" ? (Fe.content += Ae.text || "", N(Fe), D()) : B === "file" ? (f.value.push({ role: "file", data: Ae }), D()) : B === "tool" ? (Fe.tools || (Fe.tools = []), Fe.tools.push({ name: Ae.name, input: Ae.input }), D()) : B === "error" ? v.value = Ae.message || "Ошибка ИИ" : B === "confirm" ? (f.value.push({ role: "confirm", data: Ae, done: null }), D()) : B === "applied" ? (Ae.success ? (f.value.push({ role: "applied", data: Ae, done: null }), o("changed", { table: Ae.table, ids: Ae.updated, batch_id: Ae.batch_id })) : v.value = Ae.message || "Правка не применилась", D()) : (B === "done" || B === "start") && Ae.chat_id && (g.value = Ae.chat_id);
     }, ge = (z) => {
       const Fe = z && z.input && typeof z.input == "object" ? z.input : {}, B = [];
       if (Fe.table && B.push(Fe.table), Fe.action && B.push(Fe.action), Fe.name && !Fe.table && B.push(Fe.name), Array.isArray(Fe.rows) && B.push("строк: " + Fe.rows.length), Fe.filters && typeof Fe.filters == "object") {
@@ -70956,20 +70956,30 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
           key: he,
           class: He(["gtsai-msg", "gtsai-" + B.role])
         }, [
-          B.role === "user" ? (h(), S("div", qY, Se(B.content), 1)) : B.role === "assistant" ? (h(), S("div", GY, [
-            B.tools && B.tools.length ? (h(), S("div", WY, [
+          B.role === "user" ? (h(), S("div", qY, Se(B.content), 1)) : B.role === "file" ? (h(), S("a", {
+            key: 1,
+            class: "gtsai-file-out",
+            href: B.data.url,
+            target: "_blank",
+            rel: "noopener"
+          }, [
+            k("span", WY, Se(B.data.name), 1),
+            k("span", YY, Se(Ce(B.data.size)), 1),
+            Fe[9] || (Fe[9] = k("span", { class: "gtsai-file-out-act" }, "скачать", -1))
+          ], 8, GY)) : B.role === "assistant" ? (h(), S("div", JY, [
+            B.tools && B.tools.length ? (h(), S("div", ZY, [
               (h(!0), S(je, null, wt(B.tools, (Ae, Te) => (h(), S("div", {
                 key: Te,
                 class: "gtsai-tool",
                 title: de(Ae)
               }, [
-                k("span", JY, Se(Ae.name), 1),
-                ge(Ae) ? (h(), S("span", ZY, Se(ge(Ae)), 1)) : Y("", !0)
-              ], 8, YY))), 128))
+                k("span", QY, Se(Ae.name), 1),
+                ge(Ae) ? (h(), S("span", eJ, Se(ge(Ae)), 1)) : Y("", !0)
+              ], 8, XY))), 128))
             ])) : Y("", !0),
             (h(), oe(sC, null, {
               fallback: Le(() => [
-                k("div", XY, Se(B.content), 1)
+                k("div", tJ, Se(B.content), 1)
               ]),
               default: Le(() => [
                 fe(A(j), {
@@ -70984,50 +70994,50 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
               ]),
               _: 2
             }, 1024))
-          ])) : B.role === "confirm" ? (h(), S("div", QY, [
-            k("div", eJ, Se(B.data.action === "update" ? "Изменить строк" : "Создать строк") + ": " + Se(B.data.diff.length) + " в «" + Se(B.data.table) + "» ", 1),
-            B.data.reason ? (h(), S("div", tJ, Se(B.data.reason), 1)) : Y("", !0),
-            k("table", nJ, [
+          ])) : B.role === "confirm" ? (h(), S("div", nJ, [
+            k("div", oJ, Se(B.data.action === "update" ? "Изменить строк" : "Создать строк") + ": " + Se(B.data.diff.length) + " в «" + Se(B.data.table) + "» ", 1),
+            B.data.reason ? (h(), S("div", rJ, Se(B.data.reason), 1)) : Y("", !0),
+            k("table", iJ, [
               (h(!0), S(je, null, wt(B.data.diff, (Ae, Te) => (h(), S("tr", { key: Te }, [
-                k("td", oJ, Se(Ae.id ? "#" + Ae.id : "новая"), 1),
+                k("td", aJ, Se(Ae.id ? "#" + Ae.id : "новая"), 1),
                 k("td", null, [
                   (h(!0), S(je, null, wt(Ae.will, (Pe, _e) => (h(), S("div", { key: _e }, [
                     yt(Se(_e) + ": ", 1),
                     Ae.id ? (h(), S(je, { key: 0 }, [
                       k("s", null, Se(F(Ae.was[_e])), 1),
-                      Fe[9] || (Fe[9] = yt(" → ", -1))
+                      Fe[10] || (Fe[10] = yt(" → ", -1))
                     ], 64)) : Y("", !0),
                     k("b", null, Se(F(Pe)), 1)
                   ]))), 128))
                 ])
               ]))), 128))
             ]),
-            k("div", rJ, [
+            k("div", sJ, [
               k("button", {
                 class: "gtsai-btn",
                 disabled: B.done,
                 onClick: (Ae) => qe(B)
-              }, "Применить", 8, iJ),
+              }, "Применить", 8, lJ),
               k("button", {
                 class: "gtsai-btn gtsai-secondary",
                 disabled: B.done,
                 onClick: (Ae) => B.done = "отклонено"
-              }, "Отклонить", 8, aJ),
-              B.done ? (h(), S("span", sJ, Se(B.done), 1)) : Y("", !0)
+              }, "Отклонить", 8, uJ),
+              B.done ? (h(), S("span", cJ, Se(B.done), 1)) : Y("", !0)
             ])
-          ])) : B.role === "applied" ? (h(), S("div", lJ, [
-            k("div", uJ, Se(B.data.action && B.data.action !== "update" ? "Создано строк" : "Изменено строк") + ": " + Se(B.data.updated.length) + " в «" + Se(B.data.table) + "» ", 1),
-            k("div", cJ, [
+          ])) : B.role === "applied" ? (h(), S("div", dJ, [
+            k("div", fJ, Se(B.data.action && B.data.action !== "update" ? "Создано строк" : "Изменено строк") + ": " + Se(B.data.updated.length) + " в «" + Se(B.data.table) + "» ", 1),
+            k("div", pJ, [
               k("button", {
                 class: "gtsai-btn gtsai-secondary",
                 disabled: B.done,
                 onClick: (Ae) => Re(B)
-              }, "Откатить", 8, dJ),
-              B.done ? (h(), S("span", fJ, Se(B.done), 1)) : Y("", !0)
+              }, "Откатить", 8, hJ),
+              B.done ? (h(), S("span", mJ, Se(B.done), 1)) : Y("", !0)
             ])
-          ])) : (h(), S("div", pJ, Se(B.content), 1))
+          ])) : (h(), S("div", gJ, Se(B.content), 1))
         ], 2))), 128)),
-        v.value ? (h(), S("div", hJ, Se(v.value), 1)) : Y("", !0)
+        v.value ? (h(), S("div", bJ, Se(v.value), 1)) : Y("", !0)
       ], 512),
       k("div", {
         class: He(["gtsai-box", { "gtsai-box--drop": xe.value }]),
@@ -71035,18 +71045,18 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
         onDragleave: Fe[7] || (Fe[7] = tn((B) => xe.value = !1, ["prevent"])),
         onDrop: tn(Q, ["prevent"])
       }, [
-        ye.value.length ? (h(), S("div", mJ, [
+        ye.value.length ? (h(), S("div", vJ, [
           (h(!0), S(je, null, wt(ye.value, (B) => (h(), S("span", {
             key: B.id,
             class: "gtsai-file"
           }, [
             yt(Se(B.name) + " ", 1),
-            k("span", gJ, Se(Ce(B.size)), 1),
+            k("span", yJ, Se(Ce(B.size)), 1),
             k("button", {
               class: "gtsai-file-x",
               title: "Убрать",
               onClick: (he) => ee(B)
-            }, "✕", 8, bJ)
+            }, "✕", 8, wJ)
           ]))), 128))
         ])) : Y("", !0),
         Dt(k("textarea", {
@@ -71059,22 +71069,22 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
           onInput: te,
           onPaste: me,
           onKeydown: Fe[2] || (Fe[2] = Zt(tn((B) => E(), ["exact", "prevent"]), ["enter"]))
-        }, null, 40, vJ), [
+        }, null, 40, kJ), [
           [ss, m.value]
         ]),
-        k("div", yJ, [
+        k("div", SJ, [
           k("button", {
             class: "gtsai-attach",
             disabled: d.value || Ne.value,
             title: "Прикрепить файл или снимок",
             onClick: T
-          }, Se(Ne.value ? "…" : "+"), 9, wJ),
+          }, Se(Ne.value ? "…" : "+"), 9, CJ),
           k("input", {
             ref_key: "picker",
             ref: be,
             type: "file",
             multiple: "",
-            accept: "image/*,application/pdf,.xlsx,.xlsm,.xls,.csv",
+            accept: "image/*,application/pdf,.xlsx,.xlsm,.xls,.csv,.txt,.md,.markdown,.json,.xml,.yml,.yaml,.log",
             hidden: "",
             onChange: G
           }, null, 544),
@@ -71088,24 +71098,24 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
             (h(!0), S(je, null, wt(s.value, (B) => (h(), S("option", {
               key: B.id,
               value: B.id
-            }, Se(B.name), 9, kJ))), 128))
+            }, Se(B.name), 9, xJ))), 128))
           ], 544)), [
             [Cp, a.value]
-          ]) : (h(), S("span", SJ, Se(a.value), 1)),
+          ]) : (h(), S("span", IJ, Se(a.value), 1)),
           l.value ? (h(), S("button", {
             key: 2,
             class: He(["gtsai-chip gtsai-chip--btn", { "gtsai-chip--on": !c.value }]),
             disabled: d.value || u.value,
             title: u.value ? "Подтверждение включено настройкой чата и здесь не отключается" : c.value ? "Сейчас: показать правку и ждать кнопку" : "Сейчас: применять сразу, с кнопкой отката",
             onClick: $
-          }, Se(c.value ? "спрашивать" : "сразу"), 11, CJ)) : Y("", !0),
+          }, Se(c.value ? "спрашивать" : "сразу"), 11, OJ)) : Y("", !0),
           t.echo ? (h(), S("button", {
             key: 3,
             class: "gtsai-chip gtsai-chip--btn",
             disabled: d.value,
             onClick: Fe[4] || (Fe[4] = (B) => E("/echo"))
-          }, "Тест стрима", 8, xJ)) : Y("", !0),
-          Fe[10] || (Fe[10] = k("span", { class: "gtsai-box-spacer" }, null, -1)),
+          }, "Тест стрима", 8, PJ)) : Y("", !0),
+          Fe[11] || (Fe[11] = k("span", { class: "gtsai-box-spacer" }, null, -1)),
           d.value ? (h(), S("button", {
             key: 5,
             class: "gtsai-send gtsai-send--stop",
@@ -71117,15 +71127,15 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
             disabled: !m.value.trim() && !ye.value.length,
             title: "Отправить (Enter)",
             onClick: Fe[5] || (Fe[5] = (B) => E())
-          }, "↑", 8, IJ))
+          }, "↑", 8, LJ))
         ])
       ], 34)
     ]));
   }
-}, CS = /* @__PURE__ */ so(OJ, [["__scopeId", "data-v-b67300f5"]]), PJ = {
+}, CS = /* @__PURE__ */ so(AJ, [["__scopeId", "data-v-f03ad604"]]), TJ = {
   key: 1,
   class: "gtsai-dock-bar"
-}, LJ = ["title", "onClick"], AJ = { class: "gtsai-dock-body" }, sw = 380, TJ = 260, EJ = {
+}, EJ = ["title", "onClick"], RJ = { class: "gtsai-dock-body" }, sw = 380, MJ = 260, FJ = {
   __name: "GtsAIDock",
   props: /* @__PURE__ */ $r({
     setting: { type: String, default: "default" },
@@ -71240,7 +71250,7 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
       } catch {
       }
     }, U = (X) => {
-      c.value = X, f.value = X === "top" || X === "bottom" ? TJ : sw, R();
+      c.value = X, f.value = X === "top" || X === "bottom" ? MJ : sw, R();
     }, _ = { left: "paddingLeft", right: "paddingRight", top: "paddingTop", bottom: "paddingBottom" };
     let ie = "", Oe = null;
     const be = () => {
@@ -71297,7 +71307,7 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
         class: He(["gtsai-dock-grip", "gtsai-dock-grip--" + c.value]),
         onMousedown: tn(Ce, ["prevent"])
       }, null, 34)) : Y("", !0),
-      t.fill ? Y("", !0) : (h(), S("div", PJ, [
+      t.fill ? Y("", !0) : (h(), S("div", TJ, [
         ee[4] || (ee[4] = k("span", { class: "gtsai-dock-place" }, "Чат ИИ", -1)),
         ee[5] || (ee[5] = k("span", { class: "gtsai-dock-spacer" }, null, -1)),
         (h(), S(je, null, wt(u, (te) => k("button", {
@@ -71305,14 +71315,14 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
           class: He(["gtsai-dock-btn", { "gtsai-dock-btn--on": c.value === te.id }]),
           title: te.title,
           onClick: (D) => U(te.id)
-        }, Se(te.icon), 11, LJ)), 64)),
+        }, Se(te.icon), 11, EJ)), 64)),
         k("button", {
           class: "gtsai-dock-btn",
           title: "Закрыть",
           onClick: ee[1] || (ee[1] = (te) => v(!1))
         }, "✕")
       ])),
-      k("div", AJ, [
+      k("div", RJ, [
         fe(CS, {
           setting: t.setting,
           title: t.title,
@@ -71325,8 +71335,8 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
       ])
     ], 6)) : Y("", !0);
   }
-}, RJ = /* @__PURE__ */ so(EJ, [["__scopeId", "data-v-ee6a994c"]]);
-var MJ = {
+}, DJ = /* @__PURE__ */ so(FJ, [["__scopeId", "data-v-ee6a994c"]]);
+var BJ = {
   loader: {
     mask: {
       background: "{content.background}",
@@ -71336,7 +71346,7 @@ var MJ = {
       size: "2rem"
     }
   }
-}, FJ = {
+}, NJ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -71400,7 +71410,7 @@ var MJ = {
       }
     }
   }
-}, DJ = {
+}, _J = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -71496,7 +71506,7 @@ var MJ = {
       }
     }
   }
-}, BJ = {
+}, $J = {
   root: {
     width: "2rem",
     height: "2rem",
@@ -71518,7 +71528,7 @@ var MJ = {
     height: "4rem",
     fontSize: "2rem"
   }
-}, NJ = {
+}, VJ = {
   root: {
     borderRadius: "{border.radius.md}",
     padding: "0 0.5rem",
@@ -71607,11 +71617,11 @@ var MJ = {
       }
     }
   }
-}, _J = {
+}, zJ = {
   root: {
     borderRadius: "{content.border.radius}"
   }
-}, $J = {
+}, jJ = {
   root: {
     padding: "1.25rem",
     background: "{content.background}",
@@ -71638,7 +71648,7 @@ var MJ = {
   separator: {
     color: "{navigation.item.icon.color}"
   }
-}, VJ = {
+}, KJ = {
   root: {
     borderRadius: "{form.field.border.radius}",
     roundedBorderRadius: "2rem",
@@ -72124,7 +72134,7 @@ var MJ = {
       }
     }
   }
-}, zJ = {
+}, HJ = {
   root: {
     background: "{content.background}",
     borderRadius: "{border.radius.lg}",
@@ -72145,7 +72155,7 @@ var MJ = {
   subtitle: {
     color: "{text.muted.color}"
   }
-}, jJ = {
+}, UJ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -72184,7 +72194,7 @@ var MJ = {
       }
     }
   }
-}, KJ = {
+}, qJ = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -72241,7 +72251,7 @@ var MJ = {
       size: "0.875rem"
     }
   }
-}, HJ = {
+}, GJ = {
   root: {
     borderRadius: "{border.radius.sm}",
     width: "1.5rem",
@@ -72276,7 +72286,7 @@ var MJ = {
     checkedHoverColor: "{primary.contrast.color}",
     disabledColor: "{form.field.disabled.color}"
   }
-}, UJ = {
+}, WJ = {
   root: {
     borderRadius: "16px",
     paddingX: "0.875rem",
@@ -72327,7 +72337,7 @@ var MJ = {
       }
     }
   }
-}, qJ = {
+}, YJ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -72367,7 +72377,7 @@ var MJ = {
       }
     }
   }
-}, GJ = {
+}, JJ = {
   icon: {
     size: "2rem",
     color: "{overlay.modal.color}"
@@ -72375,7 +72385,7 @@ var MJ = {
   content: {
     gap: "1rem"
   }
-}, WJ = {
+}, ZJ = {
   root: {
     background: "{overlay.popover.background}",
     borderColor: "{overlay.popover.border.color}",
@@ -72397,7 +72407,7 @@ var MJ = {
     gap: "0.5rem",
     padding: "0 {overlay.popover.padding} {overlay.popover.padding} {overlay.popover.padding}"
   }
-}, YJ = {
+}, XJ = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -72440,7 +72450,7 @@ var MJ = {
   separator: {
     borderColor: "{content.border.color}"
   }
-}, JJ = {
+}, QJ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -72633,7 +72643,7 @@ var MJ = {
       }
     }
   }
-}, ZJ = {
+}, eZ = {
   root: {
     borderColor: "{content.border.color}",
     borderWidth: "1px",
@@ -72684,7 +72694,7 @@ var MJ = {
       }
     }
   }
-}, XJ = {
+}, tZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -72821,7 +72831,7 @@ var MJ = {
       }
     }
   }
-}, QJ = {
+}, nZ = {
   root: {
     background: "{overlay.modal.background}",
     borderColor: "{overlay.modal.border.color}",
@@ -72844,7 +72854,7 @@ var MJ = {
     padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}",
     gap: "0.5rem"
   }
-}, eZ = {
+}, oZ = {
   root: {
     borderColor: "{content.border.color}"
   },
@@ -72866,7 +72876,7 @@ var MJ = {
       padding: "0.625rem 0"
     }
   }
-}, tZ = {
+}, rZ = {
   root: {
     background: "rgba(255, 255, 255, 0.1)",
     borderColor: "rgba(255, 255, 255, 0.2)",
@@ -72885,7 +72895,7 @@ var MJ = {
       shadow: "{focus.ring.shadow}"
     }
   }
-}, nZ = {
+}, iZ = {
   root: {
     background: "{overlay.modal.background}",
     borderColor: "{overlay.modal.border.color}",
@@ -72903,7 +72913,7 @@ var MJ = {
   content: {
     padding: "0 {overlay.modal.padding} {overlay.modal.padding} {overlay.modal.padding}"
   }
-}, oZ = {
+}, aZ = {
   toolbar: {
     borderColor: "{content.border.color}",
     borderRadius: "{content.border.radius}"
@@ -72946,7 +72956,7 @@ var MJ = {
       }
     }
   }
-}, rZ = {
+}, sZ = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -72995,7 +73005,7 @@ var MJ = {
       }
     }
   }
-}, iZ = {
+}, lZ = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -73042,14 +73052,14 @@ var MJ = {
       }
     }
   }
-}, aZ = {
+}, uZ = {
   root: {
     color: "{form.field.float.label.color}",
     focusColor: "{form.field.float.label.focus.color}",
     invalidColor: "{form.field.float.label.invalid.color}",
     transitionDuration: "0.2s"
   }
-}, sZ = {
+}, cZ = {
   root: {
     borderWidth: "1px",
     borderColor: "{content.border.color}",
@@ -73181,11 +73191,11 @@ var MJ = {
       }
     }
   }
-}, lZ = {
+}, dZ = {
   icon: {
     color: "{form.field.icon.color}"
   }
-}, uZ = {
+}, fZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -73228,7 +73238,7 @@ var MJ = {
       shadow: "{focus.ring.shadow}"
     }
   }
-}, cZ = {
+}, pZ = {
   root: {
     padding: "{form.field.padding.y} {form.field.padding.x}",
     borderRadius: "{content.border.radius}",
@@ -73318,7 +73328,7 @@ var MJ = {
       }
     }
   }
-}, dZ = {
+}, hZ = {
   root: {
     padding: "{form.field.padding.y} {form.field.padding.x}",
     borderRadius: "{content.border.radius}",
@@ -73335,7 +73345,7 @@ var MJ = {
     hoverBackground: "{content.hover.background}",
     hoverColor: "{content.hover.color}"
   }
-}, fZ = {
+}, mZ = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -73378,7 +73388,7 @@ var MJ = {
       }
     }
   }
-}, pZ = {
+}, gZ = {
   addon: {
     borderRadius: "{form.field.border.radius}"
   },
@@ -73398,7 +73408,7 @@ var MJ = {
       }
     }
   }
-}, hZ = {
+}, bZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -73435,7 +73445,7 @@ var MJ = {
       }
     }
   }
-}, mZ = {
+}, vZ = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -73471,7 +73481,7 @@ var MJ = {
       paddingY: "0.75rem"
     }
   }
-}, gZ = {
+}, yZ = {
   root: {
     transitionDuration: "{transition.duration}",
     focusRing: {
@@ -73491,7 +73501,7 @@ var MJ = {
   text: {
     color: "{text.muted.color}"
   }
-}, bZ = {
+}, wZ = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -73556,7 +73566,7 @@ var MJ = {
       }
     }
   }
-}, vZ = {
+}, kZ = {
   root: {
     borderColor: "transparent",
     borderRadius: "{content.border.radius}",
@@ -73644,7 +73654,7 @@ var MJ = {
       }
     }
   }
-}, yZ = {
+}, SZ = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -73678,7 +73688,7 @@ var MJ = {
   separator: {
     borderColor: "{content.border.color}"
   }
-}, wZ = {
+}, CZ = {
   root: {
     borderColor: "transparent",
     borderRadius: "{content.border.radius}",
@@ -73750,7 +73760,7 @@ var MJ = {
       }
     }
   }
-}, kZ = {
+}, xZ = {
   root: {
     borderRadius: "{content.border.radius}",
     borderWidth: "1px",
@@ -73942,7 +73952,7 @@ var MJ = {
       }
     }
   }
-}, SZ = {
+}, IZ = {
   root: {
     borderRadius: "{content.border.radius}",
     gap: "1rem"
@@ -73974,13 +73984,13 @@ function jd(t) {
   }, jd(t);
 }
 function sp(t, e, n) {
-  return (e = CZ(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+  return (e = OZ(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function CZ(t) {
-  var e = xZ(t, "string");
+function OZ(t) {
+  var e = PZ(t, "string");
   return jd(e) == "symbol" ? e : e + "";
 }
-function xZ(t, e) {
+function PZ(t, e) {
   if (jd(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -73990,7 +74000,7 @@ function xZ(t, e) {
   }
   return (e === "string" ? String : Number)(t);
 }
-var IZ = {
+var LZ = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -74056,14 +74066,14 @@ var IZ = {
   emptyMessage: {
     padding: "{list.option.padding}"
   }
-}, OZ = {
+}, AZ = {
   root: {
     gap: "1.125rem"
   },
   controls: {
     gap: "0.5rem"
   }
-}, PZ = {
+}, TZ = {
   root: {
     gutter: "0.75rem",
     transitionDuration: "{transition.duration}"
@@ -74101,14 +74111,14 @@ var IZ = {
     borderRadius: "{content.border.radius}",
     height: "24px"
   }
-}, LZ = {
+}, EZ = {
   root: {
     outline: {
       width: "2px",
       color: "{content.background}"
     }
   }
-}, AZ = {
+}, RZ = {
   root: {
     padding: "0.5rem 1rem",
     gap: "0.25rem",
@@ -74141,7 +74151,7 @@ var IZ = {
   jumpToPageInput: {
     maxWidth: "2.5rem"
   }
-}, TZ = {
+}, MZ = {
   root: {
     borderColor: "{content.border.color}",
     borderRadius: "{content.border.radius}"
@@ -74178,7 +74188,7 @@ var IZ = {
       }
     }
   }
-}, EZ = {
+}, FZ = {
   root: {
     gap: "0",
     transitionDuration: "{transition.duration}"
@@ -74218,7 +74228,7 @@ var IZ = {
     color: "{navigation.submenu.icon.color}",
     focusColor: "{navigation.submenu.icon.focus.color}"
   }
-}, RZ = {
+}, DZ = {
   meter: {
     background: "{content.border.color}",
     borderRadius: "{content.border.radius}",
@@ -74254,14 +74264,14 @@ var IZ = {
       }
     }
   }
-}, MZ = {
+}, BZ = {
   root: {
     gap: "1.125rem"
   },
   controls: {
     gap: "0.5rem"
   }
-}, FZ = {
+}, NZ = {
   root: {
     background: "{overlay.popover.background}",
     borderColor: "{overlay.popover.border.color}",
@@ -74274,7 +74284,7 @@ var IZ = {
   content: {
     padding: "{overlay.popover.padding}"
   }
-}, DZ = {
+}, _Z = {
   root: {
     background: "{content.border.color}",
     borderRadius: "{content.border.radius}",
@@ -74288,7 +74298,7 @@ var IZ = {
     fontSize: "0.875rem",
     fontWeight: "600"
   }
-}, BZ = {
+}, $Z = {
   colorScheme: {
     light: {
       root: {
@@ -74307,7 +74317,7 @@ var IZ = {
       }
     }
   }
-}, NZ = {
+}, VZ = {
   root: {
     width: "1.5rem",
     height: "1.5rem",
@@ -74340,7 +74350,7 @@ var IZ = {
     checkedHoverColor: "{primary.contrast.color}",
     disabledColor: "{form.field.disabled.color}"
   }
-}, _Z = {
+}, zZ = {
   root: {
     gap: "0.25rem",
     transitionDuration: "{transition.duration}"
@@ -74351,7 +74361,7 @@ var IZ = {
     hoverColor: "{primary.color}",
     activeColor: "{primary.color}"
   }
-}, $Z = {
+}, jZ = {
   colorScheme: {
     light: {
       root: {
@@ -74364,7 +74374,7 @@ var IZ = {
       }
     }
   }
-}, VZ = {
+}, KZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -74391,7 +74401,7 @@ var IZ = {
       }
     }
   }
-}, zZ = {
+}, HZ = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -74460,7 +74470,7 @@ var IZ = {
   emptyMessage: {
     padding: "{list.option.padding}"
   }
-}, jZ = {
+}, UZ = {
   root: {
     borderRadius: "{form.field.border.radius}"
   },
@@ -74476,7 +74486,7 @@ var IZ = {
       }
     }
   }
-}, KZ = {
+}, qZ = {
   root: {
     borderRadius: "{content.border.radius}"
   },
@@ -74494,7 +74504,7 @@ var IZ = {
       }
     }
   }
-}, HZ = {
+}, GZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -74539,18 +74549,18 @@ var IZ = {
       }
     }
   }
-}, UZ = {
+}, WZ = {
   root: {
     gap: "0.5rem",
     transitionDuration: "{transition.duration}"
   }
-}, qZ = {
+}, YZ = {
   root: {
     borderRadius: "{form.field.border.radius}",
     roundedBorderRadius: "2rem",
     raisedShadow: "0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12)"
   }
-}, GZ = {
+}, JZ = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -74583,7 +74593,7 @@ var IZ = {
       }
     }
   }
-}, WZ = {
+}, ZZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -74635,7 +74645,7 @@ var IZ = {
     color: "{content.color}",
     padding: "0 0 0 1rem"
   }
-}, YZ = {
+}, XZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -74671,7 +74681,7 @@ var IZ = {
     borderRadius: "50%",
     shadow: "none"
   }
-}, JZ = {
+}, QZ = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -74726,7 +74736,7 @@ var IZ = {
       }
     }
   }
-}, ZZ = {
+}, eX = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -74806,7 +74816,7 @@ var IZ = {
       }
     }
   }
-}, XZ = {
+}, tX = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -74842,7 +74852,7 @@ var IZ = {
       }
     }
   }
-}, QZ = {
+}, nX = {
   root: {
     fontSize: "0.875rem",
     fontWeight: "700",
@@ -74916,7 +74926,7 @@ var IZ = {
       }
     }
   }
-}, eX = {
+}, oX = {
   root: {
     background: "{form.field.background}",
     borderColor: "{form.field.border.color}",
@@ -74931,7 +74941,7 @@ var IZ = {
   commandResponse: {
     margin: "2px 0"
   }
-}, tX = {
+}, rX = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -74957,7 +74967,7 @@ var IZ = {
     },
     transitionDuration: "{form.field.transition.duration}"
   }
-}, nX = {
+}, iX = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -74994,7 +75004,7 @@ var IZ = {
   separator: {
     borderColor: "{content.border.color}"
   }
-}, oX = {
+}, aX = {
   event: {
     minHeight: "5rem"
   },
@@ -75025,7 +75035,7 @@ var IZ = {
     color: "{content.border.color}",
     size: "2px"
   }
-}, rX = {
+}, sX = {
   root: {
     width: "25rem",
     borderRadius: "{content.border.radius}",
@@ -75239,7 +75249,7 @@ var IZ = {
       }
     }
   }
-}, iX = {
+}, lX = {
   root: {
     padding: "0.625rem 1rem",
     borderRadius: "{content.border.radius}",
@@ -75289,7 +75299,7 @@ var IZ = {
       }
     }
   }
-}, aX = {
+}, uX = {
   root: {
     width: "3rem",
     height: "1.75rem",
@@ -75348,7 +75358,7 @@ var IZ = {
       }
     }
   }
-}, sX = {
+}, cX = {
   root: {
     background: "{content.background}",
     borderColor: "{content.border.color}",
@@ -75371,7 +75381,7 @@ var IZ = {
       }
     }
   }
-}, lX = {
+}, dX = {
   root: {
     maxWidth: "12.5rem",
     gutter: "0.25rem",
@@ -75393,7 +75403,7 @@ var IZ = {
       }
     }
   }
-}, uX = {
+}, fX = {
   root: {
     background: "{content.background}",
     color: "{content.color}",
@@ -75443,7 +75453,7 @@ var IZ = {
   loadingIcon: {
     size: "2rem"
   }
-}, cX = {
+}, pX = {
   root: {
     background: "{form.field.background}",
     disabledBackground: "{form.field.disabled.background}",
@@ -75489,7 +75499,7 @@ var IZ = {
   chip: {
     borderRadius: "{border.radius.sm}"
   }
-}, dX = {
+}, hX = {
   root: {
     transitionDuration: "{transition.duration}"
   },
@@ -76282,93 +76292,93 @@ var IZ = {
     }
   },
   components: {
-    accordion: FJ,
-    autocomplete: DJ,
-    avatar: BJ,
-    badge: NJ,
-    blockui: _J,
-    breadcrumb: $J,
-    button: VJ,
-    datepicker: XJ,
-    card: zJ,
-    carousel: jJ,
-    cascadeselect: KJ,
-    checkbox: HJ,
-    chip: UJ,
-    colorpicker: qJ,
-    confirmdialog: GJ,
-    confirmpopup: WJ,
-    contextmenu: YJ,
-    dataview: ZJ,
-    datatable: JJ,
-    dialog: QJ,
-    divider: eZ,
-    dock: tZ,
-    drawer: nZ,
-    editor: oZ,
-    fieldset: rZ,
-    fileupload: iZ,
-    floatlabel: aZ,
-    galleria: sZ,
-    iconfield: lZ,
-    image: uZ,
-    inlinemessage: cZ,
-    inplace: dZ,
-    inputchips: fZ,
-    inputgroup: pZ,
-    inputnumber: hZ,
-    inputtext: mZ,
-    knob: gZ,
-    listbox: bZ,
-    megamenu: vZ,
-    menu: yZ,
-    menubar: wZ,
-    message: kZ,
-    metergroup: SZ,
-    multiselect: IZ,
-    orderlist: OZ,
-    organizationchart: PZ,
-    overlaybadge: LZ,
-    popover: FZ,
-    paginator: AZ,
-    password: RZ,
-    panel: TZ,
-    panelmenu: EZ,
-    picklist: MZ,
-    progressbar: DZ,
-    progressspinner: BZ,
-    radiobutton: NZ,
-    rating: _Z,
-    scrollpanel: VZ,
-    select: zZ,
-    selectbutton: jZ,
-    skeleton: KZ,
-    slider: HZ,
-    speeddial: UZ,
-    splitter: GZ,
-    splitbutton: qZ,
-    stepper: WZ,
-    steps: YZ,
-    tabmenu: JZ,
-    tabs: ZZ,
-    tabview: XZ,
-    textarea: tX,
-    tieredmenu: nX,
-    tag: QZ,
-    terminal: eX,
-    timeline: oX,
-    togglebutton: iX,
-    toggleswitch: aX,
-    tree: uX,
-    treeselect: cX,
-    treetable: dX,
-    toast: rX,
-    toolbar: sX,
-    virtualscroller: MJ
+    accordion: NJ,
+    autocomplete: _J,
+    avatar: $J,
+    badge: VJ,
+    blockui: zJ,
+    breadcrumb: jJ,
+    button: KJ,
+    datepicker: tZ,
+    card: HJ,
+    carousel: UJ,
+    cascadeselect: qJ,
+    checkbox: GJ,
+    chip: WJ,
+    colorpicker: YJ,
+    confirmdialog: JJ,
+    confirmpopup: ZJ,
+    contextmenu: XJ,
+    dataview: eZ,
+    datatable: QJ,
+    dialog: nZ,
+    divider: oZ,
+    dock: rZ,
+    drawer: iZ,
+    editor: aZ,
+    fieldset: sZ,
+    fileupload: lZ,
+    floatlabel: uZ,
+    galleria: cZ,
+    iconfield: dZ,
+    image: fZ,
+    inlinemessage: pZ,
+    inplace: hZ,
+    inputchips: mZ,
+    inputgroup: gZ,
+    inputnumber: bZ,
+    inputtext: vZ,
+    knob: yZ,
+    listbox: wZ,
+    megamenu: kZ,
+    menu: SZ,
+    menubar: CZ,
+    message: xZ,
+    metergroup: IZ,
+    multiselect: LZ,
+    orderlist: AZ,
+    organizationchart: TZ,
+    overlaybadge: EZ,
+    popover: NZ,
+    paginator: RZ,
+    password: DZ,
+    panel: MZ,
+    panelmenu: FZ,
+    picklist: BZ,
+    progressbar: _Z,
+    progressspinner: $Z,
+    radiobutton: VZ,
+    rating: zZ,
+    scrollpanel: KZ,
+    select: HZ,
+    selectbutton: UZ,
+    skeleton: qZ,
+    slider: GZ,
+    speeddial: WZ,
+    splitter: JZ,
+    splitbutton: YZ,
+    stepper: ZZ,
+    steps: XZ,
+    tabmenu: QZ,
+    tabs: eX,
+    tabview: tX,
+    textarea: rX,
+    tieredmenu: iX,
+    tag: nX,
+    terminal: oX,
+    timeline: aX,
+    togglebutton: lX,
+    toggleswitch: uX,
+    tree: fX,
+    treeselect: pX,
+    treetable: hX,
+    toast: sX,
+    toolbar: cX,
+    virtualscroller: BJ
   },
   directives: {
-    tooltip: lX,
-    ripple: $Z
+    tooltip: dX,
+    ripple: jZ
   }
 };
 function Kd(t) {
@@ -76393,21 +76403,21 @@ function qc(t) {
   for (var e = 1; e < arguments.length; e++) {
     var n = arguments[e] != null ? arguments[e] : {};
     e % 2 ? lw(Object(n), !0).forEach(function(o) {
-      fX(t, o, n[o]);
+      mX(t, o, n[o]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n)) : lw(Object(n)).forEach(function(o) {
       Object.defineProperty(t, o, Object.getOwnPropertyDescriptor(n, o));
     });
   }
   return t;
 }
-function fX(t, e, n) {
-  return (e = pX(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+function mX(t, e, n) {
+  return (e = gX(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function pX(t) {
-  var e = hX(t, "string");
+function gX(t) {
+  var e = bX(t, "string");
   return Kd(e) == "symbol" ? e : e + "";
 }
-function hX(t, e) {
+function bX(t, e) {
   if (Kd(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -76417,7 +76427,7 @@ function hX(t, e) {
   }
   return (e === "string" ? String : Number)(t);
 }
-var mX = {
+var vX = {
   ripple: !1,
   inputStyle: null,
   inputVariant: null,
@@ -76563,20 +76573,20 @@ var mX = {
   csp: {
     nonce: void 0
   }
-}, gX = Symbol();
-function bX(t, e) {
+}, yX = Symbol();
+function wX(t, e) {
   var n = {
     config: pw(e)
   };
-  return t.config.globalProperties.$primevue = n, t.provide(gX, n), vX(), yX(t, n), n;
+  return t.config.globalProperties.$primevue = n, t.provide(yX, n), kX(), SX(t, n), n;
 }
 var Fu = [];
-function vX() {
+function kX() {
   $a.clear(), Fu.forEach(function(t) {
     return t?.();
   }), Fu = [];
 }
-function yX(t, e) {
+function SX(t, e) {
   var n = H(!1), o = function() {
     if (!Xn.isStyleNameLoaded("common")) {
       var u, c, f = ((u = Rt.getCommonTheme) === null || u === void 0 ? void 0 : u.call(Rt)) || {}, m = f.primitive, d = f.semantic, v = {
@@ -76635,14 +76645,14 @@ function yX(t, e) {
   });
   Fu.push(i), Fu.push(r), Fu.push(a), Fu.push(s);
 }
-var wX = {
+var CX = {
   install: function(e, n) {
-    var o = qc(qc({}, mX), n);
-    bX(e, o);
+    var o = qc(qc({}, vX), n);
+    wX(e, o);
   }
 };
-const kX = { startsWith: "Начинается с", contains: "Содержит", notContains: "Не содержит", endsWith: "Заканчивается", equals: "Равно", notEquals: "Не равно", noFilter: "Нет фильтра", filter: "Фильтр", lt: "Меньше чем", lte: "Меньше чем или равно", gt: "Более чем", gte: "Более чем или равно", dateIs: "Дата равна", dateIsNot: "Дата не равна", dateBefore: "Дата до", dateAfter: "Дата после", custom: "Пользовательский", clear: "Очистить", apply: "Принять", matchAll: "Сопоставить все", matchAny: "Совпадение с любым", addRule: "Добавить правило", removeRule: "Удалить правило", accept: "Да", reject: "Нет", choose: "Выбрать", upload: "Загрузить", cancel: "Отмена", completed: "Завершено", pending: "В ожидании", fileSizeTypes: ["Б", "Кб", "Мб", "Гб", "Тб", "Пб", "Эб", "Зб", "Йб"], dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"], dayNamesShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт"], dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"], monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"], monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"], chooseYear: "Выбрать год", chooseMonth: "Выбрать месяц", chooseDate: "Выбрать дату", prevDecade: "Предыдущее десятилетие", nextDecade: "Следующее десятилетие", prevYear: "Предыдущий год", nextYear: "Следующий год", prevMonth: "Предыдущий месяц", nextMonth: "Следующий месяц", prevHour: "Предыдущий час", nextHour: "Следующий час", prevMinute: "Предыдущая минута", nextMinute: "Следующая минута", prevSecond: "Предыдущая секунда", nextSecond: "Следующая секунда", am: "до полудня", pm: "после полудня", today: "Сегодня", now: "Сейчас", weekHeader: "Нед.", firstDayOfWeek: 1, showMonthAfterYear: !1, dateFormat: "dd.mm.yy", weak: "Простой", medium: "Нормальный", strong: "Хороший", passwordPrompt: "Введите пароль", emptyFilterMessage: "Результатов не найдено", searchMessage: "{0} результатов доступно", selectionMessage: "{0} элементов выбрано", emptySelectionMessage: "Нет выбранного элемента", emptySearchMessage: "Результатов не найдено", emptyMessage: "Нет доступных вариантов", aria: { trueLabel: "Верно", falseLabel: "Неверно", nullLabel: "Не выбран", star: "1 звезда", stars: "{star} звёзд", selectAll: "Выбраны все элементы", unselectAll: "Все элементы не выбраны", close: "Закрыть", previous: "Предыдущий", next: "Следующий", navigation: "Навигация", scrollTop: "Прокрутить в начало", moveTop: "Переместить в начало", moveUp: "Переместить вверх", moveDown: "Переместить вниз", moveBottom: "Переместить в конец", moveToTarget: "Переместить в приёмник", moveToSource: "Переместить в источник", moveAllToTarget: "Переместить всё в приёмник", moveAllToSource: "Переместить всё в источник", pageLabel: "{page}", firstPageLabel: "Первая страница", lastPageLabel: "Последняя страница", nextPageLabel: "Следующая страница", previousPageLabel: "Предыдущая страница", rowsPerPageLabel: "Строк на странице", jumpToPageDropdownLabel: "Перейти к раскрывающемуся списку страниц", jumpToPageInputLabel: "Перейти к вводу страницы", selectRow: "Выбрана строка", unselectRow: "Строка не выбрана", expandRow: "Строка развёрнута", collapseRow: "Строка свёрнута", showFilterMenu: "Показать меню фильтра", hideFilterMenu: "Скрыть меню фильтра", filterOperator: "Оператор фильтра", filterConstraint: "Ограничение фильтра", editRow: "Редактирование строки", saveEdit: "Сохранить правку", cancelEdit: "Отменить правку", listView: "В виде списка", gridView: "В виде сетки", slide: "Слайд", slideNumber: "{slideNumber}", zoomImage: "Увеличить изображение", zoomIn: "Увеличить", zoomOut: "Уменьшить", rotateRight: "Повернуть вправо", rotateLeft: "Повернуть влево" } }, SX = {
-  ru: kX
+const xX = { startsWith: "Начинается с", contains: "Содержит", notContains: "Не содержит", endsWith: "Заканчивается", equals: "Равно", notEquals: "Не равно", noFilter: "Нет фильтра", filter: "Фильтр", lt: "Меньше чем", lte: "Меньше чем или равно", gt: "Более чем", gte: "Более чем или равно", dateIs: "Дата равна", dateIsNot: "Дата не равна", dateBefore: "Дата до", dateAfter: "Дата после", custom: "Пользовательский", clear: "Очистить", apply: "Принять", matchAll: "Сопоставить все", matchAny: "Совпадение с любым", addRule: "Добавить правило", removeRule: "Удалить правило", accept: "Да", reject: "Нет", choose: "Выбрать", upload: "Загрузить", cancel: "Отмена", completed: "Завершено", pending: "В ожидании", fileSizeTypes: ["Б", "Кб", "Мб", "Гб", "Тб", "Пб", "Эб", "Зб", "Йб"], dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"], dayNamesShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт"], dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"], monthNames: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"], monthNamesShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"], chooseYear: "Выбрать год", chooseMonth: "Выбрать месяц", chooseDate: "Выбрать дату", prevDecade: "Предыдущее десятилетие", nextDecade: "Следующее десятилетие", prevYear: "Предыдущий год", nextYear: "Следующий год", prevMonth: "Предыдущий месяц", nextMonth: "Следующий месяц", prevHour: "Предыдущий час", nextHour: "Следующий час", prevMinute: "Предыдущая минута", nextMinute: "Следующая минута", prevSecond: "Предыдущая секунда", nextSecond: "Следующая секунда", am: "до полудня", pm: "после полудня", today: "Сегодня", now: "Сейчас", weekHeader: "Нед.", firstDayOfWeek: 1, showMonthAfterYear: !1, dateFormat: "dd.mm.yy", weak: "Простой", medium: "Нормальный", strong: "Хороший", passwordPrompt: "Введите пароль", emptyFilterMessage: "Результатов не найдено", searchMessage: "{0} результатов доступно", selectionMessage: "{0} элементов выбрано", emptySelectionMessage: "Нет выбранного элемента", emptySearchMessage: "Результатов не найдено", emptyMessage: "Нет доступных вариантов", aria: { trueLabel: "Верно", falseLabel: "Неверно", nullLabel: "Не выбран", star: "1 звезда", stars: "{star} звёзд", selectAll: "Выбраны все элементы", unselectAll: "Все элементы не выбраны", close: "Закрыть", previous: "Предыдущий", next: "Следующий", navigation: "Навигация", scrollTop: "Прокрутить в начало", moveTop: "Переместить в начало", moveUp: "Переместить вверх", moveDown: "Переместить вниз", moveBottom: "Переместить в конец", moveToTarget: "Переместить в приёмник", moveToSource: "Переместить в источник", moveAllToTarget: "Переместить всё в приёмник", moveAllToSource: "Переместить всё в источник", pageLabel: "{page}", firstPageLabel: "Первая страница", lastPageLabel: "Последняя страница", nextPageLabel: "Следующая страница", previousPageLabel: "Предыдущая страница", rowsPerPageLabel: "Строк на странице", jumpToPageDropdownLabel: "Перейти к раскрывающемуся списку страниц", jumpToPageInputLabel: "Перейти к вводу страницы", selectRow: "Выбрана строка", unselectRow: "Строка не выбрана", expandRow: "Строка развёрнута", collapseRow: "Строка свёрнута", showFilterMenu: "Показать меню фильтра", hideFilterMenu: "Скрыть меню фильтра", filterOperator: "Оператор фильтра", filterConstraint: "Ограничение фильтра", editRow: "Редактирование строки", saveEdit: "Сохранить правку", cancelEdit: "Отменить правку", listView: "В виде списка", gridView: "В виде сетки", slide: "Слайд", slideNumber: "{slideNumber}", zoomImage: "Увеличить изображение", zoomIn: "Увеличить", zoomOut: "Уменьшить", rotateRight: "Повернуть вправо", rotateLeft: "Повернуть влево" } }, IX = {
+  ru: xX
 };
 function Hd(t) {
   "@babel/helpers - typeof";
@@ -76653,13 +76663,13 @@ function Hd(t) {
   }, Hd(t);
 }
 function Rm(t, e, n) {
-  return (e = CX(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+  return (e = OX(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function CX(t) {
-  var e = xX(t, "string");
+function OX(t) {
+  var e = PX(t, "string");
   return Hd(e) == "symbol" ? e : e + "";
 }
-function xX(t, e) {
+function PX(t, e) {
   if (Hd(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -76669,7 +76679,7 @@ function xX(t, e) {
   }
   return (e === "string" ? String : Number)(t);
 }
-var IX = function(e) {
+var LX = function(e) {
   var n = e.dt;
   return `
 .p-speeddial {
@@ -76746,7 +76756,7 @@ var IX = function(e) {
     transform: rotate(45deg);
 }
 `);
-}, OX = {
+}, AX = {
   root: function(e) {
     var n = e.props;
     return {
@@ -76761,7 +76771,7 @@ var IX = function(e) {
       flexDirection: n.direction === "up" ? "column-reverse" : n.direction === "down" ? "column" : n.direction === "left" ? "row-reverse" : n.direction === "right" ? "row" : null
     };
   }
-}, PX = {
+}, TX = {
   root: function(e) {
     var n = e.instance, o = e.props;
     return ["p-speeddial p-component p-speeddial-".concat(o.type), Rm(Rm(Rm({}, "p-speeddial-direction-".concat(o.direction), o.type !== "circle"), "p-speeddial-open", n.d_visible), "p-disabled", o.disabled)];
@@ -76782,12 +76792,12 @@ var IX = function(e) {
       "p-speeddial-mask-visible": n.d_visible
     }];
   }
-}, LX = Rt.extend({
+}, EX = Rt.extend({
   name: "speeddial",
-  theme: IX,
-  classes: PX,
-  inlineStyles: OX
-}), AX = {
+  theme: LX,
+  classes: TX,
+  inlineStyles: AX
+}), RX = {
   name: "BaseSpeedDial",
   extends: Ot,
   props: {
@@ -76869,7 +76879,7 @@ var IX = function(e) {
       default: null
     }
   },
-  style: LX,
+  style: EX,
   provide: function() {
     return {
       $pcSpeedDial: this,
@@ -76895,25 +76905,25 @@ function uw(t, e) {
   }
   return n;
 }
-function TX(t) {
+function MX(t) {
   for (var e = 1; e < arguments.length; e++) {
     var n = arguments[e] != null ? arguments[e] : {};
     e % 2 ? uw(Object(n), !0).forEach(function(o) {
-      EX(t, o, n[o]);
+      FX(t, o, n[o]);
     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(t, Object.getOwnPropertyDescriptors(n)) : uw(Object(n)).forEach(function(o) {
       Object.defineProperty(t, o, Object.getOwnPropertyDescriptor(n, o));
     });
   }
   return t;
 }
-function EX(t, e, n) {
-  return (e = RX(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
+function FX(t, e, n) {
+  return (e = DX(e)) in t ? Object.defineProperty(t, e, { value: n, enumerable: !0, configurable: !0, writable: !0 }) : t[e] = n, t;
 }
-function RX(t) {
-  var e = MX(t, "string");
+function DX(t) {
+  var e = BX(t, "string");
   return Ud(e) == "symbol" ? e : e + "";
 }
-function MX(t, e) {
+function BX(t, e) {
   if (Ud(t) != "object" || !t) return t;
   var n = t[Symbol.toPrimitive];
   if (n !== void 0) {
@@ -76924,23 +76934,23 @@ function MX(t, e) {
   return (e === "string" ? String : Number)(t);
 }
 function lp(t) {
-  return NX(t) || BX(t) || DX(t) || FX();
+  return VX(t) || $X(t) || _X(t) || NX();
 }
-function FX() {
+function NX() {
   throw new TypeError(`Invalid attempt to spread non-iterable instance.
 In order to be iterable, non-array objects must have a [Symbol.iterator]() method.`);
 }
-function DX(t, e) {
+function _X(t, e) {
   if (t) {
     if (typeof t == "string") return Hg(t, e);
     var n = {}.toString.call(t).slice(8, -1);
     return n === "Object" && t.constructor && (n = t.constructor.name), n === "Map" || n === "Set" ? Array.from(t) : n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? Hg(t, e) : void 0;
   }
 }
-function BX(t) {
+function $X(t) {
   if (typeof Symbol < "u" && t[Symbol.iterator] != null || t["@@iterator"] != null) return Array.from(t);
 }
-function NX(t) {
+function VX(t) {
   if (Array.isArray(t)) return Hg(t);
 }
 function Hg(t, e) {
@@ -76950,7 +76960,7 @@ function Hg(t, e) {
 }
 var Mm = 3.14159265358979, IS = {
   name: "SpeedDial",
-  extends: AX,
+  extends: RX,
   inheritAttrs: !1,
   emits: ["click", "show", "hide", "focus", "blur"],
   documentClickListener: null,
@@ -77196,7 +77206,7 @@ var Mm = 3.14159265358979, IS = {
     },
     getItemStyle: function(e) {
       var n = this.calculateTransitionDelay(e), o = this.calculatePointStyle(e);
-      return TX({
+      return MX({
         transitionDelay: "".concat(n, "ms")
       }, o);
     },
@@ -77241,8 +77251,8 @@ var Mm = 3.14159265358979, IS = {
     ripple: oo,
     tooltip: Mw
   }
-}, _X = ["id"], $X = ["id", "aria-controls", "data-p-active"];
-function VX(t, e, n, o, i, r) {
+}, zX = ["id"], jX = ["id", "aria-controls", "data-p-active"];
+function KX(t, e, n, o, i, r) {
   var a = rt("Button"), s = no("tooltip");
   return h(), S(je, null, [k("div", L({
     ref: r.containerRef,
@@ -77356,15 +77366,15 @@ function VX(t, e, n, o, i, r) {
     } : void 0]), 1040, ["class", "aria-label", "disabled", "unstyled", "onClick", "pt"])), [[s, {
       value: l.label,
       disabled: !t.tooltipOptions
-    }, t.tooltipOptions]])], 16, $X)) : Y("", !0)], 64);
-  }), 128))], 16, _X)], 16), t.mask ? (h(), S("div", L({
+    }, t.tooltipOptions]])], 16, jX)) : Y("", !0)], 64);
+  }), 128))], 16, zX)], 16), t.mask ? (h(), S("div", L({
     key: 0,
     class: [t.cx("mask"), t.maskClass],
     style: t.maskStyle
   }, t.ptm("mask")), null, 16)) : Y("", !0)], 64);
 }
-IS.render = VX;
-var zX = function(e) {
+IS.render = KX;
+var HX = function(e) {
   var n = e.dt;
   return `
 .p-card {
@@ -77398,7 +77408,7 @@ var zX = function(e) {
     color: `).concat(n("card.subtitle.color"), `;
 }
 `);
-}, jX = {
+}, UX = {
   root: "p-card p-component",
   header: "p-card-header",
   body: "p-card-body",
@@ -77407,14 +77417,14 @@ var zX = function(e) {
   subtitle: "p-card-subtitle",
   content: "p-card-content",
   footer: "p-card-footer"
-}, KX = Rt.extend({
+}, qX = Rt.extend({
   name: "card",
-  theme: zX,
-  classes: jX
-}), HX = {
+  theme: HX,
+  classes: UX
+}), GX = {
   name: "BaseCard",
   extends: Ot,
-  style: KX,
+  style: qX,
   provide: function() {
     return {
       $pcCard: this,
@@ -77423,10 +77433,10 @@ var zX = function(e) {
   }
 }, OS = {
   name: "Card",
-  extends: HX,
+  extends: GX,
   inheritAttrs: !1
 };
-function UX(t, e, n, o, i, r) {
+function WX(t, e, n, o, i, r) {
   return h(), S("div", L({
     class: t.cx("root")
   }, t.ptmi("root")), [t.$slots.header ? (h(), S("div", L({
@@ -77450,8 +77460,8 @@ function UX(t, e, n, o, i, r) {
     class: t.cx("footer")
   }, t.ptm("footer")), [$e(t.$slots, "footer")], 16)) : Y("", !0)], 16)], 16);
 }
-OS.render = UX;
-var qX = function(e) {
+OS.render = WX;
+var YX = function(e) {
   var n = e.dt;
   return `
 .p-panel {
@@ -77491,7 +77501,7 @@ var qX = function(e) {
     padding: `).concat(n("panel.footer.padding"), `;
 }
 `);
-}, GX = {
+}, JX = {
   root: function(e) {
     var n = e.props;
     return ["p-panel p-component", {
@@ -77505,11 +77515,11 @@ var qX = function(e) {
   contentContainer: "p-panel-content-container",
   content: "p-panel-content",
   footer: "p-panel-footer"
-}, WX = Rt.extend({
+}, ZX = Rt.extend({
   name: "panel",
-  theme: qX,
-  classes: GX
-}), YX = {
+  theme: YX,
+  classes: JX
+}), XX = {
   name: "BasePanel",
   extends: Ot,
   props: {
@@ -77527,7 +77537,7 @@ var qX = function(e) {
       }
     }
   },
-  style: WX,
+  style: ZX,
   provide: function() {
     return {
       $pcPanel: this,
@@ -77536,7 +77546,7 @@ var qX = function(e) {
   }
 }, PS = {
   name: "Panel",
-  extends: YX,
+  extends: XX,
   inheritAttrs: !1,
   emits: ["update:collapsed", "toggle"],
   data: function() {
@@ -77580,8 +77590,8 @@ var qX = function(e) {
   directives: {
     ripple: oo
   }
-}, JX = ["id"], ZX = ["id", "aria-labelledby"];
-function XX(t, e, n, o, i, r) {
+}, QX = ["id"], eQ = ["id", "aria-labelledby"];
+function tQ(t, e, n, o, i, r) {
   var a = rt("Button");
   return h(), S("div", L({
     class: t.cx("root")
@@ -77595,7 +77605,7 @@ function XX(t, e, n, o, i, r) {
       key: 0,
       id: i.id + "_header",
       class: t.cx("title")
-    }, t.ptm("title")), Se(t.header), 17, JX)) : Y("", !0)];
+    }, t.ptm("title")), Se(t.header), 17, QX)) : Y("", !0)];
   }), k("div", L({
     class: t.cx("headerActions")
   }, t.ptm("headerActions")), [$e(t.$slots, "icons"), t.toggleable ? (h(), oe(a, L({
@@ -77635,13 +77645,13 @@ function XX(t, e, n, o, i, r) {
       }, t.ptm("content")), [$e(t.$slots, "default")], 16), t.$slots.footer ? (h(), S("div", L({
         key: 0,
         class: t.cx("footer")
-      }, t.ptm("footer")), [$e(t.$slots, "footer")], 16)) : Y("", !0)], 16, ZX), [[Oi, !i.d_collapsed]])];
+      }, t.ptm("footer")), [$e(t.$slots, "footer")], 16)) : Y("", !0)], 16, eQ), [[Oi, !i.d_collapsed]])];
     }),
     _: 3
   }, 16)], 16);
 }
-PS.render = XX;
-var QX = function(e) {
+PS.render = tQ;
+var nQ = function(e) {
   var n = e.dt;
   return `
 .p-tag {
@@ -77697,7 +77707,7 @@ var QX = function(e) {
     color: `).concat(n("tag.contrast.color"), `;
 }
 `);
-}, eQ = {
+}, oQ = {
   root: function(e) {
     var n = e.props;
     return ["p-tag p-component", {
@@ -77712,11 +77722,11 @@ var QX = function(e) {
   },
   icon: "p-tag-icon",
   label: "p-tag-label"
-}, tQ = Rt.extend({
+}, rQ = Rt.extend({
   name: "tag",
-  theme: QX,
-  classes: eQ
-}), nQ = {
+  theme: nQ,
+  classes: oQ
+}), iQ = {
   name: "BaseTag",
   extends: Ot,
   props: {
@@ -77725,7 +77735,7 @@ var QX = function(e) {
     rounded: Boolean,
     icon: String
   },
-  style: tQ,
+  style: rQ,
   provide: function() {
     return {
       $pcTag: this,
@@ -77734,10 +77744,10 @@ var QX = function(e) {
   }
 }, LS = {
   name: "Tag",
-  extends: nQ,
+  extends: iQ,
   inheritAttrs: !1
 };
-function oQ(t, e, n, o, i, r) {
+function aQ(t, e, n, o, i, r) {
   return h(), S("span", L({
     class: t.cx("root")
   }, t.ptmi("root")), [t.$slots.icon ? (h(), oe(st(t.$slots.icon), L({
@@ -77754,14 +77764,14 @@ function oQ(t, e, n, o, i, r) {
     }, t.ptm("label")), Se(t.value), 17)];
   }) : Y("", !0)], 16);
 }
-LS.render = oQ;
+LS.render = aQ;
 window.PVTablesAPI || (window.PVTablesAPI = {
   useNotifications: To,
   apiCtor: fo,
   apiFetch: hS,
   ComponentLoader: uv
 });
-const rQ = {
+const sQ = {
   0: "var(--gts-surface)",
   50: "var(--gts-surface-2)",
   100: "var(--gts-surface-3)",
@@ -77774,7 +77784,7 @@ const rQ = {
   800: "var(--gts-ink)",
   900: "var(--gts-ink)",
   950: "var(--gts-ink)"
-}, iQ = {
+}, lQ = {
   0: "var(--gts-surface)",
   50: "var(--gts-surface-2)",
   100: "var(--gts-surface-3)",
@@ -77926,7 +77936,7 @@ const rQ = {
       focusRing: { color: "var(--gts-line-strong)", shadow: "none" }
     }
   }
-}, aQ = HC(xS, {
+}, uQ = HC(xS, {
   primitive: {
     borderRadius: {
       none: "0",
@@ -77967,8 +77977,8 @@ const rQ = {
       focusRing: { width: "3px", style: "solid", color: "var(--gts-accent)", offset: "0", shadow: "none" }
     },
     colorScheme: {
-      light: { ...cw, surface: rQ },
-      dark: { ...cw, surface: iQ }
+      light: { ...cw, surface: sQ },
+      dark: { ...cw, surface: lQ }
     }
   },
   components: {
@@ -77984,7 +77994,7 @@ const rQ = {
       colorScheme: { light: dw, dark: dw }
     }
   }
-}), OQ = {
+}), AQ = {
   install: (t, e) => {
     if (window.componentLoader)
       t.provide("componentLoader", window.componentLoader);
@@ -77992,9 +78002,9 @@ const rQ = {
       const n = new uv(t);
       t.provide("componentLoader", n), window.componentLoader = n;
     }
-    t.use(wX, {
+    t.use(CX, {
       theme: {
-        preset: aQ,
+        preset: uQ,
         pt: xS,
         options: {
           // Тот же признак, что и у наших токенов, — иначе PrimeVue
@@ -78009,8 +78019,8 @@ const rQ = {
           }
         }
       },
-      locale: SX.ru
-    }), t.component("gtsAutoComplete", av), t.component("PVAutoComplete", of), t.component("PVMultiAutoComplete", rf), t.component("PVTables", au), t.component("PVTab", uS), t.component("apiCtor", fo), t.component("gtsDate", nh), t.component("PVDateTime", oh), t.component("gtsSelect", ph), t.component("PVTable", mS), t.component("PVForm", Ka), t.component("PVTableModel", gS), t.component("EditField", ru), t.component("FileGallery", Lb), t.component("FileUploadDialog", Ib), t.component("FileEditDialog", Ob), t.component("FileViewDialog", Pb), t.component("GtsAIChat", CS), t.component("GtsAIDock", RJ);
+      locale: IX.ru
+    }), t.component("gtsAutoComplete", av), t.component("PVAutoComplete", of), t.component("PVMultiAutoComplete", rf), t.component("PVTables", au), t.component("PVTab", uS), t.component("apiCtor", fo), t.component("gtsDate", nh), t.component("PVDateTime", oh), t.component("gtsSelect", ph), t.component("PVTable", mS), t.component("PVForm", Ka), t.component("PVTableModel", gS), t.component("EditField", ru), t.component("FileGallery", Lb), t.component("FileUploadDialog", Ib), t.component("FileEditDialog", Ob), t.component("FileViewDialog", Pb), t.component("GtsAIChat", CS), t.component("GtsAIDock", DJ);
   }
 };
 typeof window < "u" && !window.PVTables && (window.PVTables = {
@@ -78081,7 +78091,7 @@ export {
   Pb as A,
   VY as B,
   $Y as C,
-  RJ as D,
+  DJ as D,
   uv as E,
   Cb as F,
   CS as G,
@@ -78124,7 +78134,7 @@ export {
   av as f,
   of as g,
   nh as h,
-  OQ as i,
+  AQ as i,
   oh as j,
   mS as k,
   Ka as l,
