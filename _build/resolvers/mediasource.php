@@ -77,7 +77,7 @@ if ($transport->xpdo) {
                             'name' => 'allowedFileTypes',
                             'desc' => 'Разрешенные типы файлов',
                             'type' => 'textfield',
-                            'value' => 'jpg,jpeg,png,gif,webp,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,7z,mp3,mp4,avi,mov,wmv',
+                            'value' => 'jpg,jpeg,png,gif,webp,svg,pdf,doc,docx,xls,xlsx,ppt,pptx,txt,zip,rar,7z,mp3,mp4,avi,mov,wmv,xlsm,csv,md,markdown',
                             'lexicon' => 'core:source'
                         ),
                         'imageExtensions' => array(
@@ -258,6 +258,23 @@ if ($transport->xpdo) {
                 );
                 
                 $updated = false;
+
+                // Доливаем недостающие расширения в разрешённые типы.
+                // Полный список не подменяем: у площадки может быть свой,
+                // расширенный админом. Нужны xlsm/csv/md/markdown - через
+                // них ИИ-шлюз принимает прайсы, заявки и файлы с промптами.
+                if (isset($properties['allowedFileTypes']['value'])) {
+                    $types = array_filter(array_map('trim',
+                        explode(',', (string)$properties['allowedFileTypes']['value'])));
+                    foreach (array('xlsm', 'csv', 'md', 'markdown') as $ext) {
+                        if (!in_array($ext, $types, true)) {
+                            $types[] = $ext;
+                            $updated = true;
+                        }
+                    }
+                    $properties['allowedFileTypes']['value'] = implode(',', $types);
+                }
+
                 foreach ($newProperties as $key => $value) {
                     if (!isset($properties[$key])) {
                         $properties[$key] = array(
