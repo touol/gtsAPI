@@ -18,7 +18,7 @@ trait TableFieldsTrait
         
         $gtsAPIFieldTableCount = $this->modx->getCount('gtsAPIFieldTable', ['name_table' => $rule['table'], 'add_table' => 1]);
         if ($gtsAPIFieldTableCount == 0) {
-            $rule['properties']['fields'] = $fields;
+            $rule['properties']['fields'] = $this->resolveMediaSources($fields);
             return $rule;
         }
 
@@ -216,8 +216,60 @@ trait TableFieldsTrait
             $this->modx->log(1, 'gtsAPI Ошибка триггера ' . $e->getMessage());
         }
         
-        $rule['properties']['fields'] = $fields;
+        $rule['properties']['fields'] = $this->resolveMediaSources($fields);
         return $rule;
+    }
+
+
+    /**
+     * Источник файлов у поля: число, ИМЯ источника или имя системной настройки.
+     *
+     * ⚠️ Зашивать номер в конфиг пакета нельзя: у одного и того же источника
+     * на разных площадках разные id (у gtsAPIFile на одной 3, на другой 6).
+     * Пакет уехал бы с чужим номером и показывал чужую папку. Поэтому
+     * mediaSource можно писать как:
+     *   mediaSource: 3                     - номер, как раньше;
+     *   mediaSource: 'gtsAPIFile'          - имя источника;
+     *   mediaSource: 'gtsai_media_source'  - имя системной настройки, в которой
+     *                                        лежит номер или имя источника.
+     * Разбирается это здесь, перед отдачей конфига клиенту: в базе и в файле
+     * конфига остаётся то, что написал автор пакета.
+     */
+    public function resolveMediaSources($fields)
+    {
+        if (!is_array($fields)) return $fields;
+
+        foreach ($fields as $name => $field) {
+            if (!is_array($field) || !isset($field['mediaSource'])) continue;
+            $fields[$name]['mediaSource'] = $this->resolveMediaSource($field['mediaSource']);
+        }
+        return $fields;
+    }
+
+    /** Один источник: число - как есть, строка - настройка, потом имя. */
+    public function resolveMediaSource($value)
+    {
+        if (is_numeric($value)) return (int)$value;
+
+        $value = trim((string)$value);
+        if ($value === '') return $value;
+
+        // Системная настройка: её значение может быть и номером, и именем.
+        $setting = $this->modx->getObject('modSystemSetting', ['key' => $value]);
+        if ($setting) {
+            $raw = trim((string)$setting->get('value'));
+            if ($raw !== '') {
+                if (is_numeric($raw)) return (int)$raw;
+                $value = $raw;
+            }
+        }
+
+        $source = $this->modx->getObject('sources.modMediaSource', ['name' => $value]);
+        if ($source) return (int)$source->get('id');
+
+        $this->modx->log(modX::LOG_LEVEL_WARN,
+            '[gtsAPI] источник файлов «' . $value . '» не найден: ни настройки, ни источника с таким именем');
+        return $value;
     }
 
     /**
