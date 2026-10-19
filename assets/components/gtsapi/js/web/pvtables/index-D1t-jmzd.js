@@ -45485,7 +45485,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-Dn7JDuJu.js")).catch(function(m) {
+  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-Cr3B6t8f.js")).catch(function(m) {
     return Promise.reject(new Error("Could not load canvg: " + m));
   }).then(function(m) {
     return m.default ? m.default : m;
@@ -71135,7 +71135,7 @@ const zY = { class: "gtsai" }, jY = { class: "gtsai-head" }, KY = {
       ], 34)
     ]));
   }
-}, CS = /* @__PURE__ */ so(AJ, [["__scopeId", "data-v-f03ad604"]]), TJ = {
+}, CS = /* @__PURE__ */ so(AJ, [["__scopeId", "data-v-b89330be"]]), TJ = {
   key: 1,
   class: "gtsai-dock-bar"
 }, EJ = ["title", "onClick"], RJ = { class: "gtsai-dock-body" }, sw = 380, MJ = 260, FJ = {
