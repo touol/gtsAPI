@@ -381,9 +381,13 @@ class gtsAPIManager_mysql extends gtsAPIGeneratorBase_mysql
     public function getClassName($string)
     {
         if (is_string($string) && $strArray = explode('_', $string)) {
+            // ⚠️ Было while (list($k,$v) = each($strArray)): each() убрали в
+            // PHP 8, и на нём это фатал. Генератор модели и добавление полей
+            // ходят сюда на живом сайте, так что на PHP 8 падало бы не при
+            // установке, а в работе.
             $return = '';
-            while (list($k, $v) = each($strArray)) {
-                $return .= strtoupper(substr($v, 0, 1)) . substr($v, 1) . '';
+            foreach ($strArray as $v) {
+                $return .= strtoupper(substr($v, 0, 1)) . substr($v, 1);
             }
             $string = $return;
         }

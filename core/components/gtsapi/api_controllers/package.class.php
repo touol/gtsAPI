@@ -74,7 +74,11 @@ class packageAPIController{
         // $this->modx->log(1,print_r($this->config,1));
         $this->initialize();
         $this->process($request);
-        return $this->success("Пакет установлен",['request'=>$request,'files'=>$_FILES]);
+        $installed = !isset($this->config['install']) || !empty($this->config['install']);
+        return $this->success(
+            $installed ? "Пакет установлен" : "Пакет собран (без установки): " . $this->signature(),
+            ['request' => $request, 'files' => $_FILES]
+        );
         
     }
 
@@ -549,6 +553,44 @@ class packageAPIController{
 
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($gtsapirules) . ' gtsapis');
     }
+    /** Как называется собранный файл пакета - его и несут в магазин. */
+    protected function signature()
+    {
+        $v = isset($this->config['version']) ? $this->config['version'] : '';
+        $r = isset($this->config['release']) ? $this->config['release'] : '';
+        return 'core/packages/' . $this->config['name_lower'] . '-' . $v
+            . ($r !== '' ? '-' . $r : '') . '.transport.zip';
+    }
+
+    /**
+     * Что обязано стоять на сайте до установки: имя пакета => версия.
+     *
+     * Берём из dependencies.json компонента (там же, где их видит резолвер),
+     * плюс config.requires сборки - туда кладут версии ядра и php:
+     *   requires: { modx: ">=2.8", php: ">=7.4" }
+     */
+    protected function packageRequires()
+    {
+        $out = [];
+
+        $file = $this->config['core'] . 'dependencies.json';
+        if (is_file($file)) {
+            $deps = json_decode((string)file_get_contents($file), true);
+            foreach ((array)$deps as $name => $dep) {
+                if (!is_array($dep) || empty($dep['version'])) continue;
+                if (isset($dep['required']) && !$dep['required']) continue;
+                // Версия пакета пишется как «1.2.0-beta», а в requires нужен
+                // диапазон: иначе MODX сравнит строки и забракует 1.2.1.
+                $out[strtolower($name)] = '>=' . (string)$dep['version'];
+            }
+        }
+
+        foreach ((array)(isset($this->config['requires']) ? $this->config['requires'] : []) as $name => $ver) {
+            if ($ver !== '') $out[strtolower($name)] = (string)$ver;
+        }
+        return $out;
+    }
+
     /**
      * Каталог для упаковки без рабочих подпапок.
      *
@@ -826,11 +868,20 @@ class packageAPIController{
         
         $this->builder->putVehicle($vehicle);
 
-        $this->builder->setPackageAttributes([
+        $attributes = [
             'changelog' => file_get_contents($this->config['core'] . 'docs/changelog.txt'),
             'license' => file_get_contents($this->config['core'] . 'docs/license.txt'),
             'readme' => file_get_contents($this->config['core'] . 'docs/readme.txt'),
-        ]);
+        ];
+        // requires манифеста: MODX проверит его ДО распаковки и не даст
+        // поставить пакет без того, на чём он держится. У нас зависимости
+        // ставит ещё и свой резолвер (он умеет тянуть пакет из репозитория),
+        // но в манифесте их не было - снаружи выглядело так, будто пакет
+        // самостоятельный.
+        $requires = $this->packageRequires();
+        if ($requires) $attributes['requires'] = $requires;
+
+        $this->builder->setPackageAttributes($attributes);
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Added package attributes and setup options.');
 
         // // Шифрация пакета
@@ -843,10 +894,14 @@ class packageAPIController{
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packing up transport package zip...');
         $this->builder->pack();
 
-        // if (!empty($this->config['install'])) {
-        //     $this->install();
-        // }
-        $this->install();
+        // Установка на этот сайт - шаг отдельный от сборки.
+        //
+        // ⚠️ Магазинная сборка ставиться НЕ должна: в ней намеренно нет наших
+        // блоков (страницы площадок, наши чаты), и установка такого пакета
+        // затирала бы на деве то, что собирали для себя. Именно так магазинная
+        // сборка один раз подменила промпт админского чата общим.
+        $doInstall = !isset($this->config['install']) || !empty($this->config['install']);
+        if ($doInstall) $this->install();
         
         return $this->builder;
     }
