@@ -59,20 +59,20 @@ class defaultAPIController{
         $resp = $this->checkPermissions($rule);
 
         if($resp['success'] == 'error'){
-            header('HTTP/1.1 401 Unauthorized2');
+            if (!headers_sent()) header('HTTP/1.1 401 Unauthorized2');
             return $resp;
         }
         $resp = $this->checkPermissions($rule['aсtions'][$request['api_action']]);
 
         if($resp['success'] == 'error'){
-            header('HTTP/1.1 401 Unauthorized1');
+            if (!headers_sent()) header('HTTP/1.1 401 Unauthorized1');
             return $resp;
         }
         if(!empty($rule['packages'])) $this->addPackages($rule['packages']);
         if(!$request['skip_sanitize']) $request = $this->modx->sanitize($request, $this->modx->sanitizePatterns);
         
         if(empty($rule['aсtions'][$request['api_action']])){
-            header('HTTP/1.1 404 Not found');
+            if (!headers_sent()) header('HTTP/1.1 404 Not found');
             return $this->error('Not found action!');
         }
 
@@ -136,7 +136,7 @@ class defaultAPIController{
                 return $this->error('runProcessor ',$this->modx->error->failure($modx_response->getMessage()));
             }else{
                 $object = $modx_response->response['object'];
-                header('HTTP/1.1 201 Created');
+                if (!headers_sent()) header('HTTP/1.1 201 Created');
                 return $this->success('created',$object);
             }
         }else{
@@ -157,7 +157,7 @@ class defaultAPIController{
                 $resp = $this->run_triggers($rule['class'], 'after', 'create', $request, $object_old,$object,$obj);
                 if(!$resp['success']) return $resp;
                 // $object = $obj->toArray();
-                header('HTTP/1.1 201 Created');
+                if (!headers_sent()) header('HTTP/1.1 201 Created');
                 return $this->success('created',$object);
             }
         }
@@ -344,7 +344,7 @@ class defaultAPIController{
     }
     public function success($message = "",$data = []){
         //return array('success'=>1,'message'=>$message,'data'=>$data);
-        header("HTTP/1.1 200 OK");
+        if (!headers_sent()) header("HTTP/1.1 200 OK");
         return array('success'=>1,'message'=>$message,'data'=>$data);;
     }
     public function error($message = "",$data = []){

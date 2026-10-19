@@ -202,7 +202,7 @@ trait TableCrudTrait
 
             $this->writeLog($rule, 'create', $obj->get('id'), $object_old, $object);
 
-            header('HTTP/1.1 201 Created');
+            if (!headers_sent()) header('HTTP/1.1 201 Created');
             return $this->success('created', $data);
         }
         return $this->error('create_error', $request);
@@ -443,6 +443,12 @@ trait TableCrudTrait
                 foreach ($rows0 as $row) {
                     if (isset($row[$fieldName])) {
                         $value = $row[$fieldName];
+                        // ⚠️ Значение-массив (json-поле, подзапись) ключом быть
+                        // не может: на PHP 7 это было предупреждение и строка
+                        // молча пропадала, на PHP 8 - исключение, и весь ответ
+                        // /api/<таблица> падал. Списком фильтра такие значения
+                        // всё равно не бывают.
+                        if (is_array($value) || is_object($value)) continue;
                         // Преобразуем null и пустые строки в ''
                         if ($value === null || $value === '') {
                             $value = '';

@@ -391,7 +391,7 @@ trait TableTreeCrudTrait
                         ];
                         $resp = $this->run_triggers($rule, 'after', $request['api_action'], $request, [],$modx_response->response['object'],null,$rule['gtsAPIUniTreeClass'][$request['table']]['class']);
                         if(!$slTreeSettings['useUniTree']){
-                            header('HTTP/1.1 201 Created');
+                            if (!headers_sent()) header('HTTP/1.1 201 Created');
                             return $this->success('created',['object'=>$data]);
                         } 
 
@@ -609,7 +609,7 @@ trait TableTreeCrudTrait
 
             $data = $resp['data'];
 
-            header('HTTP/1.1 201 Created');
+            if (!headers_sent()) header('HTTP/1.1 201 Created');
             return $this->success('created',$data);
         }
         return $this->error('create_error',$request);

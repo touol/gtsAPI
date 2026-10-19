@@ -47,7 +47,7 @@ class packageAPIController{
         
         if(!$resp['success']){
             // $resp['user'] = $this->modx->user->id;
-            header('HTTP/1.1 401 Unauthorized2');
+            if (!headers_sent()) header('HTTP/1.1 401 Unauthorized2');
             return $resp;
         }
         if(empty($request['config'])) return $this->error("empty config");
@@ -977,7 +977,7 @@ class packageAPIController{
     }
     public function success($message = "",$data = []){
         //return array('success'=>1,'message'=>$message,'data'=>$data);
-        header("HTTP/1.1 200 OK");
+        if (!headers_sent()) header("HTTP/1.1 200 OK");
         return ['success'=>1,'message'=>$message,'data'=>$data];
     }
     public function error($message = "",$data = []){

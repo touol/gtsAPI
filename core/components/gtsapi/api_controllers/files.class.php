@@ -675,7 +675,7 @@ class filesAPIController{
    
     public function success($message = "",$data = []){
         //return array('success'=>1,'message'=>$message,'data'=>$data);
-        header("HTTP/1.1 200 OK");
+        if (!headers_sent()) header("HTTP/1.1 200 OK");
         return ['success'=>1,'message'=>$message,'data'=>$data];
     }
     public function error($message = "",$data = []){

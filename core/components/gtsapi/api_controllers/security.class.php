@@ -33,11 +33,11 @@ class securityAPIController{
                 );
                 $response = $this->modx->runProcessor('security/login', $data);
                 if ($response->isError()) {
-                    header('HTTP/1.1 404 Not found');
+                    if (!headers_sent()) header('HTTP/1.1 404 Not found');
                     return $this->error("Not found user!");
                 }
                 if(!$user = $this->modx->getObject('modUser', array('username' => $req['username']))){
-                    header('HTTP/1.1 404 Not found');
+                    if (!headers_sent()) header('HTTP/1.1 404 Not found');
                     return $this->error("Not found user!");
                 }
                 $headers = array('alg'=>'HS256','typ'=>'JWT');
@@ -63,7 +63,7 @@ class securityAPIController{
             case 'security/logout':
                 if($jwt = get_bearer_token()){
                     if(!is_jwt_valid($jwt, $this->modx->user->salt)){
-                        header('HTTP/1.1 404 Not found');
+                        if (!headers_sent()) header('HTTP/1.1 404 Not found');
                         return $this->error("Not found user!");
                     }
                     $table = $this->modx->getTableName('gtsAPIToken');
@@ -87,7 +87,7 @@ class securityAPIController{
                         }
                     }
                 }
-                header('HTTP/1.1 404 Not found');
+                if (!headers_sent()) header('HTTP/1.1 404 Not found');
                 return $this->error("Not found user!");
             break;
         }
@@ -96,7 +96,7 @@ class securityAPIController{
 
     public function success($message = "",$data = []){
         //return array('success'=>1,'message'=>$message,'data'=>$data);
-        header("HTTP/1.1 200 OK");
+        if (!headers_sent()) header("HTTP/1.1 200 OK");
         return $data;
     }
     public function error($message = "",$data = []){

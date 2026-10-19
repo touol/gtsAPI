@@ -522,7 +522,7 @@ class tableAPIController
      */
     public function success($message = "", $data = [])
     {
-        header("HTTP/1.1 200 OK");
+        if (!headers_sent()) header("HTTP/1.1 200 OK");
         return ['success' => 1, 'message' => $message, 'data' => $data];
     }
 
