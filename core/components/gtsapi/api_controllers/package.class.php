@@ -550,6 +550,70 @@ class packageAPIController{
         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaged in ' . count($gtsapirules) . ' gtsapis');
     }
     /**
+     * Каталог для упаковки без рабочих подпапок.
+     *
+     * ⚠️ Пакет собирается из каталога компонента НА САЙТЕ, а туда компонент
+     * складывает своё хозяйство: загруженные файлы, кэш, выгрузки. Без
+     * фильтра всё это уезжает в пакет и расползается по чужим площадкам -
+     * именно так вложения чатов с дева приехали на прод. Что не паковать,
+     * компонент перечисляет в config.exclude своей сборки
+     * (например ["files","cache"]).
+     *
+     * Пути в exclude - относительно каталога компонента; «core/» и «assets/»
+     * в начале понимаются как «только для этой половины».
+     */
+    protected function stageWithout($source, $kind)
+    {
+        $list = [];
+        foreach ((array)(isset($this->config['exclude']) ? $this->config['exclude'] : []) as $item) {
+            $item = trim(str_replace('\\', '/', (string)$item), '/');
+            if ($item === '') continue;
+            if (strpos($item, 'core/') === 0)   { if ($kind === 'core')   $list[] = substr($item, 5); continue; }
+            if (strpos($item, 'assets/') === 0) { if ($kind === 'assets') $list[] = substr($item, 7); continue; }
+            $list[] = $item;
+        }
+        if (!$list || !is_dir($source)) return $source;
+
+        // Имя последней папки важно: резолвер ставит её как
+        // core/components/<имя>/ и assets/components/<имя>/, беря basename.
+        $root  = MODX_CORE_PATH . 'cache/gtsapi_build/' . $kind . '/';
+        $stage = $root . $this->config['name_lower'] . '/';
+        $this->rmDir($root);
+        if (!@mkdir($stage, 0775, true)) return $source;
+
+        $this->copyDir(rtrim($source, '/') . '/', $stage, $list);
+        $this->modx->log(modX::LOG_LEVEL_INFO,
+            '[gtsapi] в пакет не кладём: ' . implode(', ', $list) . ' (' . $kind . ')');
+        return $stage;
+    }
+
+    /** Копирование каталога без перечисленных подпапок и файлов. */
+    protected function copyDir($from, $to, array $skip = [], $base = '')
+    {
+        if (!is_dir($to)) @mkdir($to, 0775, true);
+        foreach ((array)@scandir($from) as $name) {
+            if ($name === '.' || $name === '..') continue;
+            $rel = $base === '' ? $name : $base . '/' . $name;
+            if (in_array($rel, $skip, true)) continue;
+            is_dir($from . $name)
+                ? $this->copyDir($from . $name . '/', $to . $name . '/', $skip, $rel)
+                : @copy($from . $name, $to . $name);
+        }
+    }
+
+    /** Снести каталог с содержимым (только служебный, из кэша сборки). */
+    protected function rmDir($dir)
+    {
+        if (!is_dir($dir)) return;
+        foreach ((array)@scandir($dir) as $name) {
+            if ($name === '.' || $name === '..') continue;
+            $full = $dir . $name;
+            is_dir($full) ? $this->rmDir($full . '/') : @unlink($full);
+        }
+        @rmdir($dir);
+    }
+
+    /**
      * @return modPackageBuilder
      */
     public function process($request)
@@ -706,11 +770,11 @@ class packageAPIController{
 
         // // Files resolvers
         $vehicle->resolve('file', [
-            'source' => $this->config['core'],
+            'source' => $this->stageWithout($this->config['core'], 'core'),
             'target' => "return MODX_CORE_PATH . 'components/';",
         ]);
         $vehicle->resolve('file', [
-            'source' => $this->config['assets'],
+            'source' => $this->stageWithout($this->config['assets'], 'assets'),
             'target' => "return MODX_ASSETS_PATH . 'components/';",
         ]);
 
