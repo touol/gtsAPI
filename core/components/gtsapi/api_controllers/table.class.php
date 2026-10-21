@@ -80,6 +80,8 @@ class tableAPIController
         // клиент протащил бы «api_action: delete» мимо инструмента, ведь при
         // array_merge ниже тело перебивает всё, что собрал инструмент.
         if (!empty($this->config['ai_mode'])) $req = null;
+        // Вложенный вызов из PHP (internal_call) — тело HTTP-запроса браузера не его
+        if (!empty($this->config['internal_call'])) $req = null;
         if (isset($req['filters']) and isset($request['filters'])) $req['filters'] = array_merge($req['filters'], $request['filters']);
         if (isset($request['is_virtual'])) $req['is_virtual'] = $request['is_virtual'];
         if (is_array($req)) $request = array_merge($request, $req);

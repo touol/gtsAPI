@@ -166,7 +166,29 @@ class gtsAPI
         }
         return $this->success("Not found user! $jwt");
     }
+    /** Глубина вложенных route(): 0 — запрос браузера, >0 — компонент вызвал таблицу из PHP. */
+    protected static $routeDepth = 0;
+
+    /**
+     * Точка входа API. Вызывается плагином на запрос браузера и компонентами из PHP
+     * (печать, шапки, сводки). Вложенному вызову ставим internal_call: контроллер не
+     * подмешивает тело HTTP-запроса браузера (иначе чужой api_action перебивал параметры
+     * вызова, и печать NewSmena/gtsCraft вызывала саму себя) и не авторизуется по токену
+     * заново (каждый раз addSessionContext — лишний Set-Cookie). Пользователь уже авторизован.
+     */
     public function route($uri, $method, $request){
+        $prevInternal = isset($this->config['internal_call']) ? $this->config['internal_call'] : false;
+        $this->config['internal_call'] = self::$routeDepth > 0;
+        self::$routeDepth++;
+        try {
+            return $this->routeDispatch($uri, $method, $request);
+        } finally {
+            self::$routeDepth--;
+            $this->config['internal_call'] = $prevInternal;
+        }
+    }
+
+    protected function routeDispatch($uri, $method, $request){
         if($uri[1] != 'api'){
             header('HTTP/1.1 404 Not found');
             return $this->error("Not api request! 0");
@@ -175,7 +197,7 @@ class gtsAPI
             header('HTTP/1.1 404 Not found');
             return $this->error("Not set api rule!");
         }
-        $resp = $this->auth_from_token();
+        $resp = empty($this->config['internal_call']) ? $this->auth_from_token() : $this->success('internal call');
         if(!$resp['success']) 
             $this->modx->log(1,"gtsAPI {$this->modx->user->id}".print_r($resp,1));
         if($this->modx->getOption('gtsapi_only_jwt', null, false) and !$resp['success']){

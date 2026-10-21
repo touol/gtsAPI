@@ -139,6 +139,8 @@ class fileGalleryAPIController{
     public function route($rule, $uri, $method, $request, $id)
     {
         $req = json_decode(file_get_contents('php://input'), true);
+        // Вложенный вызов из PHP (internal_call) — тело HTTP-запроса браузера не его
+        if (!empty($this->config['internal_call'])) $req = null;
         if (is_array($req)) $request = array_merge($request, $req);
 
         // Получаем ID источника медиа
