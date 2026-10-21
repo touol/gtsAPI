@@ -55,13 +55,13 @@ $xpdo_meta_map['gtsAPILog']= array (
     ),
     'data_before' => 
     array (
-      'dbtype' => 'text',
+      'dbtype' => 'mediumtext',
       'phptype' => 'string',
       'null' => true,
     ),
     'data_after' => 
     array (
-      'dbtype' => 'text',
+      'dbtype' => 'mediumtext',
       'phptype' => 'string',
       'null' => true,
     ),
