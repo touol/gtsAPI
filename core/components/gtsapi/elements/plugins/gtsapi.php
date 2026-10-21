@@ -27,6 +27,15 @@ switch ($modx->event->name) {
             }
             if(!empty($plugins) && is_array($plugins)){
                 foreach ($plugins as $package => $plugins2) {
+                    // Пакет класса подключаем заранее. Не все пакеты в extension_packages
+                    // (totallog — нет), и loadClass без пути на каждый запрос писал в лог
+                    // «Could not load class: TLItem from mysql.tlitem», хотя следующим
+                    // вызовом с путём класс грузился нормально.
+                    $pkg = strtolower($package);
+                    $pkgModelPath = MODX_CORE_PATH . 'components/' . $pkg . '/model/';
+                    if (!isset($modx->packages[$pkg]) && is_dir($pkgModelPath . $pkg)) {
+                        $modx->addPackage($pkg, $pkgModelPath);
+                    }
                     if(is_array($plugins2)){
                         foreach ($plugins2 as $plugin) {
                         // For legacy plugins
