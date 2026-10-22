@@ -647,6 +647,10 @@ class gtsAPIManager_mysql extends gtsAPIGeneratorBase_mysql
                     $engine = (string)$object['engine'];
                     if (!empty($engine)) {
                         $this->map[$class]['tableMeta'] = array('engine' => $engine);
+                    } elseif (!empty($this->model['defaultEngine'])) {
+                        // как xPDOGenerator: движок модели по умолчанию. Без этого таблицы шли MyISAM
+                        // (на utf8mb4 индекс по varchar(255) не влезает в 1000 байт — таблица не создаётся)
+                        $this->map[$class]['tableMeta'] = array('engine' => (string)$this->model['defaultEngine']);
                     }
 
                     $this->map[$class]['fields'] = array();
