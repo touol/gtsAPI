@@ -778,6 +778,13 @@ class packageAPIController{
             }
             file_put_contents($path . '/user_groups.json',$request['user_groups']);
         }
+        if(isset($request['media_sources'])){
+
+            if ( ! is_dir($path)) {
+                mkdir($path, 0666, true);
+            }
+            file_put_contents($path . '/media_sources.json',$request['media_sources']);
+        }
         if(isset($request['permissions'])){
 
             if ( ! is_dir($path)) {
@@ -860,6 +867,10 @@ class packageAPIController{
         //add user_groups (свои группы пользователей + права на группы ресурсов)
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'user_groups.resolver.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'user_groups.resolver.php'));
+        }
+        //add media_sources (свои медиаисточники пакета + id в настройку + права групп; после user_groups — нужны группы)
+        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'media_sources.resolver.php'])) {
+            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'media_sources.resolver.php'));
         }
         //add permissions (шаблон разрешений MODX + разрешения + политики)
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'permissions.resolver.php'])) {

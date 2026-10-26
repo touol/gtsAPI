@@ -148,7 +148,11 @@ if ($transport->xpdo) {
                 }else{
                     foreach($v2['rows'] as $row){
                         // $modx->log(1,"add_data_package {$table} ".print_r($row,1));
-                        if(!$obj = $modx->getObject($table,[$v2['key']=>$row[$v2['key']]])){
+                        if($obj = $modx->getObject($table,[$v2['key']=>$row[$v2['key']]])){
+                            // 'update' => false — строка только создаётся, если её нет; на сайте её правят руками
+                            // (кладовщик склада, название), и следующая установка эти правки не перетирает
+                            if(isset($v2['update']) and !$v2['update']) continue;
+                        }else{
                             $obj = $modx->newObject($table);
                         }
                         if($obj){
