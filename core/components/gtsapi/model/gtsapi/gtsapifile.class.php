@@ -348,11 +348,15 @@ class gtsAPIFile extends xPDOSimpleObject
             return "[gtsAPIFile] Could not retrieve file {$filename} from media source: " . $this->mediaSource->errors['file'];
         }
 
-        if (!class_exists('modPhpThumb')) {
+        // В MODX 3 класс лежит в пространстве имён, файла model/phpthumb больше нет.
+        $thumbClass = 'modPhpThumb';
+        if (class_exists('MODX\\Revolution\\modPhpThumb')) {
+            $thumbClass = 'MODX\\Revolution\\modPhpThumb';
+        } elseif (!class_exists('modPhpThumb')) {
             require MODX_CORE_PATH . 'model/phpthumb/modphpthumb.class.php';
         }
-        
-        $phpThumb = new modPhpThumb($this->xpdo);
+
+        $phpThumb = new $thumbClass($this->xpdo);
         $phpThumb->initialize();
 
         $cacheDir = $this->xpdo->getOption('gtsapi_phpThumb_config_cache_directory', null,

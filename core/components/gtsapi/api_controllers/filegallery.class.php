@@ -61,20 +61,23 @@ class fileGalleryAPIController{
         if (!empty($acls)) {
             switch ($action) {
             
+            // Список и запись проверяем по правам группы, как files.class.php:
+            // $source->checkPolicy разрешает их любому посетителю, в том числе без входа.
             case 'list':
-                return $this->source->checkPolicy('list');
+                return $this->modx->user->id > 0 && $this->modx->hasPermission('file_list');
             case 'download':
             case 'read':
             case 'view':
                 return $this->source->checkPolicy('load');
             case 'upload':
+                return $this->modx->user->id > 0 && $this->modx->hasPermission('file_upload');
             case 'create':
+                return $this->modx->user->id > 0 && $this->modx->hasPermission('file_create');
             case 'update':
-                return $this->source->checkPolicy('create');
-            case 'delete':
-                return $this->source->checkPolicy('remove');
             case 'edit':
-                return $this->source->checkPolicy('save');
+                return $this->modx->user->id > 0 && $this->modx->hasPermission('file_update');
+            case 'delete':
+                return $this->modx->user->id > 0 && $this->modx->hasPermission('file_remove');
             default:
                 return false;
             }
@@ -149,6 +152,17 @@ class fileGalleryAPIController{
         // Инициализируем MediaSource
         if (!$this->initializeSource($sourceId)) {
             return $this->error('Не удалось инициализировать источник медиа');
+        }
+
+        // Без входа доступно только чтение файла по id. Список, сведения о файле и любая запись
+        // требуют того, что задано в правиле (authenticated, groups).
+        $requestAction = isset($request['action']) ? $request['action'] : '';
+        if ($method !== 'GET' || !in_array($requestAction, ['download', 'thumbnail', 'content'], true)) {
+            $resp = $this->checkPermissions($rule);
+            if (empty($resp['success'])) {
+                if (!headers_sent()) header('HTTP/1.1 401 Unauthorized');
+                return $resp;
+            }
         }
 
         // Обработка GET запросов
