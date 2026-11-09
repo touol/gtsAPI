@@ -19,8 +19,16 @@
  *   required     — по умолчанию true. Если такой пакет поставить не удалось,
  *                  установка ПРЕРЫВАЕТСЯ с понятным сообщением: лучше честно
  *                  отказаться, чем поставить компонент, который не заработает.
+ *   auto         — true: зависимость ставит только этот резолвер, в requires манифеста
+ *                  она не попадает. MODX проверяет requires ДО резолверов и сам
+ *                  недостающий пакет не ставит, поэтому иначе до резолвера дело не дойдёт.
  *
- * Резолвер подключается ПЕРВЫМ — до создания таблиц и записи данных.
+ * Порядок записей это порядок установки. Провайдер, с которого скачан сам пакет,
+ * спрашивается раньше остальных (кроме явно указанного в service_url).
+ *
+ * Скрипт идёт ПЕРВЫМ транспортом пакета (xPDOScriptVehicle с abort_install_on_vehicle_fail):
+ * только так false прерывает установку, false обычного резолвера MODX лишь пишет в журнал.
+ * Файлов пакета на этот момент ещё нет, поэтому список лежит в самом транспорте ($object['deps']).
  *
  * @var xPDOTransport $transport
  * @var array $options
@@ -39,12 +47,18 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         return true;
 }
 
-$namespace = $options['namespace'];
-$file = MODX_CORE_PATH . 'components/' . $namespace . '/dependencies.json';
-if (!is_file($file)) {
-    return true;
+if (is_array($object) && isset($object['deps'])) {
+    $namespace = $object['namespace'];
+    $deps = json_decode($object['deps'], true);
+} else {
+    // Как резолвер в пакетах, собранных до 1.2.3.
+    $namespace = $options['namespace'];
+    $file = MODX_CORE_PATH . 'components/' . $namespace . '/dependencies.json';
+    if (!is_file($file)) {
+        return true;
+    }
+    $deps = json_decode(file_get_contents($file), true);
 }
-$deps = json_decode(file_get_contents($file), true);
 if (!is_array($deps) || !$deps) {
     return true;
 }
@@ -156,6 +170,11 @@ if (!function_exists('gts_dep_install')) {
                 $providers[$p->get('id')] = $p;
             }
         }
+        if (!empty($opt['own_provider'])) {
+            if ($p = $modx->getObject('transport.modTransportProvider', (int)$opt['own_provider'])) {
+                $providers[$p->get('id')] = $p;
+            }
+        }
         foreach ($modx->getIterator('transport.modTransportProvider') as $p) {
             $providers[$p->get('id')] = $p;
         }
@@ -183,10 +202,15 @@ if (!function_exists('gts_dep_install')) {
                 continue;
             }
             foreach ($found as $p) {
-                if ((string)$p->name !== $name) {
+                // Регистр имени у провайдеров разный: pdoTools и pdotools это один пакет.
+                if (strcasecmp((string)$p->name, $name) !== 0) {
                     continue;
                 }
                 $signature = (string)$p->signature;
+                $parts = explode('-', $signature, 2);
+                if (!empty($opt['version']) && version_compare(isset($parts[1]) ? $parts[1] : '0', $opt['version'], '<')) {
+                    continue;
+                }
                 $dst = MODX_CORE_PATH . 'packages/' . $signature . '.transport.zip';
                 if (!gts_dep_download((string)$p->location, $dst)) {
                     return [0, "найден у провайдера {$provider->get('name')}, но не скачался"
@@ -209,17 +233,22 @@ if (!function_exists('gts_dep_install')) {
     }
 }
 
+$self = $modx->getObject('transport.modTransportPackage', ['signature' => $transport->signature]);
+$ownProvider = $self ? (int)$self->get('provider') : 0;
+
 $fail = [];
 foreach ($deps as $name => $opt) {
     if (!is_array($opt)) {
         $opt = ['version' => $opt];
     }
+    $opt['own_provider'] = $ownProvider;
     $need = isset($opt['version']) ? $opt['version'] : '0';
     $required = !isset($opt['required']) || $opt['required'];
 
     // Уже стоит нужная версия или новее?
     $ok = false;
-    foreach ($modx->getIterator('transport.modTransportPackage', ['package_name' => $name]) as $installed) {
+    // Только установленные: скачанный, но не поставленный пакет зависимость не закрывает.
+    foreach ($modx->getIterator('transport.modTransportPackage', ['package_name' => $name, 'installed:IS NOT' => null]) as $installed) {
         if ($installed->compareVersion($need, '<=')) {
             $ok = true;
             break;
@@ -248,6 +277,15 @@ if ($fail) {
         . '. Поставьте их вручную и повторите установку.');
 
     return false;
+}
+
+// Следующие транспорты пакета могут быть объектами поставленного только что пакета
+// (например gtsAPIRule), а его модель в этом запросе ещё не загружена.
+foreach ($deps as $name => $opt) {
+    $model = MODX_CORE_PATH . 'components/' . strtolower($name) . '/model/';
+    if (is_dir($model . strtolower($name))) {
+        $modx->addPackage(strtolower($name), $model);
+    }
 }
 
 return true;

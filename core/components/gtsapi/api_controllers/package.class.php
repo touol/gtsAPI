@@ -563,6 +563,30 @@ class packageAPIController{
     }
 
     /**
+     * Зависимости: первый транспорт пакета, раньше настроек, правил и файлов.
+     * Отдельный скрипт с abort_install_on_vehicle_fail, потому что false обычного резолвера
+     * установку не прерывает. Без зависимостей остальное ставить бессмысленно.
+     */
+    protected function dependenciesVehicle($dependencies)
+    {
+        $deps = json_decode((string)$dependencies, true);
+        if (!is_array($deps) || !$deps) {
+            return;
+        }
+        $class = class_exists('xPDO\\Transport\\xPDOScriptVehicle') ? 'xPDO\\Transport\\xPDOScriptVehicle' : 'xPDOScriptVehicle';
+        $vehicle = $this->builder->createVehicle([
+            'source' => $this->config['resolvers'] . 'dependencies.php',
+            'namespace' => $this->config['name_lower'],
+            'deps' => json_encode($deps, JSON_UNESCAPED_UNICODE),
+        ], [
+            'vehicle_class' => $class,
+            'abort_install_on_vehicle_fail' => true,
+        ]);
+        $this->builder->putVehicle($vehicle);
+        $this->modx->log(modX::LOG_LEVEL_INFO, 'Added dependencies vehicle');
+    }
+
+    /**
      * Что обязано стоять на сайте до установки: имя пакета => версия.
      *
      * Берём из dependencies.json компонента (там же, где их видит резолвер),
@@ -579,6 +603,9 @@ class packageAPIController{
             foreach ((array)$deps as $name => $dep) {
                 if (!is_array($dep) || empty($dep['version'])) continue;
                 if (isset($dep['required']) && !$dep['required']) continue;
+                // auto: пакет ставит резолвер. MODX проверяет requires раньше резолверов
+                // и остановил бы установку до того, как резолвер запустится.
+                if (!empty($dep['auto'])) continue;
                 // Версия пакета пишется как «1.2.0-beta», а в requires нужен
                 // диапазон: иначе MODX сравнит строки и забракует 1.2.1.
                 $out[strtolower($name)] = '>=' . (string)$dep['version'];
@@ -717,6 +744,9 @@ class packageAPIController{
                 }
             }
         }
+        if(isset($request['dependencies'])){
+            $this->dependenciesVehicle($request['dependencies']);
+        }
         if(isset($request['settings'])){
             $settings = json_decode($request['settings'],1);
             if(is_array($settings) and count($settings) > 0){
@@ -839,10 +869,6 @@ class packageAPIController{
         //     }
         // }
 
-        // Зависимости — ПЕРВЫМИ: без них таблицы и данные ставить бессмысленно
-        if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'dependencies.php'])) {
-            $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver dependencies');
-        }
         //add table
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'tables.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'tables.php'));

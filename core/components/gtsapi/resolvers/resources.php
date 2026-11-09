@@ -298,8 +298,8 @@ if (!function_exists('_addResource')) {
             'uri_override' => false,
             'richtext' => false,
             'searchable' => true,
-            'content' => $content,
-        ], $data), '', true, true);
+        // Содержимое пишем, только если оно есть: иначе обновление обнуляло страницу без файла-шаблона.
+        ], isset($content) ? ['content' => $content] : [], $data), '', true, true);
 
         $resource->save();
 
