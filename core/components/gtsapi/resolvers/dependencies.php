@@ -64,7 +64,7 @@ if (!is_array($deps) || !$deps) {
 }
 
 if (!function_exists('gts_dep_download')) {
-    function gts_dep_download($src, $dst)
+    function gts_dep_get($src)
     {
         $data = false;
         if (function_exists('curl_init')) {
@@ -81,12 +81,32 @@ if (!function_exists('gts_dep_download')) {
         } elseif (ini_get('allow_url_fopen')) {
             $data = @file_get_contents($src);
         }
-        if ($data === false || $data === '') {
+
+        return $data;
+    }
+
+    function gts_dep_download($src, $dst)
+    {
+        $data = gts_dep_get($src);
+        // Транспортный пакет это zip. Страница ошибки или адрес вместо файла не должны лечь в core/packages.
+        if (!is_string($data) || substr($data, 0, 2) !== 'PK') {
             return false;
         }
         file_put_contents($dst, $data);
 
         return file_exists($dst) && filesize($dst) > 0;
+    }
+
+    /**
+     * Провайдер MODX отдаёт файл в два шага, как modTransportProvider::transfer(): по getUrl=true адрес файла,
+     * затем сам файл. Прямой запрос у modx.com отвечает редиректом, а при open_basedir curl по нему не пойдёт.
+     */
+    function gts_dep_file_url($location)
+    {
+        $answer = gts_dep_get($location . (strpos($location, '?') === false ? '?' : '&') . 'getUrl=true');
+        $answer = is_string($answer) ? trim($answer) : '';
+
+        return preg_match('~^https?://\S+$~i', $answer) ? $answer : $location;
     }
 }
 
@@ -212,7 +232,7 @@ if (!function_exists('gts_dep_install')) {
                     continue;
                 }
                 $dst = MODX_CORE_PATH . 'packages/' . $signature . '.transport.zip';
-                if (!gts_dep_download((string)$p->location, $dst)) {
+                if (!gts_dep_download(gts_dep_file_url((string)$p->location), $dst)) {
                     return [0, "найден у провайдера {$provider->get('name')}, но не скачался"
                         . ($provider->get('username') === '' ? ' (у провайдера не заданы логин и ключ)' : '')];
                 }
