@@ -166,6 +166,31 @@ class gtsAPI
         }
         return $this->success("Not found user! $jwt");
     }
+    /**
+     * Запросы админки gtsAPI (страница assets/components/gtsapi/admin.php в окне менеджера)
+     * выполняются от имени пользователя менеджера. API работает в контексте web, и если в том же
+     * браузере выполнен вход на сайт под другой учётной записью (например, покупателем), MODX
+     * считает текущим его — админка получала «Not api permission groups!».
+     * Признак — Referer со своего admin.php: чужой сайт подделать его не может, а без входа
+     * в менеджер подмены нет.
+     */
+    protected function useManagerUserForAdminFrame()
+    {
+        $referer = (string)($_SERVER['HTTP_REFERER'] ?? '');
+        if ($referer === '') {
+            return;
+        }
+        $adminPath = rtrim((string)$this->modx->getOption('assets_url', null, MODX_ASSETS_URL), '/') . '/components/gtsapi/admin.php';
+        $host = strtolower((string)parse_url('http://' . ($_SERVER['HTTP_HOST'] ?? ''), PHP_URL_HOST));
+        if ((string)parse_url($referer, PHP_URL_PATH) !== $adminPath || strtolower((string)parse_url($referer, PHP_URL_HOST)) !== $host) {
+            return;
+        }
+        $manager = $this->modx->getAuthenticatedUser('mgr');
+        if ($manager && (!$this->modx->user || (int)$this->modx->user->get('id') !== (int)$manager->get('id'))) {
+            $this->modx->user = $manager;
+        }
+    }
+
     /** Глубина вложенных route(): 0 — запрос браузера, >0 — компонент вызвал таблицу из PHP. */
     protected static $routeDepth = 0;
 
@@ -198,7 +223,10 @@ class gtsAPI
             return $this->error("Not set api rule!");
         }
         $resp = empty($this->config['internal_call']) ? $this->auth_from_token() : $this->success('internal call');
-        if(!$resp['success']) 
+        if (empty($this->config['internal_call']) && !get_bearer_token()) {
+            $this->useManagerUserForAdminFrame();
+        }
+        if(!$resp['success'])
             $this->modx->log(1,"gtsAPI {$this->modx->user->id}".print_r($resp,1));
         if($this->modx->getOption('gtsapi_only_jwt', null, false) and !$resp['success']){
             header('HTTP/1.1 401 Unauthorized0');

@@ -32,9 +32,14 @@ $fail = function ($message) {
     exit();
 };
 
-if (!$modx->user || !$modx->user->hasSessionContext('mgr')) {
+// Пользователь берётся из входа в менеджер явно. index.php сначала поднимает контекст web,
+// и если в том же браузере выполнен вход на сайт под другой учётной записью (например,
+// покупателем), MODX считает текущим его: modX::getUser() не меняет уже выбранного пользователя.
+$mgrUser = $modx->getAuthenticatedUser('mgr');
+if (!$mgrUser) {
     $fail('Нужен вход в менеджер MODX.');
 }
+$modx->user = $mgrUser;
 
 $raw = isset($_REQUEST['config']) ? trim((string)$_REQUEST['config']) : '';
 if ($raw === '') {
