@@ -219,7 +219,21 @@ if ($transport->xpdo) {
                     }
                     unset($data['gtsapi']);
                 }
+                // 'install_only' => true — таблица заполняется только при первой установке пакета.
+                // Так ставятся стартовые настройки, которые владелец потом меняет сам (способы оплаты
+                // и доставки магазина): обновление пакета не должно включать их обратно.
+                // Фильтр здесь, а не в add_data_package: функцию мог уже объявить резолвер
+                // другого пакета из старого gtsAPI, и новая версия функции тогда не загрузится.
+                $isUpgrade = $options[xPDOTransport::PACKAGE_ACTION] == xPDOTransport::ACTION_UPGRADE;
                 foreach ($data as $package => $v) {
+                    if ($isUpgrade && is_array($v)) {
+                        foreach ($v as $table => $v2) {
+                            if (!empty($v2['install_only'])) {
+                                $modx->log(modX::LOG_LEVEL_INFO, "[{$options['namespace']}] данные {$table}: только при первой установке, при обновлении пропущены");
+                                unset($v[$table]);
+                            }
+                        }
+                    }
                     $modx->log(1,"add_data_package {$package}");
                     add_data_package($modx,$package,$v);
                 }
