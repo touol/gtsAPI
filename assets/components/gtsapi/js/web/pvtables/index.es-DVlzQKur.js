@@ -1,5 +1,4 @@
-import { c as Va, g as il } from "./_commonjsHelpers-DaMA6jEr.js";
-import { _ as La } from "./index-CQB0blrG.js";
+import { c as Va, _ as La, g as il } from "./index-D1Uw4ghn.js";
 var fn = {}, cn = {}, cr, vn;
 function Q() {
   if (vn) return cr;
@@ -3290,7 +3289,7 @@ function Nf(n) {
     createImage: r.loadImage
   };
 }
-var $c = /* @__PURE__ */ Object.freeze({
+var Gc = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   offscreen: If,
   node: Nf
@@ -6683,7 +6682,7 @@ export {
   Df as normalizeAttributeName,
   Vf as normalizeColor,
   Ll as parseExternalUrl,
-  $c as presets,
+  Gc as presets,
   me as toNumbers,
   _f as trimLeft,
   Mf as trimRight,
