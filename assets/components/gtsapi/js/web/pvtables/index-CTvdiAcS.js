@@ -45485,7 +45485,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-DVlzQKur.js")).catch(function(p) {
+  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-CFVv4tOG.js")).catch(function(p) {
     return Promise.reject(new Error("Could not load canvg: " + p));
   }).then(function(p) {
     return p.default ? p.default : p;
@@ -48804,8 +48804,11 @@ const _N = { props: { template: String, parent: Object, templateProps: { type: O
       stop_watch_props: !1,
       watchOld: {},
       watch_first: !0,
-      api: null,
-      notify: null,
+      // Сразу в data(), а не в created(): watcher model с immediate срабатывает раньше
+      // created(), и watch_form при открытии формы падал на null-api, а catch — на
+      // null-notify («this.notify is not a function»), так что ошибка сервера терялась.
+      api: so(this.mywatch.table),
+      notify: To().notify,
       activeTab: null,
       usedFieldsInTabs: /* @__PURE__ */ new Set()
     };
@@ -48900,11 +48903,9 @@ const _N = { props: { template: String, parent: Object, templateProps: { type: O
     }
   },
   created() {
-    this.api = so(this.mywatch.table);
-    const t = To();
-    if (this.notify = t.notify, this.form && this.form.tabs) {
-      const e = Object.keys(this.form.tabs)[0];
-      this.activeTab = e || null;
+    if (this.form && this.form.tabs) {
+      const t = Object.keys(this.form.tabs)[0];
+      this.activeTab = t || null;
     }
   },
   methods: {
@@ -48992,8 +48993,9 @@ const _N = { props: { template: String, parent: Object, templateProps: { type: O
           value: n,
           oldValue: o
         });
-        if (!i.success) {
-          this.notify("error", { detail: i.message }, !0);
+        if (!i || !i.success) {
+          const r = i && i.message || "сервер не вернул ответ";
+          console.error(`[PVForm] watch_form ${this.mywatch.table}.${e}: ${r}`, i), this.notify("error", { detail: `Форма (${this.mywatch.table}, поле ${e}): ${r}`, life: 1e4 });
           return;
         }
         if (i.data.fields) {
@@ -49006,7 +49008,9 @@ const _N = { props: { template: String, parent: Object, templateProps: { type: O
             this.columns2[s].hasOwnProperty("default") && (this.model[this.columns2[s].field] || (this.model[this.columns2[s].field] = this.columns2[s].default));
         }
       } catch (i) {
-        this.notify("error", { detail: i.message }, !0);
+        console.error(`[PVForm] watch_form ${this.mywatch.table}.${e}:`, i, i?.response?.data);
+        const r = i?.response?.data?.message || i?.message || String(i);
+        this.notify("error", { detail: `Форма (${this.mywatch.table}, поле ${e}): ${r}`, life: 1e4 });
       }
     }
   }
@@ -72139,7 +72143,7 @@ const pJ = { class: "gtsai" }, hJ = { class: "gtsai-head" }, mJ = {
     const I = it(() => i.title || r.value || "Чат ИИ"), _ = () => ({
       page: i.page || location.pathname,
       get: i.params || Object.fromEntries(new URLSearchParams(location.search))
-    }), te = QC(async () => (await import("./preview-lxNR5cQ-.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
+    }), te = QC(async () => (await import("./preview-CMtjQ9Mt.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
     let V = null, z = null;
     const j = async (Fe) => {
       z || (z = (await import("./markdown-CMlEo56K.js")).healPartial), Fe.shown = z(Fe.content);
