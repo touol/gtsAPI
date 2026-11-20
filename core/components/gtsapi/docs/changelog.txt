@@ -1,4 +1,11 @@
 Changelog for gtsAPI.
+1.2.14-beta
+==============
+- PVTables (PVMultiAutoComplete): форма с уже выбранным значением (например «Заказ производства»
+  у позиции закупки) не открывалась — «Cannot access … before initialization». watchEffect в setup
+  синхронно вызывал fillSearchFieldsFromOption, объявленную ниже как const; теперь — function.
+  Раньше не проявлялось: до 1.2.7 watch_form при открытии формы падал и поля не пересобирались.
+
 1.2.13-beta
 ==============
 - PVTables: убрана временная трассировка [PVT] (1.2.8–1.2.11). Исправления 1.2.7, 1.2.9, 1.2.10,

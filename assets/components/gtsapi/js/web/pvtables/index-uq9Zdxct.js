@@ -18594,7 +18594,7 @@ const {
       };
       return r.field.where && (he.where = r.field.where), (await a.autocomplete(he)).data.rows[0] || null;
     }
-    const Le = async (Pe) => {
+    async function Le(Pe) {
       for (const he of C.value) {
         const P = he.key;
         if (Pe[P] && Pe[P] !== null && Pe[P] !== "")
@@ -18610,7 +18610,8 @@ const {
             console.error(`Ошибка загрузки данных для поля ${P}:`, H);
           }
       }
-    }, ve = async (Pe) => {
+    }
+    const ve = async (Pe) => {
       const he = Pe.target.value;
       if (he === "" || he === "0") {
         n.value = he, f.value = {};
@@ -18714,7 +18715,7 @@ const {
       })
     ]));
   }
-}, lf = /* @__PURE__ */ lo(KP, [["__scopeId", "data-v-9230d56e"]]);
+}, lf = /* @__PURE__ */ lo(KP, [["__scopeId", "data-v-c5bc8178"]]);
 var an = {
   STARTS_WITH: "startsWith",
   CONTAINS: "contains",
@@ -45485,7 +45486,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-C6mnHPRR.js")).catch(function(p) {
+  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-CbsATPJ7.js")).catch(function(p) {
     return Promise.reject(new Error("Could not load canvg: " + p));
   }).then(function(p) {
     return p.default ? p.default : p;
@@ -72195,7 +72196,7 @@ const wJ = { class: "gtsai" }, kJ = { class: "gtsai-head" }, SJ = {
     const I = rt(() => i.title || r.value || "Чат ИИ"), _ = () => ({
       page: i.page || location.pathname,
       get: i.params || Object.fromEntries(new URLSearchParams(location.search))
-    }), te = i3(async () => (await import("./preview-xyYwtLtt.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
+    }), te = i3(async () => (await import("./preview-CfD3USQn.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
     let V = null, z = null;
     const j = async (Fe) => {
       z || (z = (await import("./markdown-CMlEo56K.js")).healPartial), Fe.shown = z(Fe.content);
