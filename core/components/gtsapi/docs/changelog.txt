@@ -1,4 +1,12 @@
 Changelog for gtsAPI.
+1.2.8-beta
+==============
+- PVTables: временная трассировка действий в консоль (метка [PVT]): клик по кнопке строки,
+  editLineItem / defRowAction / showModalForm / submitModalForm / saveLineItem, открытие диалогов,
+  PVForm (created, watch_form), запросы и ответы api action/update. Ошибка обработчика клика —
+  console.error, плюс window.error и unhandledrejection. Выключить без пересборки:
+  localStorage.pvtDebug = '0'. Убрать, когда найдём строку, на которой молча падают действия (office).
+
 1.2.7-beta
 ==============
 - PVTables, форма (PVForm): ошибка «отслеживания» поля (watch_form) больше не теряется. Раньше
