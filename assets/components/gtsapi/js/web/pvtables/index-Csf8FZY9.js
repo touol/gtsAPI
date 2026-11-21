@@ -45486,7 +45486,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-CbsATPJ7.js")).catch(function(p) {
+  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-DBGyD8mF.js")).catch(function(p) {
     return Promise.reject(new Error("Could not load canvg: " + p));
   }).then(function(p) {
     return p.default ? p.default : p;
@@ -58378,7 +58378,7 @@ const oH = {
       updateEmptyRow: T,
       isEmptyRow: $,
       isEditableEmptyRow: A
-    } = sS(o.emptyRowsCount), { rowClass: D, rowStyle: ne, cellClass: ae, cellStyle: N } = Pj(H, x), Ce = G(10);
+    } = sS(o.emptyRowsCount), { rowClass: D, rowStyle: ne, cellClass: ae, cellStyle: N } = Pj(H, x), Ce = G(100);
     Ut(P, (de) => {
       for (let fe in de) C.value[fe] = de[fe];
     }, { deep: !0 });
@@ -59123,7 +59123,7 @@ const oH = {
         }
       });
     });
-    const Uo = G(10), vf = rt(() => Uo.value > 0 ? Math.floor(xe.value / Uo.value) + 1 : 1), gc = rt(() => Uo.value > 0 ? Math.ceil(ve.value / Uo.value) : 1), sl = (de, fe) => {
+    const Uo = G(100), vf = rt(() => Uo.value > 0 ? Math.floor(xe.value / Uo.value) + 1 : 1), gc = rt(() => Uo.value > 0 ? Math.ceil(ve.value / Uo.value) : 1), sl = (de, fe) => {
       xe.value = de, Ee?.({ first: de, rows: fe });
     }, yf = () => {
       xe.value > 0 && sl(0, Uo.value);
@@ -59148,7 +59148,7 @@ const oH = {
         const qe = parseFloat(de.fontSize);
         Qt.value = Math.round(parseFloat(fe) * qe);
       }
-      Le.value = !0, Pe.value = { first: 0, rows: 10, sortField: null, sortOrder: null };
+      Le.value = !0, Pe.value = { first: 0, rows: 100, sortField: null, sortOrder: null };
       try {
         const qe = await r.options();
         if (!qe.data.hasOwnProperty("fields")) {
@@ -65848,7 +65848,7 @@ const dW = {
     function Qs() {
       ba?.();
     }
-    const uo = G(10), Wa = rt(() => uo.value > 0 ? Math.floor(Le.value / uo.value) + 1 : 1), fs = rt(() => uo.value > 0 ? Math.ceil(ie.value / uo.value) : 1), po = rt(() => o.autoFitHeight ? "100%" : o.scrollHeight || "85vh");
+    const uo = G(100), Wa = rt(() => uo.value > 0 ? Math.floor(Le.value / uo.value) + 1 : 1), fs = rt(() => uo.value > 0 ? Math.ceil(ie.value / uo.value) : 1), po = rt(() => o.autoFitHeight ? "100%" : o.scrollHeight || "85vh");
     function Ya() {
       Le.value !== 0 && (Le.value = Math.max(0, Le.value - uo.value), He?.({ first: Le.value, rows: uo.value }), Qi());
     }
@@ -66457,7 +66457,7 @@ const dW = {
       }, 8, ["visible"])) : X("", !0)
     ], 512));
   }
-}, OW = /* @__PURE__ */ lo(IW, [["__scopeId", "data-v-22518010"]]), iu = {
+}, OW = /* @__PURE__ */ lo(IW, [["__scopeId", "data-v-e8dd8c92"]]), iu = {
   __name: "PVTables",
   props: {
     table: {
@@ -72196,7 +72196,7 @@ const wJ = { class: "gtsai" }, kJ = { class: "gtsai-head" }, SJ = {
     const I = rt(() => i.title || r.value || "Чат ИИ"), _ = () => ({
       page: i.page || location.pathname,
       get: i.params || Object.fromEntries(new URLSearchParams(location.search))
-    }), te = i3(async () => (await import("./preview-CfD3USQn.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
+    }), te = i3(async () => (await import("./preview-DwZSo156.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
     let V = null, z = null;
     const j = async (Fe) => {
       z || (z = (await import("./markdown-CMlEo56K.js")).healPartial), Fe.shown = z(Fe.content);

@@ -1,4 +1,9 @@
 Changelog for gtsAPI.
+1.2.16-beta
+==============
+- 100 строк на страницу по умолчанию: options отдаёт limit 100, если в конфиге таблицы limit не задан
+  (было false → фронт брал 10). PVTables (TanTable, TanMobileList): стартовое значение тоже 100. limit: 0 — как раньше.
+
 1.2.15-beta
 ==============
 - Сборка PVExtra-пакетов (api/package): свои php-резолверы пакета из core/components/<пакет>/resolvers/*.php

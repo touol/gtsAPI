@@ -381,7 +381,9 @@ trait TableFieldsTrait
                 $filters[$field] = $filter;
             }
         }
-        $limit = false;
+        // Строк на страницу: из конфига таблицы, по умолчанию 100 (было 10 на фронте — люди жаловались;
+        // с виртуализацией TanTable 100 строк рисуются без тормозов). limit: 0 в конфиге — как раньше, без страниц.
+        $limit = 100;
         if (isset($rule['properties']['limit'])) $limit = $rule['properties']['limit'];
 
         $options = [
