@@ -128,6 +128,15 @@ trait TableFilterTrait
         } else if ($filter['value'] == 'false') {
             $filter['value'] = 0;
         }
+        // filter_sql — условие фильтра из конфига поля / фильтра (только конфиг, не клиент): SQL с {match}, куда
+        // подставляется сравнение по режиму фильтра со значением через quote(). Для колонок, которых нет в таблице
+        // как есть: склейки (GROUP_CONCAT), подзапросы, выражения — через EXISTS / выражение, не ломая GROUP BY.
+        $cfgSql = $rule['properties']['fields'][$name]['filter_sql'] ?? $rule['properties']['filters'][$name]['filter_sql'] ?? null;
+        if (is_string($cfgSql) && $cfgSql !== '') {
+            $match = $this->filterSqlMatch($filter['matchMode'] ?? 'equals', $filter['value'] ?? null);
+            if ($match !== null) $where[] = str_replace('{match}', $match, $cfgSql);
+            return $where;
+        }
         switch ($filter['matchMode']) {
             case "startsWith":
                 $where[$field . ':LIKE'] = "{$filter['value']}%";
@@ -331,5 +340,34 @@ trait TableFilterTrait
             $data['parent_id'] = $request['parent_id'];
         }
         return array_merge($data, $data_filters);
+    }
+
+    /** Сравнение для filter_sql по режиму фильтра; значение — через quote(). null — режим не поддержан */
+    protected function filterSqlMatch($mode, $value)
+    {
+        $q = function ($v) { return $this->modx->quote((string)$v); };
+        $like = function ($v) { return addcslashes((string)$v, "%_\\"); };
+        switch ($mode) {
+            case 'contains':    return 'LIKE ' . $q('%' . $like($value) . '%');
+            case 'notContains': return 'NOT LIKE ' . $q('%' . $like($value) . '%');
+            case 'startsWith':  return 'LIKE ' . $q($like($value) . '%');
+            case 'endsWith':    return 'LIKE ' . $q('%' . $like($value));
+            case 'equals':      return '= ' . $q($value);
+            case 'notEquals':   return '!= ' . $q($value);
+            case 'lt':          return '< ' . $q($value);
+            case 'lte':         return '<= ' . $q($value);
+            case 'gt':          return '> ' . $q($value);
+            case 'gte':         return '>= ' . $q($value);
+            case 'dateIs':      return '= ' . $q(date('Y-m-d', strtotime($value)));
+            case 'dateBefore':  return '<= ' . $q(date('Y-m-d', strtotime($value)));
+            case 'dateAfter':   return '>= ' . $q(date('Y-m-d', strtotime($value)));
+            case 'in':
+                $vals = is_array($value) ? $value : explode(',', (string)$value);
+                $vals = array_filter(array_map('trim', $vals), 'strlen');
+                return $vals ? 'IN (' . implode(',', array_map($q, $vals)) . ')' : null;
+            case 'isEmpty':     return "IS NULL";
+            case 'isNotEmpty':  return "IS NOT NULL";
+        }
+        return null;
     }
 }
