@@ -345,6 +345,8 @@ trait TableFilterTrait
     /** Сравнение для filter_sql по режиму фильтра; значение — через quote(). null — режим не поддержан */
     protected function filterSqlMatch($mode, $value)
     {
+        // Значение от клиента: только скаляр (у «in» — список скаляров), иначе условия нет
+        if ($mode !== 'in' && $mode !== 'isEmpty' && $mode !== 'isNotEmpty' && !is_scalar($value)) return null;
         $q = function ($v) { return $this->modx->quote((string)$v); };
         $like = function ($v) { return addcslashes((string)$v, "%_\\"); };
         switch ($mode) {
@@ -363,7 +365,7 @@ trait TableFilterTrait
             case 'dateAfter':   return '>= ' . $q(date('Y-m-d', strtotime($value)));
             case 'in':
                 $vals = is_array($value) ? $value : explode(',', (string)$value);
-                $vals = array_filter(array_map('trim', $vals), 'strlen');
+                $vals = array_filter(array_map('trim', array_filter($vals, 'is_scalar')), 'strlen');
                 return $vals ? 'IN (' . implode(',', array_map($q, $vals)) . ')' : null;
             case 'isEmpty':     return "IS NULL";
             case 'isNotEmpty':  return "IS NOT NULL";
