@@ -293,6 +293,17 @@ trait TableCrudTrait
         
         // Получаем список полей из select для проверки сортировки
         $selectFields = $this->getSelectFieldsList($default, $rule);
+        // html-поле с filter_field сортируется по исходной колонке (её имя должно быть в select)
+        $sortAs = function ($name) use ($rule) {
+            $ff = $rule['properties']['fields'][$name]['filter_field'] ?? null;
+            return (is_string($ff) && $ff !== '' && strpos($ff, '.') === false) ? $ff : $name;
+        };
+        if (!empty($request['sortField'])) $request['sortField'] = $sortAs($request['sortField']);
+        if (!empty($request['multiSortMeta']) && is_array($request['multiSortMeta'])) {
+            foreach ($request['multiSortMeta'] as $i => $sort) {
+                if (isset($sort['field'])) $request['multiSortMeta'][$i]['field'] = $sortAs($sort['field']);
+            }
+        }
         
         if (!empty($request['sortField'])) {
             // Проверяем наличие поля в select

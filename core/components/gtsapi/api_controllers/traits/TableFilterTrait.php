@@ -117,6 +117,11 @@ trait TableFilterTrait
         if (isset($filter['class'])) $field = "{$filter['class']}.$name";
         if (isset($filter['as']) and isset($filter['class'])) $field = "{$filter['class']}.{$filter['as']}";
         if (isset($filter['field']) and isset($filter['class'])) $field = "{$filter['class']}.{$filter['field']}";
+        // filter_field — колонка, по которой фильтруется поле (html-поле показывает разметку, ищется по исходной колонке)
+        if (!empty($filter['filter_field']) and is_string($filter['filter_field'])) {
+            $field = (strpos($filter['filter_field'], '.') !== false) ? $filter['filter_field']
+                : (($filter['class'] ?? $rule['class']) . '.' . $filter['filter_field']);
+        }
         
 
         if (strpos($name, '.') !== false) $field = $name;

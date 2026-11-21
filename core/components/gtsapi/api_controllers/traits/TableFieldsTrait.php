@@ -293,6 +293,8 @@ trait TableFieldsTrait
         $rule = $this->addFields($rule, $fields, 'options');
         $fields = $rule['properties']['fields'];
         foreach ($fields as $k => $field) {
+            // SQL фильтра браузеру не нужен — только признак, что у колонки есть фильтр
+            if (!empty($field['filter_sql'])) $fields[$k]['filter_sql'] = true;
             if (empty($field['type'])) {
                 if ($k == 'id') {
                     $fields[$k]['type'] = 'view';

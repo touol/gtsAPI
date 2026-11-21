@@ -45486,7 +45486,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-DcHzsMj2.js")).catch(function(p) {
+  return (sn.canvg ? Promise.resolve(sn.canvg) : import("./index.es-pra5sd03.js")).catch(function(p) {
     return Promise.reject(new Error("Could not load canvg: " + p));
   }).then(function(p) {
     return p.default ? p.default : p;
@@ -58665,8 +58665,10 @@ const oH = {
         // можно вернуть ту же шапку в пол-экрана.
         minSize: ic(de),
         maxSize: 1200,
-        enableSorting: de.type !== "html",
-        enableColumnFilter: de.type !== "html",
+        // html-колонка показывает разметку: фильтр — если сервер умеет его по исходной колонке (filter_field) или
+        // по условию из конфига (filter_sql); сортировка — только по исходной колонке (filter_field)
+        enableSorting: de.type !== "html" || !!de.filter_field,
+        enableColumnFilter: de.type !== "html" || !!de.filter_field || !!de.filter_sql,
         filterFn: Ca,
         meta: de,
         cell: ({ getValue: fe, row: qe }) => {
@@ -72207,7 +72209,7 @@ const wJ = { class: "gtsai" }, kJ = { class: "gtsai-head" }, SJ = {
     const I = rt(() => i.title || r.value || "Чат ИИ"), _ = () => ({
       page: i.page || location.pathname,
       get: i.params || Object.fromEntries(new URLSearchParams(location.search))
-    }), te = i3(async () => (await import("./preview-D8QlSMQO.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
+    }), te = i3(async () => (await import("./preview-vnLi7u0A.js")).MdPreview), Y = G(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
     let V = null, z = null;
     const j = async (Fe) => {
       z || (z = (await import("./markdown-CMlEo56K.js")).healPartial), Fe.shown = z(Fe.content);
