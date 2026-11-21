@@ -1,4 +1,9 @@
 Changelog for gtsAPI.
+1.2.15-beta
+==============
+- Сборка PVExtra-пакетов (api/package): свои php-резолверы пакета из core/components/<пакет>/resolvers/*.php
+  (после штатных, по имени; файлы на «_» и «.» пропускаются). Нужно gsOrders — вычистить следы gsOrder.
+
 1.2.14-beta
 ==============
 - PVTables (PVMultiAutoComplete): форма с уже выбранным значением (например «Заказ производства»

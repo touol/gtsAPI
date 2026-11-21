@@ -902,6 +902,17 @@ class packageAPIController{
         if ($vehicle->resolve('php', ['source' => $this->config['resolvers'] . 'permissions.resolver.php'])) {
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Added resolver ' . preg_replace('#\.php$#', '', 'permissions.resolver.php'));
         }
+        //add свои резолверы пакета: core/components/<пакет>/resolvers/*.php — после штатных, по имени файла.
+        // Для того, что штатными конфигами не описать (например, вычистить следы прежнего пакета при переименовании).
+        // В резолвере доступны $transport, $options, $object, как в любом php-резолвере MODX.
+        $ownResolvers = glob($this->config['core'] . 'resolvers/*.php') ?: [];
+        sort($ownResolvers);
+        foreach ($ownResolvers as $resolver) {
+            if (in_array(basename($resolver)[0], ['_', '.'])) continue;
+            if ($vehicle->resolve('php', ['source' => $resolver])) {
+                $this->modx->log(modX::LOG_LEVEL_INFO, 'Added package resolver ' . basename($resolver));
+            }
+        }
         
         $this->builder->putVehicle($vehicle);
 
