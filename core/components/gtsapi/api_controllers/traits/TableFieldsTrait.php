@@ -753,4 +753,61 @@ trait TableFieldsTrait
             $out['rows'][$k]['gtsapi_links'] = $hrefs;
         }
     }
+
+    /**
+     * Права на поле: fields.<поле>.groups (группы через запятую) и / или .permissions (разрешения MODX через запятую) —
+     * кто видит поле. Как у таблиц: задано и то и другое — нужны оба. Нет прав — поле убирается из правила целиком
+     * (options, Excel, печать, запись), запрос не может по нему фильтровать и сортировать, а его значение и колонки
+     * из hide_keys (сырые колонки, из которых поле собрано, например ['price']) вырезаются из ответа.
+     */
+    protected function applyFieldAccess($rule, &$request)
+    {
+        if (empty($rule['properties']['fields']) || !is_array($rule['properties']['fields'])) return $rule;
+        $hidden = [];
+        foreach ($rule['properties']['fields'] as $name => $desc) {
+            if (!is_array($desc) || (empty($desc['groups']) && empty($desc['permissions']))) continue;
+            $check = $this->checkPermissions(['groups' => $desc['groups'] ?? '', 'permissions' => $desc['permissions'] ?? '']);
+            if (!empty($check['success'])) continue;
+            $hidden[] = $name;
+            foreach ((array)($desc['hide_keys'] ?? []) as $k) $hidden[] = (string)$k;
+            unset($rule['properties']['fields'][$name]);
+        }
+        if (!$hidden) return $rule;
+        $hidden = array_values(array_unique($hidden));
+        $this->hiddenKeys = array_values(array_unique(array_merge($this->hiddenKeys, $hidden)));
+        $rule['gtsapi_hidden_fields'] = $hidden;
+        // запись и запросы: скрытые поля не пишутся, по ним не фильтруют и не сортируют
+        foreach ($hidden as $k) unset($request[$k]);
+        if (!empty($request['filters'])) {
+            $filters = is_string($request['filters']) ? json_decode($request['filters'], true) : $request['filters'];
+            if (is_array($filters)) {
+                foreach ($hidden as $k) unset($filters[$k]);
+                $request['filters'] = is_string($request['filters']) ? json_encode($filters) : $filters;
+            }
+        }
+        if (!empty($request['sortField']) && in_array($request['sortField'], $hidden, true)) unset($request['sortField']);
+        if (!empty($request['multiSortMeta']) && is_array($request['multiSortMeta'])) {
+            $request['multiSortMeta'] = array_values(array_filter($request['multiSortMeta'], function ($s) use ($hidden) {
+                return !in_array($s['field'] ?? '', $hidden, true);
+            }));
+        }
+        return $rule;
+    }
+
+    /** Вырезать из ответа значения скрытых полей: data.rows[*], data.object, data (если это строка) */
+    protected function stripHiddenKeys($resp)
+    {
+        if (empty($this->hiddenKeys) || !is_array($resp) || !isset($resp['data']) || !is_array($resp['data'])) return $resp;
+        $strip = function (&$row) {
+            if (!is_array($row)) return;
+            foreach ($this->hiddenKeys as $k) unset($row[$k]);
+        };
+        if (isset($resp['data']['rows']) && is_array($resp['data']['rows'])) {
+            foreach ($resp['data']['rows'] as &$row) $strip($row);
+            unset($row);
+        }
+        if (isset($resp['data']['object']) && is_array($resp['data']['object'])) $strip($resp['data']['object']);
+        if (isset($resp['data']['id'])) $strip($resp['data']);
+        return $resp;
+    }
 }

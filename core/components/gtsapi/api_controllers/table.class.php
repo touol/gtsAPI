@@ -72,7 +72,17 @@ class tableAPIController
     /**
      * Маршрутизация запросов
      */
+    /** Поля, скрытые от пользователя правами поля (groups / permissions), и их hide_keys — вырезаются из ответа */
+    protected $hiddenKeys = [];
+
     public function route($gtsAPITable, $uri, $method, $request)
+    {
+        $this->hiddenKeys = [];
+        $resp = $this->routeRequest($gtsAPITable, $uri, $method, $request);
+        return $this->stripHiddenKeys($resp);
+    }
+
+    protected function routeRequest($gtsAPITable, $uri, $method, $request)
     {
         $req = json_decode(file_get_contents('php://input'), true);
         // В режиме ИИ тело запроса принадлежит шлюзу /gtsai — там лежит сообщение
@@ -216,6 +226,10 @@ class tableAPIController
             $this->modx->log(1, 'gtsAPI Ошибка триггера gtsapi_rule ' . $e->getMessage());
             return $this->error('Ошибка триггера gtsapi_rule ' . $e->getMessage());
         }
+
+        // Права на поле (fields.*.groups / permissions): без прав поля нет нигде — ни в options, ни в Excel/печати,
+        // ни в записи, фильтре, сортировке; значения (и hide_keys) вырезаются из ответа в route()
+        $rule = $this->applyFieldAccess($rule, $request);
         
         // Добавляем действие excel_export если оно не отключено
         if (!isset($rule['properties']['actions']['excel_export']) || $rule['properties']['actions']['excel_export'] !== false) {
