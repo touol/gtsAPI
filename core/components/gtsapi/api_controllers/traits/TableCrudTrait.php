@@ -513,6 +513,12 @@ trait TableCrudTrait
             $data = [];
             $request = $this->request_array_to_json($request);
             $request = array_merge($request, $data);
+
+            // Что форма прислала, но писать нельзя (форма шлёт строку целиком):
+            //  - html / view — только отображение (у html значение при чтении заменено готовой разметкой);
+            //  - только-для-чтения поля присоединённых классов — раньше проверку они пропускали, но class_link их
+            //    записывал (правка примечания перезаписывала «План», даты и т. п. значениями из формы).
+            $request = $this->dropNotWritable($rule, $request);
             
             // Проверка readonly полей
             if (!empty($rule['properties']['fields'])) {
@@ -1087,5 +1093,22 @@ trait TableCrudTrait
                 $this->modx->log(modX::LOG_LEVEL_ERROR, 'gtsAPI attachMultiple error: ' . $e->getMessage());
             }
         }
+    }
+
+    /** Убрать из запроса записи поля, которые писать нельзя: html / view и readonly присоединённых классов */
+    protected function dropNotWritable($rule, $request)
+    {
+        if (empty($rule['properties']['fields']) || !is_array($rule['properties']['fields'])) return $request;
+        foreach ($rule['properties']['fields'] as $field => $desc) {
+            if (!is_array($desc) || !array_key_exists($field, $request)) continue;
+            $type = $desc['type'] ?? '';
+            if ($type === 'html' || $type === 'view') {
+                if ($field !== 'id') unset($request[$field]);
+                continue;
+            }
+            $joined = !empty($desc['class']) && $desc['class'] !== $rule['class'];
+            if ($joined && $this->pasteRestricted($desc, 'readonly')) unset($request[$field]);
+        }
+        return $request;
     }
 }
