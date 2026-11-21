@@ -1119,7 +1119,8 @@ trait TableCrudTrait
     protected function keepZeroDates($rule, $request, $object_old)
     {
         if (empty($rule['properties']['fields']) || !is_array($rule['properties']['fields'])) return $request;
-        $zero = ['0000-00-00', '0000-00-00 00:00:00'];
+        // как «нулевую» дату в базе xPDO отдаёт и -0001-11-30 (toArray / get)
+        $zero = ['0000-00-00', '0000-00-00 00:00:00', '-0001-11-30', '-0001-11-30 00:00:00'];
         $linked = [];
         foreach ($rule['properties']['fields'] as $field => $desc) {
             if (!is_array($desc) || !in_array($desc['type'] ?? '', ['date', 'datetime'], true)) continue;
