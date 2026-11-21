@@ -11,7 +11,7 @@ if (!defined('MODX_CORE_PATH')) {
 return [
     'name' => 'gtsAPI',
     'name_lower' => 'gtsapi',
-    'version' => '1.2.20',
+    'version' => '1.2.21',
     'release' => 'beta',
     // Install package to site right after build
     'install' => true,

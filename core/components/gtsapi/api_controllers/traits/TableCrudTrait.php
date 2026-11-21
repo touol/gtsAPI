@@ -519,6 +519,9 @@ trait TableCrudTrait
             //  - только-для-чтения поля присоединённых классов — раньше проверку они пропускали, но class_link их
             //    записывал (правка примечания перезаписывала «План», даты и т. п. значениями из формы).
             $request = $this->dropNotWritable($rule, $request);
+            // Пустая дата из формы не перезаписывает «нулевую» в базе: при чтении 0000-00-00 показывается пустым,
+            // и форма возвращает null — значение не менялось
+            $request = $this->keepZeroDates($rule, $request, $object_old);
             
             // Проверка readonly полей
             if (!empty($rule['properties']['fields'])) {
@@ -1108,6 +1111,40 @@ trait TableCrudTrait
             }
             $joined = !empty($desc['class']) && $desc['class'] !== $rule['class'];
             if ($joined && $this->pasteRestricted($desc, 'readonly')) unset($request[$field]);
+        }
+        return $request;
+    }
+
+    /** Поля date / datetime: пустое значение из запроса при «нулевой» дате в базе (своей или class_link) — не писать */
+    protected function keepZeroDates($rule, $request, $object_old)
+    {
+        if (empty($rule['properties']['fields']) || !is_array($rule['properties']['fields'])) return $request;
+        $zero = ['0000-00-00', '0000-00-00 00:00:00'];
+        $linked = [];
+        foreach ($rule['properties']['fields'] as $field => $desc) {
+            if (!is_array($desc) || !in_array($desc['type'] ?? '', ['date', 'datetime'], true)) continue;
+            if (!array_key_exists($field, $request) || ($request[$field] !== null && $request[$field] !== '')) continue;
+            $col = !empty($desc['field']) ? $desc['field'] : $field;
+            $cls = !empty($desc['class']) ? $desc['class'] : $rule['class'];
+            if ($cls === $rule['class']) {
+                $old = $object_old[$col] ?? null;
+            } else {
+                // запись присоединённого класса по class_link (как её найдёт сохранение)
+                if (!array_key_exists($cls, $linked)) {
+                    $linked[$cls] = null;
+                    $map = $rule['properties']['class_link'][$cls] ?? null;
+                    if (is_array($map)) {
+                        $search = [];
+                        foreach ($map as $f => $v) {
+                            if (isset($object_old[$v])) $search[$f] = $object_old[$v];
+                            else if (is_numeric($v)) $search[$f] = $v;
+                        }
+                        if ($search && ($o = $this->modx->getObject($cls, $search))) $linked[$cls] = $o->toArray();
+                    }
+                }
+                $old = $linked[$cls][$col] ?? null;
+            }
+            if ($old !== null && in_array((string)$old, $zero, true)) unset($request[$field]);
         }
         return $request;
     }
