@@ -498,6 +498,8 @@ trait TableCrudTrait
                 $out['rows'][$k]['gtsapi_children_count'] = $this->modx->getCount($rule['class'], $where);
             }
         }
+        // действия-ссылки строки (actions.*.link): готовые адреса в rows[i].gtsapi_links
+        $this->addRowLinks($rule, $out);
         return $this->success('', $out);
     }
 

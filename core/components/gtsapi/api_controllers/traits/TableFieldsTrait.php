@@ -307,7 +307,7 @@ trait TableFieldsTrait
                 $resp = $this->checkPermissions($rule['properties']['actions'][$action]);
 
                 if ($resp['success']) {
-                    if (empty($v['hide'])) $actions[$action] = $v;
+                    if (empty($v['hide'])) $actions[$action] = $this->prepareActionLink($v);
                 }
             }
         }
@@ -680,5 +680,77 @@ trait TableFieldsTrait
         }
         
         return $this->error('Ошибка сброса стилей');
+    }
+
+    /**
+     * Действие-ссылка: actions.<имя>.link — куда ведёт кнопка (строки, меню строки или шапки).
+     *   { id: 412 }                     — id ресурса → URL (makeUrl);
+     *   { setting: 'tsklad_p_order2' }  — системная настройка с id ресурса → URL;
+     *   { uri: 'logistika/x.html' }     — путь от корня сайта;
+     *   { url: 'https://…' }            — адрес как есть;
+     *   { tpl: '{412 | url}?id={$id}' } — шаблон Fenom по строке (у кнопки шапки — без полей строки).
+     *   params: { id: 'id' }            — GET-параметры: имя => поле строки (значение с «=» в начале — константа);
+     *   target: '_blank'                — окно (по умолчанию _blank).
+     * Адрес строки считает read (gtsapi_links), у кнопки шапки — options (href). Клиенту уходит готовый адрес,
+     * сам шаблон и настройки — нет.
+     */
+    protected function prepareActionLink($action)
+    {
+        if (empty($action['link']) || !is_array($action['link'])) return $action;
+        $link = $action['link'];
+        $action['link'] = ['target' => $link['target'] ?? '_blank'];
+        if (!empty($action['head']) && empty($action['row'])) {
+            $action['href'] = $this->actionLinkHref($link, []);
+        }
+        return $action;
+    }
+
+    /** Базовый адрес ссылки (без params) или результат шаблона */
+    protected function actionLinkBase($link, $row)
+    {
+        if (isset($link['tpl'])) return trim($this->pdoTools->getChunk('@INLINE ' . $link['tpl'], $row));
+        if (isset($link['id'])) return $this->modx->makeUrl((int)$link['id']);
+        if (isset($link['setting'])) {
+            $id = (int)$this->modx->getOption($link['setting']);
+            return $id ? $this->modx->makeUrl($id) : '';
+        }
+        if (isset($link['uri'])) return $this->modx->getOption('base_url') . ltrim((string)$link['uri'], '/');
+        if (isset($link['url'])) {
+            $url = (string)$link['url'];
+            // только http(s) и относительные — без javascript: и прочего
+            return preg_match('~^(https?://|/|\./|[a-z0-9_-]+[/.])~i', $url) ? $url : '';
+        }
+        return '';
+    }
+
+    protected function actionLinkHref($link, $row)
+    {
+        $href = $this->actionLinkBase($link, $row);
+        if ($href === '' || empty($link['params']) || !is_array($link['params'])) return $href;
+        $query = [];
+        foreach ($link['params'] as $name => $field) {
+            $field = (string)$field;
+            $query[$name] = (strpos($field, '=') === 0) ? substr($field, 1) : ($row[$field] ?? '');
+        }
+        return $href . (strpos($href, '?') === false ? '?' : '&') . http_build_query($query);
+    }
+
+    /** read: готовые адреса ссылок-действий строки — rows[i].gtsapi_links[имя действия] */
+    protected function addRowLinks($rule, &$out)
+    {
+        if (empty($out['rows']) || empty($rule['properties']['actions'])) return;
+        $links = [];
+        foreach ($rule['properties']['actions'] as $name => $action) {
+            if (!is_array($action) || empty($action['link']) || !is_array($action['link']) || empty($action['row'])) continue;
+            if (!$this->checkPermissions($action)['success']) continue;
+            $links[$name] = $action['link'];
+        }
+        if (!$links) return;
+        foreach ($out['rows'] as $k => $row) {
+            if (!is_array($row)) continue;
+            $hrefs = [];
+            foreach ($links as $name => $link) $hrefs[$name] = $this->actionLinkHref($link, $row);
+            $out['rows'][$k]['gtsapi_links'] = $hrefs;
+        }
     }
 }

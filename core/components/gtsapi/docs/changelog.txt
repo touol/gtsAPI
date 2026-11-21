@@ -1,4 +1,10 @@
 Changelog for gtsAPI.
+1.2.17-beta
+==============
+- Действия-ссылки: actions.<имя>.link — { id } | { setting } | { uri } | { url } | { tpl (Fenom) }, params (GET из полей
+  строки), target. Адрес строки считает read (rows[i].gtsapi_links), кнопки шапки — options (href); PVTables открывает его
+  кнопкой строки, пунктом меню строки (menu: 1) или в шапке.
+
 1.2.16-beta
 ==============
 - 100 строк на страницу по умолчанию: options отдаёт limit 100, если в конфиге таблицы limit не задан
