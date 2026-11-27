@@ -1,4 +1,14 @@
 Changelog for gtsAPI.
+1.2.24-beta
+==============
+- Вызовы между пакетами: 'пакет/метод' через таблицу — по умолчанию только свой пакет таблицы (package_id или
+  install_package); чужой — если пара пакетов есть в новой подтаблице пакета gtsAPIPackageCall (в обе стороны).
+  Пару ставит пакет в своём gtsapipackages: ключ api_call_packages: ['gtsbalance', ...] (резолвер добавляет,
+  снимает только свои прошлые строки). Явное объявление в actions/hide_actions таблицы тоже пропускает.
+- Пока только журнал: чужие вызовы копятся в core/cache/logs/gtsapi_foreign_calls.json, ничего не блокируется.
+  Старая сводка gtsapi_undeclared_actions.json больше не пишется.
+- tests/php/package_calls.php.
+
 1.2.23-beta
 ==============
 - Безопасность: действия настройки gtsAPI (export_/save_ table, rule, select; gen_rules, generate_rules, gen_fields,

@@ -75,6 +75,27 @@
         </index>
 
         <composite alias="gtsAPITable" class="gtsAPITable" local="id" foreign="package_id" cardinality="many" owner="local"/>
+        <composite alias="gtsAPIPackageCall" class="gtsAPIPackageCall" local="id" foreign="package_id" cardinality="many" owner="local"/>
+    </object>
+    <!-- Разрешение вызова 'пакет/метод' через таблицы другого пакета. По умолчанию метод
+         пакета зовётся только через таблицы своего пакета (package_id / install_package таблицы).
+         Пара без направления: package ↔ partner, записывает любой из двух (обычно зависимый —
+         в своём gtsapipackages: api_call_packages). -->
+    <object class="gtsAPIPackageCall" table="gtsapi_package_calls" extends="xPDOSimpleObject">
+        <field key="package_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>
+        <field key="partner" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+        <field key="install_package" dbtype="varchar" precision="161" phptype="string" null="false" default=""/>
+        <field key="active" dbtype="tinyint" precision="1" phptype="boolean" null="true" default="1"/>
+
+        <index alias="package_partner" name="package_partner" primary="false" unique="true" type="BTREE">
+            <column key="package_id" length="" collation="A" null="false"/>
+            <column key="partner" length="" collation="A" null="false"/>
+        </index>
+        <index alias="partner" name="partner" primary="false" unique="false" type="BTREE">
+            <column key="partner" length="" collation="A" null="false"/>
+        </index>
+
+        <aggregate alias="gtsAPIPackage" class="gtsAPIPackage" local="package_id" foreign="id" cardinality="one" owner="foreign"/>
     </object>
     <object class="gtsAPITable" table="gtsapi_tables" extends="xPDOSimpleObject">
         <field key="package_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="true" default="0"/>

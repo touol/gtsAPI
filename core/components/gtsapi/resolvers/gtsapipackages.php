@@ -22,6 +22,32 @@ if ($transport->xpdo) {
                         
                         ], $data), '', true, true);
                         if($gtsAPIPackage->save()){
+                            // Вызовы 'пакет/метод' через таблицы другого пакета (gtsAPI >= 1.2.24):
+                            // api_call_packages: ['gtsbalance', ...] — пара без направления.
+                            // Свои прошлые строки, которых больше нет в конфиге, снимаем;
+                            // ручные и поставленные другими пакетами не трогаем.
+                            if (isset($data['api_call_packages']) && is_array($data['api_call_packages'])
+                                && $modx->loadClass('gtsAPIPackageCall')) {
+                                $partners = [];
+                                foreach ($data['api_call_packages'] as $p) {
+                                    $p = strtolower(trim((string)$p));
+                                    if ($p !== '' && $p !== strtolower($gtsAPIPackage->name)) $partners[$p] = $p;
+                                }
+                                foreach ($partners as $p) {
+                                    $call = $modx->getObject('gtsAPIPackageCall', ['package_id' => $gtsAPIPackage->id, 'partner' => $p]);
+                                    if (!$call) {
+                                        $call = $modx->newObject('gtsAPIPackageCall');
+                                        $call->fromArray(['package_id' => $gtsAPIPackage->id, 'partner' => $p,
+                                            'install_package' => $options['namespace'], 'active' => 1]);
+                                        $call->save();
+                                    }
+                                }
+                                foreach ($modx->getIterator('gtsAPIPackageCall', [
+                                    'package_id' => $gtsAPIPackage->id, 'install_package' => $options['namespace'],
+                                ]) as $call) {
+                                    if (!isset($partners[$call->partner])) $call->remove();
+                                }
+                            }
                             if (!empty($data['gtsAPITables'])) {
                                 foreach ($data['gtsAPITables'] as $k => $table) {
                                     if(isset($table['properties']) and is_array($table['properties'])) $table['properties'] = json_encode($table['properties'],JSON_PRETTY_PRINT);

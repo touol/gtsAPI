@@ -52,5 +52,13 @@ $xpdo_meta_map['gtsAPIPackage']= array (
       'cardinality' => 'many',
       'owner' => 'local',
     ),
+    'gtsAPIPackageCall' => 
+    array (
+      'class' => 'gtsAPIPackageCall',
+      'local' => 'id',
+      'foreign' => 'package_id',
+      'cardinality' => 'many',
+      'owner' => 'local',
+    ),
   ),
 );

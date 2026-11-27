@@ -97,7 +97,7 @@ return [
                 'class' => 'gtsAPIPackage',
                 // Имя пакета — то, что показывает автокомплит в таблицах АПИ
                 'autocomplete_field' => 'package_id',
-                'version' => 1,
+                'version' => 2,
                 'type' => 1,
                 'authenticated' => true,
                 'groups' => 'Administrator',
@@ -110,6 +110,13 @@ return [
                         'create' => [],
                         'update' => [],
                         'delete' => [],
+                        'subtables' => [
+                            'gtsAPIPackageCall' => [
+                                'label' => 'Вызовы между пакетами',
+                                'icon' => 'pi pi-arrows-h',
+                                'where' => ['package_id' => 'id'],
+                            ],
+                        ],
                     ],
                     'query' => ['sortby' => ['gtsAPIPackage.name' => 'ASC']],
                     'autocomplete' => ['tpl' => '{$name}', 'limit' => 0],
@@ -413,6 +420,37 @@ return [
                         'extended_modresource' => ['label' => 'Расширяет modResource', 'type' => 'boolean', 'default' => 0],
                         'title_field' => ['label' => 'Поле заголовка', 'type' => 'text'],
                         'svg' => ['label' => 'svg', 'type' => 'textarea', 'modal_only' => 1],
+                    ],
+                ],
+            ],
+
+            // ── Вызовы между пакетами (подтаблица «Пакетов») ──────────────
+            // 'пакет/метод' по умолчанию проходит только через таблицы своего пакета;
+            // строка здесь разрешает пару пакетов в обе стороны. Ставится из
+            // gtsapipackages пакета (api_call_packages), руками — для разовых случаев.
+            'gtsAPIPackageCall' => [
+                'table' => 'gtsAPIPackageCall',
+                'class' => 'gtsAPIPackageCall',
+                'version' => 1,
+                'type' => 1,
+                'authenticated' => true,
+                'groups' => 'Administrator',
+                'active' => true,
+                'properties' => [
+                    'loadModels' => 'gtsapi',
+                    'limit' => 50,
+                    'actions' => [
+                        'read' => [],
+                        'create' => [],
+                        'update' => [],
+                        'delete' => [],
+                    ],
+                    'fields' => [
+                        'id' => $id,
+                        'package_id' => ['label' => 'Пакет', 'type' => 'hidden'],
+                        'partner' => ['label' => 'Пакет-партнёр', 'type' => 'text'],
+                        'install_package' => ['label' => 'Кем установлено', 'type' => 'view'],
+                        'active' => ['label' => 'Активно', 'type' => 'boolean', 'default' => 1],
                     ],
                 ],
             ],

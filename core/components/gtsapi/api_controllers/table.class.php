@@ -368,8 +368,8 @@ class tableAPIController
             default:
                 $action = explode('/', $request['api_action']);
                 if (count($action) == 2) {
-                    // Пока только учёт: вызов метода без объявления в actions таблицы
-                    // (см. ServiceActionAuditTrait). Блокировка — после разбора сводки.
+                    // Пока только учёт: вызов метода чужого пакета через эту таблицу
+                    // без пары в gtsAPIPackageCall (см. ServiceActionAuditTrait). Блокировка — после разбора сводки.
                     $this->auditServiceAction($rule, $request['api_action']);
                     $resp = $this->getService(strtolower($action[0]));
                     if (!$resp['success']) {
