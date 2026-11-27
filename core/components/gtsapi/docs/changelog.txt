@@ -1,4 +1,11 @@
 Changelog for gtsAPI.
+1.2.23-beta
+==============
+- Безопасность: действия настройки gtsAPI (export_/save_ table, rule, select; gen_rules, generate_rules, gen_fields,
+  clean_fields) — только администратору (sudo или группа Administrator). Раньше их защищали лишь groups таблицы,
+  а 'gtsapi/...' вызывался через любую доступную таблицу (перезапись конфигов). Новый gtsAPI::isAdmin().
+- tests/php/audit_handle_request.php — статический аудит: какие case в handleRequest компонентов не проверяют права.
+
 1.2.22-beta
 ==============
 - html-колонки ищутся и сортируются: filter_field у поля — колонка из select, по которой фильтр и сортировка

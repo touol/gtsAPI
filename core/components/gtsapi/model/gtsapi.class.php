@@ -341,10 +341,17 @@ class gtsAPI
     
     public function handleRequest($action, $data = array())
     {
+        // Настройка gtsAPI (экспорт/импорт конфигов, генерация правил и полей) —
+        // только администратору. Проверяем здесь, а не groups таблицы: метод
+        // 'gtsapi/...' достижим через любую таблицу, на которую есть доступ.
+        $adminOnly = ['export_rule', 'save_rule', 'export_table', 'save_table', 'export_select',
+            'save_select', 'gen_rules', 'generate_rules', 'gen_fields', 'clean_fields'];
+        if (in_array($action, $adminOnly, true) && !$this->isAdmin()) {
+            return $this->error('Доступ запрещен: только администратор');
+        }
         // Импорт принимает JSON описания таблицы или правила, а в нём законно
         // встречаются теги MODX ([[…]], [[+…]]) — санитайзер их выкусывает и
-        // ломает сохраняемую конфигурацию. Эти действия доступны только
-        // администратору (groups в конфиге таблицы), поэтому пропускаем как есть.
+        // ломает сохраняемую конфигурацию. Пропускаем как есть (выше — только админ).
         $raw = ['save_table', 'save_rule', 'save_select'];
         if (!in_array($action, $raw, true)) {
             $data = $this->modx->sanitize($data, $this->modx->sanitizePatterns);
@@ -384,7 +391,15 @@ class gtsAPI
                 return $this->error("Not found action!");
         }
     }
-    
+
+    /** Администратор сайта: sudo или группа Administrator. */
+    public function isAdmin()
+    {
+        $user = $this->modx->user;
+        if (!$user || !$user->id) return false;
+        return (bool)$user->get('sudo') || $user->isMember('Administrator');
+    }
+
     public function success($message = "",$data = []){
         return array('success'=>1,'message'=>$message,'data'=>$data);
     }
