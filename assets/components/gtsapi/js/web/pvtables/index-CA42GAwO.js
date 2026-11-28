@@ -45486,7 +45486,7 @@ endobj\r
   var u = l.getContext("2d");
   u.fillStyle = "#fff", u.fillRect(0, 0, l.width, l.height);
   var c = { ignoreMouse: !0, ignoreAnimation: !0, ignoreDimensions: !0 }, f = this;
-  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-Cidwjsa5.js")).catch(function(p) {
+  return (ln.canvg ? Promise.resolve(ln.canvg) : import("./index.es-D37Gp1sx.js")).catch(function(p) {
     return Promise.reject(new Error("Could not load canvg: " + p));
   }).then(function(p) {
     return p.default ? p.default : p;
@@ -72265,7 +72265,7 @@ const wJ = { class: "gtsai-head" }, kJ = {
     }, P = () => ({
       page: i.page || location.pathname,
       get: i.params || Object.fromEntries(new URLSearchParams(location.search))
-    }), H = i3(async () => (await import("./preview-Cy03eS7W.js")).MdPreview), Q = q(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
+    }), H = i3(async () => (await import("./preview-BkZeTFH9.js")).MdPreview), Q = q(document.documentElement.getAttribute("data-gts-scheme") === "dark" ? "dark" : "light");
     let he = null, te = null;
     const ne = async (Me) => {
       te || (te = (await import("./markdown-CMlEo56K.js")).healPartial), Me.shown = te(Me.content);
@@ -72723,6 +72723,7 @@ const wJ = { class: "gtsai-head" }, kJ = {
             type: "file",
             multiple: "",
             accept: "image/*,application/pdf,.xlsx,.xlsm,.xls,.csv,.txt,.md,.markdown,.json,.xml,.yml,.yaml,.log",
+            class: "gtsai-picker",
             hidden: "",
             onChange: le
           }, null, 544),
@@ -72770,7 +72771,7 @@ const wJ = { class: "gtsai-head" }, kJ = {
       ], 34)
     ], 512));
   }
-}, CC = /* @__PURE__ */ uo(mX, [["__scopeId", "data-v-85a0e0b6"]]), gX = {
+}, CC = /* @__PURE__ */ uo(mX, [["__scopeId", "data-v-14111431"]]), gX = {
   key: 1,
   class: "gtsai-dock-bar"
 }, bX = ["title", "onClick"], vX = { class: "gtsai-dock-body" }, e2 = 380, yX = 260, wX = {
